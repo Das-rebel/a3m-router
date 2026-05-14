@@ -150,6 +150,65 @@ const metrics = await tmlpd.getMetrics();
 
 ---
 
+## 📦 TMLPD PI - Node.js/TypeScript Package (npm)
+
+**Parallel Multi-LLM Processing** for AI agents with TypeScript + Python bindings.
+
+[![npm](https://img.shields.io/badge/npm-tmlpd--pi-blue.svg)](https://npmjs.com/package/tmlpd-pi)
+[![Version](https://img.shields.io/badge/version-1.1.3-orange.svg)](https://npmjs.com/package/tmlpd-pi)
+
+### Features
+
+- **13 PI Tools** for AI agent integration
+- **Memory-based routing** with task classification
+- **Token compression (ISON)** - 20-40% token reduction
+- **Local LLM support** - Ollama, vLLM, LM Studio
+- **Batch processing** with priority queuing
+- **Python bindings** for LangChain, LlamaIndex, AutoGen, CrewAI
+
+### Installation
+
+```bash
+npm install tmlpd-pi
+```
+
+### Quick Start
+
+```typescript
+import { createTMLPD, isonEncode, BatchProcessor } from "tmlpd-pi";
+
+// Parallel execution
+const tmlpd = createTMLPD();
+const result = await tmlpd.executeParallel(
+  "Explain quantum",
+  ["gpt-4o", "claude-3.5-sonnet", "gemini-2.0-flash"]
+);
+
+// Token compression (33% reduction)
+const compressed = isonEncode("The quick brown fox jumps over the lazy dog");
+// "quick brown fox jumps lazy dog"
+
+// Batch processing
+const batch = new BatchProcessor({ concurrency: 5 });
+batch.add({ prompt: "Task 1", priority: "high" });
+await batch.execute(executor);
+```
+
+### 13 PI Tools
+
+| Tool | Purpose |
+|------|---------|
+| `tmlpd_execute` | Parallel multi-model |
+| `tmlpd_count_tokens` | Token counting |
+| `tmlpd_compress_context` | ISON compression |
+| `tmlpd_local_generate` | Ollama/vLLM/LM Studio |
+| `tmlpd_batch_execute` | Priority batch |
+| `tmlpd_halo_execute` | HALO orchestration |
+
+**npm:** https://npmjs.com/package/tmlpd-pi
+
+---
+
 ## 🚀 Quick Start
 
 ### Prerequisites
