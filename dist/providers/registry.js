@@ -7,8 +7,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProviderRegistry = void 0;
 const DEFAULT_PROVIDER_CONFIG = {
-    providers: ["openai", "openrouter", "groq", "cerebras", "mistral", "xai", "zai", "anthropic", "google"],
-    modelPriority: ["openai/gpt-4o", "groq/llama-3.3-70b-versatile", "cerebras/llama-3.3-70b"],
+    providers: ["openai", "openrouter", "groq", "cerebras", "mistral", "xai", "zai", "anthropic", "google", "deepseek", "fireworks", "perplexity", "cohere", "bedrock"],
+    modelPriority: ["openai/gpt-4o", "groq/llama-3.3-70b-versatile", "cerebras/llama-3.3-70b", "deepseek/deepseek-chat", "fireworks/mixtral-8x7b-instruct", "perplexity/sonar", "cohere/command-r-plus"],
     useOpenclawFallback: false,
     maxTokens: 4096,
 };
@@ -33,7 +33,11 @@ class ProviderRegistry {
             zai: { key: "ZAI_API_KEY", url: "ZAI_OPENAI_BASE_URL", mode: "anthropic" },
             anthropic: { key: "ANTHROPIC_API_KEY", url: "ANTHROPIC_BASE_URL", mode: "anthropic" },
             google: { key: "GOOGLE_API_KEY", url: "GOOGLE_GEMINI_BASE_URL", mode: "gemini" },
-        };
+            deepseek: { key: "DEEPSEEK_API_KEY", url: "DEEPSEEK_BASE_URL", mode: "openai" },
+            fireworks: { key: "FIREWORKS_API_KEY", url: "FIREWORKS_BASE_URL", mode: "openai" },
+            perplexity: { key: "PERPLEXITY_API_KEY", url: "PERPLEXITY_BASE_URL", mode: "openai" },
+            cohere: { key: "COHERE_API_KEY", url: "COHERE_BASE_URL", mode: "openai" },
+            bedrock: { key: "AWS_ACCESS_KEY_ID", url: "BEDROCK_BASE_URL", mode: "openai" },        };
         for (const [name, env] of Object.entries(envVars)) {
             const apiKey = process.env[env.key] || "";
             const baseUrl = process.env[env.url] || "";
