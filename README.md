@@ -1,54 +1,62 @@
-# TMLPD - TreeQuest Multi-LLM Parallel Deployment
+# A3M Router - Adaptive Memory Multi-Model Router
 
 <div align="center">
 
-**Production-Grade AI Agent Platform with Self-Healing Parallel Architecture**
+**Smart Routing for AI Agents & LLM Developers**
 
-[![GitHub stars](https://img.shields.io/github/stars/Das-rebel/tmlpd-skill?style=social)](https://github.com/Das-rebel/tmlpd-skill/stargazers)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Install size](https://badgen.net/packagephobia/install/adaptive-memory-multi-model-router)](https://packagephobia.com/result?p=adaptive-memory-multi-model-router)
+[![Downloads](https://img.shields.io/npm/dm/adaptive-memory-multi-model-router)](https://npmjs.com/package/adaptive-memory-multi-model-router)
 
 </div>
 
 ---
 
-## 📦 Packages
-
-### [A3M Router](tmlpd-pi-extension/) - Adaptive Memory Multi-Model Router
-
-**Smart routing for AI agents and LLM developers.** 
+## Install
 
 ```bash
 npm install adaptive-memory-multi-model-router
+```
+
+## Quick Start
+
+```bash
 npx a3m-router --help
 ```
 
-| Feature | Research | Impact |
-|----------|----------|--------|
-| Learned Routing | RouteLLM | 40% cost reduction |
-| Prefix Caching | RadixAttention | 5-10x speedup |
-| Speculative Decoding | Medusa | 2-3x faster |
+```typescript
+import { createA3MRouter } from 'adaptive-memory-multi-model-router';
 
-**Install:** `npm install adaptive-memory-multi-model-router`
+const router = createA3MRouter({ memory: true, costBudget: 0.05 });
+const result = await router.route({ prompt: 'Analyze this code', context: { type: 'coding' } });
+```
+
+## Features
+
+| Feature | Research | Benefit |
+|---------|-----------|---------|
+| **Learned Routing** | RouteLLM | 40% cost reduction |
+| **Prefix Caching** | RadixAttention | 5-10x speedup |
+| **Speculative Decoding** | Medusa | 2-3x faster generation |
+| **Token Compression** | LLMLingua | 20-40% token reduction |
+
+## For LLM/ML Developers
+
+- ✅ Python bindings (LangChain, LlamaIndex, AutoGen, CrewAI)
+- ✅ Local LLM support (Ollama, vLLM, LM Studio)
+- ✅ Batch processing with priority queuing
+- ✅ Circuit breaker with exponential backoff
+- ✅ Token estimation and cost tracking
+
+## CLI
+
+```bash
+a3m-router route "your prompt"      # Smart routing
+a3m-router parallel "t1" "t2"       # Parallel execution  
+a3m-router cost                      # Show cost tracking
+a3m-router count "text"             # Token estimation
+```
 
 ---
 
-## 🌟 Key Features
-
-- **Adaptive Memory** - Learns from past queries, 20x more adaptable
-- **Multi-Model Support** - OpenAI, Anthropic, Ollama, vLLM, LM Studio
-- **Python Ready** - LangChain, LlamaIndex, AutoGen, CrewAI bindings
-- **Circuit Breaker** - Automatic failover with exponential backoff
-- **Batch Processing** - Parallel execution with priority queuing
-
----
-
-## 📚 Documentation
-
-- [A3M Router README](tmlpd-pi-extension/README.md)
-- [Examples](tmlpd-pi-extension/examples/)
-- [Python Bindings](tmlpd-pi-extension/python/)
-
----
-
-**Built with TMLPD v3.0 parallel execution architecture.**
+**A3M Router** - Adaptive Memory Multi-Model Router
