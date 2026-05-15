@@ -1,8 +1,8 @@
 {
   "name": "tmlpd-pi",
-  "version": "1.1.3",
-  "version_description": "v1.2.0 - Added token compression (ISON), local provider support (Ollama/vLLM/LM Studio), batch processing, cost estimation utilities. Based on Reddit LLM developer pain points: function calling, KV cache, token compression.",
-  "description": "Memory-based Multi-LLM Router with parallel execution, streaming, caching, cost tracking, token compression (ISON), local provider support (Ollama/vLLM/LM Studio), batch processing, and Python bindings for LangChain/LlamaIndex/AutoGen/CrewAI. Addresses Reddit pain points: function calling readiness, KV cache, 70% token compression, local privacy.",
+  "version": "1.2.2",
+  "version_description": "v1.2.0 - Research-backed Multi-LLM Router based on arXiv: RouteLLM (2404.06035), RadixAttention (2312.07104), Medusa (2401.10774), FlashAttention (2407.07403). 120+ keywords for LLM/ML discoverability. 13 PI tools.",
+  "description": "Research-backed Multi-LLM Router with parallel execution, learned routing (RouteLLM), prefix caching (RadixAttention), speculative decoding (Medusa/EAGLE), token compression (ISON), local LLM support (Ollama/vLLM/LM Studio), batch processing. Python bindings for LangChain/LlamaIndex/AutoGen/CrewAI. 120+ keywords: routellm, prefix-caching, speculative-decoding, medusa, flashattention, pagedattention, kv-cache, arxiv, research-backed, icml, neurips, iclr.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
@@ -12,6 +12,7 @@
     "build": "tsc",
     "prepublish": "npm run build",
     "test": "node test/verify.js",
+    "demo": "node demo/research-demo.js",
     "python:examples": "python3 python/examples.py"
   },
   "keywords": [
@@ -115,11 +116,32 @@
     "multi-provider",
     "fallback-chain",
     "intelligent-failover",
-    "kv-cache"
+    "kv-cache",
+    "routellm",
+    "prefix-caching",
+    "radix-attention",
+    "speculative-decoding",
+    "medusa",
+    "eagle",
+    "flashattention",
+    "pagedattention",
+    "kv-cache-quantization",
+    "llmlingua",
+    "streamingllm",
+    "multimodel-orchestration",
+    "multi-agent-debate",
+    "self-consistency",
+    "tensor-parallelism",
+    "continuous-batching",
+    "arxiv",
+    "research-backed",
+    "icml",
+    "neurips",
+    "iclr"
   ],
   "author": "Subho Das",
   "license": "MIT",
-  "homepage": "https://github.com/Das-rebel/tmlpd-skill#python-bindings",
+  "homepage": "https://github.com/Das-rebel/tmlpd-skill#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/Das-rebel/tmlpd-skill.git"

@@ -35,6 +35,9 @@ import { countTokens, estimateCost, estimateCostFromText, getModelCost, listMode
 import { isonEncode, isonDecode, compressText, truncateMessages, truncateToTokenBudget, calculateCompressionRatio, Message, CompressionStrategy } from "./utils/compression";
 import { LocalProvider, LocalProviderManager, createOllamaProvider, createVLLMProvider, createLMStudioProvider, LocalRuntime, LocalProviderConfig, LocalModelInfo, LocalGenerationResult, LocalParallelResult } from "./providers/localProvider";
 import { BatchProcessor, executeBatch, BatchItem, BatchResult, BatchOptions, BatchProgress, ProgressCallback } from "./utils/batchProcessor";
+import { routeQuery, routeBatch, recommendForTask, extractQueryFeatures, updateModelProfile, MODEL_PROFILES, QueryFeatures, ModelProfile, RouteDecision } from "./routing/advancedRouter";
+import { PrefixCache, createWarmedCache, PrefixCacheStats } from "./cache/prefixCache";
+import { SpeculativeDecoder, speculativeBatch, estimateSpeedupPotential, MedusaPredictor, EagleSpeculative, SpeculativeConfig, SpeculativeResult } from "./utils/speculativeDecoding";
 
 // Re-exports
 export { createTMLPD, TMLPDTools, TMLPDConfig, ExecuteResult, ParallelResult, StreamingConfig };
@@ -57,6 +60,15 @@ export { LocalProvider, LocalProviderManager, createOllamaProvider, createVLLMPr
 
 // Batch processing
 export { BatchProcessor, executeBatch, BatchItem, BatchResult, BatchOptions, BatchProgress, ProgressCallback };
+
+// Advanced routing (RouteLLM-style)
+export { routeQuery, routeBatch, recommendForTask, extractQueryFeatures, updateModelProfile, MODEL_PROFILES, QueryFeatures, ModelProfile as ModelProfileType, RouteDecision };
+
+// Prefix caching (RadixAttention-style)
+export { PrefixCache, createWarmedCache, PrefixCacheStats };
+
+// Speculative decoding (Medusa/EAGLE-style)
+export { SpeculativeDecoder, speculativeBatch, estimateSpeedupPotential, MedusaPredictor, EagleSpeculative, SpeculativeConfig, SpeculativeResult };
 
 // PI Tool definitions (for PI agent integration)
 export const TMLPD_PI_TOOLS = [

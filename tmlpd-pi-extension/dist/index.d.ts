@@ -34,6 +34,9 @@ import { countTokens, estimateCost, estimateCostFromText, getModelCost, listMode
 import { isonEncode, isonDecode, compressText, truncateMessages, truncateToTokenBudget, calculateCompressionRatio, Message, CompressionStrategy } from "./utils/compression";
 import { LocalProvider, LocalProviderManager, createOllamaProvider, createVLLMProvider, createLMStudioProvider, LocalRuntime, LocalProviderConfig, LocalModelInfo, LocalGenerationResult, LocalParallelResult } from "./providers/localProvider";
 import { BatchProcessor, executeBatch, BatchItem, BatchResult, BatchOptions, BatchProgress, ProgressCallback } from "./utils/batchProcessor";
+import { routeQuery, routeBatch, recommendForTask, extractQueryFeatures, updateModelProfile, MODEL_PROFILES, QueryFeatures, ModelProfile, RouteDecision } from "./routing/advancedRouter";
+import { PrefixCache, createWarmedCache, PrefixCacheStats } from "./cache/prefixCache";
+import { SpeculativeDecoder, speculativeBatch, estimateSpeedupPotential, MedusaPredictor, EagleSpeculative, SpeculativeConfig, SpeculativeResult } from "./utils/speculativeDecoding";
 export { createTMLPD, TMLPDTools, TMLPDConfig, ExecuteResult, ParallelResult, StreamingConfig };
 export { ResponseCache, CacheConfig, CacheEntry };
 export { CostTracker, BudgetConfig, CostAlert, CostSummary, CostSnapshot };
@@ -46,6 +49,9 @@ export { countTokens, estimateCost, estimateCostFromText, getModelCost, listMode
 export { isonEncode, isonDecode, compressText, truncateMessages, truncateToTokenBudget, calculateCompressionRatio, Message, CompressionStrategy };
 export { LocalProvider, LocalProviderManager, createOllamaProvider, createVLLMProvider, createLMStudioProvider, LocalRuntime, LocalProviderConfig, LocalModelInfo, LocalGenerationResult, LocalParallelResult };
 export { BatchProcessor, executeBatch, BatchItem, BatchResult, BatchOptions, BatchProgress, ProgressCallback };
+export { routeQuery, routeBatch, recommendForTask, extractQueryFeatures, updateModelProfile, MODEL_PROFILES, QueryFeatures, ModelProfile as ModelProfileType, RouteDecision };
+export { PrefixCache, createWarmedCache, PrefixCacheStats };
+export { SpeculativeDecoder, speculativeBatch, estimateSpeedupPotential, MedusaPredictor, EagleSpeculative, SpeculativeConfig, SpeculativeResult };
 export declare const TMLPD_PI_TOOLS: ({
     name: string;
     description: string;

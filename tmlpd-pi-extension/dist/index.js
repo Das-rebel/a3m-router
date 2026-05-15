@@ -24,7 +24,7 @@
  * ```
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TMLPD_PI_TOOLS = exports.executeBatch = exports.BatchProcessor = exports.createLMStudioProvider = exports.createVLLMProvider = exports.createOllamaProvider = exports.LocalProviderManager = exports.LocalProvider = exports.calculateCompressionRatio = exports.truncateToTokenBudget = exports.truncateMessages = exports.compressText = exports.isonDecode = exports.isonEncode = exports.MODEL_COSTS = exports.findCheapestModels = exports.listModelsByCost = exports.getModelCost = exports.estimateCostFromText = exports.estimateCost = exports.countTokens = exports.HALOOrchestrator = exports.MCTSWorkflowOptimizer = exports.EpisodicMemoryStore = exports.DEFAULT_RETRY_CONFIG = exports.isRetryableStatus = exports.calculateRetryDelay = exports.withRetry = exports.CircuitBreaker = exports.ProviderRegistry = exports.CostTracker = exports.ResponseCache = exports.TMLPDTools = exports.createTMLPD = void 0;
+exports.TMLPD_PI_TOOLS = exports.EagleSpeculative = exports.MedusaPredictor = exports.estimateSpeedupPotential = exports.speculativeBatch = exports.SpeculativeDecoder = exports.createWarmedCache = exports.PrefixCache = exports.MODEL_PROFILES = exports.updateModelProfile = exports.extractQueryFeatures = exports.recommendForTask = exports.routeBatch = exports.routeQuery = exports.executeBatch = exports.BatchProcessor = exports.createLMStudioProvider = exports.createVLLMProvider = exports.createOllamaProvider = exports.LocalProviderManager = exports.LocalProvider = exports.calculateCompressionRatio = exports.truncateToTokenBudget = exports.truncateMessages = exports.compressText = exports.isonDecode = exports.isonEncode = exports.MODEL_COSTS = exports.findCheapestModels = exports.listModelsByCost = exports.getModelCost = exports.estimateCostFromText = exports.estimateCost = exports.countTokens = exports.HALOOrchestrator = exports.MCTSWorkflowOptimizer = exports.EpisodicMemoryStore = exports.DEFAULT_RETRY_CONFIG = exports.isRetryableStatus = exports.calculateRetryDelay = exports.withRetry = exports.CircuitBreaker = exports.ProviderRegistry = exports.CostTracker = exports.ResponseCache = exports.TMLPDTools = exports.createTMLPD = void 0;
 const tmlpdTools_1 = require("./tools/tmlpdTools");
 Object.defineProperty(exports, "createTMLPD", { enumerable: true, get: function () { return tmlpdTools_1.createTMLPD; } });
 Object.defineProperty(exports, "TMLPDTools", { enumerable: true, get: function () { return tmlpdTools_1.TMLPDTools; } });
@@ -70,6 +70,22 @@ Object.defineProperty(exports, "createLMStudioProvider", { enumerable: true, get
 const batchProcessor_1 = require("./utils/batchProcessor");
 Object.defineProperty(exports, "BatchProcessor", { enumerable: true, get: function () { return batchProcessor_1.BatchProcessor; } });
 Object.defineProperty(exports, "executeBatch", { enumerable: true, get: function () { return batchProcessor_1.executeBatch; } });
+const advancedRouter_1 = require("./routing/advancedRouter");
+Object.defineProperty(exports, "routeQuery", { enumerable: true, get: function () { return advancedRouter_1.routeQuery; } });
+Object.defineProperty(exports, "routeBatch", { enumerable: true, get: function () { return advancedRouter_1.routeBatch; } });
+Object.defineProperty(exports, "recommendForTask", { enumerable: true, get: function () { return advancedRouter_1.recommendForTask; } });
+Object.defineProperty(exports, "extractQueryFeatures", { enumerable: true, get: function () { return advancedRouter_1.extractQueryFeatures; } });
+Object.defineProperty(exports, "updateModelProfile", { enumerable: true, get: function () { return advancedRouter_1.updateModelProfile; } });
+Object.defineProperty(exports, "MODEL_PROFILES", { enumerable: true, get: function () { return advancedRouter_1.MODEL_PROFILES; } });
+const prefixCache_1 = require("./cache/prefixCache");
+Object.defineProperty(exports, "PrefixCache", { enumerable: true, get: function () { return prefixCache_1.PrefixCache; } });
+Object.defineProperty(exports, "createWarmedCache", { enumerable: true, get: function () { return prefixCache_1.createWarmedCache; } });
+const speculativeDecoding_1 = require("./utils/speculativeDecoding");
+Object.defineProperty(exports, "SpeculativeDecoder", { enumerable: true, get: function () { return speculativeDecoding_1.SpeculativeDecoder; } });
+Object.defineProperty(exports, "speculativeBatch", { enumerable: true, get: function () { return speculativeDecoding_1.speculativeBatch; } });
+Object.defineProperty(exports, "estimateSpeedupPotential", { enumerable: true, get: function () { return speculativeDecoding_1.estimateSpeedupPotential; } });
+Object.defineProperty(exports, "MedusaPredictor", { enumerable: true, get: function () { return speculativeDecoding_1.MedusaPredictor; } });
+Object.defineProperty(exports, "EagleSpeculative", { enumerable: true, get: function () { return speculativeDecoding_1.EagleSpeculative; } });
 // PI Tool definitions (for PI agent integration)
 exports.TMLPD_PI_TOOLS = [
     {
