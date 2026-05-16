@@ -1,19 +1,6 @@
-/**
- * Linear Integration for A3M Router
- * Project management with Linear
- */
 class LinearIntegration {
-  constructor(apiKey) {
-    this.apiKey = apiKey;
-    this.baseUrl = 'https://api.linear.app/graphql';
-  }
-
-  async createIssue(title, description, teamId) {
-    return { action: 'create-issue', title, teamId };
-  }
-
-  async listTeams() {
-    return { action: 'list-teams' };
-  }
+  constructor(apiKey) { this.apiKey = apiKey; this.baseUrl = 'https://api.linear.app/graphql'; }
+  async createIssue(title, teamId) { return { action: 'create-issue', title, team: teamId }; }
+  async getTeams() { return { action: 'get-teams' }; }
 }
 module.exports = { LinearIntegration };
