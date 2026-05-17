@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "1.8.1",
+  "version": "1.9.0",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "A3M Router - Adaptive Memory Multi-Model Router with learned routing (RouteLLM), prefix caching (RadixAttention), speculative decoding (Medusa), TokenJuice-style compression. 14 LLM providers, 10 integrations, Python bindings. 20x more adaptable for ML/AI developers.",
