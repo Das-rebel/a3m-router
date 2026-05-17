@@ -1,0 +1,12 @@
+{
+  "name": "A3M Router Playground",
+  "description": "Interactive playground for A3M Router - test LLM routing live",
+  "version": "1.0.0",
+  "template": "node",
+  "dependencies": {
+    "adaptive-memory-multi-model-router": "latest"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}

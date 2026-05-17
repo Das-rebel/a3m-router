@@ -32,9 +32,17 @@
 
 [📖 Documentation](https://github.com/Das-rebel/adaptive-memory-multi-model-router#readme) • 
 [🚀 Quick Start](#quick-start) • 
+[🎮 Try Online](https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground) • 
 [📊 Benchmarks](#benchmarks) • 
 [🤝 Contributing](CONTRIBUTING.md) • 
 [💬 Discussions](https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions)
+
+</div>
+
+<div align="center">
+
+[![Try Online](https://img.shields.io/badge/🎮%20Try%20Online-CodeSandbox-6366f1?style=for-the-badge&logo=codesandbox)](https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground)
+[![StackBlitz](https://img.shields.io/badge/⚡%20StackBlitz-1389FD?style=for-the-badge&logo=stackblitz)](https://stackblitz.com/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground)
 
 </div>
 
@@ -72,6 +80,19 @@ Monitor spending across **all providers** in real-time. Set budgets. Get alerts.
 </td>
 </tr>
 </table>
+
+## 🎮 Try It Online
+
+No installation required! Try A3M Router instantly in your browser:
+
+[![CodeSandbox](https://img.shields.io/badge/🎮%20CodeSandbox-Open%20Playground-6366f1?style=for-the-badge&logo=codesandbox)](https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground)
+[![StackBlitz](https://img.shields.io/badge/⚡%20StackBlitz-Open%20Playground-1389FD?style=for-the-badge&logo=stackblitz)](https://stackblitz.com/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground)
+
+**What you can try:**
+- See all configured providers
+- Route different types of queries
+- Compare routing decisions
+- Experiment with no API keys needed!
 
 ## 🚀 Quick Start
 

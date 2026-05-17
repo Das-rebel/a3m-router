@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A3M Router - Adaptive Memory Multi-Model Router</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+            color: #fff;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        header {
+            text-align: center;
+            padding: 4rem 0;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2rem;
+        }
+        
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 1.5rem 2rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #6366f1;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+        
+        .cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+        
+        .feature {
+            padding: 2rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .feature:hover {
+            background: rgba(255,255,255,0.05);
+            transform: translateY(-5px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        
+        .feature p {
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        
+        .code-section {
+            margin: 4rem 0;
+            text-align: center;
+        }
+        
+        .code-block {
+            background: #0f172a;
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            text-align: left;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow-x: auto;
+        }
+        
+        .code-block pre {
+            color: #e2e8f0;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .code-block .comment {
+            color: #64748b;
+        }
+        
+        .code-block .keyword {
+            color: #c084fc;
+        }
+        
+        .code-block .string {
+            color: #4ade80;
+        }
+        
+        .code-block .function {
+            color: #60a5fa;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 4rem 0;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: 4rem;
+        }
+        
+        .links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .links a:hover {
+            color: #6366f1;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .stats {
+                gap: 1rem;
+            }
+            
+            .stat {
+                padding: 1rem;
+            }
+            
+            .stat-value {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#6366f1"/>
+                            <stop offset="100%" style="stop-color:#8b5cf6"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="100" cy="100" r="80" fill="none" stroke="url(#g1)" stroke-width="2" opacity="0.3"/>
+                    <circle cx="100" cy="100" r="60" fill="url(#g1)" opacity="0.2"/>
+                    <circle cx="100" cy="100" r="25" fill="url(#g1)"/>
+                    <circle cx="100" cy="40" r="12" fill="#6366f1"/>
+                    <circle cx="152" cy="130" r="10" fill="#10b981"/>
+                    <circle cx="48" cy="130" r="10" fill="#f59e0b"/>
+                    <text x="100" y="108" font-size="14" font-weight="bold" fill="white" text-anchor="middle">A3M</text>
+                </svg>
+            </div>
+            <h1>A3M Router</h1>
+            <p class="tagline">Adaptive Memory Multi-Model Router<br>Route LLM queries to optimal providers • Save 50-80% on API costs</p>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">872+</div>
+                    <div class="stat-label">Weekly Downloads</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">LLM Providers</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">116</div>
+                    <div class="stat-label">Integrations</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">33</div>
+                    <div class="stat-label">Tests Passing</div>
+                </div>
+            </div>
+            
+            <div class="cta">
+                <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router" class="btn btn-primary">📦 Install from NPM</a>
+                <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router" class="btn btn-secondary">⭐ Star on GitHub</a>
+            </div>
+        </header>
+        
+        <section class="features">
+            <div class="feature">
+                <div class="feature-icon">🧠</div>
+                <h3>Learned Routing</h3>
+                <p>RouteLLM-style intelligent routing based on query characteristics. Code queries go to code-capable models. Simple queries use cheaper providers.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">💰</div>
+                <h3>Cost Optimization</h3>
+                <p>Automatically select the cheapest capable provider. Route simple queries to free tiers. Use premium models only when needed.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔄</div>
+                <h3>Smart Fallback</h3>
+                <p>When a provider fails, automatically retry with the next best option. No manual intervention needed. Your app stays resilient.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">📊</div>
+                <h3>Real-time Tracking</h3>
+                <p>Monitor spending across all providers in real-time. Set budgets. Get alerts. Never get surprised by an API bill again.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🔒</div>
+                <h3>Security Built-in</h3>
+                <p>Prompt injection detection, PII detection, content filtering, and rate limiting. Production-ready security out of the box.</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <h3>Batch Processing</h3>
+                <p>Process multiple prompts in parallel with automatic rate limiting. Perfect for high-throughput applications.</p>
+            </div>
+        </section>
+        
+        <section class="code-section">
+            <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Quick Start</h2>
+            <p style="color: #94a3b8; margin-bottom: 2rem;">One-line installation, instant routing</p>
+            
+            <div class="code-block">
+                <pre><span class="comment"># Install</span>
+npm install adaptive-memory-multi-model-router
+
+<span class="comment"># Route a query</span>
+npx a3m-router route <span class="string">"Write Python to sort an array"</span>
+
+<span class="comment"># Or use in code</span>
+<span class="keyword">const</span> { <span class="function">createA3MRouter</span> } = <span class="function">require</span>(<span class="string">'adaptive-memory-multi-model-router'</span>);
+<span class="keyword">const</span> router = <span class="function">createA3MRouter</span>();
+<span class="keyword">const</span> result = <span class="keyword">await</span> router.<span class="function">route</span>(<span class="string">"Your query here"</span>);
+<span class="function">console</span>.<span class="function">log</span>(result.primary_model); <span class="comment">// "groq/llama-3.3-70b"</span></pre>
+            </div>
+        </section>
+        
+        <footer>
+            <div class="links">
+                <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router">NPM</a>
+                <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router">GitHub</a>
+                <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router/issues">Issues</a>
+                <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions">Discussions</a>
+            </div>
+            <p style="color: #64748b;">MIT License © 2026 A3M Router Team</p>
+        </footer>
+    </div>
+</body>
+</html>
