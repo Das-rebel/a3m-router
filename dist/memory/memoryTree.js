@@ -45,7 +45,7 @@ class MemoryTree {
     for (const word of words) {
       // Strip punctuation for better matching
       const clean = word.replace(/[^a-z0-9-]/g, '');
-      if (clean.length > 3) { // Skip short words
+      if (clean.length >= 3) { // Skip very short words
         if (!this.index.has(clean)) this.index.set(clean, new Set());
         this.index.get(clean).add(chunk.id);
       }
@@ -76,7 +76,7 @@ class MemoryTree {
     
     for (const word of words) {
       const clean = word.replace(/[^a-z0-9-]/g, '');
-      if (clean.length <= 3) continue;
+      if (clean.length < 3) continue;
       // Try exact match first, then substring match
       let ids = this.index.get(clean);
       if (!ids) {
