@@ -282,7 +282,7 @@ Object.defineProperty(exports, "createIntegration", { enumerable: true, get: fun
  * @param {Object} config.memory - Memory settings
  * @param {Object} config.cache - Cache settings
  * @param {Object} config.cost - Cost tracking settings
- * @returns {Object} Router instance with route(), batch(), memory, cache properties
+ * @returns {Object} Router instance with route(), routeBatch(), recommend(), memory, cache, compression, oauth, vault, providers properties
  */
 function createA3MRouter(config = {}) {
   const { providers = {}, memory = {}, cache = {}, cost = {} } = config;
