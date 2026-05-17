@@ -108,12 +108,14 @@ const DEFAULT_PROVIDER_CONFIG = {
   maxTokens: 4096
 };
 
-module.exports = { ProviderRegistry };
+const _routing = require("../routing/advancedRouter");
+module.exports = { 
+  ProviderRegistry,
+  routeQuery: _routing.routeQuery,
+  routeBatch: _routing.routeBatch,
+  recommendForTask: _routing.recommendForTask,
+  extractQueryFeatures: _routing.extractQueryFeatures,
+  MODEL_PROFILES: _routing.MODEL_PROFILES,
+};
 
-// Re-export routing functions for convenience
-const advancedRouter = require("../routing/advancedRouter");
-Object.defineProperty(exports, "routeQuery", { enumerable: true, get: function () { return advancedRouter.routeQuery; } });
-Object.defineProperty(exports, "routeBatch", { enumerable: true, get: function () { return advancedRouter.routeBatch; } });
-Object.defineProperty(exports, "recommendForTask", { enumerable: true, get: function () { return advancedRouter.recommendForTask; } });
-Object.defineProperty(exports, "extractQueryFeatures", { enumerable: true, get: function () { return advancedRouter.extractQueryFeatures; } });
-Object.defineProperty(exports, "MODEL_PROFILES", { enumerable: true, get: function () { return advancedRouter.MODEL_PROFILES; } });
+
