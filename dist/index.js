@@ -1,6 +1,6 @@
 "use strict";
 /**
- * TMLPD PI Extension - v1.1.0
+ * A3M Router - Adaptive Memory Multi-Model Router v1.7.1
  *
  * Parallel Multi-LLM Processing with Streaming, Caching, Cost Tracking, Reliability
  * + Reference Architecture to Full TMLPD (Episodic Memory, MCTS, HALO)
@@ -237,3 +237,92 @@ exports.default = {
     TMLPD_PI_TOOLS: exports.TMLPD_PI_TOOLS
 };
 //# sourceMappingURL=index.js.map
+// ============================================
+// A3M Router - Adaptive Memory Multi-Model Router
+// Re-exports for the A3M Router package
+// ============================================
+
+// Memory
+const memoryTree_1 = require("./memory/memoryTree");
+Object.defineProperty(exports, "MemoryTree", { enumerable: true, get: function () { return memoryTree_1.MemoryTree; } });
+
+const autoFetch_1 = require("./memory/autoFetch");
+Object.defineProperty(exports, "AutoFetch", { enumerable: true, get: function () { return autoFetch_1.AutoFetch; } });
+
+const obsidianVault_1 = require("./memory/obsidianVault");
+Object.defineProperty(exports, "ObsidianVault", { enumerable: true, get: function () { return obsidianVault_1.ObsidianVault; } });
+
+const enhancedCompression_1 = require("./utils/enhancedCompression");
+Object.defineProperty(exports, "EnhancedCompression", { enumerable: true, get: function () { return enhancedCompression_1.EnhancedCompression; } });
+
+// OAuth
+const oauth_1 = require("./integrations/oauth");
+Object.defineProperty(exports, "OAuthManager", { enumerable: true, get: function () { return oauth_1.OAuthManager; } });
+Object.defineProperty(exports, "OAUTH_PROVIDERS", { enumerable: true, get: function () { return oauth_1.OAUTH_PROVIDERS; } });
+
+// Integrations
+const integrations_1 = require("./integrations/index");
+Object.defineProperty(exports, "GitHubIntegration", { enumerable: true, get: function () { return integrations_1.GitHubIntegration; } });
+Object.defineProperty(exports, "SlackIntegration", { enumerable: true, get: function () { return integrations_1.SlackIntegration; } });
+Object.defineProperty(exports, "TelegramIntegration", { enumerable: true, get: function () { return integrations_1.TelegramIntegration; } });
+Object.defineProperty(exports, "NotionIntegration", { enumerable: true, get: function () { return integrations_1.NotionIntegration; } });
+Object.defineProperty(exports, "LinearIntegration", { enumerable: true, get: function () { return integrations_1.LinearIntegration; } });
+Object.defineProperty(exports, "JiraIntegration", { enumerable: true, get: function () { return integrations_1.JiraIntegration; } });
+Object.defineProperty(exports, "GmailIntegration", { enumerable: true, get: function () { return integrations_1.GmailIntegration; } });
+Object.defineProperty(exports, "DiscordIntegration", { enumerable: true, get: function () { return integrations_1.DiscordIntegration; } });
+Object.defineProperty(exports, "AirtableIntegration", { enumerable: true, get: function () { return integrations_1.AirtableIntegration; } });
+Object.defineProperty(exports, "GoogleCalendarIntegration", { enumerable: true, get: function () { return integrations_1.GoogleCalendarIntegration; } });
+Object.defineProperty(exports, "createIntegration", { enumerable: true, get: function () { return integrations_1.createIntegration; } });
+
+// Convenience: createA3MRouter factory
+/**
+ * Create a configured A3M Router instance
+ * @param {Object} config - Router configuration
+ * @param {Object} config.providers - LLM provider configs
+ * @param {Object} config.memory - Memory settings
+ * @param {Object} config.cache - Cache settings
+ * @param {Object} config.cost - Cost tracking settings
+ * @returns {Object} Router instance with route(), batch(), memory, cache properties
+ */
+function createA3MRouter(config = {}) {
+  const { providers = {}, memory = {}, cache = {}, cost = {} } = config;
+  
+  const memoryTree = new memoryTree_1.MemoryTree(memory);
+  const prefixCache = new (require("./cache/prefixCache").PrefixCache)(cache);
+  const costTracker = new (require("./cost/costTracker").CostTracker)(cost);
+  const autoFetch = new autoFetch_1.AutoFetch(memory);
+  const compression = new enhancedCompression_1.EnhancedCompression();
+  const oauth = new oauth_1.OAuthManager();
+  const vault = new obsidianVault_1.ObsidianVault();
+  
+  return {
+    // Routing
+    route: (query, options) => (0, require("./routing/advancedRouter").routeQuery)(query, options),
+    routeBatch: (queries, options) => (0, require("./routing/advancedRouter").routeBatch)(queries, options),
+    recommend: (task) => (0, require("./routing/advancedRouter").recommendForTask)(task),
+    
+    // Memory
+    memory: memoryTree,
+    autoFetch,
+    vault,
+    compression,
+    
+    // Cache & Cost
+    cache: prefixCache,
+    costTracker,
+    
+    // Auth
+    oauth,
+    
+    // Providers (from existing TMLPD)
+    providers: new (require("./providers/registry").ProviderRegistry)(),
+    
+    // Integrations
+    createIntegration: integrations_1.createIntegration,
+    
+    // Utils
+    countTokens: require("./utils/tokenUtils").countTokens,
+    estimateCost: require("./utils/tokenUtils").estimateCost,
+  };
+}
+exports.createA3MRouter = createA3MRouter;
