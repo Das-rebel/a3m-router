@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradient2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="90" fill="url(#gradient1)" opacity="0.1"/>
+  <circle cx="100" cy="100" r="85" fill="none" stroke="url(#gradient1)" stroke-width="2" opacity="0.3"/>
+  
+  <!-- Central Hub -->
+  <circle cx="100" cy="100" r="25" fill="url(#gradient1)" filter="url(#glow)"/>
+  
+  <!-- Orbiting Nodes -->
+  <g transform="translate(100, 100)">
+    <!-- Node 1 -->
+    <circle cx="0" cy="-60" r="12" fill="url(#gradient2)" opacity="0.9">
+      <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="8s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Node 2 -->
+    <circle cx="52" cy="30" r="10" fill="#10b981" opacity="0.9">
+      <animateTransform attributeName="transform" type="rotate" from="120 0 0" to="480 0 0" dur="10s" repeatCount="indefinite"/>
+    </circle>
+    
+    <!-- Node 3 -->
+    <circle cx="-52" cy="30" r="10" fill="#f59e0b" opacity="0.9">
+      <animateTransform attributeName="transform" type="rotate" from="240 0 0" to="600 0 0" dur="12s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  
+  <!-- Connection Lines -->
+  <g stroke="url(#gradient1)" stroke-width="2" opacity="0.6">
+    <line x1="100" y1="100" x2="100" y2="40">
+      <animate attributeName="y2" values="40;35;40" dur="2s" repeatCount="indefinite"/>
+    </line>
+    <line x1="100" y1="100" x2="152" y2="130">
+      <animate attributeName="x2" values="152;157;152" dur="2.5s" repeatCount="indefinite"/>
+      <animate attributeName="y2" values="130;135;130" dur="2.5s" repeatCount="indefinite"/>
+    </line>
+    <line x1="100" y1="100" x2="48" y2="130">
+      <animate attributeName="x2" values="48;43;48" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="y2" values="130;135;130" dur="3s" repeatCount="indefinite"/>
+    </line>
+  </g>
+  
+  <!-- A3M Text -->
+  <text x="100" y="105" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">A3M</text>
+  
+  <!-- Outer Ring Animation -->
+  <circle cx="100" cy="100" r="75" fill="none" stroke="url(#gradient1)" stroke-width="1" stroke-dasharray="10 5" opacity="0.5">
+    <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="20s" repeatCount="indefinite"/>
+  </circle>
+</svg>

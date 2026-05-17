@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640">
+  <defs>
+    <linearGradient id="spBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a"/>
+      <stop offset="100%" style="stop-color:#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="spAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1"/>
+      <stop offset="100%" style="stop-color:#06b6d4"/>
+    </linearGradient>
+    <filter id="spGlow">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1280" height="640" fill="url(#spBg)"/>
+  
+  <!-- Grid Pattern -->
+  <pattern id="spGrid" width="60" height="60" patternUnits="userSpaceOnUse">
+    <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(99,102,241,0.08)" stroke-width="1"/>
+  </pattern>
+  <rect width="1280" height="640" fill="url(#spGrid)"/>
+  
+  <!-- Central Logo -->
+  <g transform="translate(640, 280)">
+    <!-- Outer Rings -->
+    <circle cx="0" cy="0" r="180" fill="none" stroke="url(#spAccent)" stroke-width="2" opacity="0.2"/>
+    <circle cx="0" cy="0" r="150" fill="none" stroke="url(#spAccent)" stroke-width="1" opacity="0.15" stroke-dasharray="10 5"/>
+    
+    <!-- Main Circle -->
+    <circle cx="0" cy="0" r="80" fill="url(#spAccent)" opacity="0.1"/>
+    <circle cx="0" cy="0" r="60" fill="url(#spAccent)" filter="url(#spGlow)"/>
+    
+    <!-- Orbiting Dots -->
+    <circle cx="0" cy="-120" r="15" fill="#6366f1"/>
+    <circle cx="104" cy="60" r="12" fill="#10b981"/>
+    <circle cx="-104" cy="60" r="12" fill="#f59e0b"/>
+    
+    <!-- Connection Lines -->
+    <line x1="0" y1="0" x2="0" y2="-120" stroke="url(#spAccent)" stroke-width="3" opacity="0.6"/>
+    <line x1="0" y1="0" x2="104" y2="60" stroke="url(#spAccent)" stroke-width="3" opacity="0.6"/>
+    <line x1="0" y1="0" x2="-104" y2="60" stroke="url(#spAccent)" stroke-width="3" opacity="0.6"/>
+    
+    <!-- Text -->
+    <text x="0" y="20" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">A3M</text>
+  </g>
+  
+  <!-- Title -->
+  <text x="640" y="520" font-family="system-ui, -apple-system, sans-serif" font-size="56" font-weight="bold" fill="white" text-anchor="middle">A3M Router</text>
+  
+  <!-- Subtitle -->
+  <text x="640" y="580" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#94a3b8" text-anchor="middle">Adaptive Memory Multi-Model Router</text>
+  
+  <!-- NPM Badge -->
+  <g transform="translate(640, 620)">
+    <rect x="-120" y="-15" width="240" height="30" rx="15" fill="rgba(255,255,255,0.1)"/>
+    <text x="0" y="5" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#cbd5e1" text-anchor="middle">872+ Weekly Downloads on NPM</text>
+  </g>
+</svg>
