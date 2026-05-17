@@ -290,6 +290,10 @@ function createA3MRouter(config = {}) {
   const memoryTree = new memoryTree_1.MemoryTree(memory);
   const prefixCache = new (require("./cache/prefixCache").PrefixCache)(cache);
   const costTracker = new (require("./cost/costTracker").CostTracker)(cost);
+  // Alias getSummary as getStatus for convenience
+  if (typeof costTracker.getSummary === "function" && !costTracker.getStatus) {
+    costTracker.getStatus = costTracker.getSummary.bind(costTracker);
+  }
   const autoFetch = new autoFetch_1.AutoFetch(memory);
   const compression = new enhancedCompression_1.EnhancedCompression();
   const oauth = new oauth_1.OAuthManager();

@@ -236,5 +236,8 @@ class CostTracker {
         return [...this.history];
     }
 }
+// Alias for convenience
+CostTracker.prototype.getStatus = CostTracker.prototype.getSummary;
+
 exports.CostTracker = CostTracker;
 //# sourceMappingURL=costTracker.js.map
