@@ -34,6 +34,15 @@ const costTracker_1 = require("./cost/costTracker");
 Object.defineProperty(exports, "CostTracker", { enumerable: true, get: function () { return costTracker_1.CostTracker; } });
 const registry_1 = require("./providers/registry");
 Object.defineProperty(exports, "ProviderRegistry", { enumerable: true, get: function () { return registry_1.ProviderRegistry; } });
+const providerConfig_1 = require("./providers/providerConfig");
+Object.defineProperty(exports, "loadProviders", { enumerable: true, get: function () { return providerConfig_1.loadProviders; } });
+Object.defineProperty(exports, "getAvailableProviders", { enumerable: true, get: function () { return providerConfig_1.getAvailableProviders; } });
+Object.defineProperty(exports, "healthCheckProvider", { enumerable: true, get: function () { return providerConfig_1.healthCheck; } });
+Object.defineProperty(exports, "registerProvider", { enumerable: true, get: function () { return providerConfig_1.registerProvider; } });
+Object.defineProperty(exports, "deregisterProvider", { enumerable: true, get: function () { return providerConfig_1.deregisterProvider; } });
+Object.defineProperty(exports, "findCheapestAvailableProvider", { enumerable: true, get: function () { return providerConfig_1.findCheapestAvailableProvider; } });
+Object.defineProperty(exports, "findFastestAvailableProvider", { enumerable: true, get: function () { return providerConfig_1.findFastestAvailableProvider; } });
+Object.defineProperty(exports, "DEFAULT_PROVIDERS", { enumerable: true, get: function () { return providerConfig_1.DEFAULT_PROVIDERS; } });
 const reliability_1 = require("./utils/reliability");
 Object.defineProperty(exports, "CircuitBreaker", { enumerable: true, get: function () { return reliability_1.CircuitBreaker; } });
 Object.defineProperty(exports, "withRetry", { enumerable: true, get: function () { return reliability_1.withRetry; } });
@@ -330,3 +339,26 @@ function createA3MRouter(config = {}) {
   };
 }
 exports.createA3MRouter = createA3MRouter;
+
+// Provider Configuration (generic, user-configurable) - additional exports
+const providerConfig = require("./providers/providerConfig");
+Object.defineProperty(exports, "providerConfig", { enumerable: true, get: function () { return providerConfig; } });
+Object.defineProperty(exports, "saveProviderConfig", { enumerable: true, get: function () { return providerConfig.saveConfig; } });
+
+// Security features
+const inputValidation = require("./security/inputValidation");
+Object.defineProperty(exports, "InputValidator", { enumerable: true, get: function () { return inputValidation.InputValidator; } });
+Object.defineProperty(exports, "sanitizeInput", { enumerable: true, get: function () { return inputValidation.sanitizeInput; } });
+Object.defineProperty(exports, "validateInput", { enumerable: true, get: function () { return inputValidation.validateInput; } });
+Object.defineProperty(exports, "detectInjection", { enumerable: true, get: function () { return inputValidation.detectInjection; } });
+Object.defineProperty(exports, "detectPII", { enumerable: true, get: function () { return inputValidation.detectPII; } });
+
+// GEO (Generative Engine Optimization) features
+const generativeEngineOptimization = require("./geo/generativeEngineOptimization");
+Object.defineProperty(exports, "GenerativeEngineOptimizer", { enumerable: true, get: function () { return generativeEngineOptimization.GenerativeEngineOptimizer; } });
+Object.defineProperty(exports, "getCodeForIntent", { enumerable: true, get: function () { return generativeEngineOptimization.getCodeForIntent; } });
+Object.defineProperty(exports, "searchIntents", { enumerable: true, get: function () { return generativeEngineOptimization.searchIntents; } });
+Object.defineProperty(exports, "getPackageMetadata", { enumerable: true, get: function () { return generativeEngineOptimization.getPackageMetadata; } });
+Object.defineProperty(exports, "generateAIDocumentation", { enumerable: true, get: function () { return generativeEngineOptimization.generateAIDocumentation; } });
+Object.defineProperty(exports, "INTENT_MAP", { enumerable: true, get: function () { return generativeEngineOptimization.INTENT_MAP; } });
+Object.defineProperty(exports, "AI_INDEXING_KEYWORDS", { enumerable: true, get: function () { return generativeEngineOptimization.AI_INDEXING_KEYWORDS; } });

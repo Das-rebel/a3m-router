@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "1.9.0",
+  "version": "1.9.5",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "A3M Router - Adaptive Memory Multi-Model Router with learned routing (RouteLLM), prefix caching (RadixAttention), speculative decoding (Medusa), TokenJuice-style compression. 14 LLM providers, 10 integrations, Python bindings. 20x more adaptable for ML/AI developers.",
@@ -20,7 +20,9 @@
     "./oauth": "./dist/integrations/oauth.js",
     "./utils": "./dist/utils/tokenUtils.js",
     "./cost": "./dist/cost/costTracker.js",
-    "./integrations": "./dist/integrations/index.js"
+    "./integrations": "./dist/integrations/index.js",
+    "./security": "./dist/security/inputValidation.js",
+    "./geo": "./dist/geo/generativeEngineOptimization.js"
   },
   "keywords": [
     "llm",
@@ -161,7 +163,24 @@
     "enterprise",
     "production",
     "real-time",
-    "high-availability"
+    "high-availability",
+    "security",
+    "input-validation",
+    "prompt-injection",
+    "pii-detection",
+    "content-filtering",
+    "rate-limiting",
+    "sanitization",
+    "geo",
+    "generative-engine-optimization",
+    "ai-discoverability",
+    "llm-intent",
+    "code-generation",
+    "copilot",
+    "chatgpt",
+    "claude-code",
+    "ai-assistant",
+    "intent-mapping"
   ],
   "author": "Das-rebel <subho@example.com>",
   "license": "MIT",
@@ -174,7 +193,10 @@
   },
   "homepage": "https://github.com/Das-rebel/adaptive-memory-multi-model-router#readme",
   "scripts": {
-    "test": "node test.js"
+    "test": "node test.js && node test/provider-test.js",
+    "test:providers": "node test/provider-test.js",
+    "benchmark": "node test/benchmark.js",
+    "benchmark:verbose": "node test/benchmark.js --verbose"
   },
   "engines": {
     "node": ">=16.0.0"

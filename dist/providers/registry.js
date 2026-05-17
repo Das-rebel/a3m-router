@@ -1,46 +1,46 @@
+"use strict";
 /**
- * Provider Registry v2 - Optimized
+ * A3M Router - Generic Provider Registry
  * 
- * Improvements:
- * - Lazy loading of providers
- * - Cache for ready providers
- * - Faster model selection
+ * Dynamically discovers and manages available LLM providers.
+ * Users configure providers via:
+ * - Environment variables (*_API_KEY patterns)
+ * - ~/.config/a3m-router/providers.json
+ * - Runtime registration via registerProvider()
+ * 
+ * No hardcoded provider references - all loaded from providerConfig.
  */
+
+const { getAvailableProviders, loadConfig, healthCheck, registerProvider, deregisterProvider } = require("./providerConfig");
+const { routeQuery, routeBatch, recommendForTask, extractQueryFeatures, MODEL_PROFILES } = require("../routing/advancedRouter");
+
 class ProviderRegistry {
   constructor(config = {}) {
-    this.config = { ...DEFAULT_PROVIDER_CONFIG, ...config };
-    this.modelPriority = this.config.modelPriority;
+    this.config = config;
     this.providers = new Map();
     this.readyCache = [];
     this.cacheTime = 0;
     this.cacheDuration = 60000; // 1 minute
+    
+    // Load configuration from env vars and config files
+    loadConfig();
     this.initializeProviders();
   }
 
   initializeProviders() {
-    const envVars = {
-      openai: { key: "OPENAI_API_KEY", mode: "openai" },
-      anthropic: { key: "ANTHROPIC_API_KEY", mode: "anthropic" },
-      groq: { key: "GROQ_API_KEY", mode: "openai" },
-      cerebras: { key: "CEREBRAS_API_KEY", mode: "openai" },
-      deepseek: { key: "DEEPSEEK_API_KEY", mode: "openai" },
-      fireworks: { key: "FIREWORKS_API_KEY", mode: "openai" },
-      perplexity: { key: "PERPLEXITY_API_KEY", mode: "openai" },
-      cohere: { key: "COHERE_API_KEY", mode: "openai" },
-      google: { key: "GOOGLE_API_KEY", mode: "gemini" },
-      mistral: { key: "MISTRAL_API_KEY", mode: "openai" }
-    };
+    const available = getAvailableProviders();
     
-    for (const [name, env] of Object.entries(envVars)) {
-      const apiKey = process.env[env.key] || '';
+    for (const [name, provider] of Object.entries(available)) {
       this.providers.set(name, {
         name,
-        apiKey,
-        mode: env.mode,
-        priority: this.modelPriority.findIndex(m => m.startsWith(name + "/")),
-        enabled: Boolean(apiKey),
+        apiKey: provider.apiKey || null,
+        baseUrl: provider.baseUrl || null,
+        models: provider.models,
+        type: provider.type,
+        priority: provider.priority,
+        enabled: true,
         cooldownUntil: 0,
-        failureCount: 0
+        failureCount: 0,
       });
     }
   }
@@ -66,10 +66,15 @@ class ProviderRegistry {
   }
 
   selectModel() {
-    for (const model of this.modelPriority) {
-      const providerName = model.split("/")[0];
-      if (this.isProviderReady(providerName)) {
-        return model;
+    const available = getAvailableProviders();
+    const sorted = Object.entries(available).sort(([, a], [, b]) => a.priority - b.priority);
+    
+    for (const [name, provider] of sorted) {
+      for (const model of provider.models) {
+        const modelKey = model.includes('/') ? model : name + '/' + model;
+        if (this.isProviderReady(name)) {
+          return modelKey;
+        }
       }
     }
     return null;
@@ -94,22 +99,38 @@ class ProviderRegistry {
   }
 
   getStatus() {
+    const available = getAvailableProviders();
     return {
       providers: Array.from(this.providers.keys()),
-      modelPriority: this.modelPriority,
-      readyProviders: this.getReadyProviders()
+      available: Object.keys(available),
+      ready: this.getReadyProviders(),
+      modelPriority: this.selectModel(),
     };
+  }
+
+  // Dynamic provider management
+  addProvider(id, config) {
+    registerProvider(id, config);
+    this.initializeProviders();
+  }
+
+  removeProvider(id) {
+    deregisterProvider(id);
+    this.initializeProviders();
+  }
+
+  async checkHealth() {
+    const results = {};
+    for (const [name] of this.providers) {
+      results[name] = await healthCheck(name);
+    }
+    return results;
   }
 }
 
-const DEFAULT_PROVIDER_CONFIG = {
-  providers: ["openai", "openrouter", "groq", "cerebras", "mistral", "deepseek", "fireworks", "perplexity", "cohere", "anthropic", "google"],
-  modelPriority: ["openai/gpt-4o", "groq/llama-3.3-70b-versatile", "deepseek/deepseek-chat", "fireworks/mixtral-8x7b-instruct"],
-  maxTokens: 4096
-};
-
 const _routing = require("../routing/advancedRouter");
-module.exports = { 
+
+module.exports = {
   ProviderRegistry,
   routeQuery: _routing.routeQuery,
   routeBatch: _routing.routeBatch,
@@ -117,5 +138,3 @@ module.exports = {
   extractQueryFeatures: _routing.extractQueryFeatures,
   MODEL_PROFILES: _routing.MODEL_PROFILES,
 };
-
-

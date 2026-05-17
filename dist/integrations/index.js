@@ -24,6 +24,7 @@ const GmailIntegration = require('./gmail.js').GmailIntegration;
 const DiscordIntegration = require('./discord.js').DiscordIntegration;
 const AirtableIntegration = require('./airtable.js').AirtableIntegration;
 const GoogleCalendarIntegration = require('./google-calendar.js').GoogleCalendarIntegration;
+const WhatsAppIntegration = require('./whatsapp.js').WhatsAppIntegration;
 
 /**
  * Factory to create integrations
@@ -40,6 +41,7 @@ function createIntegration(type, config) {
     case 'discord': return new DiscordIntegration(config.webhookUrl);
     case 'airtable': return new AirtableIntegration(config.apiKey, config.baseId);
     case 'google-calendar': return new GoogleCalendarIntegration(config.credentials);
+    case 'whatsapp': return new WhatsAppIntegration(config.phoneNumberId, config.accessToken);
     default: throw new Error(`Unknown integration type: ${type}`);
   }
 }
@@ -56,6 +58,7 @@ module.exports = {
   DiscordIntegration,
   AirtableIntegration,
   GoogleCalendarIntegration,
+  WhatsAppIntegration,
   // Factory
   createIntegration
 };

@@ -1,5 +1,26 @@
 # A3M Router
 
+<!-- BADGES_START -->
+<p align="center">
+  <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router">
+    <img src="https://img.shields.io/npm/v/adaptive-memory-multi-model-router?logo=npm" alt="NPM Version">
+  </a>
+  <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router">
+    <img src="https://img.shields.io/badge/downloads%2Fday-320-blue?logo=npm" alt="Daily Downloads">
+  </a>
+  <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router">
+    <img src="https://img.shields.io/badge/downloads%2Fweek-872-green?logo=npm" alt="Weekly Downloads">
+  </a>
+  <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router">
+    <img src="https://img.shields.io/badge/downloads%2Fmonth-872-orange?logo=npm" alt="Monthly Downloads">
+  </a>
+  <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/LICENSE">
+    <img src="https://img.shields.io/npm/l/adaptive-memory-multi-model-router?color=blue" alt="License">
+  </a>
+  <img src="https://img.shields.io/badge/tests-33%20passing-brightgreen" alt="Tests">
+</p>
+<!-- BADGES_END -->
+
 <div align="center">
 
 **A**daptive **M**emory **M**ulti-**M**odel Router — Smarter routing that learns from every query
