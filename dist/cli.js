@@ -3,6 +3,7 @@
  * A3M Router CLI - Adaptive Memory Multi-Model Router
  * 
  * Commands:
+ *   npx a3m-router serve [--port 8787]     Start OpenAI-compatible proxy server
  *   npx a3m-router route <query>           Route query to best provider
  *   npx a3m-router batch <q1> <q2>..       Route multiple queries
  *   npx a3m-router providers               List all configured providers
@@ -23,6 +24,13 @@ const {
   countTokens, estimateCost, MODEL_COSTS, CostTracker, MemoryTree,
   getAvailableProviders, providerConfig, registerProvider, loadProviders,
 } = require('./index.js');
+
+let createProxyServer;
+try {
+  createProxyServer = require('./server/proxyServer.js').createProxyServer;
+} catch (e) {
+  // Server module not yet compiled
+}
 
 const args = process.argv.slice(2);
 const command = args[0];
@@ -394,11 +402,36 @@ async function main() {
       break;
     }
 
+    case 'serve': {
+      if (!createProxyServer) {
+        console.error('\n  Error: Server module not available.');
+        console.error('  Build first: npm run build');
+        console.error('  Or use directly: node -e "require(\'./server/proxyServer.js\').createProxyServer()"\n');
+        process.exit(1);
+      }
+
+      // Parse --port argument
+      var portArg = args.indexOf('--port');
+      var port = undefined;
+      if (portArg !== -1 && args[portArg + 1]) {
+        port = parseInt(args[portArg + 1], 10);
+        if (isNaN(port)) {
+          console.error('  Error: --port must be a number');
+          process.exit(1);
+        }
+      }
+
+      console.log('\n  Starting A3M Router Proxy Server...');
+      createProxyServer(port);
+      break;
+    }
+
     default:
       console.log('\n🔀 A3M Router — Adaptive Memory Multi-Model Router');
       console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       console.log('');
       console.log('  Commands:');
+      console.log('    serve [--port 8787]    Start OpenAI-compatible proxy server');
       console.log('    route <query>          Route query to best provider');
       console.log('    batch <q1> <q2>..      Route multiple queries');
       console.log('    compare <query>        Compare providers side by side');
@@ -420,6 +453,8 @@ async function main() {
       console.log('  Env:    GROQ_API_KEY, CEREBRAS_API_KEY, MISTRAL_API_KEY, etc.');
       console.log('');
       console.log('  Examples:');
+      console.log('    npx a3m-router serve                        # Start proxy on :8787');
+      console.log('    npx a3m-router serve --port 3000            # Start proxy on :3000');
       console.log('    npx a3m-router route "Write a Python function to sort"');
       console.log('    npx a3m-router compare "What is 2+2?"');
       console.log('    npx a3m-router providers');

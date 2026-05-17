@@ -1,9 +1,9 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "1.9.5",
+  "version": "2.0.0",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
-  "description": "A3M Router - Adaptive Memory Multi-Model Router with learned routing (RouteLLM), prefix caching (RadixAttention), speculative decoding (Medusa), TokenJuice-style compression. 14 LLM providers, 10 integrations, Python bindings. 20x more adaptable for ML/AI developers.",
+  "description": "\ud83d\udd00 Intelligent LLM routing engine with OpenAI-compatible proxy, LangChain adapter, guardrails, semantic cache, cost analytics, and 40+ providers",
   "main": "dist/index.js",
   "bin": {
     "a3m-router": "dist/cli.js",
@@ -13,7 +13,11 @@
     ".": "./dist/index.js",
     "./providers": "./dist/providers/registry.js",
     "./memory": "./dist/memory/memoryTree.js",
-    "./cache": "./dist/cache/prefixCache.js",
+    "./cache": {
+      "import": "./dist/cache/semanticCache.js",
+      "require": "./dist/cache/semanticCache.js",
+      "types": "./dist/cache/semanticCache.d.ts"
+    },
     "./compression": "./dist/utils/enhancedCompression.js",
     "./autofetch": "./dist/memory/autoFetch.js",
     "./vault": "./dist/memory/obsidianVault.js",
@@ -22,7 +26,27 @@
     "./cost": "./dist/cost/costTracker.js",
     "./integrations": "./dist/integrations/index.js",
     "./security": "./dist/security/inputValidation.js",
-    "./geo": "./dist/geo/generativeEngineOptimization.js"
+    "./langchain": {
+      "import": "./dist/integrations/langchainAdapter.js",
+      "require": "./dist/integrations/langchainAdapter.js",
+      "types": "./dist/integrations/langchainAdapter.d.ts"
+    },
+    "./geo": "./dist/geo/generativeEngineOptimization.js",
+    "./server": {
+      "import": "./dist/server/proxyServer.js",
+      "require": "./dist/server/proxyServer.js",
+      "types": "./dist/server/proxyServer.d.ts"
+    },
+    "./guardrails": {
+      "import": "./dist/security/guardrails.js",
+      "require": "./dist/security/guardrails.js",
+      "types": "./dist/security/guardrails.d.ts"
+    },
+    "./analytics": {
+      "import": "./dist/analytics/costAnalytics.js",
+      "require": "./dist/analytics/costAnalytics.js",
+      "types": "./dist/analytics/costAnalytics.d.ts"
+    }
   },
   "keywords": [
     "llm",
@@ -180,7 +204,17 @@
     "chatgpt",
     "claude-code",
     "ai-assistant",
-    "intent-mapping"
+    "intent-mapping",
+    "openai-compatible",
+    "proxy-server",
+    "guardrails",
+    "semantic-cache",
+    "cost-analytics",
+    "llm-proxy",
+    "ai-gateway",
+    "provider-registry",
+    "together-ai",
+    "deepinfra"
   ],
   "author": "Das-rebel <subho@example.com>",
   "license": "MIT",
@@ -199,9 +233,21 @@
     "benchmark:verbose": "node test/benchmark.js --verbose"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "@langchain/core": ">=0.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@langchain/core": {
+      "optional": true
+    }
   },
   "dependencies": {
     "nanoid": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.8.0",
+    "typescript": "^6.0.3"
   }
 }

@@ -1,141 +1,196 @@
+"use strict";
 /**
- * Memory Tree Hierarchy (Optimized v2)
- * 
- * Improvements:
- * - LRU cache for recent chunks
- * - Faster search with index
- * - Lower memory footprint
+ * Memory Tree Hierarchy
+ *
+ * Canonicalizes data into ≤3k-token chunks, scores them,
+ * and builds hierarchical summary trees.
  */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MemoryTree = void 0;
 class MemoryTree {
-  constructor(maxChunkSize = 3000) {
-    this.maxChunkSize = maxChunkSize;
-    this.root = { id: 'root', chunks: [], summary: '', children: [], depth: 0 };
-    this.chunks = new Map();
-    this.idCounter = 0;
-    this.index = new Map(); // Fast lookup index
-    this.lru = []; // LRU cache for recent chunks
-    this.maxLruSize = 100;
-  }
-
-  generateId() { return `chunk_${Date.now()}_${this.idCounter++}`; }
-
-  async add(data) {
-    const texts = this.chunk(data);
-    const added = [];
-    for (const text of texts) {
-      const chunk = { 
-        id: this.generateId(), 
-        content: text, 
-        score: 0.5, 
-        depth: 0, 
-        createdAt: Date.now(), 
-        accessCount: 0 
-      };
-      this.chunks.set(chunk.id, chunk);
-      this.indexChunk(chunk);
-      this.root.chunks.push(chunk);
-      added.push(chunk);
+    maxChunkSize;
+    root;
+    chunks;
+    idCounter;
+    constructor(maxChunkSize = 3000) {
+        this.maxChunkSize = maxChunkSize;
+        this.root = this.createNode('root');
+        this.chunks = new Map();
+        this.idCounter = 0;
     }
-    return added;
-  }
-
-  // Index a chunk for fast search
-  indexChunk(chunk) {
-    const words = chunk.content.toLowerCase().split(/\s+/);
-    for (const word of words) {
-      // Strip punctuation for better matching
-      const clean = word.replace(/[^a-z0-9-]/g, '');
-      if (clean.length >= 3) { // Skip very short words
-        if (!this.index.has(clean)) this.index.set(clean, new Set());
-        this.index.get(clean).add(chunk.id);
-      }
+    createNode(id, depth = 0) {
+        return { id, chunks: [], summary: '', children: [], depth };
     }
-  }
-
-  chunk(text) {
-    const chunks = [], words = text.split(/\s+/);
-    let current = [], size = 0;
-    for (const word of words) {
-      size += word.length + 1;
-      if (size > this.maxChunkSize) { 
-        chunks.push(current.join(' ')); 
-        current = [word]; 
-        size = word.length + 1; 
-      } else { 
-        current.push(word); 
-      }
+    generateId() {
+        return `chunk_${Date.now()}_${this.idCounter++}`;
     }
-    if (current.length) chunks.push(current.join(' '));
-    return chunks;
-  }
-
-  // Fast indexed search
-  search(query) {
-    const words = query.toLowerCase().split(/\s+/);
-    let candidateIds = null;
-    
-    for (const word of words) {
-      const clean = word.replace(/[^a-z0-9-]/g, '');
-      if (clean.length < 3) continue;
-      // Try exact match first, then substring match
-      let ids = this.index.get(clean);
-      if (!ids) {
-        // Substring matching: find index keys containing this word
-        for (const [key, val] of this.index) {
-          if (key.includes(clean) || clean.includes(key)) {
-            ids = val;
-            break;
-          }
+    /**
+     * Add data to the memory tree
+     */
+    async add(data) {
+        const textChunks = this.chunk(data);
+        const addedChunks = [];
+        for (const text of textChunks) {
+            const score = await this.scoreChunk(text);
+            const chunk = {
+                id: this.generateId(),
+                content: text,
+                score,
+                depth: 0,
+                createdAt: Date.now(),
+                accessCount: 0
+            };
+            this.chunks.set(chunk.id, chunk);
+            this.root.chunks.push(chunk);
+            this.insertIntoTree(chunk);
+            addedChunks.push(chunk);
         }
-      }
-      if (ids) {
-        if (!candidateIds) candidateIds = new Set(ids);
-        else candidateIds = new Set([...candidateIds].filter(id => ids.has(id)));
-      }
+        await this.updateSummaries();
+        return addedChunks;
     }
-    
-    if (!candidateIds) return []; // No matches
-    
-    // Update LRU and return chunks
-    const results = [];
-    for (const id of candidateIds) {
-      const chunk = this.chunks.get(id);
-      if (chunk) {
-        this.updateLRU(chunk);
-        chunk.accessCount++;
-        results.push(chunk);
-      }
+    /**
+     * Split text into chunks of maxChunkSize
+     */
+    chunk(text) {
+        const chunks = [];
+        const words = text.split(/\s+/);
+        let current = [];
+        let currentSize = 0;
+        for (const word of words) {
+            currentSize += word.length + 1;
+            if (currentSize > this.maxChunkSize) {
+                chunks.push(current.join(' '));
+                current = [word];
+                currentSize = word.length + 1;
+            }
+            else {
+                current.push(word);
+            }
+        }
+        if (current.length > 0) {
+            chunks.push(current.join(' '));
+        }
+        return chunks;
     }
-    return results;
-  }
-  
-  updateLRU(chunk) {
-    this.lru = this.lru.filter(c => c.id !== chunk.id);
-    this.lru.unshift(chunk);
-    if (this.lru.length > this.maxLruSize) {
-      this.lru.pop();
+    /**
+     * Score a chunk by relevance
+     */
+    async scoreChunk(content) {
+        // Simple scoring: length + unique words ratio
+        const words = content.split(/\s+/);
+        const uniqueWords = new Set(words.map(w => w.toLowerCase()));
+        const uniqueRatio = uniqueWords.size / words.length;
+        // Base score + bonus for high unique ratio
+        return Math.min(1, (content.length / this.maxChunkSize) * uniqueRatio * 1.5);
     }
-  }
-
-  getContext(maxTokens = 3000) { 
-    // Use LRU for context (most recent first)
-    const context = this.lru.map(c => c.content).join('\n\n');
-    return context.slice(0, maxTokens); 
-  }
-  
-  toMarkdown() { 
-    return '# Memory Tree\n' + this.lru.map(c => `## ${c.id}\n${c.content}`).join('\n'); 
-  }
-  
-  getStats() {
-    return {
-      totalChunks: this.chunks.size,
-      maxDepth: 0,
-      rootChunks: this.root.chunks.length,
-      indexSize: this.index.size,
-      lruSize: this.lru.length
-    };
-  }
+    /**
+     * Insert chunk into tree hierarchy
+     */
+    insertIntoTree(chunk) {
+        let parent = this.root;
+        while (parent.children.length > 0 && chunk.score < 0.5) {
+            // Find best matching child
+            let bestChild = parent.children[0];
+            let bestScore = 0;
+            for (const child of parent.children) {
+                const avgScore = this.getAverageScore(child);
+                if (avgScore > bestScore && avgScore >= chunk.score) {
+                    bestScore = avgScore;
+                    bestChild = child;
+                }
+            }
+            if (bestScore >= chunk.score) {
+                parent = bestChild;
+                chunk.depth = parent.depth + 1;
+                chunk.parentId = parent.id;
+            }
+            else {
+                break;
+            }
+        }
+        parent.chunks.push(chunk);
+    }
+    getAverageScore(node) {
+        if (node.chunks.length === 0)
+            return 0;
+        return node.chunks.reduce((sum, c) => sum + c.score, 0) / node.chunks.length;
+    }
+    /**
+     * Update summaries for tree nodes
+     */
+    async updateSummaries() {
+        this.summarizeNode(this.root);
+    }
+    summarizeNode(node) {
+        const allContent = node.chunks.map(c => c.content).join(' ');
+        node.summary = allContent.slice(0, 200) + (allContent.length > 200 ? '...' : '');
+        for (const child of node.children) {
+            this.summarizeNode(child);
+        }
+    }
+    /**
+     * Search chunks by content
+     */
+    search(query) {
+        const results = [];
+        const queryLower = query.toLowerCase();
+        for (const chunk of this.chunks.values()) {
+            if (chunk.content.toLowerCase().includes(queryLower)) {
+                chunk.accessCount++;
+                results.push(chunk);
+            }
+        }
+        return results.sort((a, b) => b.score - a.score);
+    }
+    /**
+     * Get context for routing
+     */
+    getContext(maxTokens = 3000) {
+        const allChunks = Array.from(this.chunks.values())
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 10);
+        let context = allChunks.map(c => c.content).join('\n\n');
+        if (context.length > maxTokens) {
+            context = context.slice(0, maxTokens) + '...';
+        }
+        return context;
+    }
+    /**
+     * Export as markdown for Obsidian
+     */
+    toMarkdown() {
+        const lines = ['# Memory Tree\n'];
+        const traverse = (node, prefix = '') => {
+            for (const chunk of node.chunks) {
+                lines.push(`${prefix}## ${chunk.id} (score: ${chunk.score.toFixed(2)})`);
+                lines.push(chunk.content);
+                lines.push('');
+            }
+            for (const child of node.children) {
+                lines.push(`${prefix}### ${child.id}`);
+                traverse(child, prefix + '#');
+            }
+        };
+        traverse(this.root);
+        return lines.join('\n');
+    }
+    /**
+     * Get tree stats
+     */
+    getStats() {
+        return {
+            totalChunks: this.chunks.size,
+            maxDepth: this.getMaxDepth(this.root),
+            rootChunks: this.root.chunks.length,
+            treeSize: JSON.stringify(this.root).length
+        };
+    }
+    getMaxDepth(node) {
+        if (node.children.length === 0)
+            return node.depth;
+        return Math.max(...node.children.map(c => this.getMaxDepth(c)));
+    }
 }
-
-module.exports = { MemoryTree };
+exports.MemoryTree = MemoryTree;
+exports.default = MemoryTree;
+//# sourceMappingURL=memoryTree.js.map

@@ -1,26 +1,230 @@
+"use strict";
 /**
- * OAuth Integration Manager (Compiled)
+ * OAuth Integration Manager
+ *
+ * Provides one-click OAuth for GitHub, Slack, Gmail, Notion
+ * with typed tool wrappers for each service.
  */
-const OAUTH_PROVIDERS = {
-  github: { name: 'GitHub', authUrl: 'https://github.com/login/oauth/authorize', tokenUrl: 'https://github.com/login/oauth/access_token', scopes: ['repo'], baseUrl: 'https://api.github.com' },
-  slack: { name: 'Slack', authUrl: 'https://slack.com/oauth/v2/authorize', tokenUrl: 'https://slack.com/api/oauth.v2.access', scopes: ['chat:write'], baseUrl: 'https://slack.com/api' },
-  gmail: { name: 'Gmail', authUrl: 'https://accounts.google.com/o/oauth2/v2/auth', tokenUrl: 'https://oauth2.googleapis.com/token', scopes: ['https://www.googleapis.com/auth/gmail.send'], baseUrl: 'https://gmail.googleapis.com/gmail/v1' },
-  notion: { name: 'Notion', authUrl: 'https://api.notion.com/v1/oauth/authorize', tokenUrl: 'https://api.notion.com/v1/oauth/token', scopes: ['read_content'], baseUrl: 'https://api.notion.com/v1' }
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.OAuthManager = exports.OAUTH_PROVIDERS = void 0;
+// Supported OAuth providers
+exports.OAUTH_PROVIDERS = {
+    github: {
+        name: 'GitHub',
+        authUrl: 'https://github.com/login/oauth/authorize',
+        tokenUrl: 'https://github.com/login/oauth/access_token',
+        scopes: ['repo', 'read:user', 'notifications'],
+        baseUrl: 'https://api.github.com'
+    },
+    slack: {
+        name: 'Slack',
+        authUrl: 'https://slack.com/oauth/v2/authorize',
+        tokenUrl: 'https://slack.com/api/oauth.v2.access',
+        scopes: ['chat:write', 'channels:read', 'users:read'],
+        baseUrl: 'https://slack.com/api'
+    },
+    gmail: {
+        name: 'Gmail',
+        authUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
+        tokenUrl: 'https://oauth2.googleapis.com/token',
+        scopes: ['https://www.googleapis.com/auth/gmail.send', 'https://www.googleapis.com/auth/gmail.readonly'],
+        baseUrl: 'https://gmail.googleapis.com/gmail/v1'
+    },
+    notion: {
+        name: 'Notion',
+        authUrl: 'https://api.notion.com/v1/oauth/authorize',
+        tokenUrl: 'https://api.notion.com/v1/oauth/token',
+        scopes: ['read_content', 'update_content', 'insert_database'],
+        baseUrl: 'https://api.notion.com/v1'
+    },
+    googlecalendar: {
+        name: 'Google Calendar',
+        authUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
+        tokenUrl: 'https://oauth2.googleapis.com/token',
+        scopes: ['https://www.googleapis.com/auth/calendar.events'],
+        baseUrl: 'https://www.googleapis.com/calendar/v3'
+    }
 };
-
 class OAuthManager {
-  constructor() { this.configs = new Map(); this.tokens = new Map(); this.state = new Map(); }
-  configure(provider, config) { this.configs.set(provider, config); }
-  getAuthUrl(provider) {
-    const config = this.configs.get(provider), info = OAUTH_PROVIDERS[provider];
-    if (!config || !info) throw new Error(`Unknown provider: ${provider}`);
-    const state = `${provider}_${Date.now()}`;
-    this.state.set(provider, state);
-    return `${info.authUrl}?client_id=${config.clientId}&redirect_uri=${config.redirectUri}&scope=${info.scopes.join(' ')}&state=${state}`;
-  }
-  isConnected(provider) { const t = this.tokens.get(provider); return !(!t || (t.expiresAt && Date.now() >= t.expiresAt)); }
-  getConnectedProviders() { return Array.from(this.tokens.keys()).filter(p => this.isConnected(p)); }
-  disconnect(provider) { this.tokens.delete(provider); this.state.delete(provider); }
+    configs;
+    tokens;
+    state; // CSRF state
+    constructor() {
+        this.configs = new Map();
+        this.tokens = new Map();
+        this.state = new Map();
+    }
+    /**
+     * Configure an OAuth provider
+     */
+    configure(provider, config) {
+        this.configs.set(provider, config);
+    }
+    /**
+     * Generate authorization URL for a provider
+     */
+    getAuthUrl(provider, state) {
+        const config = this.configs.get(provider);
+        const providerInfo = exports.OAUTH_PROVIDERS[provider];
+        if (!config || !providerInfo) {
+            throw new Error(`Unknown provider: ${provider}`);
+        }
+        // Generate CSRF state
+        const csrfState = state || this.generateState(provider);
+        this.state.set(provider, csrfState);
+        const params = new URLSearchParams({
+            client_id: config.clientId,
+            redirect_uri: config.redirectUri,
+            scope: providerInfo.scopes.join(' '),
+            state: csrfState,
+            response_type: 'code'
+        });
+        return `${providerInfo.authUrl}?${params.toString()}`;
+    }
+    /**
+     * Handle OAuth callback and exchange code for tokens
+     */
+    async handleCallback(provider, code, state) {
+        const config = this.configs.get(provider);
+        const providerInfo = exports.OAUTH_PROVIDERS[provider];
+        if (!config || !providerInfo) {
+            throw new Error(`Unknown provider: ${provider}`);
+        }
+        // Validate state
+        const savedState = this.state.get(provider);
+        if (savedState && savedState !== state) {
+            throw new Error('Invalid OAuth state - CSRF mismatch');
+        }
+        // Exchange code for tokens
+        const response = await fetch(providerInfo.tokenUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                client_id: config.clientId,
+                client_secret: config.clientSecret,
+                code,
+                redirect_uri: config.redirectUri,
+                grant_type: 'authorization_code'
+            })
+        });
+        if (!response.ok) {
+            throw new Error(`Token exchange failed: ${response.statusText}`);
+        }
+        const tokens = await response.json();
+        // Store tokens with expiration
+        const tokensWithExpiry = {
+            accessToken: tokens.access_token,
+            refreshToken: tokens.refresh_token,
+            expiresAt: tokens.expires_in ? Date.now() + tokens.expires_in * 1000 : 0,
+            tokenType: tokens.token_type || 'Bearer'
+        };
+        this.tokens.set(provider, tokensWithExpiry);
+        return tokensWithExpiry;
+    }
+    /**
+     * Get valid access token (refresh if needed)
+     */
+    async getAccessToken(provider) {
+        const tokens = this.tokens.get(provider);
+        if (!tokens) {
+            throw new Error(`No tokens for provider: ${provider}`);
+        }
+        // Check if expired
+        if (tokens.expiresAt && Date.now() >= tokens.expiresAt - 60000) {
+            if (tokens.refreshToken) {
+                await this.refreshToken(provider, tokens.refreshToken);
+            }
+            else {
+                throw new Error(`Token expired for ${provider} and no refresh token available`);
+            }
+        }
+        return this.tokens.get(provider).accessToken;
+    }
+    /**
+     * Refresh access token
+     */
+    async refreshToken(provider, refreshToken) {
+        const config = this.configs.get(provider);
+        const providerInfo = exports.OAUTH_PROVIDERS[provider];
+        if (!config || !providerInfo) {
+            throw new Error(`Unknown provider: ${provider}`);
+        }
+        const response = await fetch(providerInfo.tokenUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                client_id: config.clientId,
+                client_secret: config.clientSecret,
+                refresh_token: refreshToken,
+                grant_type: 'refresh_token'
+            })
+        });
+        if (!response.ok) {
+            throw new Error(`Token refresh failed: ${response.statusText}`);
+        }
+        const tokens = await response.json();
+        this.tokens.set(provider, {
+            accessToken: tokens.accessToken,
+            refreshToken: tokens.refreshToken || refreshToken,
+            expiresAt: tokens.expires_in ? Date.now() + tokens.expires_in * 1000 : 0,
+            tokenType: tokens.tokenType || 'Bearer'
+        });
+    }
+    /**
+     * Make authenticated API request
+     */
+    async apiRequest(provider, endpoint, options = {}) {
+        const token = await this.getAccessToken(provider);
+        const providerInfo = exports.OAUTH_PROVIDERS[provider];
+        if (!providerInfo) {
+            throw new Error(`Unknown provider: ${provider}`);
+        }
+        const response = await fetch(`${providerInfo.baseUrl}${endpoint}`, {
+            ...options,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+        if (!response.ok) {
+            throw new Error(`API request failed: ${response.statusText}`);
+        }
+        return response.json();
+    }
+    /**
+     * Check if provider is connected
+     */
+    isConnected(provider) {
+        const tokens = this.tokens.get(provider);
+        if (!tokens)
+            return false;
+        if (tokens.expiresAt && Date.now() >= tokens.expiresAt)
+            return false;
+        return true;
+    }
+    /**
+     * Get connected providers
+     */
+    getConnectedProviders() {
+        return Array.from(this.tokens.keys()).filter(p => this.isConnected(p));
+    }
+    /**
+     * Disconnect provider
+     */
+    disconnect(provider) {
+        this.tokens.delete(provider);
+        this.state.delete(provider);
+    }
+    generateState(provider) {
+        return `${provider}_${Date.now()}_${Math.random().toString(36).substring(2)}`;
+    }
 }
-
-module.exports = { OAuthManager, OAUTH_PROVIDERS };
+exports.OAuthManager = OAuthManager;
+exports.default = OAuthManager;
+//# sourceMappingURL=oauth.js.map
