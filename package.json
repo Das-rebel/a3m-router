@@ -3,7 +3,7 @@
   "version": "2.0.2",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
-  "description": "\ud83d\udd00 Intelligent LLM routing engine with OpenAI-compatible proxy, LangChain adapter, guardrails, semantic cache, cost analytics, and 40+ providers",
+  "description": "Drop-in OpenAI proxy that routes queries to the cheapest capable model. 39 providers, semantic cache, guardrails. 245% growth in 3 days, zero budget.",
   "main": "dist/index.js",
   "bin": {
     "a3m-router": "dist/cli.js",
