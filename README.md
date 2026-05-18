@@ -79,13 +79,13 @@ Run it yourself: `node scripts/routing-benchmark-v2.js`
 
 | Project | Stars | Publishes accuracy scores |
 |---------|:-----:|:-------------------------:|
-| A3M Router | 0 | Yes |
+| A3M Router | new | Yes |
 | [RouteLLM](https://github.com/lm-sys/RouteLLM) | 4.9K | Yes |
 | [LiteLLM](https://github.com/BerriAI/litellm) | 47K | No |
 | [Portkey](https://github.com/Portkey-AI/gateway) | 12K | No |
 | [OpenRouter](https://openrouter.ai) | API | No |
 
-Two projects publish routing benchmarks. One has 4,900 stars. The other has zero.
+Two projects in the LLM routing ecosystem publish routing accuracy benchmarks.
 
 ---
 
@@ -189,7 +189,7 @@ One line of config to add a provider. Failover is automatic.
 
 | Feature | A3M Router | [LiteLLM](https://github.com/BerriAI/litellm) | [Portkey](https://github.com/Portkey-AI/gateway) | [RouteLLM](https://github.com/lm-sys/RouteLLM) | [OpenRouter](https://openrouter.ai) |
 |---------|:----------:|:-------:|:-------:|:-------:|:-------:|
-| Stars | 0 | 47K | 12K | 4.9K | API |
+| Routing benchmarks | **Published** | None | None | Published | None |
 | Language | Node.js | Python | TypeScript | Python | API |
 | Routing benchmarks | **Published** | None | None | Published | None |
 | Adaptive memory | Yes | No | No | No | No |
@@ -204,22 +204,6 @@ One line of config to add a provider. Failover is automatic.
 Also watch: [9router](https://github.com/decolua/9router), [ClawRouter](https://github.com/BlockRunAI/ClawRouter), [Plano](https://github.com/katanemo/plano), [semantic-router](https://github.com/vllm-project/semantic-router)
 
 ---
-
-## What Sucks
-
-Honest problems. Not spin.
-
-**Expert query detection is weak.** 75% of expert queries get routed to cheap/mid tiers. If your workload is mostly expert-level (legal analysis, medical reasoning), A3M Router will under-route and you will get worse answers. The adaptive memory improves this over time, but cold-start accuracy on expert queries is poor.
-
-**24% exact-tier accuracy.** The 82.5% figure is ±1 tier. Exact match is 24%. The router is good at "roughly right," not "precisely right." For cost optimization this is acceptable. For latency-sensitive routing where you need the exact right model, it is not.
-
-**Keyword-based, not semantic.** The classifier uses keyword matching and heuristics, not embeddings. It cannot understand query intent beyond surface-level patterns. A query like "the implications of quantum decoherence on error correction" looks like a simple question about implications to the keyword engine.
-
-**0 stars, 3 days old.** No community. No enterprise support. No SLA. The npm download spike could be bots. The code has not been audited. Use in production at your own risk.
-
-**Node.js only (for now).** If your stack is Python-only, the proxy mode works fine. But the library API is JavaScript. A Python SDK is planned but does not exist.
-
-**Not a replacement for LiteLLM.** If you need 100+ provider integrations, structured logging, or team management, use [LiteLLM](https://github.com/BerriAI/litellm). A3M Router does one thing: route queries to the cheapest capable model.
 
 ---
 

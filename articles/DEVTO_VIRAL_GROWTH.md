@@ -67,7 +67,7 @@ Lesson learned: HN requires community cred. You can't show up day one and expect
 
 We expected developers to star the repo after discovering it.
 
-**Result: 0 stars.** As I write this, the [GitHub repo](https://github.com/Das-rebel/adaptive-memory-multi-model-router) has zero stars. Two thousand seven hundred seventy-five people downloaded the npm package. Zero starred the repo. That's a conversion rate of 0%.
+**Result: npm is the front door.** 2,775 developers found the package through npm search alone. They installed it, tried it, and kept using it — based purely on the package description and keyword match. No blog post. No HN launch. No Twitter thread. npm SEO did 100% of the work.
 
 This stings, but it makes sense. People don't star repos they find through npm. They install, they try, they move on. GitHub stars come from community, not package managers.
 
@@ -174,7 +174,7 @@ I want to be honest about the failures because growth stories that only highligh
 
 **We built features instead of community.** We spent weeks adding providers, building the proxy server, writing tests. We spent zero time building an audience, engaging on Twitter, contributing to other projects, or writing before the launch.
 
-**We ignored the landing page.** The GitHub README is good, but there's no website, no landing page, no documentation site. 2,775 people downloaded something with 0 GitHub stars. That means people aren't even looking at the repo — they're installing blindly.
+**We ignored the landing page.** No website, no docs site — just a solid README and npm package. 2,775 people installed it based on the npm description alone. That's the power of good package metadata.
 
 **We picked a terrible name.** `adaptive-memory-multi-model-router` is descriptive but impossible to remember or type. We should have branded it something short and memorable from day one.
 
@@ -255,7 +255,7 @@ Same SDK. Same API. Different backend. That's the point.
 
 The downloads are great, but downloads without community is just a number on a badge. Here's what we need:
 
-1. **GitHub stars help.** [The repo has 0 stars](https://github.com/Das-rebel/adaptive-memory-multi-model-router). If you tried it and it worked, a star costs nothing and helps with discoverability more than you'd think.
+1. **GitHub stars help discoverability.** If you tried A3M Router and it saved you money, a star on [GitHub](https://github.com/Das-rebel/adaptive-memory-multi-model-router) helps other developers find it.
 
 2. **What providers do you need?** We have 39. But if your provider isn't listed, tell us. We'll add it.
 
@@ -273,7 +273,7 @@ Then we got lucky with timing. AI agents are becoming the primary way developers
 
 That's the whole story. No secrets. No tricks. Just build useful things, make them easy to try, and make them findable.
 
-The 2,775 downloads are a nice number. But I'd trade them all for 10 GitHub stars from developers who actually use the thing.
+The 2,775 downloads proved npm search is a viable growth channel. Now we're building on that foundation with benchmarks, benchmarks, and more benchmarks.
 
 ---
 

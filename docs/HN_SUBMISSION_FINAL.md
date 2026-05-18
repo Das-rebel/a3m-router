@@ -123,7 +123,7 @@ npm stats are public: https://api.npmjs.org/downloads/range/2026-05-15:2026-05-1
 ### "Why should I trust a 3-day-old project?"
 
 ```
-You shouldn't fully trust it. It's 3 days old.
+We recommend testing in dev/staging first.
 
 The honest pitch: try the routing logic (`npx a3m-router route "query"`), look at the source (it's MIT, ~3MB, auditable), run the benchmark (`npx a3m-router benchmark`). Don't put it in production yet.
 
