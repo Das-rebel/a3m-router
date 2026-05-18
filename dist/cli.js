@@ -54,8 +54,41 @@ function formatRoute(result) {
   }
   if (result.reasoning) {
     console.log('  Reason:    ' + result.reasoning);
+      showStarPrompt();
   }
   console.log('');
+}
+
+
+// ============================================================
+// STAR PROMPT (shown once per user)
+// ============================================================
+function showStarPrompt() {
+  const fs = require('fs');
+  const path = require('path');
+  const home = process.env.HOME || process.env.USERPROFILE || '/tmp';
+  const marker = path.join(home, '.a3m-router', '.star-prompt-shown');
+  
+  try {
+    // Only show once
+    if (fs.existsSync(marker)) return;
+    
+    // Create directory if needed
+    const dir = path.dirname(marker);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    
+    console.log('');
+    console.log('  \x1b[2m── ────────────────────────────────────────\x1b[0m');
+    console.log('  \x1b[2m⭐  Found this useful? Star us on GitHub:\x1b[0m');
+    console.log('  \x1b[1m\x1b[36m   https://github.com/Das-rebel/adaptive-memory-multi-model-router\x1b[0m');
+    console.log('  \x1b[2m── ────────────────────────────────────────\x1b[0m');
+    console.log('');
+    
+    // Mark as shown
+    fs.writeFileSync(marker, new Date().toISOString());
+  } catch (e) {
+    // Silently fail - don't break CLI for this
+  }
 }
 
 async function callProvider(providerId, model, prompt, maxTokens) {
