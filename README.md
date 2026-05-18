@@ -1,8 +1,14 @@
 # A3M Router 🔀
 
-**99.5% ±1 tier routing accuracy. Zero ML. Zero GPU. TypeScript SDK · Python SDK · CLI · REST API.**
+**Intelligent LLM routing with adaptive memory — 99.5% accuracy, zero ML, zero GPU.**
 
-Drop-in OpenAI-compatible proxy that routes queries to the cheapest capable model. 40 providers including Groq, Cerebras, Ollama, DeepSeek, Mistral, OpenAI, Anthropic.
+Drop-in OpenAI-compatible proxy. Routes queries across 40 providers (Groq, Cerebras, Ollama, DeepSeek, Mistral, OpenAI, Anthropic). Available as TypeScript SDK, Python SDK, CLI, and REST API.
+
+### Three Things No Other Router Does Together
+
+| 🧠 Adaptive Memory | 🎯 Multi-Signal Routing | 🛡️ Built-in Protections |
+|:---|:---|:---|
+| Learns from your usage patterns over time. Remembers which models work best for your queries. Gets smarter without retraining. | Domain detection (legal, medical, finance, security), complexity scoring, action verb intensity, qualifier analysis, multi-step detection — all without a single ML model. | Semantic cache (skip duplicate LLM calls), security guardrails (PII, prompt injection), cost analytics (track spend across 40 providers), circuit breaker (auto-failover). |
 
 [![npm version](https://badge.fury.io/js/adaptive-memory-multi-model-router.svg)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm downloads](https://img.shields.io/npm/dw/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
