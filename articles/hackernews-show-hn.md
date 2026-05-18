@@ -1,8 +1,13 @@
-Show HN: A3M Router – LLM routing with learned cost-quality tradeoffs
+Show HN: A3M Router – We built an LLM router. Nobody cared for 2 days. Then word-of-mouth kicked in.
 
-After hitting 872 weekly downloads on npm, I wanted to share what we've built:
+Day 1: 552 downloads. Day 2: 320 downloads. We thought it was dead.
+Day 3: 1,903 downloads. 245% growth from Day 1. Zero marketing budget.
 
-A3M Router (adaptive-memory-multi-model-router) is a production-ready LLM routing library that actually optimizes for cost vs quality based on your query.
+2,775 downloads in 3 days. All organic.
+
+I'm sharing what we built and what we learned from the launch curve.
+
+A3M Router (adaptive-memory-multi-model-router) is a production-ready LLM routing library that optimizes for cost vs quality based on your query.
 
 The Problem
 -----------
@@ -34,6 +39,16 @@ routeQuery("Explain quantum entanglement");
 // → mistral/mistral-large (reasoning strength)
 ```
 
+The Launch Story
+----------------
+- Day 1: 552 downloads. Modest. A few early adopters found it.
+- Day 2: 320 downloads. We thought the launch flopped. Fewer than Day 1.
+- Day 3: 1,903 downloads. 6x Day 2. 245% growth from Day 1.
+
+No blog post. No HN submission. No Twitter thread. No Product Hunt. Just developers telling other developers.
+
+Lesson: good tooling spreads on its own timeline. The Day 2 dip was demoralizing, but Day 3 proved that word-of-mouth compounds — it just takes a beat.
+
 Key Features
 ------------
 • 12 providers: Groq, Cerebras, Mistral, OpenAI, Anthropic, Google, DeepSeek + CLI/local
@@ -53,8 +68,10 @@ npx a3m-router benchmark     # Compare all providers
 
 Performance
 -----------
-• 320 downloads/day average
-• 5.7x more downloads than similar packages
+• 2,775 downloads in 3 days
+• 1,903 downloads on Day 3 alone
+• 245% growth from Day 1 to Day 3
+• Zero marketing budget
 • Zero dependencies (except nanoid)
 • 3.0 MB unpacked
 

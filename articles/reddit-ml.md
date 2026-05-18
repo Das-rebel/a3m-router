@@ -1,8 +1,14 @@
-[P] A3M Router: Production-ready LLM routing with learned cost-quality optimization (872 weekly downloads)
+[P] A3M Router: Production-ready LLM routing — 2,775 downloads in 3 days, 245% growth, zero marketing
 
 Hi r/MachineLearning,
 
-We've been working on an LLM routing library that's now hitting 872 weekly downloads on npm, and I wanted to share the technical approach for feedback.
+We've been working on an LLM routing library that just hit 2,775 downloads in 3 days — all organic, zero marketing budget. I wanted to share the technical approach for feedback.
+
+**Launch numbers:**
+- Day 1: 552 downloads
+- Day 2: 320 downloads (we thought it flopped)
+- Day 3: 1,903 downloads (245% growth from Day 1)
+- Total: 2,775 downloads in 3 days
 
 **What it does:**
 A3M Router intelligently routes LLM queries to the optimal provider based on query characteristics, cost constraints, and quality requirements.
@@ -65,7 +71,8 @@ Users can add their own providers without code changes:
 - Batch processing with concurrency control
 
 **Performance:**
-- 320 downloads/day average
+- 2,775 downloads in 3 days
+- 1,903 downloads on Day 3 alone (245% growth from Day 1)
 - 33 comprehensive tests
 - 139 npm keywords (max visibility)
 - 116 integrations (GitHub, Slack, Telegram, etc.)

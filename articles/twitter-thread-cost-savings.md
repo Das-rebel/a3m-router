@@ -1,9 +1,12 @@
-# Twitter Thread: How We Cut LLM API Costs by 70% with Smart Routing 🧵
+# Twitter Thread: The LLM Router Nobody Cared About — Until Day 3 🧵
 
 ## Tweet 1/10 - Hook
-Our OpenAI bill hit $2,400 in one month. We built an intelligent router that cut costs by 70% while maintaining quality.
+Day 1: 552 downloads. Day 2: 320 downloads. We thought nobody cared.
+Day 3: 1,903 downloads. 245% growth. Zero marketing budget.
 
-Here's how A3M Router works 🧵👇
+2,775 downloads in 3 days for our LLM router.
+
+Here's the story + how A3M Router works 🧵👇
 
 ## Tweet 2/10 - The Problem
 Most apps use GPT-4 for EVERYTHING:
@@ -74,13 +77,14 @@ npx a3m-router route "Your query"
 
 That's it. No config needed.
 
-## Tweet 9/10 - Results
-📊 872+ weekly downloads
+## Tweet 9/10 - Growth Numbers
+📊 2,775 downloads in 3 days
+📈 245% growth Day 1 → Day 3
 🧪 33 tests passing
 🔌 116 integrations
-🏷️ 156 keywords
 
-Growing fast because it WORKS
+Day 1: 552. Day 2: 320. Day 3: 1,903.
+Word-of-mouth works. Zero marketing spend.
 
 ## Tweet 10/10 - CTA
 Try it today:

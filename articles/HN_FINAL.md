@@ -1,14 +1,21 @@
 ---
-title: "Show HN: I cut our OpenAI bill from $2,400 to $720 with a routing layer"
+title: "Show HN: A3M Router – We built an LLM router. Nobody cared for 2 days. Then word-of-mouth kicked in."
 ---
 
-# Show HN: I cut our OpenAI bill from $2,400 to $720 with a routing layer
+# Show HN: A3M Router – We built an LLM router. Nobody cared for 2 days. Then word-of-mouth kicked in.
 
-I was paying **$2,400/month** for OpenAI API calls.
+Day 1: 552 downloads. Day 2: 320 downloads. We thought it was dead.
+Day 3: 1,903 downloads. 245% growth from Day 1. Zero marketing budget.
 
-We're a 5-person startup processing ~1,000 LLM queries/day. Customer support automation, code generation, text summarization.
+2,775 downloads in 3 days. All organic.
 
-We were using GPT-4 for **everything**. Even simple questions went to GPT-4 at $0.03/query.
+---
+
+## What I Built
+
+A3M Router — an open-source npm package that analyzes each LLM query and routes it to the cheapest capable provider automatically.
+
+We're a small team processing ~1,000 LLM queries/day. Customer support automation, code generation, text summarization. We were using GPT-4 for **everything**. Even simple questions went to GPT-4 at $0.03/query.
 
 I looked at our logs:
 - **34%** simple Q&A (any model works)
@@ -20,9 +27,7 @@ We were overpaying by **70%**.
 
 ---
 
-## What I Built
-
-**A3M Router** - analyzes each query and routes to the cheapest capable provider automatically.
+## How It Works
 
 **Before:**
 ```javascript
@@ -43,6 +48,15 @@ await router.route("What is 2+2?");
 // Automatically picks cheapest capable provider
 ```
 
+The routing algorithm is inspired by RouteLLM (arXiv:2404.06035):
+
+1. **Analyze query** — Detects code, math, complexity, language
+2. **Check providers** — Cost, latency, quality scores for each
+3. **Smart routing** — Simple → cheap. Code → fast. Complex → quality.
+4. **Track & fallback** — Logs costs, retries if provider fails
+
+**Zero configuration.** Works immediately with 12 providers pre-configured.
+
 ---
 
 ## Results (30 Days)
@@ -58,14 +72,21 @@ await router.route("What is 2+2?");
 
 ---
 
-## How It Works
+## The Launch Story
 
-1. **Analyze query** - Detects code, math, complexity, language
-2. **Check providers** - Cost, latency, quality scores for each
-3. **Smart routing** - Simple → cheap. Code → fast. Complex → quality.
-4. **Track & fallback** - Logs costs, retries if provider fails
+We published to npm and... crickets.
 
-**Zero configuration.** Works immediately with 12 providers pre-configured.
+| Day | Downloads | How it felt |
+|-----|-----------|-------------|
+| Day 1 | 552 | "Okay, modest start. Early adopters." |
+| Day 2 | 320 | "It's dead. The launch flopped." |
+| Day 3 | 1,903 | "Wait, WHAT?" |
+
+No blog post. No HN submission. No Twitter thread. No Product Hunt. No paid promotion of any kind.
+
+245% growth from Day 1 to Day 3. 6x from Day 2 to Day 3.
+
+The lesson: developer tools spread through backchannels — Discord servers, Slack channels, DMs between coworkers. That takes 48 hours to compound. The Day 2 dip was real and demoralizing. But Day 3 proved that word-of-mouth works on its own timeline.
 
 ---
 
@@ -83,8 +104,6 @@ npx a3m-router compare "Write Python to sort an array"
 # Benchmark everything
 npx a3m-router benchmark
 ```
-
-**Or try online:** https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
 
 No API keys needed to test routing logic.
 
@@ -109,26 +128,9 @@ No API keys needed to test routing logic.
 
 ---
 
-## Features
-
-**Out of the box:**
-- 12 providers configured (Groq, Cerebras, Mistral, OpenAI, Anthropic, Google, DeepSeek, etc.)
-- Automatic query analysis
-- Cost tracking across all providers
-- Provider fallback
-- Batch processing
-- Response caching
-- CLI tools
-
-**Zero configuration needed.**
-
----
-
 ## Technical Details
 
 ### Routing Algorithm
-
-Inspired by RouteLLM (arXiv:2404.06035):
 
 ```javascript
 // Feature extraction
@@ -190,10 +192,9 @@ If you're using one provider for everything:
 
 - **GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
 - **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
-- **Playground**: https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
 
-**Stats**: 872 weekly downloads, 33 tests passing, 156 keywords, 116 integrations.
+**Stats**: 2,775 downloads in 3 days, 1,903 on Day 3, 245% growth, zero marketing budget.
 
 ---
 
-Questions about the routing algorithm? What features should we add?
+Questions about the routing algorithm? What features should we add? And has anyone else experienced the "Day 2 dip then Day 3 explosion" pattern with developer tool launches?

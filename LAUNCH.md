@@ -16,12 +16,15 @@
 
 **Title**: 
 ```
-Show HN: A3M Router – LLM routing with learned cost-quality tradeoffs (872 weekly downloads)
+Show HN: A3M Router – We built an LLM router. Nobody cared for 2 days. Then word-of-mouth kicked in.
 ```
 
 **Text** (copy from `articles/hackernews-show-hn.md`):
 ```
-After hitting 872 weekly downloads on npm, I wanted to share what we've built:
+Day 1: 552 downloads. Day 2: 320 downloads. We thought it was dead.
+Day 3: 1,903 downloads. 245% growth from Day 1. Zero marketing budget.
+
+2,775 downloads in 3 days. All organic.
 
 A3M Router (adaptive-memory-multi-model-router) is a production-ready LLM routing library that actually optimizes for cost vs quality based on your query.
 
@@ -69,8 +72,8 @@ npx a3m-router benchmark     # Compare all providers
 
 Performance
 -----------
-• 320 downloads/day average
-• 5.7x more downloads than similar packages
+• 2,775 downloads in 3 days
+• 1,903 downloads on Day 3 alone (245% growth from Day 1)
 • Zero dependencies (except nanoid)
 • 3.0 MB unpacked
 
@@ -92,11 +95,12 @@ GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
 
 **Tweet 1/10**:
 ```
-Our OpenAI bill hit $2,400 in one month. 
+Day 1: 552 downloads. Day 2: 320 downloads. We thought nobody cared.
+Day 3: 1,903 downloads. 245% growth. Zero marketing budget.
 
-We built an intelligent router that cut costs by 70% while maintaining quality.
+2,775 downloads in 3 days for our LLM router.
 
-Here's how A3M Router works 🧵👇
+Here's the story + how A3M Router works 🧵👇
 ```
 
 **Tweet 2/10**:
@@ -186,12 +190,13 @@ That's it. No config needed.
 
 **Tweet 9/10**:
 ```
-📊 872+ weekly downloads
+📊 2,775 downloads in 3 days
+📈 245% growth Day 1 → Day 3
 🧪 33 tests passing
-🏷️ 156 keywords
 🔌 116 integrations
 
-Growing fast because it WORKS
+Day 1: 552. Day 2: 320. Day 3: 1,903.
+Word-of-mouth works. Zero marketing spend.
 ```
 
 **Tweet 10/10**:
@@ -217,7 +222,7 @@ Questions? Drop them below! 👇
 ### 3. Dev.to (PRIORITY 2)
 **URL**: https://dev.to/new
 
-**Title**: "Building an LLM Router That Actually Works: Lessons from 872 Weekly Downloads"
+**Title**: "Building an LLM Router That Actually Works: 2,775 Downloads in 3 Days, Zero Marketing Budget"
 
 **Content**: Copy from `articles/devto-llm-routing.md`
 
@@ -230,7 +235,7 @@ Questions? Drop them below! 👇
 ### 4. Reddit r/MachineLearning (PRIORITY 2)
 **URL**: https://www.reddit.com/r/MachineLearning/submit
 
-**Title**: "[P] A3M Router: Production-ready LLM routing with learned cost-quality optimization (872 weekly downloads)"
+**Title**: "[P] A3M Router: Production-ready LLM routing — 2,775 downloads in 3 days, 245% growth, zero marketing"
 
 **Content**: Copy from `articles/reddit-ml.md`
 
@@ -271,7 +276,9 @@ console.log(result.estimated_cost);  // $0.0004
 **Results**
 - 70% cost reduction
 - 2x speed improvement
-- 872+ weekly downloads
+- 2,775 downloads in 3 days
+- 1,903 downloads on Day 3 alone (245% growth from Day 1)
+- Zero marketing budget
 - 33 tests passing
 
 **Try it**
@@ -301,7 +308,7 @@ Would love your feedback!
 ### 7. Medium (PRIORITY 3)
 **URL**: https://medium.com/new-story
 
-**Title**: "Building a Production-Ready LLM Router: Lessons from 872 Weekly Downloads"
+**Title**: "Building a Production-Ready LLM Router: 2,775 Downloads in 3 Days on Zero Marketing"
 
 **Content**: Copy from `articles/medium-building-llm-router.md`
 
@@ -312,7 +319,7 @@ Would love your feedback!
 ### 8. IndieHackers (PRIORITY 3)
 **URL**: https://www.indiehackers.com/post/new
 
-**Title**: "Show IH: A3M Router - Cut LLM API costs by 70% with intelligent routing"
+**Title**: "Show IH: A3M Router - Cut LLM API costs by 70% with intelligent routing (2,775 downloads in 3 days)"
 
 **Content**:
 ```
@@ -334,7 +341,10 @@ Built a learned routing system that:
 - 70% cost reduction ($2,400 → $720/month)
 - 2x speed improvement
 - 94% quality retention
-- 872+ weekly downloads on npm
+- 2,775 downloads in 3 days on npm
+- 1,903 downloads on Day 3 alone
+- 245% growth from Day 1 to Day 3
+- Zero marketing budget — all word-of-mouth
 
 **Tech Stack**
 - Node.js/TypeScript
@@ -386,10 +396,11 @@ npx a3m-router route "Your query"
 ```
 
 **Stats:**
-📈 872+ weekly downloads
+📈 2,775 downloads in 3 days
+📈 1,903 downloads on Day 3 alone
+📈 245% growth from Day 1 to Day 3
 🧪 33 tests passing
 🔌 116 integrations
-🏷️ 156 keywords
 
 GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
 ```
@@ -550,7 +561,10 @@ asciinema upload demo.cast
 ```
 🚀 A3M Router is LIVE!
 
-After 18 versions and 872 weekly downloads, we're officially launching v1.9.5!
+2,775 downloads in 3 days. Zero marketing budget.
+
+Day 1: 552 downloads. Day 2: 320. Day 3: 1,903.
+That's 245% growth. All word-of-mouth.
 
 ✨ Intelligent LLM routing
 💰 50-80% cost savings
