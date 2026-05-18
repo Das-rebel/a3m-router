@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "\ud83d\udd00 Intelligent LLM routing engine with OpenAI-compatible proxy, LangChain adapter, guardrails, semantic cache, cost analytics, and 40+ providers",

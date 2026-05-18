@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <linearGradient id="barGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#1a7f37"/>
+      <stop offset="100%" stop-color="#39d353"/>
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="400" rx="12" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="400" y="42" text-anchor="middle" fill="#e6edf3" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700">A3M Router — 2,775 Downloads in 3 Days</text>
+
+  <!-- Chart area: x=100..720, y=70..340 -->
+  <!-- Y-axis gridlines and labels -->
+  <!-- Max value ~2000, grid at 0, 500, 1000, 1500, 2000 -->
+  <g stroke="#21262d" stroke-width="1" stroke-dasharray="4,4">
+    <line x1="100" y1="340" x2="720" y2="340"/>
+    <line x1="100" y1="272.5" x2="720" y2="272.5"/>
+    <line x1="100" y1="205" x2="720" y2="205"/>
+    <line x1="100" y1="137.5" x2="720" y2="137.5"/>
+    <line x1="100" y1="70" x2="720" y2="70"/>
+  </g>
+
+  <!-- Y-axis labels -->
+  <g fill="#484f58" font-family="system-ui, -apple-system, sans-serif" font-size="12" text-anchor="end">
+    <text x="90" y="344">0</text>
+    <text x="90" y="277">500</text>
+    <text x="90" y="209">1,000</text>
+    <text x="90" y="142">1,500</text>
+    <text x="90" y="74">2,000</text>
+  </g>
+
+  <!-- Axis lines -->
+  <line x1="100" y1="70" x2="100" y2="340" stroke="#30363d" stroke-width="1.5"/>
+  <line x1="100" y1="340" x2="720" y2="340" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- Bar 1: May 15 = 552 -->
+  <!-- Height: 552/2000 * 270 = 74.52, y = 340 - 74.52 = 265.48 -->
+  <rect x="170" y="265.5" width="120" height="74.5" rx="4" fill="url(#barGrad)" opacity="0.85"/>
+  <rect x="170" y="265.5" width="120" height="3" rx="1.5" fill="#39d353" filter="url(#glow)"/>
+  <text x="230" y="255" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">552</text>
+  <text x="230" y="362" text-anchor="middle" fill="#8b949e" font-family="system-ui, -apple-system, sans-serif" font-size="13">May 15</text>
+
+  <!-- Bar 2: May 16 = 320 -->
+  <!-- Height: 320/2000 * 270 = 43.2, y = 340 - 43.2 = 296.8 -->
+  <rect x="340" y="296.8" width="120" height="43.2" rx="4" fill="url(#barGrad)" opacity="0.85"/>
+  <rect x="340" y="296.8" width="120" height="3" rx="1.5" fill="#39d353" filter="url(#glow)"/>
+  <text x="400" y="287" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">320</text>
+  <text x="400" y="362" text-anchor="middle" fill="#8b949e" font-family="system-ui, -apple-system, sans-serif" font-size="13">May 16</text>
+
+  <!-- Bar 3: May 17 = 1,903 -->
+  <!-- Height: 1903/2000 * 270 = 256.9, y = 340 - 256.9 = 83.1 -->
+  <rect x="510" y="83.1" width="120" height="256.9" rx="4" fill="url(#barGrad)" opacity="0.95"/>
+  <rect x="510" y="83.1" width="120" height="3" rx="1.5" fill="#39d353" filter="url(#glow)"/>
+  <text x="570" y="73" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">1,903</text>
+  <text x="570" y="362" text-anchor="middle" fill="#8b949e" font-family="system-ui, -apple-system, sans-serif" font-size="13">May 17</text>
+
+  <!-- Growth arrow from bar 1 top to bar 3 top -->
+  <path d="M295 265 Q410 100 505 90" fill="none" stroke="#f0883e" stroke-width="2" stroke-dasharray="6,3" opacity="0.7"/>
+  <polygon points="505,85 510,95 498,93" fill="#f0883e" opacity="0.7"/>
+
+  <!-- Total badge -->
+  <rect x="600" y="30" width="150" height="28" rx="14" fill="#1a7f37" opacity="0.3"/>
+  <rect x="600" y="30" width="150" height="28" rx="14" fill="none" stroke="#39d353" stroke-width="1" opacity="0.5"/>
+  <text x="675" y="49" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600">+245% day-over-day</text>
+
+  <!-- Footer -->
+  <text x="400" y="392" text-anchor="middle" fill="#484f58" font-family="system-ui, -apple-system, sans-serif" font-size="11">npmjs.com/package/@anthropic-ai/a3m-router · data from npm download counts</text>
+</svg>

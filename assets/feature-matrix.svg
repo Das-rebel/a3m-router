@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" rx="12" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" fill="#e6edf3" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700">A3M Router v2.0 — Closing the Gap</text>
+  <text x="400" y="56" text-anchor="middle" fill="#484f58" font-family="system-ui, -apple-system, sans-serif" font-size="12">Feature comparison: open-source router vs enterprise platforms</text>
+
+  <!-- Column headers -->
+  <!-- Columns: Feature(180px), A3M v1(170px), A3M v2(170px), Portkey(170px), Price(110px) -->
+  <!-- x positions: 30, 220, 390, 560, 690 -->
+  <g font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">
+    <rect x="20" y="68" width="760" height="36" rx="6" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+    <text x="110" y="92" text-anchor="middle" fill="#8b949e">Feature</text>
+    <text x="290" y="92" text-anchor="middle" fill="#484f58">A3M v1</text>
+    <text x="460" y="92" text-anchor="middle" fill="#39d353">A3M v2</text>
+    <text x="620" y="92" text-anchor="middle" fill="#f0883e">Portkey</text>
+    <text x="740" y="92" text-anchor="middle" fill="#8b949e">Price</text>
+  </g>
+
+  <!-- Row definitions (y starting at 115, spacing 58px) -->
+  <!-- Alternating row backgrounds -->
+
+  <!-- Row 1: Proxy Server -->
+  <rect x="20" y="108" width="760" height="52" rx="0" fill="#0d1117" opacity="0.5"/>
+  <text x="110" y="139" text-anchor="middle" fill="#c9d1d9" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500">Proxy Server</text>
+  <!-- A3M v1: YES -->
+  <text x="290" y="139" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">&#x2713;</text>
+  <!-- A3M v2: YES -->
+  <text x="460" y="139" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">&#x2713;</text>
+  <!-- Portkey: YES -->
+  <text x="620" y="139" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">&#x2713;</text>
+  <!-- Price: Free vs Free vs Paid -->
+  <text x="740" y="139" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">Free</text>
+
+  <!-- Row 2: Dashboard -->
+  <rect x="20" y="160" width="760" height="52" rx="0" fill="#161b22" opacity="0.3"/>
+  <text x="110" y="191" text-anchor="middle" fill="#c9d1d9" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500">Dashboard</text>
+  <!-- A3M v1: NO -->
+  <text x="290" y="191" text-anchor="middle" fill="#f85149" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="700">&#x2717;</text>
+  <!-- A3M v2: YES -->
+  <text x="460" y="191" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">&#x2713;</text>
+  <!-- Portkey: YES -->
+  <text x="620" y="191" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">&#x2713;</text>
+  <text x="740" y="191" text-anchor="middle" fill="#f0883e" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">$99/mo</text>
+
+  <!-- Row 3: LangChain Support -->
+  <rect x="20" y="212" width="760" height="52" rx="0" fill="#0d1117" opacity="0.5"/>
+  <text x="110" y="243" text-anchor="middle" fill="#c9d1d9" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500">LangChain</text>
+  <!-- A3M v1: NO -->
+  <text x="290" y="243" text-anchor="middle" fill="#f85149" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="700">&#x2717;</text>
+  <!-- A3M v2: YES -->
+  <text x="460" y="243" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">&#x2713;</text>
+  <!-- Portkey: YES -->
+  <text x="620" y="243" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">&#x2713;</text>
+  <text x="740" y="243" text-anchor="middle" fill="#f0883e" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">$99/mo</text>
+
+  <!-- Row 4: Guardrails -->
+  <rect x="20" y="264" width="760" height="52" rx="0" fill="#161b22" opacity="0.3"/>
+  <text x="110" y="295" text-anchor="middle" fill="#c9d1d9" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500">Guardrails</text>
+  <!-- A3M v1: NO -->
+  <text x="290" y="295" text-anchor="middle" fill="#f85149" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="700">&#x2717;</text>
+  <!-- A3M v2: YES -->
+  <text x="460" y="295" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">&#x2713;</text>
+  <!-- Portkey: YES -->
+  <text x="620" y="295" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">&#x2713;</text>
+  <text x="740" y="295" text-anchor="middle" fill="#f0883e" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">$49/mo</text>
+
+  <!-- Row 5: Semantic Cache -->
+  <rect x="20" y="316" width="760" height="52" rx="0" fill="#0d1117" opacity="0.5"/>
+  <text x="110" y="347" text-anchor="middle" fill="#c9d1d9" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500">Semantic Cache</text>
+  <!-- A3M v1: NO -->
+  <text x="290" y="347" text-anchor="middle" fill="#f85149" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="700">&#x2717;</text>
+  <!-- A3M v2: YES -->
+  <text x="460" y="347" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">&#x2713;</text>
+  <!-- Portkey: YES -->
+  <text x="620" y="347" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">&#x2713;</text>
+  <text x="740" y="347" text-anchor="middle" fill="#f0883e" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">$49/mo</text>
+
+  <!-- Row 6: Cost Analytics -->
+  <rect x="20" y="368" width="760" height="52" rx="0" fill="#161b22" opacity="0.3"/>
+  <text x="110" y="399" text-anchor="middle" fill="#c9d1d9" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500">Cost Analytics</text>
+  <!-- A3M v1: partial -->
+  <text x="290" y="399" text-anchor="middle" fill="#d29922" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600">Basic</text>
+  <!-- A3M v2: YES -->
+  <text x="460" y="399" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">&#x2713;</text>
+  <!-- Portkey: YES -->
+  <text x="620" y="399" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700">&#x2713;</text>
+  <text x="740" y="399" text-anchor="middle" fill="#f0883e" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">$99/mo</text>
+
+  <!-- Row 7: Providers -->
+  <rect x="20" y="420" width="760" height="52" rx="0" fill="#0d1117" opacity="0.5"/>
+  <text x="110" y="451" text-anchor="middle" fill="#c9d1d9" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="500">Providers</text>
+  <!-- A3M v1: 3 -->
+  <text x="290" y="451" text-anchor="middle" fill="#d29922" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="600">3</text>
+  <!-- A3M v2: 8+ -->
+  <text x="460" y="451" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="700">8+</text>
+  <!-- Portkey: 10+ -->
+  <text x="620" y="451" text-anchor="middle" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="15" font-weight="700">10+</text>
+  <text x="740" y="451" text-anchor="middle" fill="#8b949e" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500">—</text>
+
+  <!-- Divider -->
+  <line x1="20" y1="485" x2="780" y2="485" stroke="#21262d" stroke-width="1"/>
+
+  <!-- Summary row -->
+  <g font-family="system-ui, -apple-system, sans-serif">
+    <text x="290" y="510" text-anchor="middle" fill="#484f58" font-size="28" font-weight="700">1.5/7</text>
+    <text x="290" y="526" text-anchor="middle" fill="#484f58" font-size="10">features</text>
+
+    <text x="460" y="510" text-anchor="middle" fill="#39d353" font-size="28" font-weight="700">7/7</text>
+    <text x="460" y="526" text-anchor="middle" fill="#39d353" font-size="10">features</text>
+
+    <text x="620" y="510" text-anchor="middle" fill="#f0883e" font-size="28" font-weight="700">7/7</text>
+    <text x="620" y="526" text-anchor="middle" fill="#f0883e" font-size="10">features</text>
+
+    <!-- Total cost comparison -->
+    <rect x="220" y="540" width="140" height="24" rx="12" fill="#238636" opacity="0.2" stroke="#39d353" stroke-width="1"/>
+    <text x="290" y="556" text-anchor="middle" fill="#39d353" font-size="12" font-weight="700">$0 / month</text>
+
+    <rect x="390" y="540" width="140" height="24" rx="12" fill="#238636" opacity="0.2" stroke="#39d353" stroke-width="1"/>
+    <text x="460" y="556" text-anchor="middle" fill="#39d353" font-size="12" font-weight="700">$0 / month</text>
+
+    <rect x="545" y="540" width="150" height="24" rx="12" fill="#7c2d12" opacity="0.3" stroke="#f0883e" stroke-width="1"/>
+    <text x="620" y="556" text-anchor="middle" fill="#f0883e" font-size="12" font-weight="700">$49–99 / month</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="400" y="590" text-anchor="middle" fill="#30363d" font-family="system-ui, -apple-system, sans-serif" font-size="11">Same features. Zero cost. Open source. — github.com/anthropics/a3m-router</text>
+</svg>

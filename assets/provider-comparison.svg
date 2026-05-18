@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#161b22"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="glowStrong">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="500" rx="12" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="400" y="38" text-anchor="middle" fill="#e6edf3" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700">Cost per 1M Tokens — Why Routing Matters</text>
+  <text x="400" y="58" text-anchor="middle" fill="#484f58" font-family="system-ui, -apple-system, sans-serif" font-size="13">Input token pricing comparison across providers</text>
+
+  <!-- Chart area: bars from x=150 to x=720 -->
+  <!-- Max value $30, scale: 570px = $30, so 1$ = 19px -->
+  <!-- Row spacing: 48px, starting at y=90 -->
+
+  <!-- Row 1: GPT-4 — $30 → 570px -->
+  <g>
+    <text x="140" y="100" text-anchor="end" fill="#8b949e" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500">GPT-4</text>
+    <rect x="150" y="86" width="570" height="22" rx="4" fill="#da3633" opacity="0.8"/>
+    <rect x="150" y="86" width="570" height="2" rx="1" fill="#f85149" filter="url(#glow)"/>
+    <text x="730" y="102" text-anchor="start" fill="#f85149" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">$30.00</text>
+  </g>
+
+  <!-- Row 2: Anthropic — $15 → 285px -->
+  <g>
+    <text x="140" y="148" text-anchor="end" fill="#8b949e" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500">Anthropic</text>
+    <rect x="150" y="134" width="285" height="22" rx="4" fill="#d29922" opacity="0.8"/>
+    <rect x="150" y="134" width="285" height="2" rx="1" fill="#e3b341" filter="url(#glow)"/>
+    <text x="445" y="150" text-anchor="start" fill="#e3b341" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">$15.00</text>
+  </g>
+
+  <!-- Row 3: Google — $10 → 190px -->
+  <g>
+    <text x="140" y="196" text-anchor="end" fill="#8b949e" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500">Google</text>
+    <rect x="150" y="182" width="190" height="22" rx="4" fill="#bb8009" opacity="0.7"/>
+    <rect x="150" y="182" width="190" height="2" rx="1" fill="#d29922" filter="url(#glow)"/>
+    <text x="350" y="198" text-anchor="start" fill="#d29922" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">$10.00</text>
+  </g>
+
+  <!-- Row 4: GLM-4 — $2.80 → 53.2px -->
+  <g>
+    <text x="140" y="244" text-anchor="end" fill="#8b949e" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500">GLM-4</text>
+    <rect x="150" y="230" width="53.2" height="22" rx="4" fill="#238636" opacity="0.8"/>
+    <rect x="150" y="230" width="53.2" height="2" rx="1" fill="#39d353" filter="url(#glow)"/>
+    <text x="212" y="246" text-anchor="start" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">$2.80</text>
+  </g>
+
+  <!-- Row 5: Mistral — $2.00 → 38px -->
+  <g>
+    <text x="140" y="292" text-anchor="end" fill="#8b949e" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500">Mistral</text>
+    <rect x="150" y="278" width="38" height="22" rx="4" fill="#238636" opacity="0.8"/>
+    <rect x="150" y="278" width="38" height="2" rx="1" fill="#39d353" filter="url(#glow)"/>
+    <text x="197" y="294" text-anchor="start" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">$2.00</text>
+  </g>
+
+  <!-- Row 6: Cerebras — $0.60 → 11.4px -->
+  <g>
+    <text x="140" y="340" text-anchor="end" fill="#8b949e" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500">Cerebras</text>
+    <rect x="150" y="326" width="20" height="22" rx="4" fill="#2ea043" opacity="0.9"/>
+    <rect x="150" y="326" width="20" height="2" rx="1" fill="#56d364" filter="url(#glow)"/>
+    <text x="179" y="342" text-anchor="start" fill="#56d364" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">$0.60</text>
+  </g>
+
+  <!-- Row 7: Groq — $0.59 → 11.21px -->
+  <g>
+    <text x="140" y="388" text-anchor="end" fill="#8b949e" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500">Groq</text>
+    <rect x="150" y="374" width="20" height="22" rx="4" fill="#2ea043" opacity="0.9"/>
+    <rect x="150" y="374" width="20" height="2" rx="1" fill="#56d364" filter="url(#glow)"/>
+    <text x="179" y="390" text-anchor="start" fill="#56d364" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">$0.59</text>
+  </g>
+
+  <!-- Row 8: CommandCode — FREE → special treatment -->
+  <g>
+    <text x="140" y="436" text-anchor="end" fill="#e6edf3" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700">CommandCode</text>
+    <rect x="150" y="422" width="80" height="22" rx="4" fill="#39d353" opacity="0.25"/>
+    <rect x="150" y="422" width="80" height="2" rx="1" fill="#39d353" filter="url(#glowStrong)"/>
+    <text x="240" y="438" text-anchor="start" fill="#39d353" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="800" filter="url(#glow)">FREE</text>
+  </g>
+
+  <!-- Divider line -->
+  <line x1="150" y1="470" x2="720" y2="470" stroke="#21262d" stroke-width="1"/>
+
+  <!-- Savings callout -->
+  <text x="400" y="490" text-anchor="middle" fill="#484f58" font-family="system-ui, -apple-system, sans-serif" font-size="12">50x cost difference between GPT-4 and Groq — intelligent routing saves thousands</text>
+
+  <!-- Vertical scale markers (subtle) -->
+  <g stroke="#21262d" stroke-width="1" stroke-dasharray="2,4" opacity="0.5">
+    <line x1="245" y1="80" x2="245" y2="460"/>  <!-- $5 -->
+    <line x1="340" y1="80" x2="340" y2="460"/>  <!-- $10 -->
+    <line x1="435" y1="80" x2="435" y2="460"/>  <!-- $15 -->
+    <line x1="530" y1="80" x2="530" y2="460"/>  <!-- $20 -->
+    <line x1="625" y1="80" x2="625" y2="460"/>  <!-- $25 -->
+    <line x1="720" y1="80" x2="720" y2="460"/>  <!-- $30 -->
+  </g>
+  <g fill="#30363d" font-family="system-ui, -apple-system, sans-serif" font-size="10" text-anchor="middle">
+    <text x="245" y="75">$5</text>
+    <text x="340" y="75">$10</text>
+    <text x="435" y="75">$15</text>
+    <text x="530" y="75">$20</text>
+    <text x="625" y="75">$25</text>
+    <text x="720" y="75">$30</text>
+  </g>
+</svg>
