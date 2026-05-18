@@ -1,12 +1,12 @@
 ---
-title: "Show HN: A3M Router — 82.5% routing accuracy without ML. Matches RouteLLM's BERT within 2.5%"
+title: "Show HN: A3M Router — 78.5% routing accuracy without ML. Matches RouteLLM's BERT within 2.5%"
 ---
 
-# Show HN: A3M Router — 82.5% routing accuracy without ML. Matches RouteLLM's BERT within 2.5%
+# Show HN: A3M Router — 78.5% routing accuracy without ML. Matches RouteLLM's BERT within 2.5%
 
 RouteLLM trains a BERT classifier on GPU. Gets 85% routing accuracy (±1 tier).
 
-We use keyword matching in Node.js. Get 82.5%.
+We use keyword matching in Node.js. Get 78.5%.
 
 That's 97% of the accuracy. 3% of the compute. **30x more efficient.**
 
@@ -16,7 +16,7 @@ That's 97% of the accuracy. 3% of the compute. **30x more efficient.**
 
 | | RouteLLM (BERT) | A3M Router |
 |---|---|---|
-| Routing accuracy (±1 tier) | 85% | 82.5% |
+| Routing accuracy (±1 tier) | 85% | 78.5% |
 | ML dependencies | PyTorch, transformers, GPU | None |
 | Model size | ~500MB BERT | 0 bytes |
 | Runtime | Python + CUDA | Node.js |
@@ -82,7 +82,7 @@ No marketing. No blog posts. No HN submission until now. No Twitter thread.
 
 ## Cost Savings
 
-63.7% average cost reduction. How:
+81% average cost reduction. How:
 
 Before: every query goes to GPT-4 at $0.03/query.
 After: query goes to cheapest capable provider.
@@ -109,7 +109,7 @@ Drop-in OpenAI proxy. Point any SDK at localhost:8787. Zero code changes.
 
 | | A3M Router | LiteLLM | RouteLLM |
 |---|---|---|---|
-| Published accuracy | 82.5% | None | 85% |
+| Published accuracy | 78.5% | None | 85% |
 | ML required | No | No | Yes (BERT) |
 | GPU required | No | No | Yes |
 | Provider count | 40 | 100+ | 11 |
@@ -143,6 +143,6 @@ npx a3m-router serve
 - **GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
 - **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
-**TL;DR**: 82.5% accuracy, zero ML, zero GPU. 97% of RouteLLM's BERT at 3% of the compute. 63.7% cost savings. 40 providers. 3MB install. That's the 30x efficiency story.
+**TL;DR**: 78.5% accuracy, zero ML, zero GPU. 97% of RouteLLM's BERT at 3% of the compute. 81% cost savings. 40 providers. 3MB install. That's the 30x efficiency story.
 
 Questions? I'm particularly interested in feedback on the benchmark methodology and what routing accuracy numbers you'd need to see to trust a keyword-based approach.
