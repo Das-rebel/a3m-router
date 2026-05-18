@@ -1,0 +1,194 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117"/>
+      <stop offset="50%" style="stop-color:#111820"/>
+      <stop offset="100%" style="stop-color:#0d1117"/>
+    </linearGradient>
+    <!-- Green accent gradient -->
+    <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#238636"/>
+      <stop offset="100%" style="stop-color:#2ea043"/>
+    </linearGradient>
+    <!-- Blue accent gradient -->
+    <linearGradient id="blueGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#1f6feb"/>
+      <stop offset="100%" style="stop-color:#58a6ff"/>
+    </linearGradient>
+    <!-- Purple accent gradient -->
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#8b5cf6"/>
+      <stop offset="100%" style="stop-color:#a78bfa"/>
+    </linearGradient>
+    <!-- Title gradient -->
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#58a6ff"/>
+      <stop offset="40%" style="stop-color:#a78bfa"/>
+      <stop offset="100%" style="stop-color:#2ea043"/>
+    </linearGradient>
+    <!-- Glow filter -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Subtle shadow for cards -->
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+    <!-- Emoji glow -->
+    <filter id="emojiGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="640" fill="url(#bgGrad)" rx="0"/>
+
+  <!-- Subtle grid pattern -->
+  <g opacity="0.03">
+    <line x1="0" y1="0" x2="1280" y2="640" stroke="#58a6ff" stroke-width="1"/>
+    <line x1="1280" y1="0" x2="0" y2="640" stroke="#58a6ff" stroke-width="1"/>
+    <line x1="640" y1="0" x2="640" y2="640" stroke="#58a6ff" stroke-width="0.5"/>
+    <line x1="0" y1="320" x2="1280" y2="320" stroke="#58a6ff" stroke-width="0.5"/>
+    <circle cx="640" cy="320" r="200" fill="none" stroke="#58a6ff" stroke-width="0.5"/>
+    <circle cx="640" cy="320" r="350" fill="none" stroke="#58a6ff" stroke-width="0.5"/>
+  </g>
+
+  <!-- Decorative accent lines -->
+  <rect x="0" y="0" width="6" height="640" fill="url(#titleGrad)" opacity="0.8"/>
+  <rect x="1274" y="0" width="6" height="640" fill="url(#titleGrad)" opacity="0.4"/>
+
+  <!-- Top decorative bar -->
+  <rect x="80" y="28" width="1120" height="2" fill="url(#titleGrad)" opacity="0.3" rx="1"/>
+
+  <!-- Emoji shuffle icon -->
+  <text x="120" y="130" font-size="72" filter="url(#emojiGlow)" opacity="0.9">🔀</text>
+
+  <!-- Main title -->
+  <text x="200" y="122" font-family="'SF Pro Display', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="72" font-weight="800" fill="url(#titleGrad)" filter="url(#glow)">
+    A3M Router
+  </text>
+
+  <!-- Subtitle -->
+  <text x="120" y="170" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" fill="#8b949e" font-weight="400">
+    Drop-in OpenAI proxy · 39 providers · 245% growth in 3 days
+  </text>
+
+  <!-- Stat cards row -->
+  <!-- Card 1: Downloads -->
+  <g filter="url(#cardShadow)">
+    <rect x="120" y="210" width="320" height="160" rx="16" fill="#161b22" stroke="#238636" stroke-width="2" opacity="0.95"/>
+    <rect x="120" y="210" width="320" height="4" rx="2" fill="url(#greenGrad)"/>
+    <text x="280" y="268" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="52" font-weight="800" fill="#2ea043" text-anchor="middle">
+      2,775
+    </text>
+    <text x="280" y="305" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" fill="#8b949e" text-anchor="middle" font-weight="500">
+      npm downloads
+    </text>
+    <text x="280" y="340" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" fill="#484f58" text-anchor="middle">
+      in first 3 days
+    </text>
+  </g>
+
+  <!-- Card 2: Growth -->
+  <g filter="url(#cardShadow)">
+    <rect x="480" y="210" width="320" height="160" rx="16" fill="#161b22" stroke="#1f6feb" stroke-width="2" opacity="0.95"/>
+    <rect x="480" y="210" width="320" height="4" rx="2" fill="url(#blueGrad)"/>
+    <text x="640" y="268" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="52" font-weight="800" fill="#58a6ff" text-anchor="middle">
+      245%
+    </text>
+    <text x="640" y="305" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" fill="#8b949e" text-anchor="middle" font-weight="500">
+      day-over-day growth
+    </text>
+    <text x="640" y="340" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" fill="#484f58" text-anchor="middle">
+      organic, no marketing
+    </text>
+  </g>
+
+  <!-- Card 3: Budget -->
+  <g filter="url(#cardShadow)">
+    <rect x="840" y="210" width="320" height="160" rx="16" fill="#161b22" stroke="#8b5cf6" stroke-width="2" opacity="0.95"/>
+    <rect x="840" y="210" width="320" height="4" rx="2" fill="url(#purpleGrad)"/>
+    <text x="1000" y="268" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="52" font-weight="800" fill="#a78bfa" text-anchor="middle">
+      $0
+    </text>
+    <text x="1000" y="305" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" fill="#8b949e" text-anchor="middle" font-weight="500">
+      marketing budget
+    </text>
+    <text x="1000" y="340" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" fill="#484f58" text-anchor="middle">
+      100% community driven
+    </text>
+  </g>
+
+  <!-- Provider logos row -->
+  <g transform="translate(0, 420)">
+    <text x="640" y="10" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#484f58" text-anchor="middle" letter-spacing="3" font-weight="600">
+      SUPPORTED PROVIDERS
+    </text>
+
+    <!-- Provider pills -->
+    <!-- OpenAI -->
+    <rect x="68" y="26" width="130" height="38" rx="19" fill="#1a1f27" stroke="#30363d" stroke-width="1"/>
+    <circle cx="95" cy="45" r="8" fill="#10a37f"/>
+    <text x="108" y="51" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" fill="#c9d1d9" font-weight="600">OpenAI</text>
+
+    <!-- Anthropic -->
+    <rect x="218" y="26" width="140" height="38" rx="19" fill="#1a1f27" stroke="#30363d" stroke-width="1"/>
+    <circle cx="248" cy="45" r="8" fill="#d4a574"/>
+    <text x="262" y="51" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" fill="#c9d1d9" font-weight="600">Anthropic</text>
+
+    <!-- Groq -->
+    <rect x="378" y="26" width="110" height="38" rx="19" fill="#1a1f27" stroke="#30363d" stroke-width="1"/>
+    <circle cx="405" cy="45" r="8" fill="#f55036"/>
+    <text x="418" y="51" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" fill="#c9d1d9" font-weight="600">Groq</text>
+
+    <!-- Cerebras -->
+    <rect x="508" y="26" width="130" height="38" rx="19" fill="#1a1f27" stroke="#30363d" stroke-width="1"/>
+    <circle cx="538" cy="45" r="8" fill="#7c3aed"/>
+    <text x="552" y="51" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" fill="#c9d1d9" font-weight="600">Cerebras</text>
+
+    <!-- Mistral -->
+    <rect x="658" y="26" width="120" height="38" rx="19" fill="#1a1f27" stroke="#30363d" stroke-width="1"/>
+    <circle cx="685" cy="45" r="8" fill="#ff7000"/>
+    <text x="698" y="51" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" fill="#c9d1d9" font-weight="600">Mistral</text>
+
+    <!-- DeepSeek -->
+    <rect x="798" y="26" width="140" height="38" rx="19" fill="#1a1f27" stroke="#30363d" stroke-width="1"/>
+    <circle cx="828" cy="45" r="8" fill="#4d6bfe"/>
+    <text x="842" y="51" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" fill="#c9d1d9" font-weight="600">DeepSeek</text>
+
+    <!-- Ollama -->
+    <rect x="958" y="26" width="120" height="38" rx="19" fill="#1a1f27" stroke="#30363d" stroke-width="1"/>
+    <circle cx="985" cy="45" r="8" fill="#6366f1"/>
+    <text x="998" y="51" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" fill="#c9d1d9" font-weight="600">Ollama</text>
+
+    <!-- +32 more -->
+    <rect x="1098" y="26" width="110" height="38" rx="19" fill="none" stroke="#30363d" stroke-width="1" stroke-dasharray="4 3"/>
+    <text x="1153" y="51" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" fill="#484f58" text-anchor="middle" font-weight="500">+32 more</text>
+  </g>
+
+  <!-- Bottom bar -->
+  <rect x="80" y="530" width="1120" height="1" fill="#21262d" rx="0.5"/>
+
+  <!-- Bottom tagline -->
+  <text x="640" y="570" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="15" fill="#484f58" text-anchor="middle">
+    $ npx adaptive-memory-router --provider auto
+  </text>
+
+  <!-- Bottom right badge -->
+  <rect x="1020" y="585" width="180" height="30" rx="15" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="1110" y="605" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" fill="#8b949e" text-anchor="middle" font-weight="500">
+    github.com/Das-rebel
+  </text>
+
+  <!-- Bottom decorative bar -->
+  <rect x="80" y="610" width="1120" height="2" fill="url(#titleGrad)" opacity="0.3" rx="1"/>
+</svg>

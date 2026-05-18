@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="280" viewBox="0 0 600 280">
+  <style>
+    .label { font-family: 'SF Mono', monospace; font-size: 12px; fill: #8b949e; }
+    .value { font-family: 'SF Mono', monospace; font-size: 14px; font-weight: bold; }
+    .title { font-family: -apple-system, system-ui, sans-serif; font-size: 16px; fill: #c9d1d9; font-weight: 600; }
+    .subtitle { font-family: -apple-system, system-ui, sans-serif; font-size: 12px; fill: #8b949e; }
+  </style>
+  
+  <!-- Background -->
+  <rect width="600" height="280" rx="12" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+  
+  <!-- Title -->
+  <text x="300" y="30" text-anchor="middle" class="title">📈 Downloads Over 3 Days</text>
+  <text x="300" y="48" text-anchor="middle" class="subtitle">Zero marketing budget. Pure npm keyword discovery + word-of-mouth.</text>
+  
+  <!-- Chart area -->
+  <g transform="translate(80, 70)">
+    <!-- Grid lines -->
+    <line x1="0" y1="0" x2="440" y2="0" stroke="#21262d" stroke-width="1"/>
+    <line x1="0" y1="40" x2="440" y2="40" stroke="#21262d" stroke-width="1" stroke-dasharray="4"/>
+    <line x1="0" y1="80" x2="440" y2="80" stroke="#21262d" stroke-width="1" stroke-dasharray="4"/>
+    <line x1="0" y1="120" x2="440" y2="120" stroke="#21262d" stroke-width="1" stroke-dasharray="4"/>
+    <line x1="0" y1="160" x2="440" y2="160" stroke="#21262d" stroke-width="1"/>
+    
+    <!-- Y-axis labels -->
+    <text x="-10" y="4" text-anchor="end" class="label">2000</text>
+    <text x="-10" y="44" text-anchor="end" class="label">1500</text>
+    <text x="-10" y="84" text-anchor="end" class="label">1000</text>
+    <text x="-10" y="124" text-anchor="end" class="label">500</text>
+    <text x="-10" y="164" text-anchor="end" class="label">0</text>
+    
+    <!-- Area fill -->
+    <polygon points="73,116 220,134 367,8 367,160 73,160" fill="#238636" fill-opacity="0.15">
+      <animate attributeName="fill-opacity" from="0" to="0.15" dur="1s" fill="freeze"/>
+    </polygon>
+    
+    <!-- Line -->
+    <polyline points="73,116 220,134 367,8" fill="none" stroke="#3fb950" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <animate attributeName="stroke-dashoffset" from="400" to="0" dur="1.5s" fill="freeze"/>
+      <set attributeName="stroke-dasharray" to="400"/>
+    </polyline>
+    
+    <!-- Data points -->
+    <circle cx="73" cy="116" r="6" fill="#0d1117" stroke="#3fb950" stroke-width="3">
+      <animate attributeName="r" from="0" to="6" dur="0.3s" begin="0.5s" fill="freeze"/>
+    </circle>
+    <circle cx="220" cy="134" r="6" fill="#0d1117" stroke="#f0883e" stroke-width="3">
+      <animate attributeName="r" from="0" to="6" dur="0.3s" begin="1s" fill="freeze"/>
+    </circle>
+    <circle cx="367" cy="8" r="6" fill="#0d1117" stroke="#3fb950" stroke-width="3">
+      <animate attributeName="r" from="0" to="6" dur="0.3s" begin="1.5s" fill="freeze"/>
+    </circle>
+    
+    <!-- Value labels -->
+    <text x="73" y="106" text-anchor="middle" class="value" fill="#c9d1d9">552</text>
+    <text x="220" y="152" text-anchor="middle" class="value" fill="#f0883e">320</text>
+    <text x="367" y="-4" text-anchor="middle" class="value" fill="#3fb950">1,903</text>
+    
+    <!-- X-axis labels -->
+    <text x="73" y="180" text-anchor="middle" class="label">Day 1</text>
+    <text x="73" y="194" text-anchor="middle" class="subtitle">May 15</text>
+    <text x="220" y="180" text-anchor="middle" class="label">Day 2</text>
+    <text x="220" y="194" text-anchor="middle" class="subtitle">May 16</text>
+    <text x="367" y="180" text-anchor="middle" class="label">Day 3</text>
+    <text x="367" y="194" text-anchor="middle" class="subtitle">May 17</text>
+    
+    <!-- Annotations -->
+    <text x="147" y="105" text-anchor="middle" class="subtitle" fill="#f0883e">-42%</text>
+    <text x="293" y="60" text-anchor="middle" class="subtitle" fill="#3fb950">+495%</text>
+  </g>
+  
+  <!-- Bottom stats -->
+  <text x="150" y="270" text-anchor="middle" class="value" fill="#3fb950">2,775 total</text>
+  <text x="300" y="270" text-anchor="middle" class="value" fill="#79c0ff">245% growth</text>
+  <text x="450" y="270" text-anchor="middle" class="value" fill="#d2a8ff">$0 budget</text>
+</svg>
