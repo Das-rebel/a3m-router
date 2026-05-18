@@ -154,7 +154,7 @@ function extractQueryFeatures(prompt) {
   
   // Complexity estimation
   const tokens = tokenUtils_1.countTokens(prompt, "gpt-4o");
-  let complexity = 0.3;
+  let complexity = 0.2;
   if (tokens > 1000) complexity += 0.2;
   if (has_code) complexity += 0.15;
   if (has_math) complexity += 0.2;

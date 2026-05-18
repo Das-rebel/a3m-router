@@ -4,10 +4,20 @@
 User-agent: *
 Allow: /
 
-# Sitemap
+# Sitemaps
 Sitemap: https://das-rebel.github.io/adaptive-memory-multi-model-router/sitemap.xml
 
-# Disallow admin/internal paths
+# Allow all documentation and assets
+Allow: /docs/
+Allow: /docs-site/
+Allow: /assets/
+Allow: /public/
+Allow: /llms.txt
+Allow: /README.md
+
+# Disallow internal/build paths
 Disallow: /node_modules/
 Disallow: /dist/
 Disallow: /test/
+Disallow: /src/
+Disallow: /.git/

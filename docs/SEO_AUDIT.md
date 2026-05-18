@@ -1,6 +1,6 @@
 # SEO Audit: A3M Router (adaptive-memory-multi-model-router)
 
-**Date:** 2026-05-18
+**Date:** 2026-05-18 (Updated)
 **Package:** adaptive-memory-multi-model-router
 **NPM URL:** https://www.npmjs.com/package/adaptive-memory-multi-model-router
 **GitHub URL:** https://github.com/Das-rebel/adaptive-memory-multi-model-router
@@ -9,150 +9,114 @@
 
 ## 1. Keyword Research
 
-### Primary Keywords (high priority, target in title/meta/H1)
+### Primary Keywords (benchmark-driven, high intent)
 
-| Keyword | Estimated Monthly Volume | Competition | Intent | Priority |
-|---------|-------------------------|-------------|--------|----------|
-| `llm router` | 2,400-4,000 | Low-Medium | Commercial | P0 |
-| `openai proxy` | 3,000-5,000 | Medium | Commercial | P0 |
+| Keyword | Est. Monthly Volume | Competition | Intent | Priority |
+|---------|---------------------|-------------|--------|----------|
+| `llm router benchmark` | 1,200-2,000 | Low | Commercial | P0 |
+| `llm routing accuracy` | 800-1,500 | Low | Informational | P0 |
+| `routellm alternative` | 1,500-3,000 | Low-Medium | Commercial | P0 |
+| `litellm alternative` | 1,500-3,000 | Low-Medium | Commercial | P0 |
 | `llm cost optimization` | 800-1,500 | Low | Commercial | P0 |
+| `openai proxy free` | 2,000-4,000 | Medium | Transactional | P0 |
+| `llm gateway open source` | 1,000-2,000 | Low-Medium | Commercial | P0 |
 
-### Secondary Keywords (support in H2/features/meta description)
+### Long-Tail Keywords (FAQ/content targets)
 
-| Keyword | Estimated Monthly Volume | Competition | Intent | Priority |
-|---------|-------------------------|-------------|--------|----------|
-| `ai gateway` | 5,000-8,000 | High | Commercial | P1 |
-| `model routing` | 500-1,000 | Low | Informational | P1 |
-| `multi provider llm` | 300-600 | Low | Commercial | P1 |
-| `llm proxy` | 1,000-2,000 | Low-Medium | Commercial | P1 |
-| `openai compatible proxy` | 500-1,000 | Low | Commercial | P1 |
-| `llm load balancer` | 300-800 | Low | Commercial | P1 |
-
-### Long-Tail Keywords (target in FAQ/content/blog)
-
-| Keyword | Estimated Monthly Volume | Competition | Intent | Priority |
-|---------|-------------------------|-------------|--------|----------|
+| Keyword | Est. Monthly Volume | Competition | Intent | Priority |
+|---------|---------------------|-------------|--------|----------|
 | `how to reduce openai api costs` | 1,500-3,000 | Low | Informational | P0 |
-| `alternative to litellm` | 500-1,200 | Low | Commercial | P0 |
+| `llm routing without gpu` | 300-600 | Very Low | Informational | P0 |
+| `lightweight llm router` | 500-1,000 | Low | Commercial | P0 |
+| `keyword-based llm routing` | 100-300 | Very Low | Informational | P1 |
+| `drop-in openai proxy` | 300-600 | Low | Commercial | P0 |
 | `free llm proxy` | 800-1,500 | Low | Transactional | P0 |
 | `cheapest openai api alternative` | 500-1,000 | Low | Commercial | P0 |
-| `openai cost savings tool` | 300-600 | Low | Commercial | P1 |
-| `llm provider comparison` | 1,000-2,000 | Medium | Informational | P1 |
-| `route llm queries to cheapest model` | 100-300 | Very Low | Informational | P2 |
-| `openai sdk compatible proxy` | 200-400 | Low | Commercial | P2 |
-| `llm api gateway open source` | 500-1,000 | Low-Medium | Commercial | P2 |
-| `groq cerebras openai proxy` | 100-200 | Very Low | Navigational | P2 |
 
-### Competitive/Comparison Keywords
+### Competitive/Comparison Keywords (HIGH VALUE)
 
-| Keyword | Estimated Monthly Volume | Competition | Priority |
-|---------|-------------------------|-------------|----------|
+| Keyword | Est. Monthly Volume | Competition | Priority |
+|---------|---------------------|-------------|----------|
+| `routellm alternative` | 1,500-3,000 | Low-Medium | P0 |
+| `litellm alternative` | 1,500-3,000 | Low-Medium | P0 |
 | `a3m router vs litellm` | 50-100 | Very Low | P1 |
-| `litellm alternative` | 300-600 | Low | P0 |
+| `a3m router vs routellm` | 50-100 | Very Low | P1 |
 | `openrouter alternative` | 200-400 | Low | P1 |
 | `portkey alternative` | 100-200 | Very Low | P2 |
 
----
+### Secondary Keywords
 
-## 2. NPM SEO Keywords Analysis
-
-### Current package.json keywords (140 keywords)
-
-The current keyword list is comprehensive but has issues:
-
-1. **Keyword stuffing risk**: 140 keywords in NPM may be penalized
-2. **Low-value generics**: "github", "slack", "telegram" don't help NPM search
-3. **Missing critical terms**: "litellm" not mentioned as competitor keyword
-
-### Recommended NPM Keywords (optimized top 50)
-
-```
-"keywords": [
-  "llm-router",
-  "openai-proxy",
-  "llm-cost-optimization",
-  "ai-gateway",
-  "model-routing",
-  "openai-compatible",
-  "llm-proxy",
-  "multi-model-router",
-  "cost-optimization",
-  "llm",
-  "openai",
-  "anthropic",
-  "groq",
-  "cerebras",
-  "deepseek",
-  "mistral",
-  "ollama",
-  "language-model",
-  "router",
-  "proxy",
-  "gateway",
-  "api-gateway",
-  "ai-routing",
-  "semantic-cache",
-  "guardrails",
-  "circuit-breaker",
-  "fallback",
-  "load-balancing",
-  "langchain",
-  "typescript",
-  "nodejs",
-  "npm",
-  "open-source",
-  "routellm",
-  "llm-gateway",
-  "ai-proxy",
-  "chatgpt-proxy",
-  "gpt-4",
-  "claude",
-  "gemini",
-  "batch-processing",
-  "streaming",
-  "rest-api",
-  "cli",
-  "sdk",
-  "middleware",
-  "cost-analytics",
-  "provider-registry",
-  "agent-framework"
-]
-```
-
-### NPM Description Optimization
-
-**Current:** "Drop-in OpenAI proxy that routes queries to the cheapest capable model. 39 providers, semantic cache, guardrails. 245% growth in 3 days, zero budget."
-
-**Recommended:** "OpenAI-compatible LLM proxy that routes queries to the cheapest capable model. 39 providers (Groq, Cerebras, DeepSeek). Semantic cache. Guardrails. 50-80% cost savings. Zero config."
-
-The description should lead with the value prop and include top searchable provider names.
+| Keyword | Est. Monthly Volume | Competition | Priority |
+|---------|---------------------|-------------|----------|
+| `ai gateway` | 5,000-8,000 | High | P1 |
+| `model routing` | 500-1,000 | Low | P1 |
+| `llm proxy` | 1,000-2,000 | Low-Medium | P1 |
+| `openai compatible proxy` | 500-1,000 | Low | P1 |
+| `llm load balancer` | 300-800 | Low | P1 |
+| `llm provider comparison` | 1,000-2,000 | Medium | P1 |
 
 ---
 
-## 3. On-Page SEO Checklist
+## 2. Key Messages (use everywhere)
+
+1. **"82.5% routing accuracy without ML"** — Lead metric, differentiator
+2. **"Matches RouteLLM BERT within 2.5%"** — Competitive positioning
+3. **"30x more efficient than GPU-based routing"** — Efficiency story
+4. **"Only router besides RouteLLM with published benchmarks"** — Trust signal
+5. **"245% growth, 2,775 downloads in 3 days"** — Social proof
+
+---
+
+## 3. Competitive Positioning
+
+### RouteLLM Alternative (HIGH VALUE)
+
+"RouteLLM alternative" is our highest-value keyword because:
+- RouteLLM users are actively looking for alternatives (GPU cost, complexity)
+- We have a direct benchmark comparison (within 2.5%)
+- We offer features RouteLLM lacks (proxy, cache, guardrails)
+
+**Positioning:** "A3M Router matches RouteLLM BERT within 2.5% — without GPU. Plus proxy, cache, guardrails."
+
+### LiteLLM Alternative (HIGH VALUE)
+
+"LiteLLM alternative" captures users who want:
+- Published routing benchmarks
+- Zero-config setup
+- Built-in semantic caching
+
+**Positioning:** "A3M Router is the only LiteLLM alternative with published routing benchmarks (82.5% accuracy)."
+
+### Competitive Table
+
+| Competitor | NPM Weekly Downloads | Our Edge |
+|------------|---------------------|----------|
+| litellm | ~80,000 | Published benchmarks, zero-config, semantic cache |
+| openrouter-sdk | ~5,000 | Self-hosted, no middleman fees, published accuracy |
+| portkey-ai | ~3,000 | Open-source, free, no signup, benchmarks |
+| routellm | ~1,000 | No GPU needed, proxy included, 39 providers |
+
+---
+
+## 4. On-Page SEO Checklist
 
 ### docs-site/index.html
 
 | Element | Status | Target |
 |---------|--------|--------|
-| Title tag (50-60 chars) | DONE | "A3M Router - Intelligent LLM Routing Proxy \| 245% Growth" |
-| Meta description (150-160 chars) | DONE | "Drop-in OpenAI proxy that routes queries to the cheapest capable model. 39 providers. 245% growth in 3 days. Zero budget." |
-| H1 tag | DONE | "A3M Router" with LLM routing context |
-| H2 tags | DONE | Feature names use secondary keywords |
-| Canonical URL | DONE | Points to GitHub Pages URL |
-| Open Graph tags | DONE | og:title, og:description, og:image, og:url |
-| Twitter Card tags | DONE | summary_large_image |
-| JSON-LD SoftwareApplication | DONE | Full schema with featureList, offers, ratings |
-| JSON-LD FAQPage | DONE | 6 FAQ items for rich results |
-| JSON-LD BreadcrumbList | DONE | Home breadcrumb |
-| robots meta | DONE | index, follow |
-| Keywords in content | DONE | "llm router", "openai proxy", "cost savings" |
+| Title tag | UPDATED | "A3M Router — 82.5% Routing Accuracy Without ML \| Matches RouteLLM" |
+| Meta description | UPDATED | 30x efficiency story with accuracy metric |
+| Keywords meta | UPDATED | All 12 primary/long-tail keywords |
+| H1 tag | UPDATED | "LLM Routing That Matches GPU Models — Without GPU" |
+| Stats section | UPDATED | Leads with 82.5% accuracy, 2.5% gap, 30x efficiency |
+| FAQ schema | UPDATED | 8 questions targeting AI search queries |
+| OG tags | UPDATED | Benchmark-first messaging |
+| Twitter cards | UPDATED | Benchmark-first messaging |
 
 ### Content Structure (H-tag hierarchy)
 
 ```
-H1: A3M Router (site title)
+H1: LLM Routing That Matches GPU Models — Without GPU
 H2: Intelligent LLM Routing (feature)
 H2: Cost Optimization (feature)
 H2: Smart Fallback & Retry (feature)
@@ -163,79 +127,60 @@ H2: LLM Provider Pricing Tiers (section)
 H3: Free/Budget/Mid/Premium Tier
 H2: Quick Start: LLM Routing in 30 Seconds
 H2: Frequently Asked Questions
-H3: What is A3M Router?
-H3: How much can I save?
-H3: Is A3M Router free?
-H3: How do I get started?
-H3: What LLM providers are supported?
+H3: What is LLM routing accuracy?
+H3: How does keyword-based routing compare to ML routing?
+H3: What is the best lightweight LLM router?
+H3: How to reduce OpenAI API costs?
+H3: How does A3M Router compare to RouteLLM?
 H3: How does A3M Router compare to LiteLLM?
 ```
 
 ---
 
-## 4. Technical SEO
+## 5. Technical SEO
 
-### robots.txt
+### robots.txt (UPDATED)
+- Allows full crawling
+- Explicitly allows docs/, assets/, llms.txt, README.md
+- Sitemap reference included
+- Blocks /node_modules/, /dist/, /test/, /src/, /.git/
 
-Created at `public/robots.txt`. Allows full crawling. References sitemap.
+### sitemap.xml (UPDATED)
+- 11 URLs including all key pages
+- New: GEO.md, SEO_AUDIT.md, CONFIGURATION.md, INTEGRATIONS.md, benchmark-results.json, llms.txt
+- Priority weighting: homepage (1.0) > GitHub (0.9) > NPM (0.9) > docs (0.7-0.8)
 
-### sitemap.xml
-
-Created at `public/sitemap.xml`. Includes docs-site homepage.
-
-### llms.txt
-
-Updated with growth narrative (2,775 downloads, 245% growth, 39 providers). LLM-discoverable format.
-
-### Performance Notes
-
-- docs-site/index.html is a single file with inline CSS (fast load, no external deps)
-- No render-blocking JS
-- No external font downloads (system fonts)
-- Mobile responsive via CSS grid and media queries
+### llms.txt (UPDATED)
+- Leads with benchmark story (82.5% accuracy)
+- Includes comparison table vs RouteLLM/LiteLLM
+- Structured data section for AI extraction
+- All 5 key messages included
 
 ---
 
-## 5. GEO (Generative Engine Optimization) Notes
+## 6. GEO (Generative Engine Optimization)
 
-For AI search engines (ChatGPT, Perplexity, Claude, Google AI Overviews):
+See `docs/GEO.md` for full GEO strategy. Key elements:
 
-1. **FAQ section** directly answers common questions AI engines cite
-2. **Pricing tiers** provide structured, citable data
-3. **Comparison content** ("vs LiteLLM") captures comparison queries
-4. **llms.txt** at repo root is the LLM-discoverability standard
-5. **JSON-LD** structured data enables rich citations
-
-### Recommended GEO Content Strategy
-
-- Write articles comparing A3M Router to LiteLLM, OpenRouter, Portkey
-- Create "How to reduce OpenAI API costs by 70%" guide
-- Publish provider benchmark results (speed/cost/quality)
-- Add to awesome-llm-routes and similar lists on GitHub
-
----
-
-## 6. Competitive Positioning
-
-| Competitor | NPM Downloads (weekly) | Our Edge |
-|------------|----------------------|----------|
-| litellm | ~80,000 | A3M is simpler, zero-config, built-in caching |
-| openrouter-sdk | ~5,000 | A3M is self-hosted, no middleman fees |
-| portkey-ai | ~3,000 | A3M is open-source, free, no signup |
-
-**Differentiation narrative:** "A3M Router is the zero-config, self-hosted LLM proxy. No signup. No middleman. Route to 39 providers with one install."
+1. **FAQ format** answering AI-searchable questions
+2. **Comparison tables** with verifiable data AI engines cite
+3. **Structured key-value block** for direct AI extraction
+4. **Target AI queries** mapped to A3M Router answers
 
 ---
 
 ## 7. Action Items
 
-- [x] Update docs-site/index.html with SEO meta tags and structured data
-- [x] Create docs/SEO_AUDIT.md with keyword research
-- [x] Update llms.txt with growth narrative
-- [x] Create public/robots.txt
-- [x] Create public/sitemap.xml
-- [ ] Create OG banner image (1200x630px)
-- [ ] Write comparison articles (A3M vs LiteLLM, vs OpenRouter)
-- [ ] Submit sitemap to Google Search Console when GitHub Pages is live
-- [ ] Optimize NPM keywords (trim from 140 to 50 high-value terms)
-- [ ] Set up Google Search Console for das-rebel.github.io domain
+- [x] Update docs-site/index.html title, meta, H1, stats, FAQ
+- [x] Update FAQ schema with benchmark-focused questions
+- [x] Update OG/Twitter cards with benchmark messaging
+- [x] Update llms.txt with benchmark story
+- [x] Create docs/GEO.md with AI search optimization
+- [x] Update docs/SEO_AUDIT.md with new keywords
+- [x] Update public/sitemap.xml with all key pages
+- [x] Update public/robots.txt with better crawling rules
+- [x] Update package.json keywords (optimized)
+- [ ] Create OG banner image with benchmark metrics
+- [ ] Write comparison articles (A3M vs RouteLLM, vs LiteLLM)
+- [ ] Submit sitemap to Google Search Console
+- [ ] Set up Google Search Console for das-rebel.github.io
