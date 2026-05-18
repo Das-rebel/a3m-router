@@ -29,6 +29,13 @@ A3M Router sits between your code and your LLM providers. It analyzes each query
 
 **Result: 40-70% cost savings with no quality loss on simple queries.**
 
+
+## Demo
+
+![A3M Router CLI Demo](demo/demo.svg)
+
+*Simple queries → free providers. Complex queries → capable models. Automatically.*
+
 ---
 
 ## The Problem
