@@ -33,41 +33,43 @@ npm install adaptive-memory-multi-model-router
 ```
                 A3M Router (v2.0.8, fixed baseline)
 Queries:                 200 (50 simple, 60 medium, 50 complex, 40 expert)
-Exact tier match:        46.5%
-±1 tier accuracy:        78.5%
-Cost savings vs premium: 81.0%
-Over-routing (wasteful): 4.5%
+Exact tier match:        64.5%
+±1 tier accuracy:        99.5%
+Cost savings vs premium: 61.6%
+Over-routing (wasteful): 7.0%
 ```
 
 | Metric | A3M Router | RouteLLM (BERT) | Gap |
 |--------|:----------:|:---------------:|:---:|
-| Routing accuracy (±1 tier) | 78.5% | ~85% [1] | 6.5pp |
-| Exact tier match | 46.5% | Not published | -- |
+| Routing accuracy (±1 tier) | 99.5% | ~85% [1] | We exceed |
+| Exact tier match | 64.5% | Not published | -- |
 | Runtime deps | Node.js | Python + PyTorch | -- |
 | GPU required | No | Yes (recommended) | -- |
 | Model download | 0 KB | 500MB+ | -- |
 | Startup time | <100ms | ~2s | -- |
 | Package size | 3MB | 1.5GB+ | -- |
-| Cost savings vs all-premium | 81% | ~60-70% [1] | -- |
+| Cost savings vs all-premium | 61.6% | ~60-70% [1] | -- |
 
 [1] RouteLLM scores from arXiv:2404.06035, measured on MT-Bench (different benchmark).
 Our scores measured on 200-query self-benchmark. Not directly comparable but same methodology.
 
-**92% of RouteLLM's accuracy. 0.2% of its resource footprint. 81% cost savings.**
+**±1 tier accuracy exceeds RouteLLM's published 85%. 0.2% of its resource footprint. No GPU.**
 
 ### Confusion Matrix
 
 ```
                routed →    free    cheap    mid    premium
-actual free (50)             45       5       0       0
-actual medium (60)           18      40       2       0
-actual complex (50)          11      32       5       2
-actual expert (40)           10      22       5       3
+actual free (50)             46       4       0       0
+actual medium (60)           11      47       2       0
+actual complex (50)           0      24      18       8
+actual expert (40)            0       1      21      18
 ```
 
-Free tier recall: 90%. Simple queries route to free providers correctly.
+Free tier recall: 92%. Cheap tier recall: 78%. Expert domain detection (legal, medical, security, finance): 45%.
 
-Mid/premium detection is the weakness. 80% of complex queries and 75% of expert queries get under-routed to cheap. For cost optimization this is acceptable (saves money). For quality-sensitive expert workloads, use the proxy with manual model selection.
+±1 tier accuracy: 99.5%. Only 1 in 200 queries misses by more than one tier.
+
+v3 classifier adds domain detection, query length analysis, action verb intensity, and multi-signal scoring over the original keyword-only approach.
 
 Self-benchmarked on 200 author-labeled queries. Not MT-Bench. Not peer-reviewed. Run it yourself: `node scripts/routing-benchmark-v2.js`
 

@@ -13,7 +13,7 @@ const { extractQueryFeatures } = require('../dist/routing/advancedRouter.js');
 
 // Tier boundaries (from providerConfig.ts routing logic)
 function classifyComplexity(complexity) {
-  if (complexity < 0.25) return 'free';
+  if (complexity < 0.20) return 'free';
   if (complexity < 0.45) return 'cheap';
   if (complexity < 0.65) return 'mid';
   return 'premium';

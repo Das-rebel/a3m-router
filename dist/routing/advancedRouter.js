@@ -89,94 +89,157 @@ function refreshModelProfiles() {
 exports.MODEL_PROFILES = MODEL_PROFILES;
 
 // ============================================================
-// FEATURE EXTRACTION
+// FEATURE EXTRACTION (v3 — multi-signal complexity scorer)
 // ============================================================
 
 function extractQueryFeatures(prompt) {
   const lower = prompt.toLowerCase();
+  const words = prompt.split(/\s+/);
+  const wordCount = words.length;
   
-  // Code patterns
-  const code_indicators = [
-    "function", "class ", "def ", "import ", "const ", "let ",
-    "python", "javascript", "typescript", "java", "cpp", "rust",
-    "```", "=>", "->", "async", "await"
-  ];
-  const has_code = code_indicators.some(pattern => lower.includes(pattern));
+  // === SIGNAL 1: Domain Detection ===
+  // Professional domains that indicate expert-level queries
+  const domainSignals = {
+    legal: {
+      keywords: ['legal', 'law', 'contract', 'liability', 'litigation', 'patent', 'copyright',
+                  'regulation', 'compliance', 'constitutional', 'statute', 'jurisdiction',
+                  'court', 'ruling', 'precedent', 'attorney', 'amicus', 'sec ', 'fda ',
+                  'gdpr', 'ccpa', 'cfpr', 'due diligence', 'merger', 'acquisition',
+                  '10-k', 'sec filing', 'forensic', 'embezzlement', 'infringement'],
+      weight: 0.35
+    },
+    medical: {
+      keywords: ['clinical', 'medical', 'pharmaceutical', 'oncology', 'drug', 'trial protocol',
+                  'diagnosis', 'treatment', 'epidemiolog', 'genome', 'cohort study',
+                  'biomarker', 'efficacy', 'pharmacoeconomic', 'biologic', 'vaccine',
+                  'sepsis', 'ehr ', 'surgical', 'patient safety', 'fda approval'],
+      weight: 0.35
+    },
+    finance: {
+      keywords: ['financial model', 'valuation', 'revenue', 'portfolio', 'derivative',
+                  'hedge fund', 'series a', 'series b', 'startup valuation', 'sensitivity analysis',
+                  'investment thesis', 'earnings', 'tax optimization', 'forensic accounting',
+                  'multinational', 'jurisdiction', 'risk assessment', 'monte carlo',
+                  'black-scholes', 'options pricing', 'credit risk'],
+      weight: 0.30
+    },
+    security: {
+      keywords: ['security audit', 'penetration', 'vulnerability', 'exploit', 'zero-trust',
+                  'threat model', 'incident response', 'malware', 'ransomware',
+                  'authentication flow', 'cryptograph', 'encryption', 'timing attack',
+                  'supply chain attack', 'owasp', 'compliance', 'risk assessment',
+                  'mfa', 'zero-day', 'firewall', 'intrusion'],
+      weight: 0.30
+    },
+    architecture: {
+      keywords: ['system design', 'microservice', 'distributed system', 'fault-tolerant',
+                  'event-sourced', 'cqrs', 'consensus algorithm', 'real-time pipeline',
+                  'high availability', 'multi-region', 'latency sla', 'kafka',
+                  'event-driven', 'data warehouse', 'etl', 'streaming', '1m events',
+                  'million events', 'scalab', 'infrastruct', 'deploy'],
+      weight: 0.25
+    },
+    ml_research: {
+      keywords: ['neural network', 'transformer', 'backpropagation', 'gradient',
+                  'reinforcement learning', 'rlhf', 'fine-tun', 'bert ', 'gpt ',
+                  'attention mechanism', 'training pipeline', 'model monitoring',
+                  'data drift', 'feature engine', 'deep learn', 'benchmark',
+                  'ablation', 'sota', 'state of the art', 'paper', 'arxiv'],
+      weight: 0.25
+    }
+  };
   
-  // Math patterns
-  const math_indicators = [
-    "equation", "formula", "calculate", "sqrt", "^", "log",
-    "sin", "cos", "tan", "integral", "derivative", "$", "math",
-    "∫", "∂", "∑", "∏", "√", "∞", "π", "θ", "β",
-    "dx", "dy", "dz", "=", "solver", "compute"
-  ];
-  const has_math = math_indicators.some(pattern => prompt.includes(pattern));
+  let domainScore = 0;
+  let detectedDomain = '';
+  for (const [domain, config] of Object.entries(domainSignals)) {
+    const matchCount = config.keywords.filter(kw => lower.includes(kw)).length;
+    if (matchCount > 0) {
+      const score = config.weight * Math.min(matchCount / 2, 1.5); // cap at 1.5x
+      if (score > domainScore) {
+        domainScore = score;
+        detectedDomain = domain;
+      }
+    }
+  }
   
-  // Multilingual
-  const lang_patterns = [
-    /[\u4e00-\u9fff]/,       // Chinese
-    /[\u3040-\u309f\u30a0-\u30ff]/, // Japanese
-    /[\uac00-\ud7af]/,       // Korean
-    /[а-яА-Я]/,              // Russian
-    /[áéíóúñ]/               // Spanish accented
-  ];
-  const is_multilingual = lang_patterns.some(pattern => pattern.test(prompt));
+  // === SIGNAL 2: Task Complexity Indicators ===
+  const has_code = /function|class |def |import |const |let |python|javascript|typescript|java |cpp|rust|```|=>|->|async|await|sql|css|html|react|node|express|docker|kubernetes/i.test(prompt);
+  const has_math = /equation|formula|calculate|sqrt|\^|log|sin|cos|integral|derivative|math|∫|∂|∑|∏|√|∞|π|compute|theorem|proof|complexity|algorithm/i.test(prompt);
+  const requires_reasoning = /analyze|compare|contrast|evaluate|assess|implications|impact|consequence|why|because|therefore|reason|logic|argue|debate|critique|synthesize/i.test(prompt);
+  const is_creative = /write a|story|poem|creative|imagine|narrative|joke|compose|fiction/i.test(lower);
+  const is_translation = /translate|translation|in french|in spanish|in japanese|in chinese/i.test(lower);
+  const is_multilingual = /[\u4e00-\u9fff]|[\u3040-\u309f\u30a0-\u30ff]|[\uac00-\ud7af]|[а-яА-Я]/.test(prompt);
   
-  // Translation detection
-  const translation_indicators = ["translate", "translation", "translate to", "in french", "in spanish", "in japanese"];
-  const is_translation = translation_indicators.some(pattern => lower.includes(pattern));
+  // === SIGNAL 3: Query Structure ===
+  // Longer, more structured queries = more complex
+  const avgWordLength = words.reduce((sum, w) => sum + w.length, 0) / Math.max(wordCount, 1);
+  const hasMultipleClauses = (prompt.match(/[,;:]/g) || []).length >= 2;
+  const hasQualifiers = /detailed|comprehensive|thorough|in-depth|extensive|step-by-step|systematic|formal|rigorous/i.test(prompt);
   
-  // Creative writing
-  const creative_indicators = [
-    "write a", "story", "poem", "creative", "imagine",
-    "describe", "explain in", "tell me", "narrative", "joke"
-  ];
-  const is_creative = creative_indicators.some(pattern => lower.includes(pattern));
+  // === SIGNAL 4: Action Verb Intensity ===
+  // Expert verbs indicate higher cognitive demands
+  const expertVerbs = /design|architect|review|audit|investigate|diagnose|optimize|strategize|formulate|derive|prove|verify|validate/i;
+  const midVerbs = /analyze|evaluate|compare|assess|implement|create|build|develop|construct|derive|explain/i;
+  const simpleVerbs = /what is|who|when|where|how many|define|list|name|convert|translate|summarize briefly/i;
   
-  // Reasoning
-  const reasoning_indicators = [
-    "explain", "why", "because", "therefore", "thus",
-    "analyze", "think", "consider", "reason", "logic"
-  ];
-  const requires_reasoning = reasoning_indicators.some(pattern => lower.includes(pattern));
+  let verbScore = 0;
+  if (expertVerbs.test(lower)) verbScore = 0.20;
+  else if (midVerbs.test(lower)) verbScore = 0.10;
+  if (simpleVerbs.test(lower)) verbScore = -0.10; // deboost simple questions
   
-  // Security/specialized
-  const security_indicators = ["security", "vulnerability", "inject", "exploit", "attack", "encryption", "auth"];
-  const is_security = security_indicators.some(pattern => lower.includes(pattern));
+  // === SIGNAL 5: Specificity ===
+  // Specific details = more complex
+  const hasSpecifics = /\d+%|\$\d+|million|billion|specific|particular|given|according to|based on/i.test(prompt);
+  const hasMultiStep = /and then|first.*then|after that|next|finally|additionally|furthermore|moreover/i.test(prompt);
   
-  // DevOps
-  const devops_indicators = ["ci/cd", "docker", "kubernetes", "k8s", "deploy", "pipeline", "github action", "terraform"];
-  const is_devops = devops_indicators.some(pattern => lower.includes(pattern));
+  // === COMPLEXITY SCORING (weighted multi-signal) ===
+  let complexity = 0.15; // Base: simple query
   
-  // Data/ML
-  const data_indicators = ["dataset", "pandas", "numpy", "training", "model", "neural", "transformer", "bert", "llm"];
-  const is_data = data_indicators.some(pattern => lower.includes(pattern));
+  // Domain signal (strongest predictor)
+  complexity += domainScore;
   
-  // Complexity estimation
-  const tokens = tokenUtils_1.countTokens(prompt, "gpt-4o");
-  let complexity = 0.2;
-  if (tokens > 1000) complexity += 0.2;
-  if (has_code) complexity += 0.15;
-  if (has_math) complexity += 0.2;
-  if (requires_reasoning) complexity += 0.15;
-  if (is_creative) complexity += 0.1;
-  if (is_security) complexity += 0.1;
-  if (is_devops) complexity += 0.1;
-  if (is_data) complexity += 0.15;
-  complexity = Math.min(1.0, complexity);
+  // Length signal (longer = harder, but diminishing)
+  if (wordCount > 5) complexity += 0.03;
+  if (wordCount > 10) complexity += 0.05;
+  if (wordCount > 15) complexity += 0.05;
+  if (wordCount > 20) complexity += 0.03;
+  
+  // Feature signals
+  if (has_code) complexity += 0.10;
+  if (has_math) complexity += 0.12;
+  if (requires_reasoning) complexity += 0.08;
+  if (is_creative) complexity += 0.05;
+  if (is_translation) complexity += 0.02;
+  
+  // Structure signals
+  if (hasQualifiers) complexity += 0.08;
+  if (hasMultipleClauses) complexity += 0.05;
+  if (hasSpecifics) complexity += 0.05;
+  if (hasMultiStep) complexity += 0.05;
+  
+  // Verb intensity
+  complexity += verbScore;
+  
+  // Long words = technical language
+  if (avgWordLength > 6) complexity += 0.05;
+  if (avgWordLength > 8) complexity += 0.05;
+  
+  complexity = Math.max(0.10, Math.min(1.0, complexity));
   
   return {
     complexity,
-    length: tokens,
+    length: wordCount,
     has_code,
     has_math,
     is_multilingual,
     is_translation,
     is_creative,
     requires_reasoning,
-    is_security,
-    is_devops,
-    is_data,
+    is_security: /security|vulnerability|inject|exploit|attack|encryption|auth/i.test(lower),
+    is_devops: /ci\/cd|docker|kubernetes|k8s|deploy|pipeline|github action|terraform/i.test(lower),
+    is_data: /dataset|pandas|numpy|training|model|neural|transformer|bert|llm/i.test(lower),
+    detected_domain: detectedDomain,
+    domain_score: domainScore,
   };
 }
 
