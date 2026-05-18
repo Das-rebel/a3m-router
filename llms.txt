@@ -1,24 +1,33 @@
-# A3M Router — Intelligent LLM Routing Engine
+# A3M Router
+> Intelligent LLM routing - drop-in OpenAI proxy, 39 providers, 245% growth in 3 days
 
 ## What
-OpenAI-compatible AI gateway that routes queries to the cheapest capable LLM provider.
-2,775 downloads in 3 days. 1,903 yesterday. 39 providers. Zero config.
+A3M Router is an OpenAI-compatible proxy that analyzes each query and routes it to the cheapest capable LLM provider. 2,775 downloads in 3 days. 1,903 yesterday. 39 providers. Zero config. Zero budget marketing.
 
-## Quick Start
+## Key Stats
+- 2,775 downloads in 3 days
+- 245% growth, zero marketing budget
+- 39 providers (OpenAI, Anthropic, Groq, Cerebras, DeepSeek, Mistral, Ollama, etc.)
+- Drop-in replacement for api.openai.com
+- 50-80% cost savings vs using GPT-4 for everything
+- Semantic cache eliminates redundant API calls
+
+## Install
 ```bash
 npm install adaptive-memory-multi-model-router
 npx a3m-router serve
 ```
 
-## Key Features
+## Features
 - OpenAI-compatible proxy (drop-in for any SDK)
-- Intelligent routing by query complexity (70% cost savings)
-- Real-time dashboard with cost tracking
-- LangChain adapter (A3MChatModel)
-- Guardrails (PII, prompt injection, content filter)
+- Intelligent routing by query complexity
 - Semantic cache (trigram Jaccard similarity)
-- Cost analytics with savings reports
-- 39 providers: Groq, Cerebras, Mistral, DeepSeek, CommandCode (FREE), Ollama, etc.
+- Security guardrails (PII, prompt injection, content filter)
+- Real-time cost analytics dashboard
+- LangChain adapter (A3MChatModel)
+- Circuit breaker with automatic fallback
+- Batch processing with rate limiting
+- 39 providers from free to premium
 
 ## Providers by Cost
 - FREE: CommandCode, Ollama, LM Studio, vLLM
@@ -31,6 +40,7 @@ npx a3m-router serve
 const { createA3MRouter } = require('adaptive-memory-multi-model-router');
 const router = createA3MRouter();
 const result = await router.route("Your query");
+console.log(result.primary_model); // "groq/llama-3.3-70b"
 ```
 
 ## CLI
@@ -42,7 +52,14 @@ npx a3m-router providers      # List configured providers
 npx a3m-router status         # Show router status
 ```
 
+## Use Cases
+- Reduce OpenAI API costs by 50-80%
+- Add fallback/redundancy to LLM pipelines
+- Route between local (Ollama) and cloud models
+- Build multi-provider AI applications
+- Add guardrails and caching to existing LLM setups
+
 ## Links
-- NPM: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 - GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- NPM: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 - License: MIT

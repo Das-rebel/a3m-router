@@ -1,0 +1,13 @@
+# A3M Router - robots.txt
+# https://github.com/Das-rebel/adaptive-memory-multi-model-router
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://das-rebel.github.io/adaptive-memory-multi-model-router/sitemap.xml
+
+# Disallow admin/internal paths
+Disallow: /node_modules/
+Disallow: /dist/
+Disallow: /test/
