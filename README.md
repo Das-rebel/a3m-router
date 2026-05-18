@@ -165,17 +165,32 @@ Track every request. Export savings reports. Set daily budget limits.
 
 ## Comparison
 
-| Feature | A3M Router | Portkey | LiteLLM |
-|---------|:----------:|:-------:|:-------:|
-| OpenAI-compatible proxy | ✅ | ✅ | ✅ |
-| Intelligent routing | ✅ | ✅ | ✅ |
-| Real-time dashboard | ✅ | ✅ | ❌ |
-| LangChain adapter | ✅ | ✅ | ✅ |
-| Guardrails built-in | ✅ | ✅ | ❌ |
-| Semantic cache | ✅ | ✅ | ❌ |
-| Adaptive memory | ✅ | ❌ | ❌ |
-| **Price** | **Free** | **Paid tiers** | **Free** |
-| **Setup** | **30 seconds** | **Account required** | **Library only** |
+> **How we stack up against the ecosystem.** We're the new kid — [LiteLLM](https://github.com/BerriAI/litellm) (47K ⭐) and [Portkey](https://github.com/Portkey-AI/gateway) (12K ⭐) are more mature. We differentiate on adaptive memory, zero-config proxy, and cost guardrails.
+
+| Feature | A3M Router | [LiteLLM](https://github.com/BerriAI/litellm) | [Portkey](https://github.com/Portkey-AI/gateway) | [RouteLLM](https://github.com/lm-sys/RouteLLM) | [OpenRouter](https://openrouter.ai) |
+|---------|:----------:|:-------:|:-------:|:-------:|:-------:|
+| **GitHub Stars** | 0 (3 days old) | 47.4K | 11.8K | 4.9K | API only |
+| **Language** | Node.js + Python | Python | TypeScript | Python | API only |
+| **License** | MIT | Custom | MIT | Apache 2.0 | Proprietary |
+| **Providers** | 40 | 100+ | 1,600+ | Custom endpoints | 200+ |
+| **Self-hosted** | ✅ | ✅ | ✅ | ✅ | ❌ |
+| OpenAI proxy | ✅ | ✅ | ✅ | ✅ | ✅ |
+| Cost routing | ✅ | ✅ | ✅ | ✅ | ✅ |
+| **Adaptive memory** | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **Cost guardrails** | ✅ | ✅ | ❌ | ❌ | ❌ |
+| Semantic cache | ✅ | ✅ | ✅ | ❌ | ❌ |
+| Guardrails | ✅ | ✅ | ✅ (50+) | ❌ | ❌ |
+| Dashboard | ✅ | ✅ | ✅ | ❌ | ✅ |
+| **Zero config** | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **Price** | **Free** | **Free + Paid** | **Free + Paid** | **Free** | **Usage-based** |
+
+### Other projects worth watching
+
+- [9router](https://github.com/decolua/9router) (12K ⭐) — Free AI coding router for Claude Code / Cursor / Copilot
+- [ClawRouter](https://github.com/BlockRunAI/ClawRouter) (6.5K ⭐) — Agent-native LLM router with USDC payments
+- [Plano](https://github.com/katanemo/plano) (6.5K ⭐) — AI-native proxy in Rust, built-in orchestration
+- [Helicone](https://github.com/Helicone/helicone) (5.7K ⭐) — LLM observability platform (logging/analytics)
+- [semantic-router](https://github.com/vllm-project/semantic-router) (4.2K ⭐) — System-level router for MoM at datacenter scale
 
 ---
 
@@ -190,9 +205,35 @@ Track every request. Export savings reports. Set daily budget limits.
 
 ## Benchmarks
 
-Run your own:
+> Routing accuracy benchmark (RouteLLM methodology). 200 queries across 4 difficulty tiers.
+
+```
+╔═══════════════════════════════════════════════════════════╗
+║  A3M Router — Classification Benchmark Results            ║
+╚═══════════════════════════════════════════════════════════╝
+
+  Queries:                 200 (50 simple, 60 medium, 50 complex, 40 expert)
+  Exact tier match:        24.0%
+  ±1 Tier accuracy:        82.5%  ← the meaningful metric
+  Cost savings vs premium: 63.7%
+  Over-routing (wasteful): 36.5%
+  Under-routing (risky):   39.5%
+
+  Confusion Matrix:
+               → free    → cheap   → mid     → premium
+  simple         0        46       4         0
+  medium         0        39✓      20        1
+  complex        0        42       6✓        2
+  expert         0        30       7         3✓
+```
+
+**Honest assessment:** The classifier correctly identifies simple queries for cheap/free routing (92% land in free/cheap). Expert queries are the weakest — most get routed to cheap/mid instead of premium. The adaptive memory feature improves this over time by learning from circuit breaker feedback.
+
+For comparison, [RouteLLM](https://github.com/lm-sys/RouteLLM) reports ~85% routing accuracy on their benchmark with a BERT-based classifier (ours is keyword-based). We accept the lower accuracy for zero-dependency, instant routing.
+
+Run the benchmark yourself:
 ```bash
-bash scripts/benchmark.sh
+node scripts/routing-benchmark-v2.js
 ```
 
 ---
