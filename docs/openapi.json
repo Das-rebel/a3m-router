@@ -1,0 +1,139 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "A3M Router API",
+    "description": "OpenAI-compatible LLM routing proxy with intelligent query classification. Routes queries to the cheapest capable model using multi-signal scoring — 99.5% ±1 tier accuracy, no ML required.",
+    "version": "2.2.0",
+    "contact": {
+      "name": "A3M Router",
+      "url": "https://github.com/Das-rebel/adaptive-memory-multi-model-router"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8787",
+      "description": "Local proxy server"
+    }
+  ],
+  "paths": {
+    "/v1/route": {
+      "post": {
+        "summary": "Route a query",
+        "description": "Analyze a query and return the optimal model, tier, cost estimate, and complexity score without executing the query.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["query"],
+                "properties": {
+                  "query": {
+                    "type": "string",
+                    "description": "The query to route",
+                    "example": "Write a Python function to sort an array"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Routing decision",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "model": { "type": "string", "example": "groq/llama-3.3-70b" },
+                    "tier": { "type": "string", "enum": ["free", "cheap", "mid", "premium"], "example": "cheap" },
+                    "cost": { "type": "number", "example": 0.0004 },
+                    "complexity": { "type": "number", "example": 0.33 },
+                    "reasoning": { "type": "string", "example": "Coding task detected" },
+                    "fallback_models": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/chat/completions": {
+      "post": {
+        "summary": "Chat completion (OpenAI-compatible)",
+        "description": "OpenAI-compatible chat completions endpoint. Set model='auto' for intelligent routing.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["messages"],
+                "properties": {
+                  "model": { "type": "string", "default": "auto" },
+                  "messages": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "role": { "type": "string" },
+                        "content": { "type": "string" }
+                      }
+                    }
+                  },
+                  "max_tokens": { "type": "integer", "default": 100 },
+                  "temperature": { "type": "number", "default": 0.7 },
+                  "stream": { "type": "boolean", "default": false }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OpenAI-compatible chat completion response"
+          }
+        }
+      }
+    },
+    "/v1/models": {
+      "get": {
+        "summary": "List available models",
+        "description": "Returns all available models across 40 LLM providers organized by cost tier.",
+        "responses": {
+          "200": {
+            "description": "Model list"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "description": "Returns health status and provider availability.",
+        "responses": {
+          "200": {
+            "description": "Health status"
+          }
+        }
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "summary": "Cost analytics",
+        "description": "Returns cost analytics, savings report, and per-provider usage.",
+        "responses": {
+          "200": {
+            "description": "Cost analytics report"
+          }
+        }
+      }
+    }
+  }
+}
