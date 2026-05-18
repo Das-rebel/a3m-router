@@ -112,43 +112,70 @@ Real provider pricing. 10,000 queries/month. [RouteLLM paper](https://arxiv.org/
 
 ## Quick Start
 
-### Proxy mode. Zero code changes.
-
 ```bash
 npm install adaptive-memory-multi-model-router
-npx a3m-router serve
 ```
 
-Point any OpenAI SDK at `http://localhost:8787/v1`:
+### TypeScript
+
+```typescript
+import { A3MRouter } from 'adaptive-memory-multi-model-router/sdk';
+
+const router = new A3MRouter();
+const decision = router.route("Write a Python function to sort an array");
+// → { model: "groq/llama-3.3-70b", tier: "cheap", cost: 0.0004, complexity: 0.33 }
+```
+
+### Python
+
+```bash
+pip install a3m-router
+```
+
+```python
+from a3m import A3MRouter
+
+async with A3MRouter() as router:
+    decision = await router.route("Write a Python function to sort an array")
+    print(decision.model, decision.tier, decision.cost)
+    # → groq/llama-3.3-70b cheap 0.0004
+```
+
+### OpenAI-Compatible Proxy
+
+```bash
+npx a3m-router serve
+# Now point any OpenAI SDK at http://localhost:8787/v1
+```
 
 ```python
 from openai import OpenAI
-
 client = OpenAI(base_url="http://localhost:8787/v1", api_key="not-needed")
-response = client.chat.completions.create(
-    model="auto",
-    messages=[{"role": "user", "content": "Hello!"}]
-)
-```
-
-Works with Python, Node, LangChain, LlamaIndex. Any OpenAI-compatible client.
-
-### Library mode
-
-```javascript
-const { createA3MRouter } = require('adaptive-memory-multi-model-router');
-const router = createA3MRouter();
-
-const result = await router.route("Explain quantum computing briefly");
-console.log(result.response, result.provider, result.cost);
+response = client.chat.completions.create(model="auto", 
+    messages=[{"role": "user", "content": "Hello!"}])
 ```
 
 ### CLI
 
 ```bash
-npx a3m-router route "Your query here"
-npx a3m-router benchmark
-npx a3m-router serve --port 3000
+npx a3m-router route "Your query here"     # Route a single query
+npx a3m-router benchmark                    # Run accuracy benchmark
+npx a3m-router serve --port 3000            # Start proxy
+npx a3m-router health                       # Check provider status
+```
+
+### REST API (curl)
+
+```bash
+# Route a query
+curl -X POST http://localhost:8787/v1/route \
+  -H "Content-Type: application/json" \
+  -d '{"query": "What is 2+2?"}'
+
+# Chat completion (OpenAI-compatible)
+curl -X POST http://localhost:8787/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{"model":"auto","messages":[{"role":"user","content":"Hello"}]}'
 ```
 
 ---

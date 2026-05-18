@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "99.5% ±1 tier routing accuracy, zero ML. Exceeds RouteLLM BERT. Drop-in OpenAI proxy, 40 providers, domain-aware. 245% growth in 3 days.",
@@ -46,6 +46,10 @@
       "import": "./dist/analytics/costAnalytics.js",
       "require": "./dist/analytics/costAnalytics.js",
       "types": "./dist/analytics/costAnalytics.d.ts"
+    },
+    "./sdk": {
+      "import": "./dist/sdk.js",
+      "require": "./dist/sdk.js"
     }
   },
   "keywords": [
