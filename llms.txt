@@ -1,10 +1,14 @@
 # A3M Router
-> LLM router with 99.5% ±1 tier routing accuracy without ML. Drop-in OpenAI proxy, 40 providers, semantic cache, guardrails. TypeScript SDK, Python SDK, CLI, REST API.
+> Intelligent LLM routing with adaptive memory — 99.5% ±1 tier accuracy, zero ML, zero GPU. OpenAI-compatible proxy across 36 providers with semantic cache, guardrails, and cost analytics.
 
-## Benchmark Results
-- **64.5% exact tier match**, **99.5% ±1 tier accuracy** (200 queries, 4 tiers)
-- **61.6% cost savings** vs premium-only routing
-- Multi-signal classifier: domain detection, complexity scoring, action verbs, qualifiers
+## Three Core Capabilities
+1. **Adaptive Memory** — Learns from usage patterns. Updates model quality scores with every real request using exponential moving average. No retraining needed.
+2. **Multi-Signal Routing** — 5-signal complexity scoring: domain detection (legal, medical, finance, security, architecture, ML), task indicators (code, math, creative, multilingual), query structure, action verb intensity, multi-step detection. All regex + keyword, zero ML.
+3. **Production Protections** — Semantic cache (trigram Jaccard similarity), 17-pattern prompt injection detection, PII redaction, content filtering, hallucination checks, cost analytics with budget alerts, circuit breaker with auto-failover.
+
+## Benchmark
+- 64.5% exact tier match, 99.5% ±1 tier accuracy (200 queries, 4 tiers)
+- 61.6% cost savings vs premium-only routing
 - RouteLLM-inspired methodology, self-benchmarked
 
 ## Install
@@ -16,35 +20,30 @@ npx a3m-router serve                              # Proxy at localhost:8787
 
 ## Interfaces
 - **TypeScript SDK:** `import { A3MRouter } from 'adaptive-memory-multi-model-router/sdk'`
-- **Python SDK:** `from a3m import A3MRouter`
-- **CLI:** `npx a3m-router route/serve/benchmark`
+- **Python SDK:** `from a3m import A3MRouter` (async) or `from a3m import A3MRouterSync`
+- **CLI:** `npx a3m-router route/serve/benchmark/health/cost/compare`
 - **Proxy:** OpenAI-compatible at `localhost:8787/v1`
-- **REST API:** `POST /v1/route`, `POST /v1/chat/completions`, `GET /v1/models`
+- **REST API:** POST /v1/route, POST /v1/chat/completions, GET /v1/models, GET /health
+- **LangChain:** `import { A3MChatModel } from 'adaptive-memory-multi-model-router/langchain'`
 
-## Key Metrics
-| Metric | Value |
-|--------|-------|
-| Exact routing accuracy | 64.5% |
-| ±1 tier accuracy | 99.5% |
-| Cost savings | 61.6% |
-| Providers | 40 |
-| Package size | 19.5 KB gzipped |
-| ML/GPU required | No |
-
-## 40 Providers
-- **Free:** Groq, Cerebras, Ollama, LM Studio, CommandCode, vLLM, LocalAI
-- **Cheap:** DeepSeek, MiniMax, Mistral, Qwen, GLM-4
-- **Mid:** Google Gemini, Cohere, Together AI
-- **Premium:** OpenAI GPT-4o/o3, Anthropic Claude, Google Gemini Ultra
+## 36 Providers by Tier
+- **Free (6):** CommandCode, Ollama, LM Studio, vLLM, OpenCode, Google (free tier)
+- **Cheap (15):** Groq, Cerebras, DeepInfra, Together, Fireworks, Novita, SambaNova, Anyscale, Replicate, OpenRouter, Zhipu (GLM), Moonshot (Kimi), Yi, Baichuan, MiniMax
+- **Mid (9):** DeepSeek, Mistral, Perplexity, Cohere, AI21, Qwen, StepFun, AlephAlpha, Deepset
+- **Premium (3):** OpenAI, Anthropic, xAI (Grok)
+- **Enterprise (3):** Azure OpenAI, AWS Bedrock, Google Vertex
 
 ## Features
-- OpenAI-compatible proxy (drop-in for any SDK)
-- Multi-signal routing (domain, complexity, verbs, qualifiers)
-- Semantic cache (trigram Jaccard similarity)
-- Security guardrails (PII, prompt injection)
-- Cost analytics dashboard
-- Circuit breaker with automatic fallback
-- Batch processing with rate limiting
+- Multi-signal routing with 5 weighted signals (domain, task, structure, verbs, specificity)
+- Online learning via exponential moving average on model quality scores
+- Semantic cache using character trigram Jaccard similarity (no vector DB, no embeddings)
+- Guardrails: 17-pattern injection detection, PII detection/redaction (email, phone, SSN, CC, API keys, IP), content filtering, hallucination heuristics
+- Cost analytics: per-provider spend tracking, budget alerts (daily/monthly/per-model), savings vs GPT-4o baseline
+- Circuit breaker: 3 failures → 60s cooldown, automatic provider failover
+- OpenAI-compatible proxy auto-detects provider format (OpenAI, Anthropic, Google, Ollama)
+- LangChain adapter (A3MChatModel drop-in for ChatOpenAI)
+- Streaming support (SSE relay)
+- Obsidian vault integration for decision logging
 
 ## Links
 - GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router

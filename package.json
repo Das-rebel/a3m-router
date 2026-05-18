@@ -3,7 +3,7 @@
   "version": "2.2.0",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
-  "description": "LLM router & AI gateway with OpenAI-compatible proxy. 99.5% routing accuracy, 40 providers (Groq, Cerebras, Ollama, DeepSeek, Mistral). Semantic cache, guardrails, cost optimization. Drop-in for LangChain, Vercel AI SDK.",
+  "description": "LLM router & AI gateway with 99.5% ±1 tier routing accuracy. Multi-signal classification (domain, complexity, verbs), 36 providers, semantic cache, guardrails, cost analytics. TypeScript SDK, Python SDK, CLI, REST API, OpenAI proxy.",
   "main": "dist/index.js",
   "bin": {
     "a3m-router": "dist/cli.js",
