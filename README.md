@@ -95,14 +95,30 @@ npx a3m-router serve --port 3000           # Start proxy on custom port
 
 ## Cost Comparison
 
-| Query Type | % of Traffic | GPT-4o Cost | A3M Routes To | A3M Cost | Savings |
-|-----------|:------------:|:-----------:|:-------------:|:--------:|:-------:|
-| Simple Q&A | 47% | $0.00375 | Groq/Cerebras | $0.00009 | **97%** |
-| Medium tasks | 33% | $0.01250 | GPT-4o-mini | $0.00075 | **94%** |
-| Complex reasoning | 20% | $0.03000 | GPT-4o | $0.03000 | 0% |
-| **Average** | **100%** | **$0.01250** | — | **$0.00515** | **59%** |
+![Cost Comparison](assets/cost-comparison.svg)
 
-At 1M queries/month: **$12,500 → $5,150**. You save **$7,350/month**.
+Based on real provider pricing from `providerConfig.ts` and [RouteLLM](https://arxiv.org/abs/2404.06035) query distribution.
+
+| Query Type | % Traffic | Example | GPT-4o (all) | A3M Routes To | A3M Cost | Savings |
+|-----------|:---------:|---------|:------------:|:-------------:|:--------:|:-------:|
+| Simple Q&A | 47% | "What is 2+2?" | $4.94 | CommandCode (FREE) | $0.00 | **100%** |
+| Code generation | 15% | "Write Python sort" | $4.88 | DeepSeek v3 ($0.14/1M) | $0.17 | **97%** |
+| Summarization | 18% | "Summarize this doc" | $7.20 | GPT-4o-mini ($0.15/1M) | $0.43 | **94%** |
+| Complex reasoning | 12% | "Analyze economics..." | $8.70 | Claude Haiku ($0.80/1M) | $3.36 | **61%** |
+| Expert analysis | 8% | "Legal contract review" | $8.40 | GPT-4o ($2.50/1M) | $8.40 | 0% |
+| **TOTAL (10K/mo)** | **100%** | — | **$34.11** | — | **$12.36** | **64%** |
+
+### Scale Projections
+
+| Monthly Queries | GPT-4o (all) | A3M Router | Monthly Savings | Annual Savings |
+|:---------------:|:------------:|:----------:|:---------------:|:--------------:|
+| 10,000 | $34 | $12 | $22 | $261 |
+| 50,000 | $171 | $62 | $109 | $1,305 |
+| 100,000 | $341 | $124 | $218 | $2,610 |
+| 500,000 | $1,706 | $618 | $1,088 | $13,050 |
+| 1,000,000 | $3,411 | $1,236 | **$2,175** | **$26,100** |
+
+> **The key insight:** 47% of your queries are simple. 20% need premium models. A3M Router only uses premium when necessary — that's where the 64% savings come from.
 
 ---
 

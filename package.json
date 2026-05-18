@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.0.3",
+  "version": "2.0.5",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "Drop-in OpenAI proxy that routes queries to the cheapest capable model. 39 providers, semantic cache, guardrails. 245% growth in 3 days, zero budget.",
