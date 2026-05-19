@@ -284,8 +284,6 @@ We ran 10 questions against each provider via real API calls. All providers are 
 
 > Note: OpenCode (`opencode serve`) runs a web UI, not an OpenAI-compatible API proxy. For API access use Groq or Cerebras directly.
 
-> MT-Bench scores from [arXiv:2308.03688](https://arxiv.org/abs/2308.03688) and provider model cards. MMLU from HuggingFace leaderboards. Prices from provider websites (May 2026).
-
 ### Why This Matters for Routing
 
 ```
