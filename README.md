@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![GitHub stars](https://img.shields.io/github/stars/Das-rebel/adaptive-memory-multi-model-router)](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
 
-> **4,200+ npm downloads in 4 days** — keyword-overhauled v2.2.0 with 65 SEO keywords, Python SDK, 36 providers.
+> **4,200+ npm downloads in 4 days** —  Python SDK, 36 providers.
 
 
 **Intelligent LLM routing with adaptive memory — 99.5% ±1 tier accuracy, zero ML, zero GPU.**
