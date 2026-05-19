@@ -1,110 +1,38 @@
 # Contributing to A3M Router
 
-First off, thank you for considering contributing to A3M Router! It's people like you that make this project a great tool for the community.
+Thank you for your interest in contributing! 
 
-## Where to Start?
+## Quick Start
 
-- 🐛 **Found a bug?** [Open an issue](https://github.com/Das-rebel/adaptive-memory-multi-model-router/issues)
-- 💡 **Have an idea?** [Start a discussion](https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions)
-- 🔧 **Want to code?** Read on!
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Areas We Need Help
+
+- 🌍 **New providers**: Add support for more LLM providers
+- 🧪 **Tests**: Improve test coverage
+- 📖 **Documentation**: Fix typos, add examples
+- 🐛 **Bug fixes**: Check open issues
+- 🎨 **Examples**: Add real-world usage examples
 
 ## Development Setup
 
 ```bash
-# Clone the repository
 git clone https://github.com/Das-rebel/adaptive-memory-multi-model-router.git
 cd adaptive-memory-multi-model-router
-
-# Install dependencies
 npm install
-
-# Run tests
 npm test
-
-# Run linting
-npm run lint
 ```
 
-## How to Contribute
+## Code Style
 
-### Reporting Bugs
+- TypeScript strict mode
+- No external dependencies in core routing logic
+- Keep the package small (<25 KB)
 
-Before creating bug reports, please check the existing issues. When creating a bug report, include:
+## License
 
-- **Clear title and description**
-- **Steps to reproduce**
-- **Expected vs actual behavior**
-- **Environment details** (Node version, OS)
-- **Code samples** if applicable
-
-### Suggesting Enhancements
-
-Enhancement suggestions are tracked as GitHub issues. Include:
-
-- **Use case** - Why is this needed?
-- **Proposed solution** - How should it work?
-- **Alternatives** - What else was considered?
-- **Additional context** - Screenshots, examples
-
-### Pull Requests
-
-1. Fork the repo and create your branch from `main`
-2. If you've added code, add tests
-3. If you've changed APIs, update the documentation
-4. Ensure the test suite passes
-5. Make sure your code follows the existing style
-6. Issue that pull request!
-
-### Code Style
-
-- **JavaScript**: Follow existing patterns
-- **TypeScript**: Strict mode enabled
-- **Tests**: All new features need tests
-- **Documentation**: Update README for user-facing changes
-
-## Project Structure
-
-```
-├── dist/           # Compiled JavaScript
-├── src/            # TypeScript source
-├── test/           # Test files
-├── docs/           # Documentation
-├── examples/       # Usage examples
-└── scripts/        # Build and utility scripts
-```
-
-## Areas Needing Help
-
-🎯 **High Priority**
-- Additional LLM provider integrations
-- Performance optimizations
-- Better error handling
-
-🚀 **Nice to Have**
-- More examples
-- Video tutorials
-- Blog posts
-
-📝 **Documentation**
-- Translation to other languages
-- API documentation improvements
-- Usage guides
-
-## Recognition
-
-Contributors will be:
-- Listed in our README
-- Mentioned in release notes
-- Added to the contributors graph
-
-## Questions?
-
-Join our [Discussions](https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions) or reach out on [Twitter](https://twitter.com/yourhandle).
-
-## Code of Conduct
-
-This project adheres to a [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
-
----
-
-**Thank you for contributing!** 🎉
+By contributing, you agree that your contributions will be licensed under the MIT License.
