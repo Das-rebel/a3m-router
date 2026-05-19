@@ -1,3 +1,5 @@
+[🇨🇳 中文](./README_zh.md) · [🇯🇵 日本語](./README_ja.md) · [English](./README.md)
+
 # A3M Router 🔀
 
 [![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?label=npm%20downloads)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
