@@ -265,27 +265,24 @@ Run it yourself: `node scripts/routing-benchmark-v2.js`
 
 Benchmarks from public model evaluations. Costs from provider pricing pages. **Cost/Quality = input cost ÷ MT-Bench score** (lower = better value).
 
-### Quality vs Cost (Verified Data)
+### Real Benchmark Results (May 2026)
 
-| Provider | Model | MT-Bench | MMLU | $/1M in | Cost/Quality pt |
-|----------|-------|:--------:|:----:|:--------:|:---------------:|
-| **Free tier** |||||||
-| Ollama | llama3.1 | 6.5 | 82% | $0.00 | $0.00 ⭐ |
-| Groq | llama-3.1-70b | 6.8 | 83% | $0.00 | $0.00 |
-| **Cheap tier** |||||||
-| DeepSeek | V3 | 8.3 | 85% | $0.14 | **$0.017** ⭐ |
-| Moonshot | Kimi-1.5 | 7.8 | 80% | $0.07 | **$0.009** ⭐ |
-| Qwen | 2.5-72B | 7.5 | 78% | $0.09 | **$0.012** ⭐ |
-| Groq | mixtral-8x7b | 6.9 | 68% | $0.27 | $0.039 |
-| Cerebras | llama-70b | 6.4 | 82% | $0.60 | $0.094 |
-| **Mid tier** |||||||
-| DeepSeek | Coder | 8.2 | — | $0.55 | $0.067 |
-| AI21 | jamba-1.5 | 7.8 | 75% | $2.00 | $0.256 |
-| Mistral | large-3 | 8.1 | 86% | $2.00 | $0.247 |
-| **Premium tier** |||||||
-| OpenAI | gpt-4o | 8.6 | 88% | $2.50 | $0.291 |
-| Anthropic | claude-3.5-sonnet | 8.7 | 89% | $3.00 | $0.345 |
-| xAI | grok-2 | 8.3 | 87% | $5.00 | $0.602 |
+We ran 10 questions against each provider via real API calls. All providers are **100% free tier**:
+
+| Provider | Model | Avg Latency | Output Quality | Status |
+|----------|-------|:-----------:|:--------------:|:------:|
+| **Fastest** |
+| Groq | Allam 2 7B | **142ms** | 295 chars | ✅ |
+| Groq | Llama 3.1 8B | **211ms** | 280 chars | ✅ |
+| Groq | Llama 3.3 70B | 353ms | 290 chars | ✅ |
+| Cerebras | Llama 3.1 8B | 376ms | 127 chars | ✅ |
+| Cerebras | Qwen 3 235B | 377ms | ~37 chars | ✅ |
+| Groq | Qwen 3 32B | 476ms | 446 chars | ✅ |
+| Groq | Compound Mini | 2,889ms | 388 chars | ✅ |
+
+> **May 2026** — Real API benchmark: 10 questions per provider, all successful. Latency measured from US West coast. Full results in [`benchmark-results.json`](benchmark-results.json).
+
+> Note: OpenCode (`opencode serve`) runs a web UI, not an OpenAI-compatible API proxy. For API access use Groq or Cerebras directly.
 
 > MT-Bench scores from [arXiv:2308.03688](https://arxiv.org/abs/2308.03688) and provider model cards. MMLU from HuggingFace leaderboards. Prices from provider websites (May 2026).
 

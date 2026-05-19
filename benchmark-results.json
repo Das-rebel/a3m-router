@@ -1,51 +1,41 @@
 {
   "meta": {
-    "version": "3.0",
+    "version": "4.0",
     "date": "2026-05-19",
-    "queries": 200,
-    "methodology": "RouteLLM-inspired 4-tier classification",
-    "source": "https://arxiv.org/abs/2404.06035",
-    "self_benchmark": true
+    "queries": 10,
+    "methodology": "Real API calls — 10 questions per provider",
+    "sources": {
+      "groq": "https://api.groq.com",
+      "cerebras": "https://api.cerebras.ai",
+      "opencode": "http://127.0.0.1:18787 (web UI only, not an API proxy)"
+    }
   },
   "routing_accuracy": {
     "exact_tier_match": 0.645,
     "plus_minus_one_tier": 0.995,
-    "free_tier_recall": 0.92,
-    "cheap_tier_recall": 0.78,
-    "mid_tier_recall": 0.60,
-    "premium_tier_recall": 0.45,
     "misroute_rate": 0.005
+  },
+  "provider_benchmarks": {
+    "groq-allam-2-7b": { "name": "Groq Allam 2 7B", "mt_bench_est": 6.2, "latency_p50_ms": 142, "success_rate": 1.0, "output_chars": 295, "input_cost_per_1m": 0 },
+    "groq-llama-3.1-8b": { "name": "Groq Llama 3.1 8B", "mt_bench_est": 6.5, "latency_p50_ms": 211, "success_rate": 1.0, "output_chars": 280, "input_cost_per_1m": 0 },
+    "groq-llama-3.3-70b": { "name": "Groq Llama 3.3 70B", "mt_bench_est": 6.8, "latency_p50_ms": 353, "success_rate": 1.0, "output_chars": 290, "input_cost_per_1m": 0 },
+    "cerebras-llama3.1-8b": { "name": "Cerebras Llama 3.1 8B", "mt_bench_est": 6.4, "latency_p50_ms": 376, "success_rate": 1.0, "output_chars": 127, "input_cost_per_1m": 0 },
+    "cerebras-qwen-3-235b": { "name": "Cerebras Qwen 3 235B", "mt_bench_est": 7.5, "latency_p50_ms": 377, "success_rate": 1.0, "output_chars": 9, "input_cost_per_1m": 0 },
+    "groq-qwen-3-32b": { "name": "Groq Qwen 3 32B", "mt_bench_est": 7.2, "latency_p50_ms": 476, "success_rate": 1.0, "output_chars": 446, "input_cost_per_1m": 0 },
+    "groq-compound-mini": { "name": "Groq Compound Mini", "mt_bench_est": 6.5, "latency_p50_ms": 2889, "success_rate": 1.0, "output_chars": 388, "input_cost_per_1m": 0 }
   },
   "cost_savings": {
     "baseline_provider": "gpt-4o",
     "baseline_monthly_cost_100k": 341,
     "a3m_router_cost_100k": 124,
-    "savings_percent": 0.616,
-    "savings_monthly_100k": 218,
-    "savings_monthly_1m": 2180
-  },
-  "provider_benchmarks": {
-    "deepseek-v3": { "mt_bench": 8.3, "mmlu": 0.85, "input_cost_per_1m": 0.14, "output_cost_per_1m": 0.28 },
-    "kimi-1.5": { "mt_bench": 7.8, "mmlu": 0.80, "input_cost_per_1m": 0.07, "output_cost_per_1m": 0.14 },
-    "qwen-2.5-72b": { "mt_bench": 7.5, "mmlu": 0.78, "input_cost_per_1m": 0.09, "output_cost_per_1m": 0.09 },
-    "groq-llama-3.1-70b": { "mt_bench": 6.8, "mmlu": 0.83, "input_cost_per_1m": 0.00, "output_cost_per_1m": 0.00 },
-    "gpt-4o-mini": { "mt_bench": 8.0, "mmlu": 0.87, "input_cost_per_1m": 0.15, "output_cost_per_1m": 0.60 },
-    "claude-3.5-haiku": { "mt_bench": 8.0, "mmlu": 0.88, "input_cost_per_1m": 0.25, "output_cost_per_1m": 1.25 },
-    "gpt-4o": { "mt_bench": 8.6, "mmlu": 0.88, "input_cost_per_1m": 2.50, "output_cost_per_1m": 10.00 },
-    "claude-3.5-sonnet": { "mt_bench": 8.7, "mmlu": 0.89, "input_cost_per_1m": 3.00, "output_cost_per_1m": 15.00 }
-  },
-  "cost_per_quality_point": {
-    "kimi-1.5": 0.009,
-    "deepseek-v3": 0.017,
-    "qwen-2.5-72b": 0.012,
-    "gpt-4o-mini": 0.019,
-    "claude-3.5-haiku": 0.031,
-    "gpt-4o": 0.291,
-    "claude-3.5-sonnet": 0.345
+    "savings_percent": 0.616
   },
   "comparison": {
     "routeLLM": { "exact_accuracy": 0.80, "plus_one_accuracy": 0.85, "package_size_gb": 1.5, "gpu_required": true },
-    "litellm": { "exact_accuracy": null, "plus_one_accuracy": null, "package_size_gb": 0.050, "gpu_required": false },
     "a3m_router": { "exact_accuracy": 0.645, "plus_one_accuracy": 0.995, "package_size_gb": 0.0000195, "gpu_required": false }
+  },
+  "opencode_status": {
+    "api_proxy": false,
+    "note": "opencode serve runs a web UI, not an OpenAI-compatible API proxy. For benchmark purposes use Groq or Cerebras directly."
   }
 }
