@@ -243,8 +243,7 @@ registerProvider('my-provider', {
 
 ### 🧠 Adaptive Memory & Learning
 
-<details>
-<summary>How memory works — click to expand</summary>
+**How Memory Works**
 
 **Memory Tree** — Hierarchical text storage that scores and organizes context chunks by relevance. Query it to retrieve relevant past decisions.
 
@@ -262,12 +261,9 @@ memory.add("Groq latency is 120ms average for simple tasks");
 const context = memory.getContext(1000); // top chunks for routing context
 ```
 
-</details>
-
 ### 🎯 Semantic Cache
 
-<details>
-<summary>Trigram Jaccard similarity — click to expand</summary>
+**Trigram Jaccard Similarity — How It Works**
 
 Skips duplicate LLM calls by detecting semantically similar queries using **character trigram Jaccard similarity** — no vector database, no embeddings model, no GPU.
 
@@ -295,12 +291,9 @@ How it works:
 3. Compute Jaccard similarity: `|A ∩ B| / |A ∪ B|`
 4. Return best match above threshold
 
-</details>
-
 ### 🛡️ Guardrails Engine
 
-<details>
-<summary>17-pattern injection detection + PII redaction + hallucination checks</summary>
+**17-Pattern Injection Detection + PII Redaction + Hallucination Checks**
 
 **Input guardrails** (run before every LLM call):
 - **Prompt injection detection** — 17 weighted regex patterns (ignore-instructions, jailbreak, DAN, act-as, system-prefix, etc.). Score 0-100, blocks at ≥80.
@@ -333,12 +326,9 @@ guard.addGuardrail('no-competitors', (text) => {
 });
 ```
 
-</details>
-
 ### 💰 Cost Analytics
 
-<details>
-<summary>Per-provider spend tracking + budget alerts + savings projections</summary>
+**Per-Provider Spend Tracking + Budget Alerts + Savings Projections**
 
 ```typescript
 import { CostTracker } from 'adaptive-memory-multi-model-router/cost';
@@ -364,12 +354,9 @@ const savings = analytics.getSavings('openai/gpt-4o');
 // → { totalSaved: 45.20, percentageSaved: 64.2, projectedYearlySavings: 542 }
 ```
 
-</details>
-
 ### 🌐 OpenAI-Compatible Proxy
 
-<details>
-<summary>Drop-in proxy — handles OpenAI, Anthropic, Google, Ollama formats</summary>
+**Drop-In Proxy — Handles OpenAI, Anthropic, Google, Ollama Formats**
 
 The proxy auto-detects provider type and converts request/response formats:
 
@@ -394,12 +381,9 @@ client = OpenAI(base_url="http://localhost:8787/v1", api_key="not-needed")
 
 Works with: Python OpenAI SDK, Node OpenAI SDK, LangChain, LlamaIndex, Cursor, Claude Code, any OpenAI-compatible client.
 
-</details>
-
 ### 🔗 LangChain Integration
 
-<details>
-<summary>Drop-in replacement for ChatOpenAI</summary>
+**Drop-In Replacement for ChatOpenAI**
 
 ```typescript
 import { A3MChatModel } from 'adaptive-memory-multi-model-router/langchain';
@@ -425,8 +409,6 @@ const structuredModel = model.withStructuredOutput(schema);
 // Tool calling
 const modelWithTools = model.bindTools([searchTool, calculatorTool]);
 ```
-
-</details>
 
 ---
 
