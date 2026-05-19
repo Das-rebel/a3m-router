@@ -239,6 +239,105 @@ registerProvider('my-provider', {
 
 ---
 
+
+---
+
+## 🔄 MCTS Workflow Optimization
+
+For simple per-query routing, A3M Router uses **multi-signal heuristic scoring** (12 keyword signals → complexity score → tier → cheapest available model). This is fast (<1ms), deterministic, and achieves 99.5% ±1 tier accuracy without ML.
+
+For **complex multi-agent workflows** — where a task must be decomposed into sub-tasks and each sub-task assigned to a different agent — A3M Router uses **Monte Carlo Tree Search (MCTS)**.
+
+### When to Use MCTS vs Heuristic Scoring
+
+| Scenario | Approach |
+|----------|----------|
+| Single query, route to cheapest capable model | Multi-signal scoring (default, <1ms) |
+| Decompose task into sub-tasks, assign each to optimal agent | MCTS (finds optimal assignment) |
+| Batch queries with different complexity levels | Heuristic scoring |
+| Multi-turn workflow with branching decisions | MCTS |
+
+### How MCTS Works
+
+MCTS builds a search tree where each node represents a **workflow state** (which sub-tasks are completed, which agents are assigned to which tasks). It explores the tree using **UCB1** (Upper Confidence Bound) to balance exploration vs exploitation:
+
+```
+UCB1(node) = (total_reward / visits) + C × √(ln(parent_visits) / visits)
+```
+
+Where `C = √2 ≈ 1.414` is the exploration constant.
+
+**4 steps per iteration:**
+1. **Selection** — Starting from root, descend by selecting child with highest UCB1 until unexpanded node or terminal state
+2. **Expansion** — Add one or more child nodes (untried actions)
+3. **Simulation** — Run a rollout from the new node, evaluate the assignment strategy
+4. **Backpropagation** — Update rewards and visit counts back up the tree
+
+After N iterations, the node with the highest average reward is the best strategy.
+
+```typescript
+import { MCTSWorkflowOptimizer } from 'adaptive-memory-multi-model-router/orchestration';
+
+const optimizer = new MCTSWorkflowOptimizer({
+  maxIterations: 50,          // tree search depth
+  explorationConstant: 1.414,  // UCB1 constant
+  maxDepth: 5                 // max workflow depth
+});
+
+// Available agents
+optimizer.setAgents(['claude', 'codex', 'gemini', 'deepseek']);
+
+// Find best agent assignment for sub-tasks
+const bestStrategy = await optimizer.findBestStrategy(
+  ['research', 'write', 'review', 'publish'],
+  async (assignments) => {
+    // Evaluate reward: maximize quality, minimize cost and latency
+    return reward;
+  }
+);
+// → { research: 'deepseek', write: 'claude', review: 'gemini', publish: 'codex' }
+```
+
+### MCTS vs Rule-Based Assignment
+
+| | Rule-based | MCTS |
+|-|----------|------|
+| **Logic** | Hard-coded if/else | Learned from simulation |
+| **Adaptivity** | Static | Adapts to agent performance |
+| **Complexity** | O(n) | O(iterations × branching^depth) |
+| **Exploration** | None | Balances explore/exploit |
+| **Known strategies** | Fast | Slower but finds better strategies |
+| **Scale** | Good for <10 agents | Scales to 20+ agents |
+
+### Architecture
+
+```
+A3M Router (per-query routing)
+└── Multi-signal scoring → fast (<1ms)
+    └── Tier selection → cheapest available
+
+TMLPD Orchestration (multi-agent workflows)
+└── MCTS → optimal agent assignment
+    ├── UCB1 selection
+    ├── State tree expansion
+    └── Reward backpropagation
+```
+
+**Example workflow:**
+```
+User: "Research AI safety, write a report, have experts review it, then publish"
+
+MCTS decomposes into:
+  research → deepseek (cost-effective for research)
+  write → claude (best for structured long-form)
+  review → expert-agents (human-in-loop or specialist LLM)
+  publish → codex (can handle deployment code)
+
+Router assigns each sub-task to optimal agent, tracks outcomes, learns preferences.
+```
+
+
+
 ## Features in Detail
 
 ### 🧠 Adaptive Memory & Learning
