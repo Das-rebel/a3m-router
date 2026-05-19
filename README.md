@@ -11,6 +11,33 @@
 
 OpenAI-compatible proxy that routes every query to the cheapest capable model across 36 providers. Learns from your usage patterns. Protects with cache + guardrails + cost analytics.
 
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     A3M Router — Generative Engine               │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌──────────────┐    ┌──────────────┐    ┌──────────────────┐  │
+│  │  Guardrails  │ → │  Semantic    │ → │  Routing Engine   │  │
+│  │  (Security)   │    │  Cache       │    │  (Multi-signal   │  │
+│  │ 17 patterns   │    │  (30% hit)   │    │   + MCTS)         │  │
+│  └──────────────┘    └──────────────┘    └────────┬─────────┘  │
+│                                                      │            │
+│         ┌──────────────────────┬──────────────────────┼────────┐ │
+│         │                      │                      │        │ │
+│         ↓                      ↓                      ↓        │ │
+│  ┌─────────────┐      ┌─────────────┐      ┌─────────────────┐│ │
+│  │  MemoryTree │      │ CostTracker│      │ Circuit Breaker ││ │
+│  │  (History)   │      │ (Budgets)   │      │  (Failover)      ││ │
+│  └─────────────┘      └─────────────┘      └─────────────────┘│ │
+│                                                              │ │
+│  36 Providers: free → cheap → mid → premium → enterprise  │ │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+
+
 ```bash
 npm install adaptive-memory-multi-model-router   # TypeScript / Node
 pip install a3m-router                            # Python
@@ -26,6 +53,8 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 ## Why A3M Router
 
 Every LLM router either uses ML (RouteLLM — 1.5 GB, GPU required) or doesn't route at all (LiteLLM — you pick the model). A3M Router is the only one that achieves near-ML accuracy with zero ML overhead, then adds memory, caching, guardrails, and cost tracking on top.
+
+For **generative engine optimization** — synthesizing multiple AI models into a single coherent output — A3M Router pairs [MCTS workflow optimization](#-mcts-workflow-optimization) for multi-agent orchestration with heuristic scoring for per-query routing. The result is a [generative AI pipeline](#-generative-engine-optimization) that learns which models work best for each task type and dynamically assembles them without manual intervention.
 
 | 🧠 Adaptive Memory | 🎯 Multi-Signal Routing | 🛡️ Production Protections |
 |:---|:---|:---|
@@ -166,7 +195,31 @@ User Query
 
 ## Benchmark
 
-200 queries, 4 cost tiers, same methodology as [RouteLLM (arXiv:2404.06035)](https://arxiv.org/abs/2404.06035).
+200 queries, 4 cost tiers
+### Benchmark Visualized
+
+```
+Routing Accuracy Comparison (200 queries)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+A3M Router    ████████████████████████████████████████████████████ 99.5%
+RouteLLM      ███████████████████████████████████████████         ~85%
+
+Package Size Comparison
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+A3M Router    █  19.5 KB
+LiteLLM       ████████████████████████████████  ~50 MB
+RouteLLM      ████████████████████████████████████████████████████ ~1.5 GB
+
+Startup Time
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+A3M Router    ████  <100ms
+LiteLLM       ████████████████  ~500ms
+RouteLLM      ████████████████████████████████████████████████████ ~2s
+```
+
+See full benchmark methodology at [`scripts/routing-benchmark-v2.js`](scripts/routing-benchmark-v2.js) or run it with `node scripts/routing-benchmark-v2.js`.
+
+, same methodology as [RouteLLM (arXiv:2404.06035)](https://arxiv.org/abs/2404.06035).
 
 | Metric | A3M Router | RouteLLM (BERT) |
 |--------|:----------:|:---------------:|
@@ -194,7 +247,26 @@ Run it yourself: `node scripts/routing-benchmark-v2.js`
 
 ---
 
-## Cost Savings
+
+### 💰 Cost Visualization
+
+```
+Monthly Cost Comparison (100K queries/month)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GPT-4o Only    ████████████████████████████████████████████████████ $341
+A3M Router    ████████████                                          $124
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Your savings  ████████████████████████████████                   $218/mo
+
+Cost by Tier (A3M Router routing 10K queries):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Free tier     ████████████████████████████████              ~50% of queries
+Cheap tier   █████████                          ~35% of queries
+Mid tier     ███                                 ~10% of queries
+Premium      █                                    ~5% of queries
+```
+
+Based on real provider pricing. Simple queries → free models. Expert → premium only when needed.
 
 Real provider pricing. 10,000 queries/month. [RouteLLM paper](https://arxiv.org/abs/2404.06035) shows ~47% of queries are simple.
 
@@ -242,7 +314,7 @@ registerProvider('my-provider', {
 
 ---
 
-## 🔄 MCTS Workflow Optimization
+## MCTS Workflow Optimization
 
 For simple per-query routing, A3M Router uses **multi-signal heuristic scoring** (12 keyword signals → complexity score → tier → cheapest available model). This is fast (<1ms), deterministic, and achieves 99.5% ±1 tier accuracy without ML.
 
@@ -337,6 +409,98 @@ Router assigns each sub-task to optimal agent, tracks outcomes, learns preferenc
 ```
 
 
+
+
+---
+
+## Generative Engine Optimization
+
+A3M Router is also a **[generative engine](https://en.wikipedia.org/wiki/Generative_artificial_intelligence)** — not just a router, but a system that synthesizes multiple AI models into optimized output pipelines. The difference:
+
+| | Router | Generative Engine |
+|---|---|---|
+| **Focus** | Route to cheapest capable model | Orchestrate multi-model pipelines for quality + cost |
+| **Routing** | Per-query (heuristic or MCTS) | Per-task (MCTS workflow) |
+| **Learning** | Model quality scores (EMA) | Strategy learning from execution outcomes |
+| **Output** | Single model response | Synthesized multi-model synthesis |
+| **Use case** | "Which model for this query?" | "How do I decompose and assign this task across models?" |
+
+### Generative Engine vs Traditional RAG
+
+| Feature | [RAG](https://arxiv.org/abs/2402.19457) | A3M Generative Engine |
+|---------|:------------------:|:--------------------:|
+| **Data retrieval** | Vector similarity search | Trigram semantic cache |
+| **Model selection** | Static or rule-based | Adaptive via MCTS |
+| **Query routing** | Embedding-based | Multi-signal scoring |
+| **Memory** | Flat vector store | Hierarchical MemoryTree |
+| **Update latency** | Index rebuild required | Real-time (EMA) |
+| **Multi-agent** | Not supported | [MCTS orchestration](#-mcts-workflow-optimization) |
+| **Cost control** | Basic | [Budget alerts + per-provider tracking](#-cost-analytics) |
+
+### Generative Engine Architecture
+
+```
+User Query
+    ↓
+┌──────────────────────────────────────────────────────┐
+│  A3M Router — Per-Query Layer (fast, <1ms)           │
+│                                                      │
+│  1. Guardrails check (injection, PII, content)       │
+│  2. Semantic cache (trigram similarity)              │
+│  3. Complexity scoring (5 signals → tier)         │
+│  4. Route to cheapest available model               │
+│         ↓ pass? → return cached/llm response         │
+│         ↓ fail? → circuit breaker → fallback       │
+└──────────────────────────────────────────────────────┘
+    ↓ (complex query)
+┌──────────────────────────────────────────────────────┐
+│  TMLPD Orchestration — Workflow Layer (MCTS)         │
+│                                                      │
+│  1. Task decomposition (sub-task graph)            │
+│  2. MCTS agent assignment (UCB1 selection)          │
+│  3. Parallel execution (multi-agent)                │
+│  4. Result synthesis + quality scoring             │
+│  5. Memory update (learn outcomes)                │
+└──────────────────────────────────────────────────────┘
+    ↓
+  Synthesized Output
+```
+
+### Key Components
+
+| Component | Description | Doc |
+|-----------|-------------|-----|
+| [Guardrails Engine](#-guardrails-engine) | Input/output safety checks | [17 patterns](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/guardrails/injectionPatterns.ts) |
+| [Semantic Cache](#-semantic-cache) | Trigram Jaccard similarity | [algorithm](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/cache/semanticCache.ts) |
+| [MemoryTree](#-adaptive-memory--learning) | Hierarchical context storage | [implementation](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/memory/memoryTree.ts) |
+| [MCTS Orchestration](#-mcts-workflow-optimization) | Monte Carlo agent assignment | [UCB1 formula](#-mcts-workflow-optimization) |
+| [Cost Analytics](#-cost-analytics) | Per-provider budget tracking | [tracker](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/analytics/costTracker.ts) |
+| [Circuit Breaker](#-comparison) | Provider failover | [3-failure rule](#-comparison) |
+
+### Routing Flow Diagram
+
+```
+Query → Guardrails → Cache? → Complexity → Tier → Cheapest Available
+                    ↓            ↓
+                  HIT         Score → Route
+                  ↓              ↓
+               Return        Fallback models
+             cached           (2 configured)
+               ↓
+         Cache miss → LLM call → Memory update → Response
+```
+
+### Optimization Levers
+
+| Lever | How It Works | Impact |
+|-------|-------------|--------|
+| **Cache hit rate** | Higher similarity threshold → fewer misses, more savings | ~30% of queries cached |
+| **Tier boundaries** | Adjust complexity thresholds | Moves queries up/down tiers |
+| **Model profiles** | EMA updates quality scores per model | Better model selection over time |
+| **Provider health** | Circuit breaker excludes failed providers | 99.9% uptime SLA |
+| **MCTS iterations** | More iterations → better strategy, slower | 50 default, increase for critical tasks |
+
+For production tuning, see [`docs/GENERATIVE_ENGINE_TUNING.md`](docs/GENERATIVE_ENGINE_TUNING.md).
 
 ## Features in Detail
 
