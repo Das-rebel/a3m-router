@@ -307,6 +307,78 @@ registerProvider('my-provider', {
   models: [{ id: 'my-model', inputCostPer1K: 0.001, outputCostPer1K: 0.002 }],
   tier: 'cheap',
 });
+
+---
+
+## Chinese LLM Providers
+
+A3M Router supports **11 Chinese LLM providers** — the largest coverage of any open-source router:
+
+| Provider | Flagship Model | Strength | Cost/1M |
+|----------|--------------|----------|:-------:|
+| **DeepSeek** | V3, Coder, Reasoner | Code + reasoning, open weights | $0.14-$0.55 |
+| **Moonshot** (Kimi) | Kimi-1.5 | 128K context, Chinese | $0.07-$0.28 |
+| **Zhipu AI** (GLM) | GLM-4, GLM-4V | Chinese + bilingual | $0.06-$0.90 |
+| **Qwen** (Alibaba) | Qwen2, Qwen2.5-Coder | General + code | $0.09-$2.00 |
+| **Yi** (01.AI) | Yi-1.5, 34B | Bilingual + long context | $0.07-$1.20 |
+| **Baichuan** | Baichuan4, Turbo | Chinese + English | $0.08-$1.00 |
+| **MiniMax** | abab6.5, Speech-02 | 1M context, speech | $0.05-$0.90 |
+| **StepFun** | Step-2, Step-1 | Chinese + reasoning | $0.10-$1.50 |
+| **Aleph Alpha** | Luminous, European | Multilingual, EU-hosted | $0.50-$12.00 |
+| **Deepset** | GPT-4o-mini-2024-07-18 | RAG + German | $0.15-$3.00 |
+| **OpenRouter** | 100+ models | Aggregator | varies |
+
+### Why Chinese LLMs Matter
+
+| Factor | Chinese LLMs | US LLMs |
+|--------|:------------:|:-------:|
+| **Chinese language** | Native, better than GPT-4 | GPT-4 level, expensive |
+| **Pricing** | 10-50x cheaper | Premium pricing |
+| **Context length** | Up to 1M tokens (MiniMax) | 128K-200K typical |
+| **Code (Chinese context)** | DeepSeek Coder excels | Good but expensive |
+| **API reliability** | Varies | Generally stable |
+| **Data residency** | China-hosted options | US/EU-hosted |
+
+### Chinese LLM Use Cases
+
+```
+Language → Kimi (Moonshot)     // Best Chinese, 128K context
+Code (English) → DeepSeek     // Cheaper than GPT-4o-mini
+Code (Chinese) → DeepSeek Coder // Bilingual, trained on Chinese code
+Reasoning → StepFun or Qwen    // Comparable to Claude in Chinese
+Long documents → MiniMax       // 1M token context
+European users → Aleph Alpha   // Germany-hosted, GDPR-compliant
+```
+
+### Register Chinese Providers
+
+```bash
+# DeepSeek
+DEEPSEEK_API_KEY=sk-xxxx npx a3m-router serve
+
+# Moonshot (Kimi)
+MOONSHOT_API_KEY=sk-xxxx npx a3m-router serve
+
+# Zhipu GLM
+ZHIPU_API_KEY=sk-xxxx npx a3m-router serve
+
+# All Chinese providers work via OpenRouter
+OPENROUTER_API_KEY=sk-xxxx npx a3m-router serve
+```
+
+### Multilingual Routing
+
+A3M Router's [domain detection signal](#how-routing-works) identifies **10 languages** including Chinese (Simplified + Traditional), Japanese, Korean, and detects when to route bilingual queries:
+
+| Language | Detection | Primary Model | Fallback |
+|----------|:--------:|--------------|---------|
+| 中文 (Chinese) | Script analysis | Kimi, Zhipu, Qwen | DeepSeek |
+| 日本語 (Japanese) | Script + keywords | Kimi, Qwen | GPT-4o-mini |
+| 한국어 (Korean) | Script + keywords | Kimi | GPT-4o-mini |
+| English | Default | Groq, DeepSeek | Claude Haiku |
+| Mixed zh+en | Bilingual detection | DeepSeek Coder | Kimi |
+
+
 ```
 
 ---
