@@ -54,7 +54,7 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 
 Every LLM router either uses ML (RouteLLM — 1.5 GB, GPU required) or doesn't route at all (LiteLLM — you pick the model). A3M Router is the only one that achieves near-ML accuracy with zero ML overhead, then adds memory, caching, guardrails, and cost tracking on top.
 
-For **generative engine optimization** — synthesizing multiple AI models into a single coherent output — A3M Router pairs [MCTS workflow optimization](#-mcts-workflow-optimization) for multi-agent orchestration with heuristic scoring for per-query routing. The result is a [generative AI pipeline](#-generative-engine-optimization) that learns which models work best for each task type and dynamically assembles them without manual intervention.
+For **generative engine optimization** — synthesizing multiple AI models into a single coherent output — A3M Router pairs [MCTS workflow optimization](#mcts-workflow-optimization) for multi-agent orchestration with heuristic scoring for per-query routing. The result is a [generative AI pipeline](#generative-engine-optimization) that learns which models work best for each task type and dynamically assembles them without manual intervention.
 
 | 🧠 Adaptive Memory | 🎯 Multi-Signal Routing | 🛡️ Production Protections |
 |:---|:---|:---|
@@ -434,8 +434,8 @@ A3M Router is also a **[generative engine](https://en.wikipedia.org/wiki/Generat
 | **Query routing** | Embedding-based | Multi-signal scoring |
 | **Memory** | Flat vector store | Hierarchical MemoryTree |
 | **Update latency** | Index rebuild required | Real-time (EMA) |
-| **Multi-agent** | Not supported | [MCTS orchestration](#-mcts-workflow-optimization) |
-| **Cost control** | Basic | [Budget alerts + per-provider tracking](#-cost-analytics) |
+| **Multi-agent** | Not supported | [MCTS orchestration](#mcts-workflow-optimization) |
+| **Cost control** | Basic | [Budget alerts + per-provider tracking](#cost-analytics) |
 
 ### Generative Engine Architecture
 
@@ -470,11 +470,11 @@ User Query
 
 | Component | Description | Doc |
 |-----------|-------------|-----|
-| [Guardrails Engine](#-guardrails-engine) | Input/output safety checks | [17 patterns](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/guardrails/injectionPatterns.ts) |
-| [Semantic Cache](#-semantic-cache) | Trigram Jaccard similarity | [algorithm](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/cache/semanticCache.ts) |
-| [MemoryTree](#-adaptive-memory--learning) | Hierarchical context storage | [implementation](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/memory/memoryTree.ts) |
-| [MCTS Orchestration](#-mcts-workflow-optimization) | Monte Carlo agent assignment | [UCB1 formula](#-mcts-workflow-optimization) |
-| [Cost Analytics](#-cost-analytics) | Per-provider budget tracking | [tracker](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/analytics/costTracker.ts) |
+| [Guardrails Engine](#guardrails-engine) | Input/output safety checks | [17 patterns](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/guardrails/injectionPatterns.ts) |
+| [Semantic Cache](#semantic-cache) | Trigram Jaccard similarity | [algorithm](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/cache/semanticCache.ts) |
+| [MemoryTree](#adaptive-memory--learning) | Hierarchical context storage | [implementation](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/memory/memoryTree.ts) |
+| [MCTS Orchestration](#mcts-workflow-optimization) | Monte Carlo agent assignment | [UCB1 formula](#mcts-workflow-optimization) |
+| [Cost Analytics](#cost-analytics) | Per-provider budget tracking | [tracker](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/analytics/costTracker.ts) |
 | [Circuit Breaker](#-comparison) | Provider failover | [3-failure rule](#-comparison) |
 
 ### Routing Flow Diagram
