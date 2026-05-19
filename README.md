@@ -475,7 +475,7 @@ User Query
 | [MemoryTree](#adaptive-memory--learning) | Hierarchical context storage | [implementation](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/memory/memoryTree.ts) |
 | [MCTS Orchestration](#mcts-workflow-optimization) | Monte Carlo agent assignment | [UCB1 formula](#mcts-workflow-optimization) |
 | [Cost Analytics](#cost-analytics) | Per-provider budget tracking | [tracker](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/src/analytics/costTracker.ts) |
-| [Circuit Breaker](#-comparison) | Provider failover | [3-failure rule](#-comparison) |
+| [Circuit Breaker](#comparison) | Provider failover | [3-failure rule](#comparison) |
 
 ### Routing Flow Diagram
 
