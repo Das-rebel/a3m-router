@@ -1,41 +1,628 @@
 {
   "meta": {
-    "version": "4.0",
-    "date": "2026-05-19",
-    "queries": 10,
-    "methodology": "Real API calls — 10 questions per provider",
-    "sources": {
-      "groq": "https://api.groq.com",
-      "cerebras": "https://api.cerebras.ai",
-      "opencode": "http://127.0.0.1:18787 (web UI only, not an API proxy)"
+    "date": "2026-05-19T19:09:06.916Z",
+    "type": "mmlu_quality"
+  },
+  "results": {
+    "groq-llama-3.1-8b": {
+      "name": "Groq Llama 3.1 8B",
+      "mmlu_accuracy": 0.8,
+      "quality_score": 9.4,
+      "mmlu_detail": [
+        {
+          "q": "What is the derivative of x²?",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "Solve for x: 2x + 6 = 14",
+          "response": "A",
+          "correct": true
+        },
+        {
+          "q": "Time complexity of binary search?",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "In Python, list.append() does what?",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "Output of type([])?",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "GDP stands for?",
+          "response": "A",
+          "correct": true
+        },
+        {
+          "q": "If supply increases and demand stay",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "Powerhouse of the cell?",
+          "response": "C",
+          "correct": true
+        },
+        {
+          "q": "DNA stands for?",
+          "response": "A",
+          "correct": true
+        },
+        {
+          "q": "Primary purpose of a contract?",
+          "response": "B)",
+          "correct": false
+        },
+        {
+          "q": "Which US amendment protects free sp",
+          "response": "A",
+          "correct": true
+        },
+        {
+          "q": "Car accelerates from rest at 2 m/s²",
+          "response": "A)",
+          "correct": false
+        },
+        {
+          "q": "Unit of force in SI?",
+          "response": "C)",
+          "correct": false
+        },
+        {
+          "q": "If gas temp increases at constant v",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "What is π to two decimal places?",
+          "response": "A",
+          "correct": true
+        }
+      ],
+      "quality_detail": [
+        {
+          "prompt": "If John has 5 apples and gives",
+          "response": "To find out how many apples Jo",
+          "score": 10
+        },
+        {
+          "prompt": "Write a Python function that c",
+          "response": "**Palindrome Checker Function*",
+          "score": 10
+        },
+        {
+          "prompt": "Compare supervised vs unsuperv",
+          "response": "Supervised learning involves t",
+          "score": 10
+        },
+        {
+          "prompt": "What is the capital of France?",
+          "response": "The capital of France is Paris",
+          "score": 10
+        },
+        {
+          "prompt": "Train travels 300km in 4 hours",
+          "response": "To find the average speed, we ",
+          "score": 10
+        },
+        {
+          "prompt": "All cats are animals. Some ani",
+          "response": "To determine if some cats are ",
+          "score": 5
+        },
+        {
+          "prompt": "What is machine learning?",
+          "response": "Machine learning is a subset o",
+          "score": 10
+        },
+        {
+          "prompt": "Write a haiku about programmin",
+          "response": "Code flows like a stream\nLogic",
+          "score": 10
+        }
+      ]
+    },
+    "groq-llama-3.3-70b": {
+      "name": "Groq Llama 3.3 70B",
+      "mmlu_accuracy": 0.8,
+      "quality_score": 9.4,
+      "mmlu_detail": [
+        {
+          "q": "What is the derivative of x²?",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "Solve for x: 2x + 6 = 14",
+          "response": "B)",
+          "correct": false
+        },
+        {
+          "q": "Time complexity of binary search?",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "In Python, list.append() does what?",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "Output of type([])?",
+          "response": "B)",
+          "correct": false
+        },
+        {
+          "q": "GDP stands for?",
+          "response": "A",
+          "correct": true
+        },
+        {
+          "q": "If supply increases and demand stay",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "Powerhouse of the cell?",
+          "response": "C",
+          "correct": true
+        },
+        {
+          "q": "DNA stands for?",
+          "response": "A",
+          "correct": true
+        },
+        {
+          "q": "Primary purpose of a contract?",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "Which US amendment protects free sp",
+          "response": "A",
+          "correct": true
+        },
+        {
+          "q": "Car accelerates from rest at 2 m/s²",
+          "response": "B)",
+          "correct": false
+        },
+        {
+          "q": "Unit of force in SI?",
+          "response": "C",
+          "correct": true
+        },
+        {
+          "q": "If gas temp increases at constant v",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "What is π to two decimal places?",
+          "response": "A",
+          "correct": true
+        }
+      ],
+      "quality_detail": [
+        {
+          "prompt": "If John has 5 apples and gives",
+          "response": "To find out how many apples Jo",
+          "score": 10
+        },
+        {
+          "prompt": "Write a Python function that c",
+          "response": "**Palindrome Checker Function*",
+          "score": 10
+        },
+        {
+          "prompt": "Compare supervised vs unsuperv",
+          "response": "Supervised learning involves t",
+          "score": 10
+        },
+        {
+          "prompt": "What is the capital of France?",
+          "response": "The capital of France is Paris",
+          "score": 10
+        },
+        {
+          "prompt": "Train travels 300km in 4 hours",
+          "response": "To find the average speed, you",
+          "score": 10
+        },
+        {
+          "prompt": "All cats are animals. Some ani",
+          "response": "A classic example of a syllogi",
+          "score": 5
+        },
+        {
+          "prompt": "What is machine learning?",
+          "response": "**Machine Learning: An Overvie",
+          "score": 10
+        },
+        {
+          "prompt": "Write a haiku about programmin",
+          "response": "Code whispers sweet\nLogic's ge",
+          "score": 10
+        }
+      ]
+    },
+    "groq-allam-2-7b": {
+      "name": "Groq Allam 2 7B",
+      "mmlu_accuracy": 0.8666666666666667,
+      "quality_score": 9.4,
+      "mmlu_detail": [
+        {
+          "q": "What is the derivative of x²?",
+          "response": "C) 2 ",
+          "correct": false
+        },
+        {
+          "q": "Solve for x: 2x + 6 = 14",
+          "response": "A) 4 ",
+          "correct": true
+        },
+        {
+          "q": "Time complexity of binary search?",
+          "response": "B) O(log n) ",
+          "correct": true
+        },
+        {
+          "q": "In Python, list.append() does what?",
+          "response": "B) Adds to end ",
+          "correct": true
+        },
+        {
+          "q": "Output of type([])?",
+          "response": "A) <class 'array'> ",
+          "correct": true
+        },
+        {
+          "q": "GDP stands for?",
+          "response": "A) Gross Domestic Pr",
+          "correct": true
+        },
+        {
+          "q": "If supply increases and demand stay",
+          "response": "B) Decreases ",
+          "correct": true
+        },
+        {
+          "q": "Powerhouse of the cell?",
+          "response": "A) Nucleus ",
+          "correct": false
+        },
+        {
+          "q": "DNA stands for?",
+          "response": "A) Deoxyribonucleic ",
+          "correct": true
+        },
+        {
+          "q": "Primary purpose of a contract?",
+          "response": "B) Create legal obli",
+          "correct": true
+        },
+        {
+          "q": "Which US amendment protects free sp",
+          "response": "A) 1st ",
+          "correct": true
+        },
+        {
+          "q": "Car accelerates from rest at 2 m/s²",
+          "response": "B) 10 m/s ",
+          "correct": true
+        },
+        {
+          "q": "Unit of force in SI?",
+          "response": "C) Newton ",
+          "correct": true
+        },
+        {
+          "q": "If gas temp increases at constant v",
+          "response": "B) Increases ",
+          "correct": true
+        },
+        {
+          "q": "What is π to two decimal places?",
+          "response": "A) 3.14 ",
+          "correct": true
+        }
+      ],
+      "quality_detail": [
+        {
+          "prompt": "If John has 5 apples and gives",
+          "response": "John starts with 5 apples. If ",
+          "score": 10
+        },
+        {
+          "prompt": "Write a Python function that c",
+          "response": "Here's a simple Python functio",
+          "score": 10
+        },
+        {
+          "prompt": "Compare supervised vs unsuperv",
+          "response": "Supervised learning involves t",
+          "score": 10
+        },
+        {
+          "prompt": "What is the capital of France?",
+          "response": "The capital of France is Paris",
+          "score": 10
+        },
+        {
+          "prompt": "Train travels 300km in 4 hours",
+          "response": "To calculate the average speed",
+          "score": 10
+        },
+        {
+          "prompt": "All cats are animals. Some ani",
+          "response": "Yes, based on the information ",
+          "score": 5
+        },
+        {
+          "prompt": "What is machine learning?",
+          "response": "Machine learning is a branch o",
+          "score": 10
+        },
+        {
+          "prompt": "Write a haiku about programmin",
+          "response": "Coding lines of code\nA world o",
+          "score": 10
+        }
+      ]
+    },
+    "cerebras-llama3.1-8b": {
+      "name": "Cerebras Llama 3.1 8B",
+      "mmlu_accuracy": 0.3333333333333333,
+      "quality_score": 1.3,
+      "mmlu_detail": [
+        {
+          "q": "What is the derivative of x²?",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "Solve for x: 2x + 6 = 14",
+          "response": "A",
+          "correct": true
+        },
+        {
+          "q": "Time complexity of binary search?",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "In Python, list.append() does what?",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "Output of type([])?",
+          "response": "B",
+          "correct": true
+        },
+        {
+          "q": "GDP stands for?",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "If supply increases and demand stay",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "Powerhouse of the cell?",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "DNA stands for?",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "Primary purpose of a contract?",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "Which US amendment protects free sp",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "Car accelerates from rest at 2 m/s²",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "Unit of force in SI?",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "If gas temp increases at constant v",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "What is π to two decimal places?",
+          "response": "",
+          "correct": false
+        }
+      ],
+      "quality_detail": [
+        {
+          "prompt": "If John has 5 apples and gives",
+          "response": "",
+          "score": 0
+        },
+        {
+          "prompt": "Write a Python function that c",
+          "response": "**Palindrome Checker Function*",
+          "score": 10
+        },
+        {
+          "prompt": "Compare supervised vs unsuperv",
+          "response": "",
+          "score": 0
+        },
+        {
+          "prompt": "What is the capital of France?",
+          "response": "",
+          "score": 0
+        },
+        {
+          "prompt": "Train travels 300km in 4 hours",
+          "response": "",
+          "score": 0
+        },
+        {
+          "prompt": "All cats are animals. Some ani",
+          "response": "",
+          "score": 0
+        },
+        {
+          "prompt": "What is machine learning?",
+          "response": "",
+          "score": 0
+        },
+        {
+          "prompt": "Write a haiku about programmin",
+          "response": "",
+          "score": 0
+        }
+      ]
+    },
+    "cerebras-qwen-3-235b": {
+      "name": "Cerebras Qwen 3 235B",
+      "mmlu_accuracy": 0.3333333333333333,
+      "quality_score": 1.3,
+      "mmlu_detail": [
+        {
+          "q": "What is the derivative of x²?",
+          "response": "B) 2x",
+          "correct": true
+        },
+        {
+          "q": "Solve for x: 2x + 6 = 14",
+          "response": "A) 4\n\nSolution:\n2x +",
+          "correct": true
+        },
+        {
+          "q": "Time complexity of binary search?",
+          "response": "B) O(log n)",
+          "correct": true
+        },
+        {
+          "q": "In Python, list.append() does what?",
+          "response": "B) Adds to end",
+          "correct": true
+        },
+        {
+          "q": "Output of type([])?",
+          "response": "B) <class 'list'>",
+          "correct": true
+        },
+        {
+          "q": "GDP stands for?",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "If supply increases and demand stay",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "Powerhouse of the cell?",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "DNA stands for?",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "Primary purpose of a contract?",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "Which US amendment protects free sp",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "Car accelerates from rest at 2 m/s²",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "Unit of force in SI?",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "If gas temp increases at constant v",
+          "response": "",
+          "correct": false
+        },
+        {
+          "q": "What is π to two decimal places?",
+          "response": "",
+          "correct": false
+        }
+      ],
+      "quality_detail": [
+        {
+          "prompt": "If John has 5 apples and gives",
+          "response": "",
+          "score": 0
+        },
+        {
+          "prompt": "Write a Python function that c",
+          "response": "",
+          "score": 0
+        },
+        {
+          "prompt": "Compare supervised vs unsuperv",
+          "response": "",
+          "score": 0
+        },
+        {
+          "prompt": "What is the capital of France?",
+          "response": "The capital of France is Paris",
+          "score": 10
+        },
+        {
+          "prompt": "Train travels 300km in 4 hours",
+          "response": "",
+          "score": 0
+        },
+        {
+          "prompt": "All cats are animals. Some ani",
+          "response": "",
+          "score": 0
+        },
+        {
+          "prompt": "What is machine learning?",
+          "response": "",
+          "score": 0
+        },
+        {
+          "prompt": "Write a haiku about programmin",
+          "response": "",
+          "score": 0
+        }
+      ]
     }
-  },
-  "routing_accuracy": {
-    "exact_tier_match": 0.645,
-    "plus_minus_one_tier": 0.995,
-    "misroute_rate": 0.005
-  },
-  "provider_benchmarks": {
-    "groq-allam-2-7b": { "name": "Groq Allam 2 7B", "mt_bench_est": 6.2, "latency_p50_ms": 142, "success_rate": 1.0, "output_chars": 295, "input_cost_per_1m": 0 },
-    "groq-llama-3.1-8b": { "name": "Groq Llama 3.1 8B", "mt_bench_est": 6.5, "latency_p50_ms": 211, "success_rate": 1.0, "output_chars": 280, "input_cost_per_1m": 0 },
-    "groq-llama-3.3-70b": { "name": "Groq Llama 3.3 70B", "mt_bench_est": 6.8, "latency_p50_ms": 353, "success_rate": 1.0, "output_chars": 290, "input_cost_per_1m": 0 },
-    "cerebras-llama3.1-8b": { "name": "Cerebras Llama 3.1 8B", "mt_bench_est": 6.4, "latency_p50_ms": 376, "success_rate": 1.0, "output_chars": 127, "input_cost_per_1m": 0 },
-    "cerebras-qwen-3-235b": { "name": "Cerebras Qwen 3 235B", "mt_bench_est": 7.5, "latency_p50_ms": 377, "success_rate": 1.0, "output_chars": 9, "input_cost_per_1m": 0 },
-    "groq-qwen-3-32b": { "name": "Groq Qwen 3 32B", "mt_bench_est": 7.2, "latency_p50_ms": 476, "success_rate": 1.0, "output_chars": 446, "input_cost_per_1m": 0 },
-    "groq-compound-mini": { "name": "Groq Compound Mini", "mt_bench_est": 6.5, "latency_p50_ms": 2889, "success_rate": 1.0, "output_chars": 388, "input_cost_per_1m": 0 }
-  },
-  "cost_savings": {
-    "baseline_provider": "gpt-4o",
-    "baseline_monthly_cost_100k": 341,
-    "a3m_router_cost_100k": 124,
-    "savings_percent": 0.616
-  },
-  "comparison": {
-    "routeLLM": { "exact_accuracy": 0.80, "plus_one_accuracy": 0.85, "package_size_gb": 1.5, "gpu_required": true },
-    "a3m_router": { "exact_accuracy": 0.645, "plus_one_accuracy": 0.995, "package_size_gb": 0.0000195, "gpu_required": false }
-  },
-  "opencode_status": {
-    "api_proxy": false,
-    "note": "opencode serve runs a web UI, not an OpenAI-compatible API proxy. For benchmark purposes use Groq or Cerebras directly."
   }
 }

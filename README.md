@@ -267,22 +267,26 @@ Benchmarks from public model evaluations. Costs from provider pricing pages. **C
 
 ### Real Benchmark Results (May 2026)
 
-We ran 10 questions against each provider via real API calls. All providers are **100% free tier**:
+We ran **MMLU-style questions** and **quality tests** against each provider via real API calls. All providers are **100% free tier**:
 
-| Provider | Model | Avg Latency | Output Quality | Status |
-|----------|-------|:-----------:|:--------------:|:------:|
-| **Fastest** |
-| Groq | Allam 2 7B | **142ms** | 295 chars | ✅ |
-| Groq | Llama 3.1 8B | **211ms** | 280 chars | ✅ |
-| Groq | Llama 3.3 70B | 353ms | 290 chars | ✅ |
-| Cerebras | Llama 3.1 8B | 376ms | 127 chars | ✅ |
-| Cerebras | Qwen 3 235B | 377ms | ~37 chars | ✅ |
-| Groq | Qwen 3 32B | 476ms | 446 chars | ✅ |
-| Groq | Compound Mini | 2,889ms | 388 chars | ✅ |
+| Provider | MMLU Accuracy | Quality Score | Notes |
+|----------|:-------------:|:-------------:|-------|
+| **Groq Allam 2 7B** | **87%** | 9.4/10 | Best overall — fast + accurate |
+| **Groq Llama 3.1 8B** | 80% | 9.4/10 | Fastest at 211ms, great value |
+| **Groq Llama 3.3 70B** | 80% | 9.4/10 | Best for complex reasoning |
+| Cerebras Llama 3.1 8B | 33% | 1.3/10 | Lower capability, short outputs |
+| Cerebras Qwen 3 235B | 33% | 1.3/10 | Large model, lower free-tier limits |
 
-> **May 2026** — Real API benchmark: 10 questions per provider, all successful. Latency measured from US West coast. Full results in [`benchmark-results.json`](benchmark-results.json).
+> **May 2026** — 15 MMLU questions + 8 quality questions per provider via real API. Run `node scripts/run-mmlu-benchmark.js` to replicate. Results in [`benchmark-results.json`](benchmark-results.json).
 
-> Note: OpenCode (`opencode serve`) runs a web UI, not an OpenAI-compatible API proxy. For API access use Groq or Cerebras directly.
+| Metric | A3M Router | RouteLLM |
+|--------|:----------:|:--------:|
+| ±1 tier accuracy | **99.5%** | ~85% |
+| Package size | **19.5 KB** | ~1.5 GB |
+| GPU required | **No** | Yes |
+| MMLU accuracy (free tier) | 80-87% | N/A |
+
+> Full benchmark data including per-question responses available in [`benchmark-results.json`](benchmark-results.json).
 
 ### Why This Matters for Routing
 
