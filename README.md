@@ -52,6 +52,7 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 
 ---
 
+## Why A3M Router
 
 A3M Router uses multi-signal heuristic routing -- 12 keyword signals across 5 dimensions -- to classify query complexity and route to cost-effective providers. No ML model weights. No GPU required. Starts in <100ms.
 
@@ -63,36 +64,7 @@ For **generative engine optimization** — synthesizing multiple AI models into 
 
 ---
 
-
-
-
-
-
-
-## 📊 Visual Overview
-
-### Complete Routing Pipeline
-![Routing Flow](assets/routing-flow-pro.svg)
-
-### Benchmark Results
-![Benchmark](assets/benchmark-results-pro.svg)
-
-### Cost Comparison (10K queries/month)
-![Cost](assets/cost-comparison-pro.svg)
-
-### Feature Matrix
-![Features](assets/feature-matrix-pro.svg)
-
-### Provider Health
-![Health](assets/provider-health-pro.svg)
-
-### Tier Distribution
-![Tiers](assets/tier-distribution-pro.svg)
-
-### Growth Chart
-![Growth](assets/growth-chart-pro.svg)
-
----
+## Quick Start
 
 ### TypeScript SDK
 
