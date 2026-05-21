@@ -64,140 +64,27 @@ For **generative engine optimization** — synthesizing multiple AI models into 
 
 ## 📊 Visual Overview
 
-### Routing Flow
-```
-Query Input
-    │
-    ▼
-┌─────────────────────────┐
-│   Guardrails Check      │ ← 17-pattern injection detection, PII redaction
-│   (<1ms)                │
-└─────────────────────────┘
-    │ PASS
-    ▼
-┌─────────────────────────┐
-│   Semantic Cache        │ ← Trigram Jaccard similarity
-│   Check (<1ms)          │   Cache hit? Return cached response
-└─────────────────────────┘
-    │ CACHE MISS
-    ▼
-┌─────────────────────────┐
-│   Complexity Classifier │ ← 12 signals, 5 dimensions
-│   (2ms)                 │   → simple/medium/complex/expert
-└─────────────────────────┘
-    │
-    ▼
-┌─────────────────────────┐
-│   Provider Selection    │ ← Cheapest available, health-weighted
-│   (1ms)                 │   → Circuit breaker on 3 failures
-└─────────────────────────┘
-    │
-    ▼
-┌─────────────────────────┐
-│   LLM Response          │
-│   (varies)              │
-└─────────────────────────┘
-    │
-    ▼
-┌─────────────────────────┐
-│   Memory Update         │ ← EMA quality scoring, learns over time
-│   (<1ms)                │
-└─────────────────────────┘
-    │
-    ▼
-Response
-```
+![Routing Flow](assets/routing-flow.png)
 
 ### Cost Comparison (10,000 queries/month)
-```
-vs GPT-4o Only    ███████████████████████████████████████████████████ $330
-vs LiteLLM        ████████████                                          $120
-vs A3M Router     ████                                                   $85
-                    ├─────────────────────────────────────────────────────┤
-                    0%    20%    40%    60%    80%    100%
-                              Cost Reduction
-```
+![Cost Comparison](assets/cost-comparison-chart.png)
 
 ### Provider Health Monitoring
-```
-Groq      ████████████████████████████████████████████  99.9%  211ms
-DeepSeek  ██████████████████████████████████████        98.5%  800ms
-Anthropic ███████████████████████████████████████     99.7%  950ms
-OpenAI   ███████████████████████████████████████████   99.8%  890ms
-
-Health = (Success Rate × 0.7) + (Speed Score × 0.3)
-Anomaly detection: EWMA with 2σ threshold
-```
+![Provider Health](assets/provider-health-chart.png)
 
 ### Query Complexity Scoring (12 signals)
-```
-Domain Detection          Task Indicators         Query Structure
-─────────────────────     ──────────────────     ───────────────────
-Legal      [+15]         Code        [+20]      Length >50 [+10]
-Medical   [+18]          Math        [+25]      Clauses >3  [+15]
-Finance   [+14]          Creative    [+8]       Qualifiers  [+12]
-Security  [+20]          Multilingual[+10]      Multi-step  [+20]
-ML/AI     [+16]          Translation [+5]       Action verb[+15]
-Architecture[+12]
-                              │
-                              ▼
-                    ┌─────────────────┐
-                    │  TOTAL SCORE    │
-                    │  0.0 - 1.0     │
-                    └─────────────────┘
-                              │
-        ┌─────────────────────┼─────────────────────┐
-        ▼                     ▼                     ▼
-    ┌───────┐            ┌─────────┐            ┌─────────┐
-    │ FREE  │            │  CHEAP  │            │   MID   │
-    │ <0.20 │            │ 0.20-45 │            │ 0.45-65 │
-    └───────┘            └─────────┘            └─────────┘
-                                                    │
-                                                    ▼
-                                              ┌─────────┐
-                                              │ PREMIUM │
-                                              │  >0.65  │
-                                              └─────────┘
-```
+![Complexity Scoring](assets/complexity-scoring.png)
 
-### Circuit Breaker Pattern
-```
-┌──────────────────────────────────────────────────────┐
-│                  Circuit Breaker                     │
-│                                                      │
-│   Normal Operation        Failure Threshold          │
-│   ┌─────────────┐         ┌─────────────┐            │
-│   │   CLOSED    │────┐    │   OPEN      │            │
-│   │  ✓ Accept   │    │    │  ✗ Block    │            │
-│   └─────────────┘    │    └─────────────┘            │
-│                      │           │                   │
-│         ┌────────────┘           │                   │
-│         │  3 failures           │  60s cooldown     │
-│         ▼                       ▼                   │
-│   ┌─────────────┐         ┌─────────────┐            │
-│   │  HALF-OPEN  │         │   CLOSED    │            │
-│   │  Probe req  │────────▶│  ✓ Accept   │            │
-│   └─────────────┘         └─────────────┘            │
-└──────────────────────────────────────────────────────┘
-```
+### Key Metrics
 
-### Memory Quality Scoring (EMA)
-```
-Query: "Write a Python quicksort"
-  │
-  ├─ Model: DeepSeek Coder 7B
-  │   └─ Quality: 0.85 ✓ (matches expected tier)
-  │
-  └─ Next query: "Explain quicksort complexity"
-        │
-        ├─ Same model selected
-        ├─ Quality: 0.75 (below expected)
-        │   └─ Score adjusted: 0.85 → 0.83 (EMA α=0.2)
-        └─ Next query may route differently
-
-EMA Formula: new_score = α × current + (1-α) × previous
-           α = 0.2 (faster adaptation)
-```
+| Metric | Value | Notes |
+|--------|-------|-------|
+| Routing latency | <4ms | Guardrails + Cache + Classifier + Selection |
+| Cache hit rate | ~30% | Trigram Jaccard similarity |
+| ±1 tier accuracy | 99.5% | 200-query internal benchmark |
+| Cost savings | 74% vs GPT-4o | 10K queries/month |
+| Package size | 19.5 KB | gzipped |
+| Startup time | <100ms | No ML weights loading |
 
 
 
