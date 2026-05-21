@@ -1,71 +1,3 @@
-
-<!-- SEO / GEO Structured Data -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "A3M Router",
-  "alternateName": ["Adaptive Memory Multi-Model Router", "A3M Router"],
-  "description": "Intelligent LLM routing proxy with adaptive memory, semantic cache, and multi-signal query classification. Routes queries to the cheapest capable model across 36+ providers.",
-  "url": "https://github.com/Das-rebel/adaptive-memory-multi-model-router",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Node.js, Python",
-  "programmingLanguage": ["TypeScript", "Python", "JavaScript"],
-  "license": "MIT",
-  "keywords": [
-    "llm-router", "model-routing", "ai-router", "multi-llm", "llm-proxy",
-    "openai-compatible", "anthropic-proxy", "claude-proxy", "deepseek-proxy",
-    "ai-cost-optimization", "semantic-cache", "llm-load-balancer", "guardrails",
-    "provider-fallback", "circuit-breaker", "adaptive-memory", "smart-routing"
-  ],
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD",
-    "description": "Open source with free tier"
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "ratingCount": "142",
-    "reviewCount": "89"
-  },
-  "softwareVersion": "2.2.8",
-  "author": {
-    "@type": "Person",
-    "name": "Subho Das",
-    "url": "https://github.com/Das-rebel"
-  },
-  "sameAs": [
-    "https://github.com/Das-rebel/adaptive-memory-multi-model-router",
-    "https://www.npmjs.com/package/adaptive-memory-multi-model-router",
-    "https://www.linkedin.com/in/subho-das"
-  ],
-  "relatedLink": [
-    {"@type": "WebSite", "name": "LiteLLM", "url": "https://github.com/BerriAI/litellm"},
-    {"@type": "WebSite", "name": "Portkey", "url": "https://github.com/Portkey-AI/gateway"},
-    {"@type": "WebSite", "name": "RouteLLM", "url": "https://github.com/Surfsol/RouteLLM"}
-  ],
-  "citation": [
-    {"@type": "ScholarlyArticle", "name": "RouteLLM: Learning to Route LLMs", "url": "https://arxiv.org/abs/2404.06035"},
-    {"@type": "ScholarlyArticle", "name": "SGLang: Fast LLM Inference", "url": "https://arxiv.org/abs/2412.19447"},
-    {"@type": "ScholarlyArticle", "name": "vLLM: Easy, Fast, and Cheap LLM Serving", "url": "https://arxiv.org/abs/2309.06180"},
-    {"@type": "ScholarlyArticle", "name": "FlashAttention", "url": "https://arxiv.org/abs/2205.14135"},
-    {"@type": "ScholarlyArticle", "name": "Medusa: Speculative Decoding", "url": "https://arxiv.org/abs/2401.10774"}
-  ],
-  "mentions": [
-    {"@type": "SoftwareApplication", "name": "OpenAI API"},
-    {"@type": "SoftwareApplication", "name": "Anthropic Claude"},
-    {"@type": "SoftwareApplication", "name": "Groq"},
-    {"@type": "SoftwareApplication", "name": "DeepSeek"},
-    {"@type": "SoftwareApplication", "name": "Mistral AI"},
-    {"@type": "SoftwareApplication", "name": "Ollama"},
-    {"@type": "SoftwareApplication", "name": "LangChain"},
-    {"@type": "SoftwareApplication", "name": "Vercel AI SDK"}
-  ]
-}
-</script>
-
 [🇨🇳 中文](./README_zh.md) · [🇯🇵 日本語](./README_ja.md) · [English](./README.md)
 
 # A3M Router 🔀
@@ -129,42 +61,6 @@ For **generative engine optimization** — synthesizing multiple AI models into 
 | 🧠 Adaptive Memory | 🎯 Multi-Signal Routing | 🛡️ Production Protections |
 |:---|:---|:---|
 | Learns from your usage over time. Remembers which models work for your query types. Updates model quality scores with every real request using exponential moving average. No retraining. | 5-signal complexity scoring: **domain detection** (legal, medical, finance, security, architecture, ML research), **task indicators** (code, math, creative, multilingual), **query structure** (length, clauses, qualifiers), **action verb intensity**, **multi-step detection**. All regex + keyword. Zero ML weights. | **Semantic cache** — trigram Jaccard similarity skips duplicate LLM calls. **Guardrails** — 17-pattern prompt injection detection, PII detection & redaction, content filtering, hallucination checks. **Cost analytics** — per-provider spend, budget alerts, savings vs GPT-4o baseline. **Circuit breaker** — 3 failures → 60s cooldown, automatic provider failover. |
-
-## 📊 Visual Overview
-
-### Complete Routing Pipeline
-![Routing Flow](assets/routing-flow-v3.png)
-
-### Tier Distribution
-![Tier Distribution](assets/tier-distribution.png)
-
-### Benchmark Results
-![Benchmark Results](assets/benchmark-results.png)
-
-### Cost Comparison (10K queries/month)
-![Cost Comparison](assets/cost-comparison-v2.png)
-
-### Feature Comparison
-![Feature Comparison](assets/feature-comparison-v3.png)
-
-### Provider Health
-![Provider Health](assets/provider-health-v2.png)
-
-### Complexity Scoring
-![Complexity Scoring](assets/complexity-scoring-v2.png)
-
-### Key Metrics
-
-| Metric | Value | Notes |
-|--------|-------|-------|
-| Routing latency | <4ms | Guardrails + Cache + Classifier + Selection |
-| Cache hit rate | ~30% | Trigram Jaccard similarity |
-| ±1 tier accuracy | 99.5% | 200-query internal benchmark |
-| Cost savings | 74% vs GPT-4o | 10K queries/month |
-| Package size | 19.5 KB | gzipped |
-| Startup time | <100ms | No ML weights loading |
-
-
 
 ---
 
@@ -322,7 +218,7 @@ LiteLLM       ████████████████  ~500ms
 
 See full benchmark methodology at [`scripts/routing-benchmark-v2.js`](scripts/routing-benchmark-v2.js) or run it with `node scripts/routing-benchmark-v2.js`.
 
-| Metric | A3M Router | [LiteLLM](https://github.com/BerriAI/litellm) |
+| Metric | A3M Router | LiteLLM |
 |--------|:----------:|:---------------:|
 | **±1 tier accuracy** | **99.5%** | N/A (manual) |
 | Exact tier match | 64.5% | N/A |
@@ -378,7 +274,7 @@ We ran **MMLU-style questions** and **quality tests** against each provider via 
 
 > **May 2026** — 15 MMLU questions + 8 quality questions per provider via real API. Run `node scripts/run-mmlu-benchmark.js` to replicate. Results in [`benchmark-results.json`](benchmark-results.json).
 
-| Metric | A3M Router | [LiteLLM](https://github.com/BerriAI/litellm) |
+| Metric | A3M Router | LiteLLM |
 |--------|:----------:|:--------:|
 | ±1 tier accuracy | **99.5%** | N/A |
 | Package size | **19.5 KB** | ~50 MB |
@@ -852,22 +748,20 @@ const modelWithTools = model.bindTools([searchTool, calculatorTool]);
 
 ## Comparison
 
-| Feature | A3M Router | [LiteLLM](https://github.com/BerriAI/litellm) | [Portkey](https://github.com/Portkey-AI/gateway) | [RouteLLM](https://github.com/Surfsol/RouteLLM) |
+| Feature | A3M Router | [LiteLLM](https://github.com/BerriAI/litellm) | [Portkey](https://github.com/Portkey-AI/gateway) | [OpenRouter](https://openrouter.ai) |
 |---------|:----------:|:-------:|:-------:|:-------:|
 | **Routing accuracy published** | **Yes** (99.5% ±1) | No (manual) | No | No |
 | **Intelligent routing** | Multi-signal per-query | Manual selection | Manual | Manual |
 | **Zero ML / Zero GPU** | **Yes** | Yes | Yes | Yes |
-| **Package size** | 19.5 KB | ~50 MB | ~30 MB | ~15 MB |
-| **OpenAI-compatible proxy** | **Yes** | No | Yes | Yes |
-| **Adaptive memory** | **Yes** | No | No | No |
-| **Semantic cache** | **Yes** (trigram) | No | No | No |
-| **Prompt injection detection** | **Yes** (17 patterns) | No | No | No |
-| **PII redaction** | **Yes** | No | No | No |
-| **Hallucination checks** | **Yes** | No | No | No |
-| **Cost analytics** | **Yes** | No | Yes | No |
-| **Budget alerts** | **Yes** | No | No | No |
-| **Circuit breaker** | **Yes** | No | No | No |
-| **Multi-provider (36+)** | **Yes** | Yes | Yes | Yes |
+| **Package size** | 19.5 KB | ~50 MB | ~30 MB | API-only |
+| **OpenAI-compatible proxy** | **Yes** | No | Yes | Yes | Yes |
+| **Adaptive memory** | **Yes** | No | No | No | No |
+| **Semantic cache** | **Yes** (trigram) | No | No | Yes | No |
+| **Prompt injection detection** | **Yes** (17 patterns) | No | No | Yes | No |
+| **PII redaction** | **Yes** | No | No | Yes | No |
+| **Hallucination checks** | **Yes** | No | No | No | No |
+| **Cost analytics** | **Yes** | No | Yes | Yes | Yes |
+| **Budget alerts** | **Yes** | No | No | Yes | No |
 | **Circuit breaker** | **Yes** | No | No | Yes | No |
 | **LangChain adapter** | **Yes** | No | Yes | Yes | No |
 | **Python SDK** | **Yes** | Yes | Yes | Yes | Yes |
@@ -876,7 +770,7 @@ const modelWithTools = model.bindTools([searchTool, calculatorTool]);
 | **Self-hosted** | **Yes** | Yes | Yes | Yes | No |
 | **License** | MIT | Apache 2.0 | Custom | MIT | Proprietary |
 
-Also: [9router](https://github.com/decolua/9router), [ClawRouter](https://github.com/BlockRunAI/ClawRouter), [Plano](https://github.com/katanemo/plano), [Helicone](https://github.com/Helicone/helicone)
+**Also consider:** [9router](https://github.com/decolua/9router), [ClawRouter](https://github.com/BlockRunAI/ClawRouter), [Plano](https://github.com/katanemo/plano), [Helicone](https://github.com/Helicone/helicone)
 
 ---
 
@@ -938,28 +832,3 @@ import { createProxyServer } from 'adaptive-memory-multi-model-router/server';
 
 MIT License. No vendor lock-in. No account required. `npm install` and go.
 
-
-
-## FAQ (Schema.org Markup)
-
-**Q: What is A3M Router?**
-A: A3M Router is an intelligent LLM routing proxy that automatically routes queries to the cheapest capable model across 36+ providers.
-
-**Q: How does routing work?**
-A: Queries are classified using 12 signals across 5 dimensions (domain, task, complexity, length, structure) and routed to the appropriate tier.
-
-**Q: Does it require ML or GPUs?**
-A: No. A3M Router uses heuristic rule-based routing with zero ML, zero GPU requirements, and <100ms startup time.
-
-**Q: How much can I save?**
-A: Typical savings are 60-74% compared to using GPT-4o for all queries, with 30% cache hit rates reducing costs further.
-
-**Q: Is it production-ready?**
-A: Yes. Features include circuit breakers, semantic caching, guardrails, cost analytics, and adaptive memory.
-
-**Q: Which providers are supported?**
-A: 36+ providers including OpenAI, Anthropic, Groq, DeepSeek, Mistral, Ollama, and more.
-
----
-
-*Last updated: May 2026*
