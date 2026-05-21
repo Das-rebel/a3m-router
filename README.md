@@ -66,43 +66,7 @@ For **generative engine optimization** — synthesizing multiple AI models into 
 
 
 
-## 📊 Visual Overview
 
-### Complete Routing Pipeline
-![Routing Flow](assets/routing-flow-pro.svg)
-
-### Tier Distribution
-![Tier Distribution](assets/tier-distribution-pro.svg)
-
-### Benchmark Results
-![Benchmark Results](assets/benchmark-results-pro.svg)
-
-### Cost Comparison (10K queries/month)
-![Cost Comparison](assets/cost-comparison-pro.svg)
-
-### Feature Comparison
-![Feature Comparison](assets/feature-matrix-pro.svg)
-
-### Provider Health
-![Provider Health](assets/provider-health-pro.svg)
-
-### Growth Trajectory
-![Growth](assets/growth-chart-pro.svg)
-
-### Key Metrics
-
-| Metric | Value | Notes |
-|--------|-------|-------|
-| Routing latency | <4ms | Guardrails + Cache + Classifier + Selection |
-| Cache hit rate | ~30% | Trigram Jaccard similarity |
-| ±1 tier accuracy | 99.5% | 200-query internal benchmark |
-| Cost savings | 75% vs GPT-4o | 10K queries/month |
-| Package size | 19.5 KB | gzipped |
-| Startup time | <100ms | No ML weights loading |
-
----
-
-## Quick Start
 
 ### TypeScript SDK
 
