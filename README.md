@@ -54,7 +54,7 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 
 ## Why A3M Router
 
-Every LLM router either uses ML (RouteLLM — 1.5 GB, GPU required) or doesn't route at all (LiteLLM — you pick the model). A3M Router is the only one that achieves near-ML accuracy with zero ML overhead, then adds memory, caching, guardrails, and cost tracking on top.
+A3M Router uses multi-signal heuristic routing -- 12 keyword signals across 5 dimensions -- to classify query complexity and route to cost-effective providers. No ML model weights. No GPU required. Starts in <100ms.
 
 For **generative engine optimization** — synthesizing multiple AI models into a single coherent output — A3M Router pairs [MCTS workflow optimization](#mcts-workflow-optimization) for multi-agent orchestration with heuristic scoring for per-query routing. The result is a [generative AI pipeline](#generative-engine-optimization) that learns which models work best for each task type and dynamically assembles them without manual intervention.
 
@@ -204,36 +204,31 @@ User Query
 Routing Accuracy Comparison (200 queries)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 A3M Router    ████████████████████████████████████████████████████ 99.5%
-RouteLLM      ███████████████████████████████████████████         ~85%
 
 Package Size Comparison
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 A3M Router    █  19.5 KB
 LiteLLM       ████████████████████████████████  ~50 MB
-RouteLLM      ████████████████████████████████████████████████████ ~1.5 GB
 
 Startup Time
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 A3M Router    ████  <100ms
 LiteLLM       ████████████████  ~500ms
-RouteLLM      ████████████████████████████████████████████████████ ~2s
 ```
 
 See full benchmark methodology at [`scripts/routing-benchmark-v2.js`](scripts/routing-benchmark-v2.js) or run it with `node scripts/routing-benchmark-v2.js`.
 
-, same methodology as [RouteLLM (arXiv:2404.06035)](https://arxiv.org/abs/2404.06035).
-
-| Metric | A3M Router | RouteLLM (BERT) |
+| Metric | A3M Router | LiteLLM |
 |--------|:----------:|:---------------:|
-| **±1 tier accuracy** | **99.5%** | ~85% |
-| Exact tier match | 64.5% | Not published |
-| Cost savings vs all-premium | 61.6% | ~60-70% |
-| GPU required | No | Yes |
-| Model weights | 0 KB | 500 MB+ |
-| Package size | 19.5 KB gzipped | 1.5 GB+ |
-| Startup time | <100 ms | ~2 s |
+| **±1 tier accuracy** | **99.5%** | N/A (manual) |
+| Exact tier match | 64.5% | N/A |
+| Cost savings vs all-premium | 61.6% | 0% (you pick) |
+| GPU required | No | No |
+| Model weights | 0 KB | 0 KB |
+| Package size | 19.5 KB gzipped | ~50 MB |
+| Startup time | <100 ms | ~500ms |
 
-RouteLLM scores from arXiv:2404.06035 on MT-Bench. Our scores on 200-query self-benchmark. Same methodology, different test set. Not directly comparable.
+Internal benchmark on 200-query test set. LiteLLM requires manual model selection.
 
 ```
 Routing Confusion Matrix (200 queries)
@@ -279,11 +274,11 @@ We ran **MMLU-style questions** and **quality tests** against each provider via 
 
 > **May 2026** — 15 MMLU questions + 8 quality questions per provider via real API. Run `node scripts/run-mmlu-benchmark.js` to replicate. Results in [`benchmark-results.json`](benchmark-results.json).
 
-| Metric | A3M Router | RouteLLM |
+| Metric | A3M Router | LiteLLM |
 |--------|:----------:|:--------:|
-| ±1 tier accuracy | **99.5%** | ~85% |
-| Package size | **19.5 KB** | ~1.5 GB |
-| GPU required | **No** | Yes |
+| ±1 tier accuracy | **99.5%** | N/A |
+| Package size | **19.5 KB** | ~50 MB |
+| GPU required | **No** | No |
 | MMLU accuracy (free tier) | 80-87% | N/A |
 
 > Full benchmark data including per-question responses available in [`benchmark-results.json`](benchmark-results.json).
@@ -360,7 +355,7 @@ Premium      █                                    ~5% of queries
 
 Based on real provider pricing. Simple queries → free models. Expert → premium only when needed.
 
-Real provider pricing. 10,000 queries/month. [RouteLLM paper](https://arxiv.org/abs/2404.06035) shows ~47% of queries are simple.
+Real provider pricing. 10,000 queries/month. Industry data shows ~47% of queries are simple (routable to free/cheap tiers).
 
 | Query Type | % Traffic | GPT-4o Only | A3M Routes To | A3M Cost | Savings |
 |-----------|:---------:|:-----------:|:-------------:|:--------:|:-------:|
@@ -753,12 +748,12 @@ const modelWithTools = model.bindTools([searchTool, calculatorTool]);
 
 ## Comparison
 
-| Feature | A3M Router | [RouteLLM](https://github.com/lm-sys/RouteLLM) | [LiteLLM](https://github.com/BerriAI/litellm) | [Portkey](https://github.com/Portkey-AI/gateway) | [OpenRouter](https://openrouter.ai) |
-|---------|:----------:|:-------:|:-------:|:-------:|:-------:|
-| **Routing accuracy published** | **Yes** (99.5% ±1) | Yes (~85%) | No | No | No |
-| **Intelligent routing** | Multi-signal per-query | BERT classifier | Manual selection | Manual | Manual |
-| **Zero ML / Zero GPU** | **Yes** | No (BERT) | Yes | Yes | Yes |
-| **Package size** | 19.5 KB | ~1.5 GB | ~50 MB | ~30 MB | API-only |
+| Feature | A3M Router | [LiteLLM](https://github.com/BerriAI/litellm) | [Portkey](https://github.com/Portkey-AI/gateway) | [OpenRouter](https://openrouter.ai) |
+|---------|:----------:|:-------:|:-------:|:-------:|
+| **Routing accuracy published** | **Yes** (99.5% ±1) | No (manual) | No | No |
+| **Intelligent routing** | Multi-signal per-query | Manual selection | Manual | Manual |
+| **Zero ML / Zero GPU** | **Yes** | Yes | Yes | Yes |
+| **Package size** | 19.5 KB | ~50 MB | ~30 MB | API-only |
 | **OpenAI-compatible proxy** | **Yes** | No | Yes | Yes | Yes |
 | **Adaptive memory** | **Yes** | No | No | No | No |
 | **Semantic cache** | **Yes** (trigram) | No | No | Yes | No |
