@@ -1,0 +1,6 @@
+node_modules/
+*.bak
+dist/*.map
+*.tsbuildinfo
+.DS_Store
+coverage/

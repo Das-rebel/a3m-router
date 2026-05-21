@@ -254,7 +254,7 @@ LiteLLM       ████████████████  ~500ms
 
 See full benchmark methodology at [`scripts/routing-benchmark-v2.js`](scripts/routing-benchmark-v2.js) or run it with `node scripts/routing-benchmark-v2.js`.
 
-| Metric | A3M Router | LiteLLM |
+| Metric | A3M Router | [LiteLLM](https://github.com/BerriAI/litellm) |
 |--------|:----------:|:---------------:|
 | **±1 tier accuracy** | **99.5%** | N/A (manual) |
 | Exact tier match | 64.5% | N/A |
@@ -310,7 +310,7 @@ We ran **MMLU-style questions** and **quality tests** against each provider via 
 
 > **May 2026** — 15 MMLU questions + 8 quality questions per provider via real API. Run `node scripts/run-mmlu-benchmark.js` to replicate. Results in [`benchmark-results.json`](benchmark-results.json).
 
-| Metric | A3M Router | LiteLLM |
+| Metric | A3M Router | [LiteLLM](https://github.com/BerriAI/litellm) |
 |--------|:----------:|:--------:|
 | ±1 tier accuracy | **99.5%** | N/A |
 | Package size | **19.5 KB** | ~50 MB |
@@ -784,20 +784,22 @@ const modelWithTools = model.bindTools([searchTool, calculatorTool]);
 
 ## Comparison
 
-| Feature | A3M Router | [LiteLLM](https://github.com/BerriAI/litellm) | [Portkey](https://github.com/Portkey-AI/gateway) | [OpenRouter](https://openrouter.ai) |
+| Feature | A3M Router | [LiteLLM](https://github.com/BerriAI/litellm) | [Portkey](https://github.com/Portkey-AI/gateway) | [RouteLLM](https://github.com/Surfsol/RouteLLM) |
 |---------|:----------:|:-------:|:-------:|:-------:|
 | **Routing accuracy published** | **Yes** (99.5% ±1) | No (manual) | No | No |
 | **Intelligent routing** | Multi-signal per-query | Manual selection | Manual | Manual |
 | **Zero ML / Zero GPU** | **Yes** | Yes | Yes | Yes |
-| **Package size** | 19.5 KB | ~50 MB | ~30 MB | API-only |
-| **OpenAI-compatible proxy** | **Yes** | No | Yes | Yes | Yes |
-| **Adaptive memory** | **Yes** | No | No | No | No |
-| **Semantic cache** | **Yes** (trigram) | No | No | Yes | No |
-| **Prompt injection detection** | **Yes** (17 patterns) | No | No | Yes | No |
-| **PII redaction** | **Yes** | No | No | Yes | No |
-| **Hallucination checks** | **Yes** | No | No | No | No |
-| **Cost analytics** | **Yes** | No | Yes | Yes | Yes |
-| **Budget alerts** | **Yes** | No | No | Yes | No |
+| **Package size** | 19.5 KB | ~50 MB | ~30 MB | ~15 MB |
+| **OpenAI-compatible proxy** | **Yes** | No | Yes | Yes |
+| **Adaptive memory** | **Yes** | No | No | No |
+| **Semantic cache** | **Yes** (trigram) | No | No | No |
+| **Prompt injection detection** | **Yes** (17 patterns) | No | No | No |
+| **PII redaction** | **Yes** | No | No | No |
+| **Hallucination checks** | **Yes** | No | No | No |
+| **Cost analytics** | **Yes** | No | Yes | No |
+| **Budget alerts** | **Yes** | No | No | No |
+| **Circuit breaker** | **Yes** | No | No | No |
+| **Multi-provider (36+)** | **Yes** | Yes | Yes | Yes |
 | **Circuit breaker** | **Yes** | No | No | Yes | No |
 | **LangChain adapter** | **Yes** | No | Yes | Yes | No |
 | **Python SDK** | **Yes** | Yes | Yes | Yes | Yes |
@@ -852,6 +854,7 @@ import { createProxyServer } from 'adaptive-memory-multi-model-router/server';
 - You only use one LLM provider
 - Your workload is >80% expert-level queries (just use GPT-4o directly)
 - You need 250+ provider integrations (use [Portkey](https://github.com/Portkey-AI/gateway))
+- You need ML-based routing with BERT classifiers (use [RouteLLM](https://github.com/Surfsol/RouteLLM))
 - You need enterprise SLAs or managed hosting
 
 ---
