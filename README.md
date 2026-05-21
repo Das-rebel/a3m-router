@@ -53,6 +53,22 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 ---
 
 
+A3M Router uses multi-signal heuristic routing -- 12 keyword signals across 5 dimensions -- to classify query complexity and route to cost-effective providers. No ML model weights. No GPU required. Starts in <100ms.
+
+For **generative engine optimization** — synthesizing multiple AI models into a single coherent output — A3M Router pairs [MCTS workflow optimization](#mcts-workflow-optimization) for multi-agent orchestration with heuristic scoring for per-query routing. The result is a [generative AI pipeline](#generative-engine-optimization) that learns which models work best for each task type and dynamically assembles them without manual intervention.
+
+| 🧠 Adaptive Memory | 🎯 Multi-Signal Routing | 🛡️ Production Protections |
+|:---|:---|:---|
+| Learns from your usage over time. Remembers which models work for your query types. Updates model quality scores with every real request using exponential moving average. No retraining. | 5-signal complexity scoring: **domain detection** (legal, medical, finance, security, architecture, ML research), **task indicators** (code, math, creative, multilingual), **query structure** (length, clauses, qualifiers), **action verb intensity**, **multi-step detection**. All regex + keyword. Zero ML weights. | **Semantic cache** — trigram Jaccard similarity skips duplicate LLM calls. **Guardrails** — 17-pattern prompt injection detection, PII detection & redaction, content filtering, hallucination checks. **Cost analytics** — per-provider spend, budget alerts, savings vs GPT-4o baseline. **Circuit breaker** — 3 failures → 60s cooldown, automatic provider failover. |
+
+---
+
+
+
+
+
+
+
 ## 📊 Visual Overview
 
 ### Complete Routing Pipeline
@@ -77,22 +93,6 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 ![Growth](assets/growth-chart-pro.svg)
 
 ---
-
-
-
-A3M Router uses multi-signal heuristic routing -- 12 keyword signals across 5 dimensions -- to classify query complexity and route to cost-effective providers. No ML model weights. No GPU required. Starts in <100ms.
-
-For **generative engine optimization** — synthesizing multiple AI models into a single coherent output — A3M Router pairs [MCTS workflow optimization](#mcts-workflow-optimization) for multi-agent orchestration with heuristic scoring for per-query routing. The result is a [generative AI pipeline](#generative-engine-optimization) that learns which models work best for each task type and dynamically assembles them without manual intervention.
-
-| 🧠 Adaptive Memory | 🎯 Multi-Signal Routing | 🛡️ Production Protections |
-|:---|:---|:---|
-| Learns from your usage over time. Remembers which models work for your query types. Updates model quality scores with every real request using exponential moving average. No retraining. | 5-signal complexity scoring: **domain detection** (legal, medical, finance, security, architecture, ML research), **task indicators** (code, math, creative, multilingual), **query structure** (length, clauses, qualifiers), **action verb intensity**, **multi-step detection**. All regex + keyword. Zero ML weights. | **Semantic cache** — trigram Jaccard similarity skips duplicate LLM calls. **Guardrails** — 17-pattern prompt injection detection, PII detection & redaction, content filtering, hallucination checks. **Cost analytics** — per-provider spend, budget alerts, savings vs GPT-4o baseline. **Circuit breaker** — 3 failures → 60s cooldown, automatic provider failover. |
-
----
-
-
-
-
 
 ### TypeScript SDK
 
