@@ -1,17 +1,24 @@
 [🇨🇳 中文](./README_zh.md) · [🇯🇵 日本語](./README_ja.md) · [English](./README.md)
 
-# A3M Router 🔀
+# A3M Router
 
 [![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?label=npm)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
-[![GitHub stars](https://img.shields.io/github/stars/Das-rebel/adaptive-memory-multi-model-router)](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
-[![License](https://img.shields.io/github/license/Das-rebel/adaptive-memory-multi-model-router)](LICENSE)
 [![Tests](https://img.shields.io/badge/tests-55%2F55%20passing-brightgreen)](test.js)
+[![License](https://img.shields.io/github/license/Das-rebel/adaptive-memory-multi-model-router)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/Das-rebel/adaptive-memory-multi-model-router)](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
+[![Discord](https://img.shields.io/badge/Discord-Join-brightgreen?logo=discord)](https://discord.gg/a3m-router)
+[![Docs](https://img.shields.io/badge/Docs-API-blue?logo=read-the-docs)](docs/API.md)
 
-> **Intelligent LLM routing** — 99.5% ±1 tier accuracy, zero ML, zero GPU.
->
-> OpenAI-compatible proxy. Routes to cheapest capable model across 36+ providers.
-> Adaptive memory learns from usage. Built-in cache, guardrails, cost analytics.
+[Documentation](docs/API.md) · [GitHub](https://github.com/Das-rebel/adaptive-memory-multi-model-router) · [npm](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
+
+---
+
+## What is A3M Router?
+
+**Intelligent LLM routing with adaptive memory** — routes every query to the cheapest capable model across 36+ providers. 99.5% ±1 tier accuracy. Zero ML weights. Zero GPU. Starts in <100ms.
+
+A3M Router is an OpenAI-compatible proxy that uses multi-signal heuristic routing to classify query complexity and automatically select the most cost-effective provider.
 
 ## Install
 
@@ -20,19 +27,6 @@ npm install adaptive-memory-multi-model-router   # TypeScript / Node
 pip install a3m-router                            # Python
 npx a3m-router serve                              # Start proxy: localhost:8787
 ```
-
-## How It Works
-
-```
-Query → Guardrails (<1ms) → Cache (<1ms) → Classify (2ms) → Route
-                                                    │
-                                    ┌───────────────┼───────────────┐
-                                    ▼               ▼               ▼
-                                  FREE           CHEAP           PREMIUM
-                               Groq, etc.      Llama, Mistral   GPT-4o, Claude
-```
-
-**Routing signals:** Domain (legal, medical, code) + Task type + Query structure → Tier → Cheapest available
 
 ## Quick Start
 
@@ -68,9 +62,9 @@ async with A3MRouter() as router:
 ### CLI
 
 ```bash
-npx a3m-router route "Explain quantum computing"  # Get routing decision
+npx a3m-router route "Explain quantum computing"   # Get routing decision
 npx a3m-router serve --port 8787                  # Start proxy
-npx a3m-router benchmark                           # Run accuracy test
+npx a3m-router benchmark                          # Run accuracy test
 ```
 
 ### REST API
@@ -81,16 +75,30 @@ curl http://localhost:8787/v1/chat/completions \
   -d '{"model": "auto", "messages": [{"role": "user", "content": "Hi"}]}'
 ```
 
+## How It Works
+
+```
+Query → Guardrails (<1ms) → Cache (<1ms) → Classify (2ms) → Route
+                                                    │
+                                    ┌───────────────┼───────────────┐
+                                    ▼               ▼               ▼
+                                  FREE           CHEAP           PREMIUM
+                               Groq, etc.      Llama, Mistral   GPT-4o, Claude
+```
+
+**Routing signals:** Domain + Task type + Query structure → Tier → Cheapest available
+
 ## Features
 
-| Feature | Description |
-|---------|-------------|
-| **Semantic Cache** | Trigram Jaccard, 30% hit rate, no GPU |
-| **Guardrails** | 17-pattern injection detection, PII redaction |
-| **Adaptive Memory** | EMA quality scoring, learns over time |
-| **Circuit Breaker** | 3 failures → 60s cooldown, auto failover |
-| **Cost Analytics** | Per-provider spend, budget alerts |
-| **OpenAI-Compatible** | Drop-in for any OpenAI SDK |
+| | |
+|---|---|
+| **Adaptive Memory** | Learns from usage. EMA quality scoring. No retraining. |
+| **Multi-Signal Routing** | 12 signals across 5 dimensions. Zero ML weights. |
+| **Semantic Cache** | Trigram Jaccard similarity. 30% hit rate. |
+| **Guardrails** | 17-pattern injection detection. PII redaction. |
+| **Circuit Breaker** | 3 failures → 60s cooldown. Auto failover. |
+| **Cost Analytics** | Per-provider spend. Budget alerts. Savings tracking. |
+| **OpenAI-Compatible** | Drop-in for any OpenAI SDK. |
 
 ## Benchmark
 
@@ -109,21 +117,21 @@ Run: `node scripts/routing-benchmark-v2.js`
 
 | Tier | Score | Examples |
 |------|-------|----------|
-| **FREE** | <0.20 | Groq (LLaMA 3.3 70B), DeepSeek Chat |
-| **CHEAP** | 0.20-0.45 | Mistral 7B, Qwen 2.5, Yi Large |
-| **MID** | 0.45-0.65 | Claude 3 Haiku, GPT-4o-mini |
-| **PREMIUM** | >0.65 | Claude 3.5 Sonnet, GPT-4o |
+| **FREE** | <0.20 | Groq (LLaMA 3.3 70B), DeepSeek Chat, Fireworks |
+| **CHEAP** | 0.20-0.45 | Mistral 7B, Qwen 2.5, Yi Large, DeepSeek Coder |
+| **MID** | 0.45-0.65 | Claude 3 Haiku, GPT-4o-mini, Gemini Pro |
+| **PREMIUM** | >0.65 | Claude 3.5 Sonnet, GPT-4o, Gemini Ultra |
 
-**Chinese:** Kimi (Moonshot), Zhipu GLM, Qwen, Yi, Baichuan, StepFun
+**Chinese providers:** Kimi (Moonshot), Zhipu GLM, Qwen, Yi, Baichuan, StepFun
 
 ## Comparison
 
 | | A3M Router | LiteLLM | Portkey |
 |--|:--:|:--:|:--:|
 | Auto Routing | ✓ | Manual | Manual |
-| Semantic Cache | ✓ 30% | - | Limited |
-| Guardrails | ✓ 17 patterns | - | Limited |
-| Circuit Breaker | ✓ | - | - |
+| Semantic Cache | ✓ 30% | — | Limited |
+| Guardrails | ✓ 17 patterns | — | Limited |
+| Circuit Breaker | ✓ | — | — |
 | Package Size | 19.5 KB | ~50 MB | ~30 MB |
 | Startup | <100ms | ~500ms | ~300ms |
 
@@ -136,9 +144,9 @@ Run: `node scripts/routing-benchmark-v2.js`
 
 ## Links
 
-- [npm](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
-- [GitHub](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
-- [API docs](docs/API.md)
+- [Documentation](docs/API.md)
+- [npm package](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
+- [GitHub repo](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
 - [Contributing](CONTRIBUTING.md)
 
 MIT License. `npm install` and go.
