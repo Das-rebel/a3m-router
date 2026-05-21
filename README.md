@@ -64,16 +64,26 @@ For **generative engine optimization** — synthesizing multiple AI models into 
 
 ## 📊 Visual Overview
 
-![Routing Flow](assets/routing-flow.png)
+### Complete Routing Pipeline
+![Routing Flow](assets/routing-flow-v3.png)
 
-### Cost Comparison (10,000 queries/month)
-![Cost Comparison](assets/cost-comparison-chart.png)
+### Tier Distribution
+![Tier Distribution](assets/tier-distribution.png)
 
-### Provider Health Monitoring
-![Provider Health](assets/provider-health-chart.png)
+### Benchmark Results
+![Benchmark Results](assets/benchmark-results.png)
 
-### Query Complexity Scoring (12 signals)
-![Complexity Scoring](assets/complexity-scoring.png)
+### Cost Comparison (10K queries/month)
+![Cost Comparison](assets/cost-comparison-v2.png)
+
+### Feature Comparison
+![Feature Comparison](assets/feature-comparison-v3.png)
+
+### Provider Health
+![Provider Health](assets/provider-health-v2.png)
+
+### Complexity Scoring
+![Complexity Scoring](assets/complexity-scoring-v2.png)
 
 ### Key Metrics
 
