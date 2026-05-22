@@ -1,6 +1,6 @@
 {
   "meta": {
-    "date": "2026-05-19T19:09:06.916Z",
+    "date": "2026-05-22T06:44:38.534Z",
     "type": "mmlu_quality"
   },
   "results": {
@@ -130,7 +130,7 @@
     },
     "groq-llama-3.3-70b": {
       "name": "Groq Llama 3.3 70B",
-      "mmlu_accuracy": 0.8,
+      "mmlu_accuracy": 0.6666666666666666,
       "quality_score": 9.4,
       "mmlu_detail": [
         {
@@ -145,8 +145,8 @@
         },
         {
           "q": "Time complexity of binary search?",
-          "response": "B",
-          "correct": true
+          "response": "B)",
+          "correct": false
         },
         {
           "q": "In Python, list.append() does what?",
@@ -170,8 +170,8 @@
         },
         {
           "q": "Powerhouse of the cell?",
-          "response": "C",
-          "correct": true
+          "response": "C)",
+          "correct": false
         },
         {
           "q": "DNA stands for?",
@@ -242,7 +242,7 @@
         },
         {
           "prompt": "What is machine learning?",
-          "response": "**Machine Learning: An Overvie",
+          "response": "**Machine Learning Overview**\n",
           "score": 10
         },
         {
@@ -379,7 +379,7 @@
     "cerebras-llama3.1-8b": {
       "name": "Cerebras Llama 3.1 8B",
       "mmlu_accuracy": 0.3333333333333333,
-      "quality_score": 1.3,
+      "quality_score": 0.6,
       "mmlu_detail": [
         {
           "q": "What is the derivative of x²?",
@@ -465,8 +465,8 @@
         },
         {
           "prompt": "Write a Python function that c",
-          "response": "**Palindrome Checker Function*",
-          "score": 10
+          "response": "",
+          "score": 0
         },
         {
           "prompt": "Compare supervised vs unsuperv",
@@ -485,8 +485,8 @@
         },
         {
           "prompt": "All cats are animals. Some ani",
-          "response": "",
-          "score": 0
+          "response": "To determine if some cats are ",
+          "score": 5
         },
         {
           "prompt": "What is machine learning?",
@@ -502,8 +502,8 @@
     },
     "cerebras-qwen-3-235b": {
       "name": "Cerebras Qwen 3 235B",
-      "mmlu_accuracy": 0.3333333333333333,
-      "quality_score": 1.3,
+      "mmlu_accuracy": 0.4,
+      "quality_score": 0,
       "mmlu_detail": [
         {
           "q": "What is the derivative of x²?",
@@ -542,8 +542,8 @@
         },
         {
           "q": "Powerhouse of the cell?",
-          "response": "",
-          "correct": false
+          "response": "C",
+          "correct": true
         },
         {
           "q": "DNA stands for?",
@@ -599,8 +599,8 @@
         },
         {
           "prompt": "What is the capital of France?",
-          "response": "The capital of France is Paris",
-          "score": 10
+          "response": "",
+          "score": 0
         },
         {
           "prompt": "Train travels 300km in 4 hours",

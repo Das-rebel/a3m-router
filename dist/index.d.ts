@@ -2,6 +2,8 @@ export { routeQuery, routeBatch, recommendForTask, extractQueryFeatures, MODEL_P
 export { DEFAULT_PROVIDERS, getAvailableProviders, registerProvider, deregisterProvider, updateProvider, healthCheck, checkAllProviders, findCheapestAvailableProvider, findFastestAvailableProvider, loadConfig, saveConfig, } from './providers/providerConfig';
 export type { ProviderTier, ProviderFormat, ProviderType, ProviderCost, ProviderDefinition, } from './providers/providerConfig';
 export { CostTracker } from './cost/costTracker';
+export { BudgetEnforcer, BudgetExceededError, createBudgetEnforcer } from './cost/budgetEnforcer';
+export type { BudgetConfig, SpendRecord, BudgetCheckResult } from './cost/budgetEnforcer';
 export { MemoryTree } from './memory/memoryTree';
 export type { MemoryChunk, TreeNode } from './memory/memoryTree';
 export { countTokens, estimateTokens } from './utils/tokenUtils';

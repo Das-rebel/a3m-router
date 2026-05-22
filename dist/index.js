@@ -2,7 +2,7 @@
 // A3M Router - Main Entry Point
 // Version: 2.0.0
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProxyServer = exports.CostAnalytics = exports.GuardrailEngine = exports.SemanticCache = exports.MODEL_COSTS = exports.estimateTokens = exports.countTokens = exports.MemoryTree = exports.CostTracker = exports.saveConfig = exports.loadConfig = exports.findFastestAvailableProvider = exports.findCheapestAvailableProvider = exports.checkAllProviders = exports.healthCheck = exports.updateProvider = exports.deregisterProvider = exports.registerProvider = exports.getAvailableProviders = exports.DEFAULT_PROVIDERS = exports.getProviderHealth = exports.updateModelProfile = exports.MODEL_PROFILES = exports.extractQueryFeatures = exports.recommendForTask = exports.routeBatch = exports.routeQuery = void 0;
+exports.createProxyServer = exports.CostAnalytics = exports.GuardrailEngine = exports.SemanticCache = exports.MODEL_COSTS = exports.estimateTokens = exports.countTokens = exports.MemoryTree = exports.createBudgetEnforcer = exports.BudgetExceededError = exports.BudgetEnforcer = exports.CostTracker = exports.saveConfig = exports.loadConfig = exports.findFastestAvailableProvider = exports.findCheapestAvailableProvider = exports.checkAllProviders = exports.healthCheck = exports.updateProvider = exports.deregisterProvider = exports.registerProvider = exports.getAvailableProviders = exports.DEFAULT_PROVIDERS = exports.getProviderHealth = exports.updateModelProfile = exports.MODEL_PROFILES = exports.extractQueryFeatures = exports.recommendForTask = exports.routeBatch = exports.routeQuery = void 0;
 exports.createA3MRouter = createA3MRouter;
 // ============================================================
 // ROUTING ENGINE
@@ -35,6 +35,10 @@ Object.defineProperty(exports, "saveConfig", { enumerable: true, get: function (
 // ============================================================
 var costTracker_1 = require("./cost/costTracker");
 Object.defineProperty(exports, "CostTracker", { enumerable: true, get: function () { return costTracker_1.CostTracker; } });
+var budgetEnforcer_1 = require("./cost/budgetEnforcer");
+Object.defineProperty(exports, "BudgetEnforcer", { enumerable: true, get: function () { return budgetEnforcer_1.BudgetEnforcer; } });
+Object.defineProperty(exports, "BudgetExceededError", { enumerable: true, get: function () { return budgetEnforcer_1.BudgetExceededError; } });
+Object.defineProperty(exports, "createBudgetEnforcer", { enumerable: true, get: function () { return budgetEnforcer_1.createBudgetEnforcer; } });
 // ============================================================
 // MEMORY
 // ============================================================

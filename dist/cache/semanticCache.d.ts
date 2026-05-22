@@ -1,48 +1,75 @@
 /**
- * A3M Router - Semantic Cache
+ * A3M Router - Semantic Cache (Embedding-based)
  *
  * Stores previous query->response pairs and returns cached responses
- * for semantically similar queries using character n-gram Jaccard similarity.
+ * for semantically similar queries using cosine similarity on embeddings.
  *
- * No external embedding API needed. Trigram overlap catches paraphrases like:
- *   "What is Python?"    ≈ "Tell me about Python" ≈ "Explain Python"
- *   "Write a sort fn"    ≈ "Create a sorting fn"  ≈ "How to sort an array"
+ * Supports embedders: nomic (via Ollama), openai, or local Ollama.
+ * Uses nomic-embed-text by default via local Ollama.
  */
-export interface CachedResponse {
-    query: string;
-    response: string;
-    metadata?: any;
-    cachedAt: number;
-    hitCount: number;
+export type EmbedderType = 'nomic' | 'openai' | 'local';
+export interface SemanticCacheConfig {
+    similarityThreshold: number;
+    ttlSeconds: number;
+    maxEntries?: number;
+    embedder?: EmbedderType;
+    embedderUrl?: string;
+    embedderApiKey?: string;
 }
-export interface SemanticCacheOptions {
-    maxSize?: number;
-    similarityThreshold?: number;
-    ttl?: number;
+export interface CacheEntry {
+    key: string;
+    embedding: number[];
+    response: string;
+    provider: string;
+    model: string;
+    cost: number;
+    createdAt: number;
+    ttl: number;
+    hitCount: number;
+    lastAccessedAt: number;
+}
+export interface SemanticCacheGetResult {
+    hit: boolean;
+    response?: string;
+    provider?: string;
+    model?: string;
+    cost?: number;
+    similarity?: number;
 }
 export interface SemanticCacheStats {
+    size: number;
     hits: number;
     misses: number;
     hitRate: number;
-    size: number;
 }
 export declare class SemanticCache {
     private entries;
-    private maxSize;
+    private accessOrder;
+    private embedder;
     private similarityThreshold;
-    private ttl;
+    private ttlMs;
+    private maxEntries;
     private hits;
     private misses;
-    constructor(options?: SemanticCacheOptions);
+    constructor(config: SemanticCacheConfig);
     /**
      * Get cached response for a semantically similar query.
-     * Returns the best match above the similarity threshold, or null.
+     * Returns the best match above the similarity threshold, or { hit: false }.
      */
-    get(query: string): Promise<CachedResponse | null>;
+    get(query: string): Promise<SemanticCacheGetResult>;
     /**
      * Store a query->response pair in the cache.
      */
-    set(query: string, response: string, metadata?: any): Promise<void>;
+    set(query: string, response: string, metadata: {
+        provider: string;
+        model: string;
+        cost: number;
+        ttl?: number;
+    }): Promise<void>;
+    /**
+     * Delete a specific query from the cache.
+     */
+    delete(query: string): Promise<void>;
     /**
      * Clear all cache entries.
      */
@@ -52,11 +79,16 @@ export declare class SemanticCache {
      */
     getStats(): SemanticCacheStats;
     /**
+     * Update access order for LRU tracking.
+     */
+    private updateAccessOrder;
+    /**
      * Purge expired entries.
      */
     private evictExpired;
     /**
-     * Evict the oldest (by cachedAt) entry.
+     * Evict the least recently used entry.
      */
-    private evictOldest;
+    private evictLRU;
 }
+export default SemanticCache;

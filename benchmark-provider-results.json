@@ -1,0 +1,166 @@
+{
+  "meta": {
+    "date": "2026-05-22T06:48:22.431Z",
+    "questions": 10
+  },
+  "results": {
+    "groq-llama-3.3-70b": {
+      "name": "Groq Llama 3.3 70B",
+      "successRate": 1,
+      "avgLatency": 315,
+      "avgOutputLen": 279,
+      "inputCostPer1M": 0,
+      "questions": [
+        {
+          "id": 1,
+          "success": true,
+          "latency": 173,
+          "content": "2 + 2 = 4.",
+          "status": 200
+        },
+        {
+          "id": 2,
+          "success": true,
+          "latency": 444,
+          "content": "**Checking for Prime Numbers in Python**\n======================================\n\nBelow is a simple Python function that checks if a given number is prime. A prime number is a natural number greater than 1 that has no positive divisors other than 1 and itself.\n\n### Code\n\n```python\ndef is_prime(n):\n    \"\"\"\n    Checks if a number is prime.\n\n    Args:\n        n (int): The number to check.\n\n    Returns:\n        bool: True if the number is prime, False otherwise.\n",
+          "status": 200
+        },
+        {
+          "id": 3,
+          "success": true,
+          "latency": 217,
+          "content": "An API, or Application Programming Interface, is a set of defined rules and protocols that allows different software systems, applications, or services to communicate and exchange data with each other in a standardized and secure manner.",
+          "status": 200
+        },
+        {
+          "id": 4,
+          "success": true,
+          "latency": 407,
+          "content": "Climate change is a complex and multifaceted issue, and there are several factors that contribute to it. Some of the main causes of climate change include:\n\n1. **Greenhouse gases**: The burning of fossil fuels such as coal, oil, and gas for energy releases large amounts of carbon dioxide (CO2), methane (CH4), and other greenhouse gases into the atmosphere. These gases trap heat from the sun, leading to a warming effect on the planet.\n2. **Deforestation**: The",
+          "status": 200
+        },
+        {
+          "id": 5,
+          "success": true,
+          "latency": 313,
+          "content": "Code flows like a stream\nLogic dances on the screen\nBeauty in the code",
+          "status": 200
+        },
+        {
+          "id": 6,
+          "success": true,
+          "latency": 403,
+          "content": "The quality and performance of AI models directly depend on the amount and quality of the data used to train them. Here's a summary:\n\n**Key Points:**\n\n1. **Data quantity**: More data generally leads to better model performance, as the model can learn from a larger number of examples.\n2. **Data quality**: High-quality data that is accurate, relevant, and diverse is crucial for training effective AI models.\n3. **Data representation**: The way data is represented and formatted can impact model",
+          "status": 200
+        },
+        {
+          "id": 7,
+          "success": true,
+          "latency": 158,
+          "content": "1. Python\n2. Java\n3. JavaScript",
+          "status": 200
+        },
+        {
+          "id": 8,
+          "success": true,
+          "latency": 480,
+          "content": "**Machine Learning: An Overview**\n=====================================\n\nMachine learning (ML) is a subset of artificial intelligence (AI) that involves the use of algorithms and statistical models to enable machines to learn from data, make predictions, and improve their performance over time.\n\n**Key Aspects of Machine Learning:**\n\n1. **Data**: Machine learning relies on large amounts of data to learn and make predictions.\n2. **Algorithms**: ML algorithms are used to analyze and process the data, extracting patterns and relationships",
+          "status": 200
+        },
+        {
+          "id": 9,
+          "success": true,
+          "latency": 417,
+          "content": "**Reversing a String in Python**\n================================\n\nYou can reverse a string in Python using slicing or the `reversed()` function. Here are examples of both methods:\n\n### Method 1: Slicing\n\n```python\ndef reverse_string_slicing(input_string):\n    \"\"\"Reverse a string using slicing.\"\"\"\n    return input_string[::-1]\n\n# Example usage:\ninput_str = \"Hello, World!\"\nreversed_str = reverse_string_slicing(input_str)\nprint(reversed_str)  # Output",
+          "status": 200
+        },
+        {
+          "id": 10,
+          "success": true,
+          "latency": 138,
+          "content": "The capital of Japan is Tokyo.",
+          "status": 200
+        }
+      ]
+    },
+    "groq-qwen-3-32b": {
+      "name": "Groq Qwen 3 32B",
+      "successRate": 1,
+      "avgLatency": 535,
+      "avgOutputLen": 456,
+      "inputCostPer1M": 0,
+      "questions": [
+        {
+          "id": 1,
+          "success": true,
+          "latency": 488,
+          "content": "<think>\nOkay, so I need to figure out what 2 plus 2 is. Let me start by recalling basic addition. When you add two numbers together, you're combining their quantities. So, 2 plus 2 would be combining two groups of two objects each. If I have two apples and someone gives me two more, how many apples do I have in total? That's 4 apples. \n\nWait, but maybe I should break it down even more. Let's use my",
+          "status": 200
+        },
+        {
+          "id": 2,
+          "success": true,
+          "latency": 622,
+          "content": "<think>\nOkay, I need to write a Python function to check if a number is prime. Hmm, let's think about how to approach this. A prime number is a number greater than 1 that has no divisors other than 1 and itself. So first, I should handle the edge cases. Like, if the number is less than 2, it's definitely not prime. For numbers 2 and up, I need to check divisibility.\n\nWait, for a number n,",
+          "status": 200
+        },
+        {
+          "id": 3,
+          "success": true,
+          "latency": 725,
+          "content": "<think>\nOkay, the user wants a one-sentence explanation of an API. Let me start by recalling what an API is. An API, or Application Programming Interface, allows software applications to communicate with each other. It's a set of protocols and tools that define how different software components should interact.\n\nWait, maybe I should structure it clearly. The key points are: definition, purpose, and function. API acts as an intermediary. It enables different systems to talk to each other. So combining that",
+          "status": 200
+        },
+        {
+          "id": 4,
+          "success": true,
+          "latency": 615,
+          "content": "<think>\nOkay, I need to figure out what causes climate change. Let me start by recalling what I know. Climate change refers to long-term changes in temperature, weather patterns, and other aspects of the Earth's climate. But why does this happen?\n\nFirst, I remember that the greenhouse effect is involved. The greenhouse effect is when certain gases trap heat in the atmosphere. But wait, isn't the greenhouse effect natural? I think so. Without it, Earth would be too cold for life.",
+          "status": 200
+        },
+        {
+          "id": 5,
+          "success": true,
+          "latency": 313,
+          "content": "<think>\nOkay, I need to write a haiku about programming. Let me start by recalling what a haiku is. It's a traditional Japanese poem with three lines. The syllable structure is 5-7-5. So first line 5 syllables, second 7, third 5.\n\nThe topic is programming. So I need to think of programming-related words and concepts. Let me brainstorm some terms: code, debug, logic, syntax, loops, algorithms, debug,",
+          "status": 200
+        },
+        {
+          "id": 6,
+          "success": true,
+          "latency": 518,
+          "content": "<think>\nOkay, the user wants me to summarize \"AI models improve with data\". Let me start by breaking down the main idea.\n\nFirst, I need to explain the relationship between data and AI models. More data usually leads to better performance because the model can learn patterns more effectively. But I should also mention that quality matters as much as quantity. Just having a lot of data isn't enough if it's noisy or biased.\n\nWait, should I mention types of data? Like, maybe structured vs",
+          "status": 200
+        },
+        {
+          "id": 7,
+          "success": true,
+          "latency": 825,
+          "content": "<think>\nOkay, the user is asking for a list of three programming languages. Let me start by recalling the most commonly used ones. Python is definitely up there because of its simplicity and wide range of applications, from web development to data science. Then Java, which is popular for enterprise applications and Android development. JavaScript is another must-include since it's essential for front-end web development and increasingly used for back-end with Node.js. I should mention each briefly to give a quick overview of their uses",
+          "status": 200
+        },
+        {
+          "id": 8,
+          "success": true,
+          "latency": 416,
+          "content": "<think>\nOkay, the user is asking, \"What is machine learning?\" I need to start by breaking this down from the ground up. First, I should define machine learning in simple terms without using too much jargon. Maybe start by mentioning it's a subset of AI. \n\nI should explain how traditional programming versus machine learning works. In traditional programming, we write explicit instructions for a computer. In machine learning, the computer learns patterns from data instead of following exact commands. That's a crucial",
+          "status": 200
+        },
+        {
+          "id": 9,
+          "success": true,
+          "latency": 415,
+          "content": "<think>\nOkay, I need to figure out how to reverse a string in Python. Let me think... Hmm, I remember that strings in Python are immutable, so maybe I can't modify them directly. But there must be ways to create a reversed version. Let me recall.\n\nOh right, slicing! Python has this slicing syntax that can reverse a string. The slice is something like [::-1]. Wait, how does that work exactly? Let me try an example. If I have a string",
+          "status": 200
+        },
+        {
+          "id": 10,
+          "success": true,
+          "latency": 416,
+          "content": "<think>\nOkay, so I need to figure out the capital of Japan. Hmm, I remember that Japan has four main islands, like Honshu, Hokkaido, Kyushu, and Shikoku. But the capital... I think it's Tokyo, right? Wait, but I've also heard about Kyoto. Wasn't Kyoto the capital at some point? Maybe during the Edo period?\n\nLet me think. Japan's history has different capitals over time. They had Kyoto",
+          "status": 200
+        }
+      ]
+    }
+  }
+}

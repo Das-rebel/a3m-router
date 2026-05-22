@@ -43,6 +43,8 @@ export type {
 // COST TRACKING
 // ============================================================
 export { CostTracker } from './cost/costTracker';
+export { BudgetEnforcer, BudgetExceededError, createBudgetEnforcer } from './cost/budgetEnforcer';
+export type { BudgetConfig, SpendRecord, BudgetCheckResult } from './cost/budgetEnforcer';
 
 // ============================================================
 // MEMORY
