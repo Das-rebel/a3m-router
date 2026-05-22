@@ -73,6 +73,11 @@ export declare class ProviderRetryHandler {
      */
     isRetryableError(error: any): boolean;
     /**
+     * Detect hard non-retryable account/policy states.
+     * These should fail fast instead of wasting retries.
+     */
+    private isPermanentProviderStateError;
+    /**
      * Check if error is a rate limit (429)
      */
     isRateLimitError(error: any): boolean;

@@ -283,6 +283,10 @@ class ProviderRetryHandler {
     isRetryableError(error) {
         if (!error)
             return false;
+        // Known non-retryable account/quota/policy states seen in Chinese provider APIs.
+        if (this.isPermanentProviderStateError(error)) {
+            return false;
+        }
         const config = this.configs.get('default').retry;
         const retryableErrors = config.retryableErrors || DEFAULT_RETRY_CONFIG.retryableErrors;
         // Check error code/message
@@ -302,6 +306,39 @@ class ProviderRetryHandler {
             return true;
         if (error.errno === 'ETIMEDOUT' || error.errno === 'ECONNRESET')
             return true;
+        return false;
+    }
+    /**
+     * Detect hard non-retryable account/policy states.
+     * These should fail fast instead of wasting retries.
+     */
+    isPermanentProviderStateError(error) {
+        const status = Number(error?.status ?? error?.statusCode ?? 0);
+        const message = String(error?.message || '').toLowerCase();
+        const code = String(error?.code || '').toLowerCase();
+        // Payment/balance/account states are generally non-retryable without human action.
+        if (status === 402)
+            return true;
+        if (status === 401 || status === 403)
+            return true;
+        const hardPatterns = [
+            'insufficient',
+            'balance',
+            'invalid api key',
+            'incorrect api key',
+            'access terminated',
+            'account abnormal',
+            '违规',
+            'quota exhausted',
+            'hour allocated quota exceeded',
+            'week allocated quota exceeded',
+            'month allocated quota exceeded',
+            'tpd rate limit'
+        ];
+        for (const p of hardPatterns) {
+            if (message.includes(p) || code.includes(p))
+                return true;
+        }
         return false;
     }
     /**
