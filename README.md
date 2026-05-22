@@ -34,7 +34,7 @@ OpenAI-compatible proxy that routes every query to the cheapest capable model ac
 │  │  (History)   │      │ (Budgets)   │      │  (Failover)      ││ │
 │  └─────────────┘      └─────────────┘      └─────────────────┘│ │
 │                                                              │ │
-│  36 Providers: free → cheap → mid → premium → enterprise  │ │
+│  36+ Providers: Groq, DeepSeek, OpenAI, Anthropic + more  │ │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -209,106 +209,6 @@ User Query
 
 ---
 
-## 36 Providers
-
-| Tier | Providers | Cost/1M tokens |
-|------|-----------|:--------------:|
-| **Free** (6) | CommandCode, Ollama, LM Studio, vLLM, OpenCode, Google (free tier) | $0.00 |
-| **Cheap** (15) | Groq, Cerebras, DeepInfra, Together, Fireworks, Novita, SambaNova, Anyscale, Replicate, OpenRouter, Zhipu (GLM), Moonshot (Kimi), Yi, Baichuan, MiniMax | $0.05-$0.60 |
-| **Mid** (9) | DeepSeek, Mistral, Perplexity, Cohere, AI21, Qwen, StepFun, AlephAlpha, Deepset | $0.14-$12.00 |
-| **Premium** (3) | OpenAI, Anthropic, xAI (Grok) | $2.50-$15.00 |
-| **Enterprise** (3) | Azure OpenAI, AWS Bedrock, Google Vertex | varies |
-
-Add your own in one line:
-```typescript
-import { registerProvider } from 'adaptive-memory-multi-model-router';
-registerProvider('my-provider', {
-  id: 'my-provider',
-  url: 'https://api.my-provider.com/v1',
-  apiKey: process.env.MY_API_KEY,
-  models: [{ id: 'my-model', inputCostPer1K: 0.001, outputCostPer1K: 0.002 }],
-  tier: 'cheap',
-});
-
----
-
-## Chinese LLM Providers
-
-A3M Router supports **11 Chinese LLM providers** — the largest coverage of any open-source router:
-
-| Provider | Flagship Model | Strength | Cost/1M |
-|----------|--------------|----------|:-------:|
-| **[DeepSeek](https://deepseek.com)** | V3, Coder, Reasoner | Code + reasoning, open weights | $0.14-$0.55 |
-| **[Moonshot](https://moonshot.cn)** (Kimi) | Kimi-1.5 | 128K context, Chinese | $0.07-$0.28 |
-| **[Zhipu AI](https://zhipuai.cn)** (GLM) | GLM-4, GLM-4V | Chinese + bilingual | $0.06-$0.90 |
-| **[Qwen](https://qwen.ai)** (Alibaba) | Qwen2, Qwen2.5-Coder | General + code | $0.09-$2.00 |
-| **[Yi](https://yi.ai)** (01.AI) | Yi-1.5, 34B | Bilingual + long context | $0.07-$1.20 |
-| **[Baichuan](https://www.baichuan-ai.com)** | Baichuan4, Turbo | Chinese + English | $0.08-$1.00 |
-| **[MiniMax](https://minimax.chat)** | abab6.5, Speech-02 | 1M context, speech | $0.05-$0.90 |
-| **[StepFun](https://stepfun.com)** | Step-2, Step-1 | Chinese + reasoning | $0.10-$1.50 |
-| **[Aleph Alpha](https://www.aleph-alpha.com)** | Luminous, European | Multilingual, EU-hosted | $0.50-$12.00 |
-| **[Deepset](https://deepset.ai)** | GPT-4o-mini-2024-07-18 | RAG + German | $0.15-$3.00 |
-| **OpenRouter** | 100+ models | Aggregator | varies |
-
-### Why Chinese LLMs Matter
-
-| Factor | Chinese LLMs | US LLMs |
-|--------|:------------:|:-------:|
-| **Chinese language** | Native, better than GPT-4 | GPT-4 level, expensive |
-| **Pricing** | 10-50x cheaper | Premium pricing |
-| **Context length** | Up to 1M tokens (MiniMax) | 128K-200K typical |
-| **Code (Chinese context)** | DeepSeek Coder excels | Good but expensive |
-| **API reliability** | Varies | Generally stable |
-| **Data residency** | China-hosted options | US/EU-hosted |
-
-### Chinese LLM Use Cases
-
-```
-Language → Kimi (Moonshot)     // Best Chinese, 128K context
-Code (English) → DeepSeek     // Cheaper than GPT-4o-mini
-Code (Chinese) → DeepSeek Coder // Bilingual, trained on Chinese code
-Reasoning → StepFun or Qwen    // Comparable to Claude in Chinese
-Long documents → MiniMax       // 1M token context
-European users → Aleph Alpha   // Germany-hosted, GDPR-compliant
-```
-
-### Register Chinese Providers
-
-```bash
-# DeepSeek
-DEEPSEEK_API_KEY=sk-xxxx npx a3m-router serve
-
-# Moonshot (Kimi)
-MOONSHOT_API_KEY=sk-xxxx npx a3m-router serve
-
-# Zhipu GLM
-ZHIPU_API_KEY=sk-xxxx npx a3m-router serve
-
-# All Chinese providers work via OpenRouter
-OPENROUTER_API_KEY=sk-xxxx npx a3m-router serve
-```
-
-### Multilingual Routing
-
-A3M Router's [domain detection signal](#how-routing-works) identifies **10 languages** including Chinese (Simplified + Traditional), Japanese, Korean, and detects when to route bilingual queries:
-
-| Language | Detection | Primary Model | Fallback |
-|----------|:--------:|--------------|---------|
-| 中文 (Chinese) | Script analysis | Kimi, Zhipu, Qwen | DeepSeek |
-| 日本語 (Japanese) | Script + keywords | Kimi, Qwen | GPT-4o-mini |
-| 한국어 (Korean) | Script + keywords | Kimi | GPT-4o-mini |
-| English | Default | Groq, DeepSeek | Claude Haiku |
-| Mixed zh+en | Bilingual detection | DeepSeek Coder | Kimi |
-
-
-```
-
----
-
-
----
-
-## MCTS Workflow Optimization
 
 For simple per-query routing, A3M Router uses **multi-signal heuristic scoring** (12 keyword signals → complexity score → tier → cheapest available model). This is fast (<1ms), deterministic, and achieves 99.5% ±1 tier accuracy without ML.
 
@@ -729,25 +629,19 @@ Research shows heuristic routing with proper feature engineering achieves compar
 | Over-routing (wasteful) | 7% |
 | Under-routing (risky) | 28.5% |
 
-### Provider Performance (10 real queries each)
+### Cost Savings (Auto-Routing to Cheapest Capable)
 
-| Provider | Success | Avg Latency | MMLU Accuracy | $/1M |
-|----------|---------|-------------|---------------|------|
-| **Groq Allam 2 7B** | 100% | **156ms** | **87%** | $0 |
-| Groq Llama 3.1 8B | 100% | 318ms | 80% | $0 |
-| Groq Llama 3.3 70B | 100% | 315ms | 67% | $0 |
-| Groq Qwen 3 32B | 100% | 535ms | N/A | $0 |
-| Cerebras Llama 3.1 8B | 100% | ~300ms | 33% | $0 |
-| Cerebras Qwen 3 235B | 100% | ~400ms | 40% | $0 |
+| Scenario | All-Premium | A3M Router | You Save |
+|:--------:|:-----------:|:----------:|:--------:|
+| 100K queries/mo | $250 | $95 | **62%** |
+| 1M queries/mo | $2,500 | $950 | **62%** |
+| Benchmark (200 queries) | $0.25 | $0.10 | **61.6%** |
 
-### Cost Savings (Real Provider Pricing)
+*Auto-routing routes ~50% of queries to free tier, ~35% to cheap tier.*
 
-| Tier | Routed To | Cost/1M tokens |
-|------|-----------|:---------------:|
-| Free (~50%) | Groq, DeepSeek, Fireworks | $0 |
-| Cheap (~35%) | Llama, Mistral, Qwen | $0.05-$0.60 |
-| Mid (~10%) | GPT-4o-mini, Claude Haiku | $0.15-$0.80 |
-| Premium (~5%) | GPT-4o, Claude 3.5 | $2.50-$3.00 |
+### Benchmark Methodology
+
+All benchmarks run on **real API calls** (not simulated). Results saved in [`benchmark-results.json`](benchmark-results.json).
 
 **Real-world savings: 61.6% vs all-premium routing** (benchmark) / **64%** (detailed cost model)
 
