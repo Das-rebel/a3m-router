@@ -1,0 +1,189 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="50%" stop-color="#12121a"/>
+      <stop offset="100%" stop-color="#1a1a2e"/>
+    </linearGradient>
+    
+    <!-- Line gradients -->
+    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1">
+        <animate attributeName="stop-color" values="#6366f1;#8b5cf6;#6366f1" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4">
+        <animate attributeName="stop-color" values="#06b6d4;#10b981;#06b6d4" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    
+    <!-- Area gradient with animation -->
+    <linearGradient id="areaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" stop-opacity="0.4">
+        <animate attributeName="stop-opacity" values="0.4;0.6;0.4" dur="3s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#8b5cf6" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0"/>
+    </linearGradient>
+    
+    <!-- Glow filter -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    
+    <!-- Intense glow for highlights -->
+    <filter id="glowIntense" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    
+    <!-- Grid pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.04"/>
+    </pattern>
+    
+    <!-- Animated pulse for latest point -->
+    <radialGradient id="pulseGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Styles -->
+  <style>
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.8; } 50% { transform: scale(1.5); opacity: 0.4; } }
+    @keyframes shimmer { 0% { stroke-dashoffset: 1000; } 100% { stroke-dashoffset: 0; } }
+    .title { animation: fadeIn 0.8s ease-out; }
+    .metric { animation: fadeIn 0.6s ease-out; animation-fill-mode: both; }
+    .metric:nth-child(1) { animation-delay: 0.1s; }
+    .metric:nth-child(2) { animation-delay: 0.2s; }
+    .metric:nth-child(3) { animation-delay: 0.3s; }
+    .bar { transition: all 0.3s ease; }
+    .bar:hover { filter: url(#glowIntense); transform: scaleY(1.02); }
+  </style>
+  
+  <!-- Background -->
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect width="800" height="450" fill="url(#grid)"/>
+  
+  <!-- Ambient glow effects -->
+  <ellipse cx="400" cy="225" rx="350" ry="180" fill="#6366f1" opacity="0.05" filter="url(#glow)">
+    <animate attributeName="opacity" values="0.05;0.08;0.05" dur="5s" repeatCount="indefinite"/>
+  </ellipse>
+  
+  <!-- Header -->
+  <g class="title">
+    <text x="400" y="45" text-anchor="middle" fill="#ffffff" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="700" letter-spacing="-0.5">
+      Downloads Growth
+    </text>
+    <text x="400" y="68" text-anchor="middle" fill="#8888aa" font-family="system-ui,sans-serif" font-size="13">
+      Last 4 weeks trajectory • Live metrics
+    </text>
+  </g>
+  
+  <!-- Chart area: x=70..750, y=100..350 -->
+  <g transform="translate(70, 100)">
+    <!-- Y-axis labels -->
+    <g fill="#666688" font-family="system-ui,sans-serif" font-size="12">
+      <text x="50" y="255" text-anchor="end">0</text>
+      <text x="50" y="200" text-anchor="end">500</text>
+      <text x="50" y="145" text-anchor="end">1K</text>
+      <text x="50" y="90" text-anchor="end">1.5K</text>
+      <text x="50" y="55" text-anchor="end">2K</text>
+    </g>
+    
+    <!-- Y-axis grid with animation -->
+    <g stroke="#ffffff" stroke-opacity="0.06" stroke-dasharray="4,4">
+      <line x1="60" y1="250" x2="680" y2="250"/>
+      <line x1="60" y1="195" x2="680" y2="195"/>
+      <line x1="60" y1="140" x2="680" y2="140"/>
+      <line x1="60" y1="85" x2="680" y2="85"/>
+      <line x1="60" y1="50" x2="680" y2="50"/>
+    </g>
+    
+    <!-- Axes -->
+    <line x1="60" y1="250" x2="680" y2="250" stroke="#444466" stroke-width="2"/>
+    <line x1="60" y1="50" x2="60" y2="250" stroke="#444466" stroke-width="2"/>
+    
+    <!-- Animated area fill -->
+    <path d="M60,230 Q120,228 180,215 T280,175 T380,130 T480,95 T580,70 T680,55 T730,48 L730,250 L60,250 Z" fill="url(#areaGrad)">
+      <animate attributeName="opacity" values="0.8;1;0.8" dur="4s" repeatCount="indefinite"/>
+    </path>
+    
+    <!-- Glowing line background -->
+    <path d="M60,230 Q120,228 180,215 T280,175 T380,130 T480,95 T580,70 T680,55 T730,48" 
+          stroke="url(#lineGrad)" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.3" filter="url(#glow)">
+      <animate attributeName="stroke-width" values="12;14;12" dur="3s" repeatCount="indefinite"/>
+    </path>
+    
+    <!-- Main animated line -->
+    <path d="M60,230 Q120,228 180,215 T280,175 T380,130 T480,95 T580,70 T680,55 T730,48" 
+          stroke="url(#lineGrad)" stroke-width="3" fill="none" stroke-linecap="round"/>
+    
+    <!-- Animated data points with pulse -->
+    <g>
+      <!-- Pulse rings for latest point -->
+      <circle cx="730" cy="48" r="20" fill="url(#pulseGrad)">
+        <animate attributeName="r" values="15;30;15" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      
+      <!-- Data points -->
+      <circle cx="60" cy="230" r="5" fill="#6366f1" filter="url(#glow)"/>
+      <circle cx="180" cy="215" r="5" fill="#7c3aed" filter="url(#glow)"/>
+      <circle cx="280" cy="175" r="5" fill="#8b5cf6" filter="url(#glow)"/>
+      <circle cx="380" cy="130" r="5" fill="#06b6d4" filter="url(#glow)"/>
+      <circle cx="480" cy="95" r="5" fill="#10b981" filter="url(#glow)"/>
+      <circle cx="580" cy="70" r="5" fill="#10b981" filter="url(#glow)"/>
+      <circle cx="680" cy="55" r="5" fill="#34d399" filter="url(#glow)"/>
+      <circle cx="730" cy="48" r="7" fill="#10b981" filter="url(#glowIntense)"/>
+      
+      <!-- Inner white dots -->
+      <circle cx="60" cy="230" r="2" fill="#fff"/>
+      <circle cx="180" cy="215" r="2" fill="#fff"/>
+      <circle cx="280" cy="175" r="2" fill="#fff"/>
+      <circle cx="380" cy="130" r="2" fill="#fff"/>
+      <circle cx="480" cy="95" r="2" fill="#fff"/>
+      <circle cx="580" cy="70" r="2" fill="#fff"/>
+      <circle cx="680" cy="55" r="2" fill="#fff"/>
+      <circle cx="730" cy="48" r="3" fill="#fff"/>
+    </g>
+    
+    <!-- X-axis labels -->
+    <g fill="#666688" font-family="system-ui,sans-serif" font-size="12" text-anchor="middle">
+      <text x="60" y="270">Week 0</text>
+      <text x="280" y="270">Week 1</text>
+      <text x="480" y="270">Week 2</text>
+      <text x="680" y="270">Week 3</text>
+      <text x="730" y="270">Now</text>
+    </g>
+  </g>
+  
+  <!-- Stats card with animation -->
+  <g transform="translate(560, 85)" class="metric">
+    <rect x="0" y="0" width="180" height="70" rx="12" fill="#10b981" fill-opacity="0.15" stroke="#10b981" stroke-width="1.5" filter="url(#glow)">
+      <animate attributeName="stroke-opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+    </rect>
+    <text x="90" y="30" text-anchor="middle" fill="#10b981" font-family="system-ui,sans-serif" font-size="28" font-weight="800">+149%</text>
+    <text x="90" y="52" text-anchor="middle" fill="#8888aa" font-family="system-ui,sans-serif" font-size="12">growth in 4 weeks</text>
+  </g>
+  
+  <!-- Metric badges at bottom -->
+  <g transform="translate(80, 400)">
+    <g class="metric">
+      <rect x="0" y="0" width="120" height="35" rx="17" fill="#6366f1" fill-opacity="0.15" stroke="#6366f1" stroke-width="1"/>
+      <text x="60" y="23" text-anchor="middle" fill="#a5b4fc" font-family="system-ui,sans-serif" font-size="12" font-weight="500">2,775 downloads</text>
+    </g>
+    <g class="metric">
+      <rect x="140" y="0" width="100" height="35" rx="17" fill="#06b6d4" fill-opacity="0.15" stroke="#06b6d4" stroke-width="1"/>
+      <text x="190" y="23" text-anchor="middle" fill="#67e8f9" font-family="system-ui,sans-serif" font-size="12" font-weight="500">430/day avg</text>
+    </g>
+    <g class="metric">
+      <rect x="260" y="0" width="100" height="35" rx="17" fill="#8b5cf6" fill-opacity="0.15" stroke="#8b5cf6" stroke-width="1"/>
+      <text x="310" y="23" text-anchor="middle" fill="#c4b5fd" font-family="system-ui,sans-serif" font-size="12" font-weight="500">Target: 1.5K</text>
+    </g>
+  </g>
+</svg>

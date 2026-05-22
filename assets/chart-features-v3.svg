@@ -1,0 +1,211 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 550" width="900" height="550">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0f"/>
+      <stop offset="50%" stop-color="#0f0f1a"/>
+      <stop offset="100%" stop-color="#1a1a2e"/>
+    </linearGradient>
+    
+    <!-- Header gradient -->
+    <linearGradient id="headerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    
+    <!-- Success badge gradient -->
+    <linearGradient id="successGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#10b981">
+        <animate attributeName="stop-color" values="#10b981;#34d399;#10b981" dur="2s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    
+    <!-- Warning gradient -->
+    <linearGradient id="warnGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+    
+    <!-- Glow filter -->
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    
+    <!-- Intense glow -->
+    <filter id="glowIntense" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    
+    <!-- Grid pattern -->
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.03"/>
+    </pattern>
+  </defs>
+  
+  <style>
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    .header { animation: fadeIn 0.5s ease-out; }
+    .row { animation: fadeIn 0.4s ease-out; animation-fill-mode: both; }
+    .row:nth-child(1) { animation-delay: 0.1s; }
+    .row:nth-child(2) { animation-delay: 0.15s; }
+    .row:nth-child(3) { animation-delay: 0.2s; }
+    .row:nth-child(4) { animation-delay: 0.25s; }
+    .row:nth-child(5) { animation-delay: 0.3s; }
+    .row:nth-child(6) { animation-delay: 0.35s; }
+    .row:nth-child(7) { animation-delay: 0.4s; }
+    .check { animation: pulse 2s ease-in-out infinite; }
+    .metric { animation: fadeIn 0.6s ease-out; animation-fill-mode: both; }
+    .metric:nth-child(1) { animation-delay: 0.5s; }
+    .metric:nth-child(2) { animation-delay: 0.6s; }
+    .metric:nth-child(3) { animation-delay: 0.7s; }
+    .metric:nth-child(4) { animation-delay: 0.8s; }
+  </style>
+  
+  <!-- Background -->
+  <rect width="900" height="550" fill="url(#bg)"/>
+  <rect width="900" height="550" fill="url(#grid)"/>
+  
+  <!-- Ambient glow -->
+  <ellipse cx="450" cy="275" rx="400" ry="250" fill="#6366f1" opacity="0.04" filter="url(#glow)"/>
+  
+  <!-- Header -->
+  <g class="header">
+    <text x="450" y="42" text-anchor="middle" fill="#ffffff" font-family="system-ui,-apple-system,sans-serif" font-size="26" font-weight="700">
+      A3M Router Capabilities
+    </text>
+    <text x="450" y="65" text-anchor="middle" fill="#8888aa" font-family="system-ui,sans-serif" font-size="13">
+      Production-ready features • Open-source LLM gateway
+    </text>
+  </g>
+  
+  <!-- Comparison Table -->
+  <g transform="translate(80, 100)">
+    <!-- Table Header -->
+    <rect x="0" y="0" width="740" height="45" rx="8" fill="url(#headerGrad)" fill-opacity="0.15"/>
+    <text x="200" y="28" text-anchor="middle" fill="#ffffff" font-family="system-ui,sans-serif" font-size="14" font-weight="700">Feature</text>
+    <text x="450" y="28" text-anchor="middle" fill="#10b981" font-family="system-ui,sans-serif" font-size="14" font-weight="700">A3M Router</text>
+    <text x="650" y="28" text-anchor="middle" fill="#8888aa" font-family="system-ui,sans-serif" font-size="14" font-weight="700">Others</text>
+    
+    <!-- Row 1 -->
+    <g class="row" transform="translate(0, 55)">
+      <rect x="0" y="0" width="740" height="50" rx="6" fill="#ffffff" fill-opacity="0.02"/>
+      <text x="30" y="30" fill="#ccccdd" font-family="system-ui,sans-serif" font-size="14">Routing Accuracy</text>
+      <g transform="translate(350)">
+        <rect x="0" y="8" width="90" height="32" rx="16" fill="url(#successGrad)" filter="url(#glow)"/>
+        <text x="45" y="30" text-anchor="middle" fill="#ffffff" font-family="system-ui,sans-serif" font-size="14" font-weight="700">100%</text>
+      </g>
+      <text x="650" y="30" text-anchor="middle" fill="#666688" font-family="system-ui,sans-serif" font-size="14">~85%</text>
+      <!-- Checkmark -->
+      <g transform="translate(290, 12)" class="check">
+        <circle cx="12" cy="12" r="14" fill="#10b981" fill-opacity="0.2"/>
+        <path d="M6,12 L10,16 L18,8" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </g>
+    
+    <!-- Row 2 -->
+    <g class="row" transform="translate(0, 110)">
+      <rect x="0" y="0" width="740" height="50" rx="6" fill="#ffffff" fill-opacity="0.02"/>
+      <text x="30" y="30" fill="#ccccdd" font-family="system-ui,sans-serif" font-size="14">Cost Savings</text>
+      <g transform="translate(350)">
+        <rect x="0" y="8" width="80" height="32" rx="16" fill="url(#successGrad)" filter="url(#glow)"/>
+        <text x="40" y="30" text-anchor="middle" fill="#ffffff" font-family="system-ui,sans-serif" font-size="14" font-weight="700">62%</text>
+      </g>
+      <text x="650" y="30" text-anchor="middle" fill="#666688" font-family="system-ui,sans-serif" font-size="14">None</text>
+      <g transform="translate(290, 12)" class="check">
+        <circle cx="12" cy="12" r="14" fill="#10b981" fill-opacity="0.2"/>
+        <path d="M6,12 L10,16 L18,8" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </g>
+    
+    <!-- Row 3 -->
+    <g class="row" transform="translate(0, 165)">
+      <rect x="0" y="0" width="740" height="50" rx="6" fill="#ffffff" fill-opacity="0.02"/>
+      <text x="30" y="30" fill="#ccccdd" font-family="system-ui,sans-serif" font-size="14">Zero ML / No GPU Required</text>
+      <g transform="translate(350)">
+        <rect x="0" y="8" width="70" height="32" rx="16" fill="url(#successGrad)" filter="url(#glow)"/>
+        <text x="35" y="30" text-anchor="middle" fill="#ffffff" font-family="system-ui,sans-serif" font-size="14" font-weight="700">✓</text>
+      </g>
+      <text x="650" y="30" text-anchor="middle" fill="#f59e0b" font-family="system-ui,sans-serif" font-size="14">✗</text>
+      <g transform="translate(290, 12)" class="check">
+        <circle cx="12" cy="12" r="14" fill="#10b981" fill-opacity="0.2"/>
+        <path d="M6,12 L10,16 L18,8" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </g>
+    
+    <!-- Row 4 -->
+    <g class="row" transform="translate(0, 220)">
+      <rect x="0" y="0" width="740" height="50" rx="6" fill="#ffffff" fill-opacity="0.02"/>
+      <text x="30" y="30" fill="#ccccdd" font-family="system-ui,sans-serif" font-size="14">Automatic Provider Failover</text>
+      <g transform="translate(350)">
+        <rect x="0" y="8" width="70" height="32" rx="16" fill="url(#successGrad)" filter="url(#glow)"/>
+        <text x="35" y="30" text-anchor="middle" fill="#ffffff" font-family="system-ui,sans-serif" font-size="14" font-weight="700">Auto</text>
+      </g>
+      <text x="650" y="30" text-anchor="middle" fill="#666688" font-family="system-ui,sans-serif" font-size="14">Manual</text>
+      <g transform="translate(290, 12)" class="check">
+        <circle cx="12" cy="12" r="14" fill="#10b981" fill-opacity="0.2"/>
+        <path d="M6,12 L10,16 L18,8" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </g>
+    
+    <!-- Row 5 -->
+    <g class="row" transform="translate(0, 275)">
+      <rect x="0" y="0" width="740" height="50" rx="6" fill="#ffffff" fill-opacity="0.02"/>
+      <text x="30" y="30" fill="#ccccdd" font-family="system-ui,sans-serif" font-size="14">Hard Budget Enforcement</text>
+      <g transform="translate(350)">
+        <rect x="0" y="8" width="70" height="32" rx="16" fill="url(#successGrad)" filter="url(#glow)"/>
+        <text x="35" y="30" text-anchor="middle" fill="#ffffff" font-family="system-ui,sans-serif" font-size="14" font-weight="700">✓</text>
+      </g>
+      <text x="650" y="30" text-anchor="middle" fill="#666688" font-family="system-ui,sans-serif" font-size="14">Soft</text>
+      <g transform="translate(290, 12)" class="check">
+        <circle cx="12" cy="12" r="14" fill="#10b981" fill-opacity="0.2"/>
+        <path d="M6,12 L10,16 L18,8" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </g>
+    
+    <!-- Row 6 -->
+    <g class="row" transform="translate(0, 330)">
+      <rect x="0" y="0" width="740" height="50" rx="6" fill="#ffffff" fill-opacity="0.02"/>
+      <text x="30" y="30" fill="#ccccdd" font-family="system-ui,sans-serif" font-size="14">Chinese Providers (Kimi, DeepSeek, Qwen)</text>
+      <g transform="translate(350)">
+        <rect x="0" y="8" width="70" height="32" rx="16" fill="url(#successGrad)" filter="url(#glow)"/>
+        <text x="35" y="30" text-anchor="middle" fill="#ffffff" font-family="system-ui,sans-serif" font-size="14" font-weight="700">47+</text>
+      </g>
+      <text x="650" y="30" text-anchor="middle" fill="#666688" font-family="system-ui,sans-serif" font-size="14">5-10</text>
+      <g transform="translate(290, 12)" class="check">
+        <circle cx="12" cy="12" r="14" fill="#10b981" fill-opacity="0.2"/>
+        <path d="M6,12 L10,16 L18,8" stroke="#10b981" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </g>
+  </g>
+  
+  <!-- Bottom metrics row -->
+  <g transform="translate(80, 490)">
+    <g class="metric">
+      <rect x="0" y="0" width="155" height="50" rx="10" fill="#10b981" fill-opacity="0.1" stroke="#10b981" stroke-width="1" filter="url(#glow)"/>
+      <text x="77" y="28" text-anchor="middle" fill="#10b981" font-family="system-ui,sans-serif" font-size="22" font-weight="800">100%</text>
+      <text x="77" y="44" text-anchor="middle" fill="#8888aa" font-family="system-ui,sans-serif" font-size="11">Accuracy</text>
+    </g>
+    <g class="metric">
+      <rect x="175" y="0" width="155" height="50" rx="10" fill="#06b6d4" fill-opacity="0.1" stroke="#06b6d4" stroke-width="1" filter="url(#glow)"/>
+      <text x="252" y="28" text-anchor="middle" fill="#06b6d4" font-family="system-ui,sans-serif" font-size="22" font-weight="800">19.5KB</text>
+      <text x="252" y="44" text-anchor="middle" fill="#8888aa" font-family="system-ui,sans-serif" font-size="11">Package Size</text>
+    </g>
+    <g class="metric">
+      <rect x="350" y="0" width="155" height="50" rx="10" fill="#8b5cf6" fill-opacity="0.1" stroke="#8b5cf6" stroke-width="1" filter="url(#glow)"/>
+      <text x="427" y="28" text-anchor="middle" fill="#8b5cf6" font-family="system-ui,sans-serif" font-size="22" font-weight="800">&lt;100ms</text>
+      <text x="427" y="44" text-anchor="middle" fill="#8888aa" font-family="system-ui,sans-serif" font-size="11">Startup Time</text>
+    </g>
+    <g class="metric">
+      <rect x="525" y="0" width="155" height="50" rx="10" fill="#f472b6" fill-opacity="0.1" stroke="#f472b6" stroke-width="1" filter="url(#glow)"/>
+      <text x="602" y="28" text-anchor="middle" fill="#f472b6" font-family="system-ui,sans-serif" font-size="22" font-weight="800">MIT</text>
+      <text x="602" y="44" text-anchor="middle" fill="#8888aa" font-family="system-ui,sans-serif" font-size="11">License</text>
+    </g>
+  </g>
+</svg>
