@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>A3M Router Downloads Growth</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #0a0a0f; }
+      
+      #a3m-chart {
+        pointer-events: none;
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #0a0a0f 0%, #111827 100%);
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      
+      /* Grid pattern overlay */
+      #a3m-chart::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: 
+          linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        pointer-events: none;
+      }
+      
+      /* Ambient glow */
+      .ambient-glow {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        opacity: 0.15;
+        pointer-events: none;
+      }
+      
+      .glow-1 { width: 600px; height: 400px; top: 20%; left: 30%; background: #6366f1; }
+      .glow-2 { width: 400px; height: 300px; bottom: 30%; right: 20%; background: #06b6d4; }
+      
+      /* Header */
+      .header {
+        position: absolute;
+        top: 60px;
+        left: 80px;
+        z-index: 10;
+      }
+      
+      .title {
+        font-size: 52px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -1px;
+        clip-path: inset(0 100% 0 0);
+      }
+      
+      .subtitle {
+        font-size: 20px;
+        color: #8888aa;
+        margin-top: 8px;
+        clip-path: inset(0 100% 0 0);
+      }
+      
+      /* Logo */
+      .logo {
+        position: absolute;
+        top: 60px;
+        right: 80px;
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 800;
+        color: #fff;
+        opacity: 0;
+        transform: scale(0);
+      }
+      
+      /* Chart area */
+      .chart-area {
+        position: absolute;
+        top: 180px;
+        left: 80px;
+        right: 80px;
+        bottom: 200px;
+      }
+      
+      /* SVG Grid */
+      .grid-line {
+        stroke: rgba(255,255,255,0.06);
+        stroke-width: 1;
+      }
+      
+      .axis-label {
+        font-size: 14px;
+        fill: #6b7280;
+        text-anchor: middle;
+      }
+      
+      .y-label {
+        font-size: 13px;
+        fill: #6b7280;
+        text-anchor: end;
+      }
+      
+      /* Line chart path */
+      .main-line {
+        fill: none;
+        stroke: url(#lineGradient);
+        stroke-width: 4;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      
+      .area-fill {
+        fill: url(#areaGradient);
+        opacity: 0.6;
+      }
+      
+      /* Data points */
+      .data-point {
+        fill: #10b981;
+        filter: drop-shadow(0 0 8px rgba(16,185,129,0.6));
+      }
+      
+      .data-point-inner {
+        fill: #fff;
+      }
+      
+      /* Pulse ring */
+      .pulse-ring {
+        fill: none;
+        stroke: #10b981;
+        stroke-width: 2;
+        opacity: 0;
+      }
+      
+      /* Stats badge */
+      .stats-badge {
+        position: absolute;
+        top: 200px;
+        right: 80px;
+        background: rgba(16,185,129,0.1);
+        border: 1.5px solid rgba(16,185,129,0.4);
+        border-radius: 16px;
+        padding: 20px 28px;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      
+      .stats-value {
+        font-size: 36px;
+        font-weight: 800;
+        color: #10b981;
+      }
+      
+      .stats-label {
+        font-size: 14px;
+        color: #8888aa;
+        margin-top: 4px;
+      }
+      
+      /* Bottom metrics row */
+      .metrics-row {
+        position: absolute;
+        bottom: 80px;
+        left: 80px;
+        right: 80px;
+        display: flex;
+        gap: 20px;
+        opacity: 0;
+      }
+      
+      .metric-card {
+        flex: 1;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 14px;
+        padding: 20px 24px;
+      }
+      
+      .metric-value {
+        font-size: 28px;
+        font-weight: 700;
+      }
+      
+      .metric-label {
+        font-size: 13px;
+        color: #6b7280;
+        margin-top: 4px;
+      }
+      
+      /* Footer */
+      .footer {
+        position: absolute;
+        bottom: 30px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 14px;
+        color: #4b5563;
+      }
+      
+      /* Animation classes */
+      .fade-up { opacity: 0; transform: translateY(20px); }
+    </style>
+  </head>
+  <body>
+    <div id="a3m-chart" data-composition-id="a3m-downloads-growth">
+      <!-- Ambient glows -->
+      <div class="ambient-glow glow-1"></div>
+      <div class="ambient-glow glow-2"></div>
+      
+      <!-- Header -->
+      <div class="header">
+        <h1 class="title">Downloads Growth</h1>
+        <p class="subtitle">A3M Router npm package performance</p>
+      </div>
+      
+      <!-- Logo -->
+      <div class="logo">A3</div>
+      
+      <!-- Stats Badge -->
+      <div class="stats-badge">
+        <div class="stats-value">+149%</div>
+        <div class="stats-label">growth in 4 weeks</div>
+      </div>
+      
+      <!-- Chart SVG -->
+      <svg class="chart-area" viewBox="0 0 1760 600" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#6366f1"/>
+            <stop offset="50%" stop-color="#8b5cf6"/>
+            <stop offset="100%" stop-color="#06b6d4"/>
+          </linearGradient>
+          <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#6366f1" stop-opacity="0.4"/>
+            <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+          </linearGradient>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        
+        <!-- Grid lines -->
+        <g class="gridlines">
+          <line class="grid-line" x1="80" y1="500" x2="1680" y2="500"/>
+          <line class="grid-line" x1="80" y1="400" x2="1680" y2="400"/>
+          <line class="grid-line" x1="80" y1="300" x2="1680" y2="300"/>
+          <line class="grid-line" x1="80" y1="200" x2="1680" y2="200"/>
+          <line class="grid-line" x1="80" y1="100" x2="1680" y2="100"/>
+        </g>
+        
+        <!-- Y-axis labels -->
+        <g class="y-labels">
+          <text class="y-label" x="70" y="505">0</text>
+          <text class="y-label" x="70" y="405">500</text>
+          <text class="y-label" x="70" y="305">1K</text>
+          <text class="y-label" x="70" y="205">1.5K</text>
+          <text class="y-label" x="70" y="105">2K</text>
+        </g>
+        
+        <!-- X-axis labels -->
+        <g class="x-labels">
+          <text class="axis-label" x="80" y="540">Week 0</text>
+          <text class="axis-label" x="480" y="540">Week 1</text>
+          <text class="axis-label" x="880" y="540">Week 2</text>
+          <text class="axis-label" x="1280" y="540">Week 3</text>
+          <text class="axis-label" x="1600" y="540">Now</text>
+        </g>
+        
+        <!-- Area fill (hidden initially) -->
+        <path class="area-fill" d="M80,450 Q280,440 480,400 T880,280 T1280,160 T1600,100 L1600,500 L80,500 Z" opacity="0"/>
+        
+        <!-- Main line (hidden initially) -->
+        <path class="main-line" d="M80,450 Q280,440 480,400 T880,280 T1280,160 T1600,100" opacity="0"/>
+        
+        <!-- Data points group -->
+        <g class="data-points">
+          <g class="point-group" transform="translate(80, 450)">
+            <circle class="pulse-ring" r="20"/>
+            <circle class="data-point" r="10"/>
+            <circle class="data-point-inner" r="4"/>
+          </g>
+          <g class="point-group" transform="translate(280, 420)">
+            <circle class="pulse-ring" r="20"/>
+            <circle class="data-point" r="10"/>
+            <circle class="data-point-inner" r="4"/>
+          </g>
+          <g class="point-group" transform="translate(480, 400)">
+            <circle class="pulse-ring" r="20"/>
+            <circle class="data-point" r="10"/>
+            <circle class="data-point-inner" r="4"/>
+          </g>
+          <g class="point-group" transform="translate(680, 340)">
+            <circle class="pulse-ring" r="20"/>
+            <circle class="data-point" r="10"/>
+            <circle class="data-point-inner" r="4"/>
+          </g>
+          <g class="point-group" transform="translate(880, 280)">
+            <circle class="pulse-ring" r="20"/>
+            <circle class="data-point" r="10"/>
+            <circle class="data-point-inner" r="4"/>
+          </g>
+          <g class="point-group" transform="translate(1080, 220)">
+            <circle class="pulse-ring" r="20"/>
+            <circle class="data-point" r="10"/>
+            <circle class="data-point-inner" r="4"/>
+          </g>
+          <g class="point-group" transform="translate(1280, 160)">
+            <circle class="pulse-ring" r="20"/>
+            <circle class="data-point" r="10"/>
+            <circle class="data-point-inner" r="4"/>
+          </g>
+          <g class="point-group" transform="translate(1600, 100)">
+            <circle class="pulse-ring" r="20"/>
+            <circle class="data-point" r="12"/>
+            <circle class="data-point-inner" r="5"/>
+          </g>
+        </g>
+      </svg>
+      
+      <!-- Metrics row -->
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-value" style="color: #10b981;">2,775</div>
+          <div class="metric-label">Total Downloads</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value" style="color: #06b6d4;">430</div>
+          <div class="metric-label">Daily Average</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value" style="color: #8b5cf6;">1,500+</div>
+          <div class="metric-label">Daily Target</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-value" style="color: #f472b6;">47+</div>
+          <div class="metric-label">Providers</div>
+        </div>
+      </div>
+      
+      <!-- Footer -->
+      <div class="footer">A3M Router • Open-source LLM Gateway • npm install adaptive-memory-multi-model-router</div>
+    </div>
+    
+    <script>
+      (function() {
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+        
+        // Title animation
+        tl.to('.title', {
+          clipPath: 'inset(0 0% 0 0)',
+          duration: 1,
+          ease: 'power3.out'
+        }, 0);
+        
+        // Subtitle animation
+        tl.to('.subtitle', {
+          clipPath: 'inset(0 0% 0 0)',
+          duration: 0.8,
+          ease: 'power3.out'
+        }, 0.3);
+        
+        // Logo animation
+        tl.to('.logo', {
+          opacity: 1,
+          scale: 1,
+          duration: 0.6,
+          ease: 'back.out(1.7)'
+        }, 0.5);
+        
+        // Stats badge animation
+        tl.to('.stats-badge', {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          ease: 'power3.out'
+        }, 0.8);
+        
+        // Area fill animation
+        tl.to('.area-fill', {
+          opacity: 0.6,
+          duration: 1.2,
+          ease: 'power2.out'
+        }, 1);
+        
+        // Main line animation
+        tl.to('.main-line', {
+          opacity: 1,
+          duration: 1.5,
+          ease: 'power2.out'
+        }, 1);
+        
+        // Data points with staggered entrance
+        const points = document.querySelectorAll('.point-group');
+        points.forEach((point, i) => {
+          const pulseRing = point.querySelector('.pulse-ring');
+          const dataPoint = point.querySelector('.data-point');
+          
+          // Entrance
+          tl.fromTo(point, 
+            { scale: 0, transformOrigin: 'center center' },
+            { scale: 1, duration: 0.4, ease: 'back.out(2)' },
+            1.2 + i * 0.15
+          );
+          
+          // Pulse effect for last point
+          if (i === points.length - 1) {
+            tl.to(pulseRing, {
+              opacity: 0.6,
+              attr: { r: 30 },
+              duration: 0.8,
+              ease: 'power2.out'
+            }, 2.5);
+            tl.to(pulseRing, {
+              opacity: 0,
+              attr: { r: 20 },
+              duration: 0.6,
+              ease: 'power2.in'
+            }, 3.3);
+            tl.to(pulseRing, {
+              opacity: 0.4,
+              attr: { r: 25 },
+              duration: 0.8,
+              ease: 'power2.out'
+            }, 4);
+            tl.to(pulseRing, {
+              opacity: 0,
+              attr: { r: 20 },
+              duration: 0.6,
+              ease: 'power2.in'
+            }, 4.6);
+            tl.repeat(-1).repeatDelay(2);
+          }
+        });
+        
+        // Metrics row animation
+        tl.to('.metrics-row', {
+          opacity: 1,
+          duration: 0.8,
+          ease: 'power2.out'
+        }, 2.5);
+        
+        // Footer animation
+        tl.fromTo('.footer',
+          { opacity: 0 },
+          { opacity: 1, duration: 0.6 },
+          3
+        );
+        
+        window.__timelines['a3m-downloads-growth'] = tl;
+        tl.play();
+      })();
+    </script>
+  </body>
+</html>
