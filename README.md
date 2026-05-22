@@ -8,9 +8,9 @@
 [![Discord](https://img.shields.io/badge/Discord-Join-brightgreen?logo=discord)](https://discord.gg/a3m-router)
 [![Twitter](https://img.shields.io/twitter/follow/a3mrouter?style=social)](https://twitter.com/a3mrouter)
 
-**Intelligent LLM routing** — 99.5% routing accuracy, zero ML, zero GPU.
+**One prompt in. The right model out.**
 
-OpenAI-compatible **LLM gateway & router** that auto-routes every query to the cheapest capable model across **47+ providers** (Groq, DeepSeek, Kimi/Moonshot, Qwen, Zhipu GLM, Yi, Baichuan, MiniMax + more). Features **semantic cache**, **guardrails** (PII detection, prompt injection protection), **load balancing** with automatic failover, and **cost optimization** with real-time spend tracking. Start in <100ms. Python SDK + TypeScript SDK + REST API.
+OpenAI-compatible **LLM gateway** that auto-routes every query to the cheapest capable model across **47+ providers**. Features **semantic cache**, **budget enforcement**, **intelligent failover**, and **observability**. Start in <100ms. Python SDK + TypeScript SDK.
 
 ### Architecture
 
