@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.10.0",
+  "version": "2.11.0",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "LLM router & AI gateway — 99.5% routing accuracy, 47 providers (DeepSeek, Kimi/Moonshot, Qwen, Zhipu GLM, Yi + more). Semantic cache, guardrails, cost analytics. Built on 30+ arXiv papers (SGLang, Medusa, MemoRAG). Zero ML, 19.5KB. TypeScript + Python SDK. MIT.",
@@ -729,6 +729,8 @@
   "homepage": "https://das-rebel.github.io/adaptive-memory-multi-model-router/",
   "scripts": {
     "test": "node test.js && node test/provider-test.js",
+    "test:py": "python3 -m pytest -q",
+    "test:all": "npm test && npm run test:py",
     "test:providers": "node test/provider-test.js",
     "benchmark": "node test/benchmark.js",
     "benchmark:verbose": "node test/benchmark.js --verbose",

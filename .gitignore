@@ -4,3 +4,5 @@ dist/*.map
 *.tsbuildinfo
 .DS_Store
 coverage/
+__pycache__/
+*.py[cod]
