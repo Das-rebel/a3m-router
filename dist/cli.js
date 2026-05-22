@@ -3,9 +3,10 @@
  * A3M Router CLI - Adaptive Memory Multi-Model Router
  * 
  * Commands:
- *   npx a3m-router serve [--port 8787]     Start OpenAI-compatible proxy server
+ *   npx a3m-router serve [--port 8787]    Start OpenAI-compatible proxy server
  *   npx a3m-router route <query>           Route query to best provider
- *   npx a3m-router batch <q1> <q2>..       Route multiple queries
+ *   npx a3m-router setup                  Interactive setup wizard (auto-detect API keys)
+ *   npx a3m-router batch <q1> <q2>..      Route multiple queries
  *   npx a3m-router providers               List all configured providers
  *   npx a3m-router test                    Test all providers
  *   npx a3m-router compare <query>         Compare providers side by side
@@ -155,6 +156,12 @@ async function main() {
   const router = createA3MRouter({ memory: { maxSize: 1000 } });
 
   switch (command) {
+    case 'setup': {
+      const { runWizard } = require('./cli/setupWizard.js');
+      runWizard();
+      break;
+    }
+
     case 'providers': {
       const providers = providerConfig.getAvailableProviders();
       const allProviders = providerConfig._providers;
