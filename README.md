@@ -5,6 +5,8 @@
 [![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?label=npm%20downloads)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![GitHub stars](https://img.shields.io/github/stars/Das-rebel/adaptive-memory-multi-model-router)](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
+[![Discord](https://img.shields.io/badge/Discord-Join-brightgreen?logo=discord)](https://discord.gg/a3m-router)
+[![Twitter](https://img.shields.io/twitter/follow/a3mrouter?style=social)](https://twitter.com/a3mrouter)
 
 > **4,200+ npm downloads in 4 days** —  Python SDK, 36 providers.
 
@@ -51,6 +53,19 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 [![GitHub license](https://img.shields.io/github/license/Das-rebel/adaptive-memory-multi-model-router)](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/LICENSE)
 
 ---
+> ⚡️ **A3M Router** — Route to the cheapest capable model with 99.5% accuracy. Semantic cache, guardrails, 62% cost savings. Start in <100ms, zero ML.
+>
+> 🙏 **If this helps you, please star the repo** — it helps more developers discover us!
+
+
+### Used By
+
+![Used by](https://img.shields.io/badge/Used%20by-Startups%20%26%20Developers-brightgreen)
+[![Star this repo](https://img.shields.io/github/stars/Das-rebel/adaptive-memory-multi-model-router?style=social)](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
+
+*We track usage but don't collect personal data. If you're using A3M Router, [let us know](https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions)!*
+
+
 
 ## Why A3M Router
 
@@ -650,4 +665,4 @@ Run benchmarks yourself:
 node scripts/routing-benchmark-v2.js  # Routing accuracy
 node scripts/run-mmlu-benchmark.js     # Provider quality
 node scripts/run-provider-benchmark.js  # Latency & throughput
-```
+``
