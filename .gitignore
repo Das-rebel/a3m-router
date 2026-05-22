@@ -6,3 +6,5 @@ dist/*.map
 coverage/
 __pycache__/
 *.py[cod]
+eval/results/
+eval/experiments.jsonl

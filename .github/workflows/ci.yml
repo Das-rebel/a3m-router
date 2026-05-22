@@ -24,6 +24,31 @@ jobs:
       - name: Run Node tests
         run: npm test
 
+      - name: Run routing eval gate
+        run: npm run eval:routing
+
+      - name: Run golden routing gate
+        run: npm run eval:golden
+
+      - name: Run fault injection gate
+        run: npm run eval:faults
+
+      - name: Run shadow eval (informational)
+        run: npm run eval:shadow
+
+      - name: Generate eval report
+        run: npm run eval:report
+
+      - name: Upload eval artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: a3m-eval-artifacts
+          path: |
+            eval/results/latest.json
+            eval/results/fault_injection_latest.json
+            eval/results/shadow_latest.json
+            eval/results/report_latest.md
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
