@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A3M Router - Animated Charts</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, sans-serif;
+      color: #e5e7eb;
+      padding: 40px;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      text-align: center;
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle {
+      text-align: center;
+      color: #8888aa;
+      font-size: 18px;
+      margin-bottom: 50px;
+    }
+    
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 40px;
+    }
+    
+    .chart-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .chart-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 60px rgba(99,102,241,0.2);
+    }
+    
+    .chart-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+    
+    .chart-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .lottie-player {
+      width: 100%;
+      max-width: 700px;
+    }
+    
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      justify-content: center;
+    }
+    
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .btn-play {
+      background: linear-gradient(135deg, #10b981, #06b6d4);
+      color: #fff;
+    }
+    
+    .btn-play:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 20px rgba(16,185,129,0.4);
+    }
+    
+    .btn-download {
+      background: rgba(255,255,255,0.1);
+      color: #e5e7eb;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .btn-download:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    
+    .badge-lottie {
+      background: rgba(139,92,246,0.2);
+      color: #a78bfa;
+      border: 1px solid rgba(139,92,246,0.3);
+    }
+    
+    .badge-video {
+      background: rgba(16,185,129,0.2);
+      color: #10b981;
+      border: 1px solid rgba(16,185,129,0.3);
+    }
+    
+    .instructions {
+      background: rgba(99,102,241,0.1);
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 12px;
+      padding: 25px;
+      margin-top: 50px;
+    }
+    
+    .instructions h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #a5b4fc;
+    }
+    
+    .instructions ol {
+      margin-left: 20px;
+      line-height: 1.8;
+      color: #9ca3af;
+    }
+    
+    .instructions code {
+      background: rgba(0,0,0,0.3);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #06b6d4;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>A3M Router Charts</h1>
+    <p class="subtitle">Animated Lottie visualizations for presentations and videos</p>
+    
+    <div class="charts-grid">
+      <!-- Downloads Growth Chart -->
+      <div class="chart-card">
+        <span class="badge badge-lottie">Lottie Animation</span>
+        <h3 class="chart-title">📈 Downloads Growth</h3>
+        <div class="chart-container">
+          <div id="growth-chart" class="lottie-player"></div>
+        </div>
+        <div class="controls">
+          <button class="btn-play" onclick="toggleAnimation(growthAnim, 'growth-chart')">▶ Play/Pause</button>
+          <button class="btn-download" onclick="downloadLottie('downloads-growth', 'assets/downloads-growth.json')">Download JSON</button>
+        </div>
+      </div>
+      
+      <!-- Cost Comparison Chart -->
+      <div class="chart-card">
+        <span class="badge badge-video">Video Ready</span>
+        <h3 class="chart-title">💰 Cost Comparison</h3>
+        <div class="chart-container">
+          <div id="cost-chart" class="lottie-player"></div>
+        </div>
+        <div class="controls">
+          <button class="btn-play" onclick="toggleAnimation(costAnim, 'cost-chart')">▶ Play/Pause</button>
+          <button class="btn-download" onclick="downloadLottie('cost-comparison', 'assets/cost-comparison.json')">Download JSON</button>
+        </div>
+      </div>
+      
+      <!-- Features Chart -->
+      <div class="chart-card">
+        <span class="badge badge-lottie">Lottie Animation</span>
+        <h3 class="chart-title">⚡ Capabilities</h3>
+        <div class="chart-container">
+          <div id="features-chart" class="lottie-player"></div>
+        </div>
+        <div class="controls">
+          <button class="btn-play" onclick="toggleAnimation(featuresAnim, 'features-chart')">▶ Play/Pause</button>
+          <button class="btn-download" onclick="downloadLottie('capabilities', 'assets/capabilities.json')">Download JSON</button>
+        </div>
+      </div>
+      
+      <!-- Social Banner -->
+      <div class="chart-card">
+        <span class="badge badge-video">Social Ready</span>
+        <h3 class="chart-title">🎨 Social Banner</h3>
+        <div class="chart-container">
+          <div id="social-banner" class="lottie-player"></div>
+        </div>
+        <div class="controls">
+          <button class="btn-play" onclick="toggleAnimation(socialAnim, 'social-banner')">▶ Play/Pause</button>
+          <button class="btn-download" onclick="downloadLottie('social-banner', 'assets/social-banner.json')">Download JSON</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="instructions">
+      <h2>📽️ How to use in videos/presentations</h2>
+      <ol>
+        <li><strong>Screen Record:</strong> Open this page, play animations, screen record at 60fps</li>
+        <li><strong>After Effects:</strong> Import the Lottie JSON directly using <code>Bodymovin</code> plugin</li>
+        <li><strong>Keynote/PowerPoint:</strong> Use the SVG files directly or screen record the animations</li>
+        <li><strong>Video Export:</strong> Use Loom, OBS, or Kapwing to capture and export</li>
+      </ol>
+    </div>
+  </div>
+  
+  <script>
+    // Animation instances
+    let growthAnim, costAnim, featuresAnim, socialAnim;
+    
+    // Animation data (inline for demo - in production, load from files)
+    const animations = {
+      'growth-chart': {
+        // Downloads growth - line chart with animated reveal
+        v: "5.9.0", fr: 60, ip: 0, op: 180, w: 800, h: 400,
+        layers: [
+          { nm: "BG", ty: 4, ks: { o: { k: 100 }, p: { k: [400, 200, 0] } },
+            sh: [{ ty: "rc", s: { k: [800, 400] }, p: { k: [0, 0] }, r: { k: 0 } },
+                 { ty: "gf", g: { p: 3, k: [0, 0.04, 0.04, 0.06, 0.5, 0.05, 0.05, 0.10, 1, 0.10, 0.10, 0.18] }, s: { k: [0, 0] }, e: { k: [800, 400] }, t: 1 }] },
+          { nm: "Grid", ty: 4, ks: { o: { k: 8 } },
+            sh: [{ ty: "gr", it: [{ ty: "sh", ks: { k: { c: false, v: [[60, 340], [730, 340]], i: [[0,0],[0,0]], o: [[0,0],[0,0]] } } }, { ty: "st", c: { k: [1, 1, 1, 1] }, w: { k: 1 }, lc: 2, lj: 2 }], nm: "grid" }] },
+          { nm: "Line", ty: 4, ks: { o: { k: 100 }, p: { k: [0, 80, 0] } },
+            sh: [{ ty: "gr", it: [{ ty: "sh", ks: { k: { c: false, v: [[60, 260], [180, 240], [280, 200], [380, 150], [480, 110], [580, 80], [680, 60], [730, 50]], i: [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]], o: [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]] } }, { ty: "st", c: { k: [0.39, 0.39, 0.95, 1] }, w: { k: 4 }, lc: 2, lj: 2 }], nm: "path" }] },
+          { nm: "Area", ty: 4, ks: { o: { k: 50 }, p: { k: [0, 80, 0] } },
+            sh: [{ ty: "gr", it: [{ ty: "sh", ks: { k: { c: true, v: [[60, 260], [180, 240], [280, 200], [380, 150], [480, 110], [580, 80], [680, 60], [730, 50], [730, 300], [60, 300]], i: [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]], o: [[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]] } }, { ty: "fl", c: { k: [0.39, 0.39, 0.95, 1] }, o: { k: 100 }, r: 1 }], nm: "area" }] },
+          { nm: "Points", ty: 4, ks: { o: { k: 100 }, p: { k: [0, 80, 0] } },
+            sh: [{ ty: "gr", it: [{ ty: "el", s: { k: [14, 14] }, p: { k: [730, 50] } }, { ty: "fl", c: { k: [0.06, 0.72, 0.51, 1] }, o: { k: 100 }, r: 1 }], nm: "dot" }] },
+          { nm: "Badge", ty: 4, ks: { o: { k: [{ t: 90, s: [0] }, { t: 120, s: [100] }] }, p: { k: [620, 100, 0] }, s: { k: [{ t: 90, s: [0, 0, 100] }, { t: 120, s: [100, 100, 100] }] } },
+            sh: [{ ty: "gr", it: [{ ty: "rc", s: { k: [160, 55] }, p: { k: [0, 0] }, r: { k: 27 } }, { ty: "fl", c: { k: [0.06, 0.72, 0.51, 0.15] }, o: { k: 100 }, r: 1 }, { ty: "st", c: { k: [0.06, 0.72, 0.51, 1] }, w: { k: 1.5 }, lc: 1, lj: 1 }], nm: "card" }] }
+        ]
+      },
+      'cost-chart': {
+        v: "5.9.0", fr: 60, ip: 0, op: 180, w: 800, h: 450,
+        layers: [
+          { nm: "BG", ty: 4, ks: { o: { k: 100 }, p: { k: [400, 225, 0] } },
+            sh: [{ ty: "rc", s: { k: [800, 450] }, p: { k: [0, 0] }, r: { k: 0 } },
+                 { ty: "gf", g: { p: 3, k: [0, 0.04, 0.04, 0.06, 0.5, 0.05, 0.05, 0.10, 1, 0.10, 0.10, 0.18] }, s: { k: [0, 0] }, e: { k: [800, 450] }, t: 1 }] },
+          { nm: "GPT-4 Bar", ty: 4, ks: { o: { k: 100 }, p: { k: [0, 0, 0] }, s: { k: [{ t: 0, s: [100, 0, 100] }, { t: 60, s: [100, 100, 100] }] } },
+            sh: [{ ty: "gr", it: [{ ty: "rc", s: { k: [120, 220] }, p: { k: [180, 110] }, r: { k: 8 } }, { ty: "fl", c: { k: [0.23, 0.51, 0.97, 1] }, o: { k: 100 }, r: 1 }], nm: "gpt4" }] },
+          { nm: "A3M Bar", ty: 4, ks: { o: { k: 100 }, p: { k: [0, 0, 0] }, s: { k: [{ t: 30, s: [100, 0, 100] }, { t: 90, s: [100, 100, 100] }] } },
+            sh: [{ ty: "gr", it: [{ ty: "rc", s: { k: [120, 90] }, p: { k: [450, 240] }, r: { k: 8 } }, { ty: "fl", c: { k: [0.06, 0.72, 0.51, 1] }, o: { k: 100 }, r: 1 }], nm: "a3m" }] },
+          { nm: "Savings Badge", ty: 4, ks: { o: { k: [{ t: 60, s: [0] }, { t: 90, s: [100] }] }, p: { k: [400, 150, 0] }, s: { k: [{ t: 60, s: [0, 0, 100] }, { t: 90, s: [100, 100, 100] }] } },
+            sh: [{ ty: "gr", it: [{ ty: "rc", s: { k: [140, 50] }, p: { k: [0, 0] }, r: { k: 25 } }, { ty: "fl", c: { k: [0.06, 0.72, 0.51, 0.2] }, o: { k: 100 }, r: 1 }, { ty: "st", c: { k: [0.06, 0.72, 0.51, 1] }, w: { k: 1.5 }, lc: 1, lj: 1 }], nm: "badge" }] }
+        ]
+      },
+      'features-chart': {
+        v: "5.9.0", fr: 60, ip: 0, op: 180, w: 900, h: 500,
+        layers: [
+          { nm: "BG", ty: 4, ks: { o: { k: 100 }, p: { k: [450, 250, 0] } },
+            sh: [{ ty: "rc", s: { k: [900, 500] }, p: { k: [0, 0] }, r: { k: 0 } },
+                 { ty: "gf", g: { p: 3, k: [0, 0.04, 0.04, 0.06, 0.5, 0.05, 0.05, 0.10, 1, 0.10, 0.10, 0.18] }, s: { k: [0, 0] }, e: { k: [900, 500] }, t: 1 }] },
+          { nm: "Header", ty: 4, ks: { o: { k: [{ t: 0, s: [0] }, { t: 30, s: [100] }] }, p: { k: [450, 50, 0] } },
+            sh: [{ ty: "gr", it: [{ ty: "rc", s: { k: [300, 40] }, p: { k: [0, 0] }, r: { k: 20 } }, { ty: "fl", c: { k: [0.39, 0.39, 0.95, 0.15] }, o: { k: 100 }, r: 1 }], nm: "headerBg" }] },
+          { nm: "Row 1", ty: 4, ks: { o: { k: 100 }, p: { k: [0, 0, 0] }, s: { k: [{ t: 30, s: [0, 100, 100] }, { t: 60, s: [100, 100, 100] }] } },
+            sh: [{ ty: "gr", it: [{ ty: "rc", s: { k: [750, 50] }, p: { k: [75, 120] }, r: { k: 8 } }, { ty: "fl", c: { k: [1, 1, 1, 0.02] }, o: { k: 100 }, r: 1 }], nm: "row1" }] },
+          { nm: "Row 2", ty: 4, ks: { o: { k: 100 }, p: { k: [0, 0, 0] }, s: { k: [{ t: 45, s: [0, 100, 100] }, { t: 75, s: [100, 100, 100] }] } },
+            sh: [{ ty: "gr", it: [{ ty: "rc", s: { k: [750, 50] }, p: { k: [75, 180] }, r: { k: 8 } }, { ty: "fl", c: { k: [1, 1, 1, 0.02] }, o: { k: 100 }, r: 1 }], nm: "row2" }] },
+          { nm: "Row 3", ty: 4, ks: { o: { k: 100 }, p: { k: [0, 0, 0] }, s: { k: [{ t: 60, s: [0, 100, 100] }, { t: 90, s: [100, 100, 100] }] } },
+            sh: [{ ty: "gr", it: [{ ty: "rc", s: { k: [750, 50] }, p: { k: [75, 240] }, r: { k: 8 } }, { ty: "fl", c: { k: [1, 1, 1, 0.02] }, o: { k: 100 }, r: 1 }], nm: "row3" }] }
+        ]
+      },
+      'social-banner': {
+        v: "5.9.0", fr: 60, ip: 0, op: 240, w: 1200, h: 630,
+        layers: [
+          { nm: "BG", ty: 4, ks: { o: { k: 100 }, p: { k: [600, 315, 0] } },
+            sh: [{ ty: "rc", s: { k: [1200, 630] }, p: { k: [0, 0] }, r: { k: 0 } },
+                 { ty: "gf", g: { p: 3, k: [0, 0.04, 0.04, 0.06, 0.5, 0.05, 0.05, 0.10, 1, 0.10, 0.10, 0.18] }, s: { k: [0, 0] }, e: { k: [1200, 630] }, t: 1 }] },
+          { nm: "Logo", ty: 4, ks: { o: { k: [{ t: 0, s: [0] }, { t: 30, s: [100] }] }, p: { k: [100, 80, 0] }, s: { k: [{ t: 0, s: [0, 0, 100] }, { t: 30, s: [100, 100, 100] }] } },
+            sh: [{ ty: "gr", it: [{ ty: "rc", s: { k: [80, 80] }, p: { k: [0, 0] }, r: { k: 16 } }, { ty: "fl", c: { k: [0.39, 0.39, 0.95, 1] }, o: { k: 100 }, r: 1 }], nm: "logo" }] },
+          { nm: "Title", ty: 4, ks: { o: { k: [{ t: 20, s: [0] }, { t: 50, s: [100] }] }, p: { k: [280, 90, 0] } },
+            sh: [{ ty: "gr", it: [{ ty: "rc", s: { k: [500, 50] }, p: { k: [0, 0] }, r: { k: 0 } }, { ty: "fl", c: { k: [1, 1, 1, 1] }, o: { k: 100 }, r: 1 }], nm: "title" }] },
+          { nm: "Flow Diagram", ty: 4, ks: { o: { k: [{ t: 60, s: [0] }, { t: 90, s: [100] }] }, p: { k: [600, 280, 0] } },
+            sh: [{ ty: "gr", it: [{ ty: "rc", s: { k: [200, 80] }, p: { k: [-400, 0] }, r: { k: 12 } }, { ty: "fl", c: { k: [0.39, 0.39, 0.95, 0.15] }, o: { k: 100 }, r: 1 }, { ty: "rc", s: { k: [140, 80] }, p: { k: [30, 0] }, r: { k: 12 } }, { ty: "fl", c: { k: [0.39, 0.39, 0.95, 0.3] }, o: { k: 100 }, r: 1 }, { ty: "rc", s: { k: [200, 80] }, p: { k: [400, 0] }, r: { k: 12 } }, { ty: "fl", c: { k: [0.06, 0.72, 0.51, 0.15] }, o: { k: 100 }, r: 1 }], nm: "flow" }] },
+          { nm: "Metrics", ty: 4, ks: { o: { k: [{ t: 100, s: [0] }, { t: 130, s: [100] }] }, p: { k: [0, 0, 0] } },
+            sh: [{ ty: "gr", it: [{ ty: "rc", s: { k: [170, 90] }, p: { k: [100, 400] }, r: { k: 12 } }, { ty: "fl", c: { k: [0.06, 0.72, 0.51, 0.1] }, o: { k: 100 }, r: 1 }], nm: "metric1" }] }
+        ]
+      }
+    };
+    
+    // Load animations
+    function loadAnimations() {
+      const lottieContainer = document.querySelector('#growth-chart');
+      growthAnim = lottie.loadAnimation({
+        container: lottieContainer,
+        animationData: animations['growth-chart'],
+        renderer: 'svg',
+        loop: true,
+        autoplay: false
+      });
+      
+      const costContainer = document.querySelector('#cost-chart');
+      costAnim = lottie.loadAnimation({
+        container: costContainer,
+        animationData: animations['cost-chart'],
+        renderer: 'svg',
+        loop: true,
+        autoplay: false
+      });
+      
+      const featuresContainer = document.querySelector('#features-chart');
+      featuresAnim = lottie.loadAnimation({
+        container: featuresContainer,
+        animationData: animations['features-chart'],
+        renderer: 'svg',
+        loop: true,
+        autoplay: false
+      });
+      
+      const socialContainer = document.querySelector('#social-banner');
+      socialAnim = lottie.loadAnimation({
+        container: socialContainer,
+        animationData: animations['social-banner'],
+        renderer: 'svg',
+        loop: true,
+        autoplay: false
+      });
+      
+      // Auto play on load
+      setTimeout(() => {
+        growthAnim.play();
+        costAnim.play();
+        featuresAnim.play();
+        socialAnim.play();
+      }, 500);
+    }
+    
+    function toggleAnimation(anim, id) {
+      if (anim.isPaused) {
+        anim.play();
+      } else {
+        anim.pause();
+      }
+    }
+    
+    function downloadLottie(name, filename) {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(animations[id] || animations['growth-chart'], null, 2));
+      const downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute("href", dataStr);
+      downloadAnchorNode.setAttribute("download", filename.split('/').pop());
+      document.body.appendChild(downloadAnchorNode);
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+    }
+    
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', loadAnimations);
+  </script>
+</body>
+</html>
