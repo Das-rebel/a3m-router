@@ -7,6 +7,7 @@
   "main": "dist/index.js",
   "bin": {
     "a3m-router": "dist/cli.js",
+    "a3m": "dist/cli/tui.js",
     "adaptive-memory-multi-model-router": "dist/cli.js"
   },
   "exports": {
