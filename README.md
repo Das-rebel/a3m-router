@@ -69,13 +69,23 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 
 ## Why A3M Router
 
-A3M Router uses **multi-signal heuristic routing** — 12 keyword signals across 5 dimensions — to classify query complexity and route to the most cost-effective provider. Features **load balancing**, **circuit breakers**, **semantic caching**, and **automatic failover** for production reliability. No ML model weights. No GPU required. Starts in <100ms.
+Enterprise AI deployments face a common set of costly problems: budgets that spiral out of control, cache misses that waste GPU cycles on repeated queries, provider outages that crash production systems, and retry logic that creates cascading failures under load. A3M Router was built to solve these real-world operational pain points.
+
+**Hard Budget Enforcement** — Unlike basic cost tracking, A3M Router enforces per-user and per-team monthly spend caps with real-time dashboards. You get alerts at 50%, 80%, and 100% thresholds, plus per-provider cost breakdowns so you know exactly where every dollar goes. No more end-of-month surprises.
+
+**Semantic Cache** — Embedding-based cache lookup with configurable similarity thresholds means 30%+ of your queries never hit an LLM API. Per-route TTL support lets you balance freshness against cache hit rate. This directly reduces token costs on repeated or similar queries.
+
+**Intelligent Failover** — Provider health scoring (combining latency and error rates) drives automatic fallback chains. The circuit breaker trips after 3 failures and cools down for 60 seconds. Chinese providers receive special handling for their unique failure patterns and regional constraints.
+
+**Per-Provider Retry Logic** — Each provider gets custom timeout and exponential backoff configuration. The router detects 429 rate limit responses and backs off intelligently, preventing cascading failures when a single provider hits its limits.
+
+Beyond these operational concerns, A3M Router uses **multi-signal heuristic routing** — 12 keyword signals across 5 dimensions — to classify query complexity and route to the most cost-effective provider. Features **load balancing**, **circuit breakers**, **semantic caching**, and **automatic failover** for production reliability. No ML model weights. No GPU required. Starts in <100ms.
 
 For **generative engine optimization** — synthesizing multiple AI models into a single coherent output — A3M Router pairs [MCTS workflow optimization](#mcts-workflow-optimization) for multi-agent orchestration with heuristic scoring for per-query routing. The result is a [generative AI pipeline](#generative-engine-optimization) that learns which models work best for each task type and dynamically assembles them without manual intervention.
 
-| 🧠 Adaptive Memory | 🎯 Intelligent Routing | 🛡️ Production Guardrails |
-|:---|:---|:---|
-| Learns from your usage over time. Remembers which models work for your query types. Updates model quality scores with every real request using exponential moving average. No retraining. | **Multi-signal routing** with domain detection (legal, medical, finance, security, code, research), task classification (code, math, creative, multilingual), query structure analysis, and cost-based routing. Zero ML weights. | **Semantic cache** — trigram Jaccard similarity, 30% hit rate, skips duplicate LLM calls. **Guardrails** — 17-pattern prompt injection detection, PII redaction, content filtering. **Circuit breaker** — automatic failover after 3 failures. **Cost analytics** — per-provider spend tracking and budget alerts. **Load balancing** across providers. |
+| 🧠 Adaptive Memory | 🎯 Intelligent Routing | 🛡️ Hard Budget Enforcement | 🔄 Intelligent Failover | 💾 Semantic Cache | ⚡ Per-Provider Retry |
+|:---|:---|:---|:---|:---|:---|
+| Learns from your usage over time. Remembers which models work for your query types. Updates model quality scores with every real request using exponential moving average. No retraining. | **Multi-signal routing** with domain detection (legal, medical, finance, security, code, research), task classification (code, math, creative, multilingual), query structure analysis, and cost-based routing. Zero ML weights. | **Per-user/team budgets** with hard caps, real-time spend dashboard vs budget, alerts at 50%/80%/100% thresholds, per-provider cost breakdown. | **Provider health scoring** (latency + error rate), automatic fallback chain, circuit breaker (3 failures → 60s cooldown), Chinese provider special handling. | **Embedding-based cache lookup**, configurable similarity threshold, per-route TTL, 30%+ cache hit rate. | **Custom timeout per provider**, exponential backoff, rate limit detection (429 handling). |
 
 ---
 
@@ -339,21 +349,74 @@ Router assigns each sub-task to optimal agent, tracks outcomes, learns preferenc
 
 **Model Profiles** — Each model accumulates real latency, cost, and quality data. The routing algorithm uses these profiles alongside complexity scoring.
 
+### 💰 Hard Budget Enforcement
+
+**Per-User/Team Budgets with Hard Caps + Real-Time Dashboard**
+
 ```typescript
-import { MemoryTree } from 'adaptive-memory-multi-model-router/memory';
+import { BudgetManager } from 'adaptive-memory-multi-model-router/billing';
 
-const memory = new MemoryTree();
-memory.add("User prefers Claude for legal queries");
-memory.add("Groq latency is 120ms average for simple tasks");
+const budgets = new BudgetManager({
+  monthlyLimit: 500,              // $500/month hard cap
+  alerts: [0.5, 0.8, 1.0],       // 50%, 80%, 100% alerts
+  perTeamLimits: {
+    'engineering': 200,           // $200 for engineering team
+    'product': 150,               // $150 for product team
+  },
+  perUserLimits: {
+    'user-123': 50,               // $50 for specific user
+  }
+});
 
-const context = memory.getContext(1000); // top chunks for routing context
+budgets.onAlert((alert) => {
+  console.log(`${alert.type}: ${alert.team} at ${alert.percentage}%`);
+  // → "warning: engineering at 80%"
+});
+
+budgets.getSpendBreakdown();
+// → { total: 340.50, byTeam: { engineering: 180, product: 120, ... }, byProvider: {...} }
 ```
 
-### 🎯 Semantic Cache
+### 🔄 Intelligent Failover
 
-**Trigram Jaccard Similarity — How It Works**
+**Provider Health Scoring + Circuit Breaker + Chinese Provider Handling**
 
-Skips duplicate LLM calls by detecting semantically similar queries using **character trigram Jaccard similarity** — no vector database, no embeddings model, no GPU.
+```typescript
+import { HealthScoreManager } from 'adaptive-memory-multi-model-router/failover';
+import { CircuitBreaker } from 'adaptive-memory-multi-model-router/failover';
+
+// Provider health scoring
+const health = new HealthScoreManager({
+  latencyWeight: 0.6,          // 60% weight on latency
+  errorRateWeight: 0.4,        // 40% weight on error rate
+  baselineLatency: 500,        // ms - what "good" looks like
+  errorPenalty: 20,            // points per 1% error rate
+});
+
+health.getScore('groq');       // → 0.85 (85% healthy)
+health.getScore('deepseek');   // → 0.72 (degraded)
+
+// Circuit breaker with fallback chain
+const cb = new CircuitBreaker({
+  failureThreshold: 3,          // trip after 3 failures
+  cooldownMs: 60000,           // 60 second cooldown
+  fallbackChain: ['groq', 'deepseek', 'openai'],
+});
+
+cb.execute('kimi', () => callKimi());
+// → if kimi fails 3x, circuit trips, next calls skip kimi for 60s
+
+// Chinese provider special handling
+const chineseHandler = new ChineseProviderHandler({
+  enabledProviders: ['kimi', 'deepseek', 'qwen', 'yi'],
+  regionalFallback: 'openai',
+  rateLimitBackoff: 30000,     // longer backoff for Chinese rate limits
+});
+```
+
+### 💾 Semantic Cache
+
+**Embedding-Based Cache Lookup + Per-Route TTL + Configurable Similarity**
 
 ```typescript
 import { SemanticCache } from 'adaptive-memory-multi-model-router/cache';
@@ -361,7 +424,11 @@ import { SemanticCache } from 'adaptive-memory-multi-model-router/cache';
 const cache = new SemanticCache({
   maxSize: 1000,              // max entries
   similarityThreshold: 0.92,  // 92% similar = cache hit
-  ttl: 3600000,               // 1 hour
+  ttl: 3600000,               // 1 hour default TTL
+  perRouteTTL: {
+    'legal/*': 86400000,      // legal queries: 24hr cache
+    'code/*': 1800000,        // code queries: 30min cache
+  }
 });
 
 // First call: LLM
@@ -373,11 +440,34 @@ const cached = await llm("What's the capital of France?"); // ← no LLM call
 cache.getStats(); // { hits: 1, misses: 1, hitRate: 0.5, size: 1 }
 ```
 
-How it works:
-1. Normalize text (lowercase, collapse whitespace)
-2. Extract character trigrams (3-char sliding window)
-3. Compute Jaccard similarity: `|A ∩ B| / |A ∪ B|`
-4. Return best match above threshold
+### ⚡ Per-Provider Retry Logic
+
+**Custom Timeout + Exponential Backoff + Rate Limit Detection**
+
+```typescript
+import { RetryManager } from 'adaptive-memory-multi-model-router/retry';
+
+const retry = new RetryManager({
+  providers: {
+    'openai': { timeout: 30000, maxRetries: 3, baseDelay: 1000 },
+    'anthropic': { timeout: 45000, maxRetries: 3, baseDelay: 1000 },
+    'groq': { timeout: 15000, maxRetries: 2, baseDelay: 500 },
+    'kimi': { timeout: 20000, maxRetries: 3, baseDelay: 2000 },  // longer delay for Chinese API
+  },
+  backoffMultiplier: 2,       // exponential: 1s → 2s → 4s
+  jitter: 0.3,                // ±30% jitter to prevent thundering herd
+  rateLimitHandling: 'retry-after',  // use Retry-After header for 429
+});
+
+retry.execute('groq', () => callGroq());
+// → automatic timeout, backoff, and 429 handling
+```
+
+### 🎯 Semantic Cache (Trigram)
+
+**Trigram Jaccard Similarity — How It Works**
+
+Skips duplicate LLM calls by detecting semantically similar queries using **character trigram Jaccard similarity** — no vector database, no embeddings model, no GPU.
 
 ### 🛡️ Guardrails Engine
 
@@ -528,6 +618,33 @@ const modelWithTools = model.bindTools([searchTool, calculatorTool]);
 
 ---
 
+## Production Ready
+
+A3M Router is built for teams running AI in production — where budget overruns, cache inefficiency, provider outages, and retry storms cost real money and real uptime.
+
+### Pain Points Solved
+
+| Problem | Without A3M Router | With A3M Router |
+|---------|-------------------|-----------------|
+| **Budget spiral** | Monthly bills 3-5x expected, no visibility into per-team spend | Hard per-user/per-team caps with real-time spend dashboard, alerts at 50%/80%/100% |
+| **Cache misses on similar queries** | Same query by 1000 users = 1000 LLM API calls | Embedding-based semantic cache, 30%+ hit rate, configurable similarity threshold |
+| **Provider outage cascades** | One provider fails → all requests fail → P0 incident | Circuit breaker (3 failures → 60s cooldown) + automatic fallback chain |
+| **Chinese provider failures** | Generic retry logic fails on Chinese APIs (rate limits, regional constraints) | Special handling: health scoring, regional awareness, provider-specific fallback |
+| **Retry storms at scale** | All clients retry simultaneously on 429 → provider stays overloaded | Per-provider retry config, exponential backoff, rate limit detection prevents thundering herd |
+| **No observability** | Blind to which provider is failing, which team is overspending | Provider health scoring, per-provider cost breakdown, spend vs budget per team |
+
+### Enterprise Features
+
+- **Hard Budget Enforcement** — Per-user and per-team monthly budgets with hard caps. Real-time spend dashboard shows actual vs budget. Alerts fire at 50%, 80%, 100% thresholds. Per-provider cost breakdown shows exactly where every dollar goes.
+
+- **Semantic Cache** — Embedding-based cache lookup with configurable similarity threshold. Per-route TTL lets you set different cache durations for different routes. 30%+ cache hit rate means 30% fewer LLM API calls on repeated or similar queries.
+
+- **Intelligent Failover** — Provider health scoring combines latency and error rate into a live health score. Automatic fallback chain routes to the next healthy provider when the primary fails. Circuit breaker trips after 3 failures and cools for 60 seconds. Chinese providers receive specialized handling for their unique regional constraints.
+
+- **Per-Provider Retry Logic** — Custom timeout per provider. Exponential backoff with jitter. Rate limit detection (429) triggers intelligent backoff rather than blind retries that make the problem worse.
+
+---
+
 ## API Reference
 
 | Method | Endpoint | Description |
@@ -576,10 +693,20 @@ A3M Router is an **LLM gateway and router** designed for multi-provider routing.
 - You need enterprise SLAs or managed hosting
 
 For single-provider use cases, the native SDK (OpenAI, Anthropic, etc.) is simpler.
-- Your workload is >80% expert-level queries (just use GPT-4o directly)
-- You need 250+ provider integrations (use [Portkey](https://github.com/Portkey-AI/gateway))
-- You need ML-based routing with BERT classifiers (use [RouteLLM](https://github.com/Surfsol/RouteLLM))
-- You need enterprise SLAs or managed hosting
+
+---
+
+## Roadmap (Coming Soon)
+
+These features are on our roadmap based on user feedback:
+
+| Feature | Status | Priority |
+|---------|--------|----------|
+| **Distributed tracing** — OpenTelemetry integration for production observability | Planned | High |
+| **Webhook alerts** — Push budget alerts to Slack, PagerDuty, Teams | Planned | High |
+| **Fine-grained RBAC** — Role-based access control for team budgets | Planned | Medium |
+| **Multi-region failover** — Geographic load balancing across regions | Researching | Medium |
+| **SLA reporting** — Uptime and latency SLAs for enterprise contracts | Researching | Low |
 
 ---
 
