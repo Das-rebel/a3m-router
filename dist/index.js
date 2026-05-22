@@ -2,7 +2,7 @@
 // A3M Router - Main Entry Point
 // Version: 2.0.0
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProxyServer = exports.CostAnalytics = exports.GuardrailEngine = exports.SemanticCache = exports.MODEL_COSTS = exports.estimateTokens = exports.countTokens = exports.MemoryTree = exports.createBudgetEnforcer = exports.BudgetExceededError = exports.BudgetEnforcer = exports.CostTracker = exports.saveConfig = exports.loadConfig = exports.findFastestAvailableProvider = exports.findCheapestAvailableProvider = exports.checkAllProviders = exports.healthCheck = exports.updateProvider = exports.deregisterProvider = exports.registerProvider = exports.getAvailableProviders = exports.DEFAULT_PROVIDERS = exports.PROVIDER_CONTEXT_LIMITS = exports.DEFAULT_PROVIDER_CONFIG = exports.DEFAULT_RETRY_CONFIG = exports.getDefaultRetryHandler = exports.createRetryHandler = exports.ProviderRetryHandler = exports.getProviderHealth = exports.updateModelProfile = exports.MODEL_PROFILES = exports.extractQueryFeatures = exports.recommendForTask = exports.routeBatch = exports.routeQuery = void 0;
+exports.budgetAlertMiddleware = exports.observabilityPlugin = exports.observabilityMiddleware = exports.createMetricsCollector = exports.getMetrics = exports.MetricsCollector = exports.createTracer = exports.getTracer = exports.Tracer = exports.createProxyServer = exports.CostAnalytics = exports.GuardrailEngine = exports.SemanticCache = exports.MODEL_COSTS = exports.estimateTokens = exports.countTokens = exports.MemoryTree = exports.createBudgetEnforcer = exports.BudgetExceededError = exports.BudgetEnforcer = exports.CostTracker = exports.saveConfig = exports.loadConfig = exports.findFastestAvailableProvider = exports.findCheapestAvailableProvider = exports.checkAllProviders = exports.healthCheck = exports.updateProvider = exports.deregisterProvider = exports.registerProvider = exports.getAvailableProviders = exports.DEFAULT_PROVIDERS = exports.PROVIDER_CONTEXT_LIMITS = exports.DEFAULT_PROVIDER_CONFIG = exports.DEFAULT_RETRY_CONFIG = exports.getDefaultRetryHandler = exports.createRetryHandler = exports.ProviderRetryHandler = exports.getProviderHealth = exports.updateModelProfile = exports.MODEL_PROFILES = exports.extractQueryFeatures = exports.recommendForTask = exports.routeBatch = exports.routeQuery = void 0;
 exports.createA3MRouter = createA3MRouter;
 // ============================================================
 // ROUTING ENGINE
@@ -73,6 +73,19 @@ var costAnalytics_1 = require("./analytics/costAnalytics");
 Object.defineProperty(exports, "CostAnalytics", { enumerable: true, get: function () { return costAnalytics_1.CostAnalytics; } });
 var proxyServer_1 = require("./server/proxyServer");
 Object.defineProperty(exports, "createProxyServer", { enumerable: true, get: function () { return proxyServer_1.createProxyServer; } });
+// ============================================================
+// OBSERVABILITY
+// ============================================================
+var observability_1 = require("./observability");
+Object.defineProperty(exports, "Tracer", { enumerable: true, get: function () { return observability_1.Tracer; } });
+Object.defineProperty(exports, "getTracer", { enumerable: true, get: function () { return observability_1.getTracer; } });
+Object.defineProperty(exports, "createTracer", { enumerable: true, get: function () { return observability_1.createTracer; } });
+Object.defineProperty(exports, "MetricsCollector", { enumerable: true, get: function () { return observability_1.MetricsCollector; } });
+Object.defineProperty(exports, "getMetrics", { enumerable: true, get: function () { return observability_1.getMetrics; } });
+Object.defineProperty(exports, "createMetricsCollector", { enumerable: true, get: function () { return observability_1.createMetricsCollector; } });
+Object.defineProperty(exports, "observabilityMiddleware", { enumerable: true, get: function () { return observability_1.observabilityMiddleware; } });
+Object.defineProperty(exports, "observabilityPlugin", { enumerable: true, get: function () { return observability_1.observabilityPlugin; } });
+Object.defineProperty(exports, "budgetAlertMiddleware", { enumerable: true, get: function () { return observability_1.budgetAlertMiddleware; } });
 // ============================================================
 // CONVENIENCE: Create a router instance
 // ============================================================

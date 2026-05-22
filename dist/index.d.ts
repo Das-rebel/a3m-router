@@ -14,6 +14,8 @@ export { SemanticCache } from './cache/semanticCache';
 export { GuardrailEngine } from './security/guardrails';
 export { CostAnalytics } from './analytics/costAnalytics';
 export { createProxyServer } from './server/proxyServer';
+export { Tracer, getTracer, createTracer, MetricsCollector, getMetrics, createMetricsCollector, observabilityMiddleware, observabilityPlugin, budgetAlertMiddleware, } from './observability';
+export type { Span, Metric, RouteTrace, ObservabilityEvent } from './observability';
 import { getAvailableProviders, healthCheck } from './providers/providerConfig';
 import { MemoryTree } from './memory/memoryTree';
 export interface A3MRouterOptions {

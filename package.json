@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "LLM router & AI gateway — 99.5% routing accuracy, 47 providers (DeepSeek, Kimi/Moonshot, Qwen, Zhipu GLM, Yi + more). Semantic cache, guardrails, cost analytics. Built on 30+ arXiv papers (SGLang, Medusa, MemoRAG). Zero ML, 19.5KB. TypeScript + Python SDK. MIT.",

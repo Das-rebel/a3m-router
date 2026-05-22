@@ -85,6 +85,22 @@ export { CostAnalytics } from './analytics/costAnalytics';
 export { createProxyServer } from './server/proxyServer';
 
 // ============================================================
+// OBSERVABILITY
+// ============================================================
+export {
+  Tracer,
+  getTracer,
+  createTracer,
+  MetricsCollector,
+  getMetrics,
+  createMetricsCollector,
+  observabilityMiddleware,
+  observabilityPlugin,
+  budgetAlertMiddleware,
+} from './observability';
+export type { Span, Metric, RouteTrace, ObservabilityEvent } from './observability';
+
+// ============================================================
 // CONVENIENCE: Create a router instance
 // ============================================================
 import { routeQuery, routeBatch, recommendForTask } from './routing/advancedRouter';
