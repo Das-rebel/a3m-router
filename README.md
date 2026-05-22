@@ -192,173 +192,6 @@ User Query
 | "Analyze economic implications of AI" | — | 0.41 | cheap | groq/llama-3.3-70b |
 | "Review this contract for liability" | legal | 0.87 | premium | anthropic/claude-3.5-sonnet |
 | "Design a clinical trial for oncology" | medical | 1.00 | premium | openai/gpt-4o |
-
----
-
-## Benchmark
-
-200 queries, 4 cost tiers
-### Benchmark Visualized
-
-```
-Routing Accuracy Comparison (200 queries)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-A3M Router    ████████████████████████████████████████████████████ 99.5%
-
-Package Size Comparison
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-A3M Router    █  19.5 KB
-LiteLLM       ████████████████████████████████  ~50 MB
-
-Startup Time
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-A3M Router    ████  <100ms
-LiteLLM       ████████████████  ~500ms
-```
-
-See full benchmark methodology at [`scripts/routing-benchmark-v2.js`](scripts/routing-benchmark-v2.js) or run it with `node scripts/routing-benchmark-v2.js`.
-
-| Metric | A3M Router (auto-route) | LiteLLM (manual) |
-|--------|:----------:|:---------------:|
-| **±1 tier accuracy** | **99.5%** | N/A (manual) |
-| Exact tier match | 64.5% | N/A |
-| Cost savings vs all-premium* | 61.6% | N/A (manual) |
-| GPU required | No | No |
-| Model weights | 0 KB | 0 KB |
-| Package size | 19.5 KB gzipped | ~50 MB |
-| Startup time | <100 ms | ~500ms |
-
-*Cost savings: Assumes all queries routed to GPT-4o or equivalent premium tier. A3M Router auto-routes to cheapest capable model.
-
-Internal benchmark on 200-query test set. LiteLLM requires manual model selection.
-
-```
-Routing Confusion Matrix (200 queries)
-
-Tier Assignment     | free | cheap | mid  | premium | recall
---------------------|------|-------|------|---------|-------
-actual: free        |  46  |   4   |   0  |    0    |  92%
-actual: medium     |  11  |  47   |   2  |    0    |  78%
-actual: complex    |   0  |  24   |  18  |    8    |  60%
-actual: expert     |   0  |   1   |  21  |   18    |  45%
-
-Only 1 in 200 queries misses by more than one tier.
-```
-
-| | Score |
-|--|--:|
-| Exact tier match | 64.5% |
-| ±1 tier match | **99.5%** |
-| Free tier recall | 92% |
-| Expert recall | 45% |
-
-> Expert recall is lower because complex queries sometimes route to mid-tier when DeepSeek Coder or similar can handle them at 60% the cost of GPT-4o.
-
-Run it yourself: `node scripts/routing-benchmark-v2.js`
-
----
-
-## Provider Benchmarks
-
-Benchmarks from public model evaluations. Costs from provider pricing pages. **Cost/Quality = input cost ÷ MT-Bench score** (lower = better value).
-
-### Real Benchmark Results (May 2026)
-
-We ran **MMLU-style questions** and **quality tests** against each provider via real API calls. All providers are **100% free tier**:
-
-| Provider | MMLU Accuracy | Quality Score | Notes |
-|----------|:-------------:|:-------------:|-------|
-| **Groq Allam 2 7B** | **87%** | 9.4/10 | Best overall — fast + accurate |
-| **Groq Llama 3.1 8B** | 80% | 9.4/10 | Fastest at 211ms, great value |
-| **Groq Llama 3.3 70B** | 80% | 9.4/10 | Best for complex reasoning |
-| Cerebras Llama 3.1 8B | 33% | 1.3/10 | Lower capability, short outputs |
-| Cerebras Qwen 3 235B | 33% | 1.3/10 | Large model, lower free-tier limits |
-
-> **May 2026** — 15 MMLU questions + 8 quality questions per provider via real API. Run `node scripts/run-mmlu-benchmark.js` to replicate. Results in [`benchmark-results.json`](benchmark-results.json).
-
-| Metric | A3M Router (auto-route) | LiteLLM (manual) |
-|--------|:----------:|:--------:|
-| ±1 tier accuracy | **99.5%** | N/A |
-| Package size | **19.5 KB** | ~50 MB |
-| GPU required | **No** | No |
-| MMLU accuracy (free tier) | 80-87% | N/A |
-
-> Full benchmark data including per-question responses available in [`benchmark-results.json`](benchmark-results.json).
-
-### Why This Matters for Routing
-
-```
-A3M Router routing decision for "debug my Python code":
-
-  Query: "debug my Python code" (code domain detected)
-  
-  Without routing (GPT-4o):      $2.50/1M tokens
-  With A3M Router (DeepSeek Coder): $0.55/1M tokens
-  
-  Quality difference: MT-Bench 92% vs 90% (negligible)
-  Cost savings: 78% cheaper
-  
-  Result: Same quality, 78% less spend.
-```
-
-### Provider Latency (p50 / p95)
-
-| Tier | Provider | p50 (ms) | p95 (ms) |
-|------|----------|:---------:|:---------:|
-| Free | Ollama (local) | 0 | 0 |
-| Free | Groq | 800 | 2,000 |
-| Cheap | DeepSeek | 1,200 | 3,000 |
-| Cheap | Kimi (Moonshot) | 1,500 | 4,000 |
-| Cheap | Qwen (via OpenRouter) | 1,800 | 4,500 |
-| Mid | Mistral | 2,000 | 5,000 |
-| Premium | OpenAI | 2,000 | 5,000 |
-| Premium | Anthropic | 2,500 | 6,000 |
-
-Latency measured from US West coast, May 2026. Local Ollama = 0ms (no network).
-
-### Run Your Own Benchmark
-
-```bash
-# Install
-npm install adaptive-memory-multi-model-router
-npx a3m-router benchmark
-
-# Benchmark specific query distributions
-npx a3m-router benchmark --tiers free,cheap --queries 100
-
-# Compare costs
-npx a3m-router benchmark --cost --queries 10000
-```
-
-Benchmarks use 200 real queries across 4 tiers. Run on your own query distribution for accurate numbers.
-
-
-
----
-
-
-### 💰 Cost Visualization
-
-```
-Monthly Cost Comparison (100K queries/month)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-GPT-4o Only    ████████████████████████████████████████████████████ $341
-A3M Router    ████████████                                          $124
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Your savings  ████████████████████████████████                   $218/mo
-
-Cost by Tier (A3M Router routing 10K queries):
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Free tier     ████████████████████████████████              ~50% of queries
-Cheap tier   █████████                          ~35% of queries
-Mid tier     ███                                 ~10% of queries
-Premium      █                                    ~5% of queries
-```
-
-Based on real provider pricing. Simple queries → free models. Expert → premium only when needed.
-
-Real provider pricing. 10,000 queries/month. Industry data shows ~47% of queries are simple (routable to free/cheap tiers).
-
 | Query Type | % Traffic | GPT-4o Only | A3M Routes To | A3M Cost | Savings |
 |-----------|:---------:|:-----------:|:-------------:|:--------:|:-------:|
 | Simple Q&A | 47% | $4.94 | CommandCode (free) | $0.00 | 100% |
@@ -881,3 +714,46 @@ Research shows heuristic routing with proper feature engineering achieves compar
 
 ---
 
+
+---
+
+## Benchmark Results (Real API Calls)
+
+### Routing Accuracy (200 queries, May 2026)
+
+| Metric | Score |
+|--------|-------|
+| **±1 Tier Accuracy** | **99.5%** |
+| Exact Tier Match | 64.5% |
+| Free Tier Recall | 92% |
+| Over-routing (wasteful) | 7% |
+| Under-routing (risky) | 28.5% |
+
+### Provider Performance (10 real queries each)
+
+| Provider | Success | Avg Latency | MMLU Accuracy | $/1M |
+|----------|---------|-------------|---------------|------|
+| **Groq Allam 2 7B** | 100% | **156ms** | **87%** | $0 |
+| Groq Llama 3.1 8B | 100% | 318ms | 80% | $0 |
+| Groq Llama 3.3 70B | 100% | 315ms | 67% | $0 |
+| Groq Qwen 3 32B | 100% | 535ms | N/A | $0 |
+| Cerebras Llama 3.1 8B | 100% | ~300ms | 33% | $0 |
+| Cerebras Qwen 3 235B | 100% | ~400ms | 40% | $0 |
+
+### Cost Savings (Real Provider Pricing)
+
+| Tier | Routed To | Cost/1M tokens |
+|------|-----------|:---------------:|
+| Free (~50%) | Groq, DeepSeek, Fireworks | $0 |
+| Cheap (~35%) | Llama, Mistral, Qwen | $0.05-$0.60 |
+| Mid (~10%) | GPT-4o-mini, Claude Haiku | $0.15-$0.80 |
+| Premium (~5%) | GPT-4o, Claude 3.5 | $2.50-$3.00 |
+
+**Real-world savings: 61.6% vs all-premium routing** (benchmark) / **64%** (detailed cost model)
+
+Run benchmarks yourself:
+```bash
+node scripts/routing-benchmark-v2.js  # Routing accuracy
+node scripts/run-mmlu-benchmark.js     # Provider quality
+node scripts/run-provider-benchmark.js  # Latency & throughput
+```
