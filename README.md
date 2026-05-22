@@ -403,16 +403,16 @@ A3M Router supports **11 Chinese LLM providers** — the largest coverage of any
 
 | Provider | Flagship Model | Strength | Cost/1M |
 |----------|--------------|----------|:-------:|
-| **DeepSeek** | V3, Coder, Reasoner | Code + reasoning, open weights | $0.14-$0.55 |
-| **Moonshot** (Kimi) | Kimi-1.5 | 128K context, Chinese | $0.07-$0.28 |
-| **Zhipu AI** (GLM) | GLM-4, GLM-4V | Chinese + bilingual | $0.06-$0.90 |
-| **Qwen** (Alibaba) | Qwen2, Qwen2.5-Coder | General + code | $0.09-$2.00 |
-| **Yi** (01.AI) | Yi-1.5, 34B | Bilingual + long context | $0.07-$1.20 |
-| **Baichuan** | Baichuan4, Turbo | Chinese + English | $0.08-$1.00 |
-| **MiniMax** | abab6.5, Speech-02 | 1M context, speech | $0.05-$0.90 |
-| **StepFun** | Step-2, Step-1 | Chinese + reasoning | $0.10-$1.50 |
-| **Aleph Alpha** | Luminous, European | Multilingual, EU-hosted | $0.50-$12.00 |
-| **Deepset** | GPT-4o-mini-2024-07-18 | RAG + German | $0.15-$3.00 |
+| **[DeepSeek](https://deepseek.com)** | V3, Coder, Reasoner | Code + reasoning, open weights | $0.14-$0.55 |
+| **[Moonshot](https://moonshot.cn)** (Kimi) | Kimi-1.5 | 128K context, Chinese | $0.07-$0.28 |
+| **[Zhipu AI](https://zhipuai.cn)** (GLM) | GLM-4, GLM-4V | Chinese + bilingual | $0.06-$0.90 |
+| **[Qwen](https://qwen.ai)** (Alibaba) | Qwen2, Qwen2.5-Coder | General + code | $0.09-$2.00 |
+| **[Yi](https://yi.ai)** (01.AI) | Yi-1.5, 34B | Bilingual + long context | $0.07-$1.20 |
+| **[Baichuan](https://www.baichuan-ai.com)** | Baichuan4, Turbo | Chinese + English | $0.08-$1.00 |
+| **[MiniMax](https://minimax.chat)** | abab6.5, Speech-02 | 1M context, speech | $0.05-$0.90 |
+| **[StepFun](https://stepfun.com)** | Step-2, Step-1 | Chinese + reasoning | $0.10-$1.50 |
+| **[Aleph Alpha](https://www.aleph-alpha.com)** | Luminous, European | Multilingual, EU-hosted | $0.50-$12.00 |
+| **[Deepset](https://deepset.ai)** | GPT-4o-mini-2024-07-18 | RAG + German | $0.15-$3.00 |
 | **OpenRouter** | 100+ models | Aggregator | varies |
 
 ### Why Chinese LLMs Matter
