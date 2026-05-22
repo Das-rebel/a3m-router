@@ -15,6 +15,24 @@ export {
 } from './routing/advancedRouter';
 
 // ============================================================
+// ROUTING
+// ============================================================
+export {
+  ProviderRetryHandler,
+  createRetryHandler,
+  getDefaultRetryHandler,
+  DEFAULT_RETRY_CONFIG,
+  DEFAULT_PROVIDER_CONFIG,
+  PROVIDER_CONTEXT_LIMITS,
+} from './routing/providerRetry';
+export type {
+  RetryConfig,
+  ProviderRetryConfig,
+  RetryStats,
+  ContextWindowValidation,
+} from './routing/providerRetry';
+
+// ============================================================
 // PROVIDERS
 // ============================================================
 export {

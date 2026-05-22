@@ -2,7 +2,7 @@
 // A3M Router - Main Entry Point
 // Version: 2.0.0
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProxyServer = exports.CostAnalytics = exports.GuardrailEngine = exports.SemanticCache = exports.MODEL_COSTS = exports.estimateTokens = exports.countTokens = exports.MemoryTree = exports.createBudgetEnforcer = exports.BudgetExceededError = exports.BudgetEnforcer = exports.CostTracker = exports.saveConfig = exports.loadConfig = exports.findFastestAvailableProvider = exports.findCheapestAvailableProvider = exports.checkAllProviders = exports.healthCheck = exports.updateProvider = exports.deregisterProvider = exports.registerProvider = exports.getAvailableProviders = exports.DEFAULT_PROVIDERS = exports.getProviderHealth = exports.updateModelProfile = exports.MODEL_PROFILES = exports.extractQueryFeatures = exports.recommendForTask = exports.routeBatch = exports.routeQuery = void 0;
+exports.createProxyServer = exports.CostAnalytics = exports.GuardrailEngine = exports.SemanticCache = exports.MODEL_COSTS = exports.estimateTokens = exports.countTokens = exports.MemoryTree = exports.createBudgetEnforcer = exports.BudgetExceededError = exports.BudgetEnforcer = exports.CostTracker = exports.saveConfig = exports.loadConfig = exports.findFastestAvailableProvider = exports.findCheapestAvailableProvider = exports.checkAllProviders = exports.healthCheck = exports.updateProvider = exports.deregisterProvider = exports.registerProvider = exports.getAvailableProviders = exports.DEFAULT_PROVIDERS = exports.PROVIDER_CONTEXT_LIMITS = exports.DEFAULT_PROVIDER_CONFIG = exports.DEFAULT_RETRY_CONFIG = exports.getDefaultRetryHandler = exports.createRetryHandler = exports.ProviderRetryHandler = exports.getProviderHealth = exports.updateModelProfile = exports.MODEL_PROFILES = exports.extractQueryFeatures = exports.recommendForTask = exports.routeBatch = exports.routeQuery = void 0;
 exports.createA3MRouter = createA3MRouter;
 // ============================================================
 // ROUTING ENGINE
@@ -15,6 +15,16 @@ Object.defineProperty(exports, "extractQueryFeatures", { enumerable: true, get: 
 Object.defineProperty(exports, "MODEL_PROFILES", { enumerable: true, get: function () { return advancedRouter_1.MODEL_PROFILES; } });
 Object.defineProperty(exports, "updateModelProfile", { enumerable: true, get: function () { return advancedRouter_1.updateModelProfile; } });
 Object.defineProperty(exports, "getProviderHealth", { enumerable: true, get: function () { return advancedRouter_1.getProviderHealth; } });
+// ============================================================
+// ROUTING
+// ============================================================
+var providerRetry_1 = require("./routing/providerRetry");
+Object.defineProperty(exports, "ProviderRetryHandler", { enumerable: true, get: function () { return providerRetry_1.ProviderRetryHandler; } });
+Object.defineProperty(exports, "createRetryHandler", { enumerable: true, get: function () { return providerRetry_1.createRetryHandler; } });
+Object.defineProperty(exports, "getDefaultRetryHandler", { enumerable: true, get: function () { return providerRetry_1.getDefaultRetryHandler; } });
+Object.defineProperty(exports, "DEFAULT_RETRY_CONFIG", { enumerable: true, get: function () { return providerRetry_1.DEFAULT_RETRY_CONFIG; } });
+Object.defineProperty(exports, "DEFAULT_PROVIDER_CONFIG", { enumerable: true, get: function () { return providerRetry_1.DEFAULT_PROVIDER_CONFIG; } });
+Object.defineProperty(exports, "PROVIDER_CONTEXT_LIMITS", { enumerable: true, get: function () { return providerRetry_1.PROVIDER_CONTEXT_LIMITS; } });
 // ============================================================
 // PROVIDERS
 // ============================================================
