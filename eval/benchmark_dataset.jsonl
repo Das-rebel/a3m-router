@@ -1,0 +1,16 @@
+{"id":"q01","prompt":"What is 2+2?","expected":{"complexity":{"min":0.0,"max":0.2}}}
+{"id":"q02","prompt":"Write a Python function to reverse a linked list.","expected":{"complexity":{"min":0.15,"max":0.35},"flags":{"has_code":true}}}
+{"id":"q03","prompt":"Translate this sentence to Japanese: Good morning","expected":{"complexity":{"min":0.1,"max":0.25},"flags":{"is_translation":true}}}
+{"id":"q04","prompt":"Design a clinical trial protocol for oncology treatment","expected":{"complexity":{"min":0.9,"max":1.0},"domain":"medical","provider_type":"local"}}
+{"id":"q05","prompt":"Explain why the sky is blue in simple terms.","expected":{"complexity":{"min":0.25,"max":0.45}}}
+{"id":"q06","prompt":"Find SQL injection risks in this login query.","expected":{"complexity":{"min":0.3,"max":0.55},"flags":{"is_security":true}}}
+{"id":"q07","prompt":"Solve the integral of x^2 from 0 to 3.","expected":{"complexity":{"min":0.2,"max":0.4},"flags":{"has_math":true}}}
+{"id":"q08","prompt":"Write a haiku about debugging.","expected":{"complexity":{"min":0.1,"max":0.3},"flags":{"is_creative":true}}}
+{"id":"q09","prompt":"Create a Kubernetes deployment YAML with autoscaling HPA.","expected":{"complexity":{"min":0.45,"max":0.65},"flags":{"is_devops":true},"domain":"architecture"}}
+{"id":"q10","prompt":"Compare two investment portfolios with Sharpe ratio.","expected":{"complexity":{"min":0.5,"max":0.7},"domain":"finance","provider_type":"local"}}
+{"id":"q11","prompt":"Draft a GDPR-compliant data retention policy for a healthcare app.","expected":{"complexity":{"min":0.25,"max":0.45},"domain":"legal"}}
+{"id":"q12","prompt":"Translate the following legal clause to Spanish and keep legal meaning precise.","expected":{"complexity":{"min":0.2,"max":0.4},"flags":{"is_translation":true},"domain":"legal"}}
+{"id":"q13","prompt":"Debug this JavaScript error: Cannot read properties of undefined.","expected":{"complexity":{"min":0.2,"max":0.45},"flags":{"has_code":true}}}
+{"id":"q14","prompt":"Summarize this paper abstract in 3 bullet points.","expected":{"complexity":{"min":0.35,"max":0.5},"domain":"ml_research"}}
+{"id":"q15","prompt":"Plan a zero-downtime migration strategy for PostgreSQL.","expected":{"complexity":{"min":0.2,"max":0.45}}}
+{"id":"q16","prompt":"Perform differential diagnosis for chest pain symptoms.","expected":{"complexity":{"min":0.3,"max":0.5},"domain":"medical","provider_type":"local"}}

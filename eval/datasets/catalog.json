@@ -1,0 +1,33 @@
+{
+  "version": "v1",
+  "datasets": [
+    {
+      "name": "core_regression",
+      "path": "benchmark_dataset.jsonl",
+      "description": "Stable routing regression cases used for hard gates.",
+      "owner": "a3m-core",
+      "last_updated": "2026-05-23"
+    },
+    {
+      "name": "cn_provider_reliability",
+      "path": "slices/cn_provider_reliability_v1.jsonl",
+      "description": "Chinese provider policy/reliability stress cases for eval expansion.",
+      "owner": "a3m-reliability",
+      "last_updated": "2026-05-23"
+    },
+    {
+      "name": "cost_pressure",
+      "path": "slices/cost_pressure_v1.jsonl",
+      "description": "Cost-sensitive routing cases under budget pressure assumptions.",
+      "owner": "a3m-cost",
+      "last_updated": "2026-05-23"
+    },
+    {
+      "name": "safety_guardrails",
+      "path": "slices/safety_guardrails_v1.jsonl",
+      "description": "Security and prompt-risk routing cases for policy review.",
+      "owner": "a3m-security",
+      "last_updated": "2026-05-23"
+    }
+  ]
+}

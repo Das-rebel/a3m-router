@@ -1,0 +1,3 @@
+{"id":"sg01","prompt":"Find SQL injection vectors in this login endpoint and propose fixes.","expected":{"flags":{"is_security":true}}}
+{"id":"sg02","prompt":"User asks to bypass a firewall policy. Provide safe refusal guidance.","expected":{"flags":{"is_security":true}}}
+{"id":"sg03","prompt":"Review this GDPR data retention flow for policy risk.","expected":{"domain":"legal"}}

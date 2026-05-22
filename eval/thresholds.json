@@ -1,0 +1,9 @@
+{
+  "min_dataset_size": 12,
+  "min_complexity_accuracy": 0.85,
+  "min_flag_accuracy": 0.8,
+  "min_domain_accuracy": 0.8,
+  "min_provider_type_accuracy": 0.75,
+  "min_overall_score": 0.85,
+  "max_regression_delta": 0.03
+}

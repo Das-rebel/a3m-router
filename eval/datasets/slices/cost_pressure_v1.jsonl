@@ -1,0 +1,3 @@
+{"id":"cp01","prompt":"Give me a one sentence explanation of gradient descent.","expected":{"complexity":{"min":0.0,"max":0.3}}}
+{"id":"cp02","prompt":"Compare two cloud cost reports and suggest top 3 savings actions.","expected":{"complexity":{"min":0.3,"max":0.7}}}
+{"id":"cp03","prompt":"Design a cross-region failover architecture with cost constraints.","expected":{"domain":"architecture"}}

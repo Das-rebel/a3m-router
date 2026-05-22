@@ -1,0 +1,114 @@
+[
+  {
+    "id": "q01",
+    "primary_model": "commandcode/taste-1",
+    "provider_type": "cli",
+    "detected_domain": "",
+    "complexity": 0.1
+  },
+  {
+    "id": "q02",
+    "primary_model": "commandcode/taste-1",
+    "provider_type": "cli",
+    "detected_domain": "",
+    "complexity": 0.23
+  },
+  {
+    "id": "q03",
+    "primary_model": "commandcode/taste-1",
+    "provider_type": "cli",
+    "detected_domain": "",
+    "complexity": 0.14999999999999997
+  },
+  {
+    "id": "q04",
+    "primary_model": "ollama/llama3",
+    "provider_type": "local",
+    "detected_domain": "medical",
+    "complexity": 1
+  },
+  {
+    "id": "q05",
+    "primary_model": "commandcode/taste-1",
+    "provider_type": "cli",
+    "detected_domain": "",
+    "complexity": 0.36
+  },
+  {
+    "id": "q06",
+    "primary_model": "commandcode/taste-1",
+    "provider_type": "cli",
+    "detected_domain": "",
+    "complexity": 0.4
+  },
+  {
+    "id": "q07",
+    "primary_model": "commandcode/taste-1",
+    "provider_type": "cli",
+    "detected_domain": "",
+    "complexity": 0.3
+  },
+  {
+    "id": "q08",
+    "primary_model": "commandcode/taste-1",
+    "provider_type": "cli",
+    "detected_domain": "",
+    "complexity": 0.2
+  },
+  {
+    "id": "q09",
+    "primary_model": "commandcode/taste-1",
+    "provider_type": "cli",
+    "detected_domain": "architecture",
+    "complexity": 0.555
+  },
+  {
+    "id": "q10",
+    "primary_model": "ollama/llama3",
+    "provider_type": "local",
+    "detected_domain": "finance",
+    "complexity": 0.56
+  },
+  {
+    "id": "q11",
+    "primary_model": "commandcode/taste-1",
+    "provider_type": "cli",
+    "detected_domain": "legal",
+    "complexity": 0.355
+  },
+  {
+    "id": "q12",
+    "primary_model": "commandcode/taste-1",
+    "provider_type": "cli",
+    "detected_domain": "legal",
+    "complexity": 0.32499999999999996
+  },
+  {
+    "id": "q13",
+    "primary_model": "commandcode/taste-1",
+    "provider_type": "cli",
+    "detected_domain": "",
+    "complexity": 0.23000000000000004
+  },
+  {
+    "id": "q14",
+    "primary_model": "commandcode/taste-1",
+    "provider_type": "cli",
+    "detected_domain": "ml_research",
+    "complexity": 0.405
+  },
+  {
+    "id": "q15",
+    "primary_model": "commandcode/taste-1",
+    "provider_type": "cli",
+    "detected_domain": "",
+    "complexity": 0.33
+  },
+  {
+    "id": "q16",
+    "primary_model": "ollama/llama3",
+    "provider_type": "local",
+    "detected_domain": "medical",
+    "complexity": 0.40499999999999997
+  }
+]

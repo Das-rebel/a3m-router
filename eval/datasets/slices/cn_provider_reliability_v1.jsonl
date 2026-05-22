@@ -1,0 +1,3 @@
+{"id":"cn01","prompt":"Translate a compliance notice to Chinese and preserve legal accuracy.","expected":{"domain":"legal","flags":{"is_translation":true}}}
+{"id":"cn02","prompt":"Summarize this medical advisory for mainland patients in simplified Chinese.","expected":{"domain":"medical"}}
+{"id":"cn03","prompt":"Explain why my API call returned rate_limit_reached_error and how to backoff.","expected":{"flags":{"is_devops":true}}}

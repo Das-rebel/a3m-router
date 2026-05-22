@@ -1,0 +1,12 @@
+{
+  "summary": {
+    "dataset_size": 16,
+    "checks_count": 34,
+    "complexity_accuracy": 1,
+    "flag_accuracy": 1,
+    "domain_accuracy": 1,
+    "provider_type_accuracy": 1,
+    "overall_score": 1
+  },
+  "note": "Initial baseline. Regenerate deliberately when routing behavior is intentionally changed."
+}
