@@ -218,15 +218,17 @@ LiteLLM       ████████████████  ~500ms
 
 See full benchmark methodology at [`scripts/routing-benchmark-v2.js`](scripts/routing-benchmark-v2.js) or run it with `node scripts/routing-benchmark-v2.js`.
 
-| Metric | A3M Router | LiteLLM |
+| Metric | A3M Router (auto-route) | LiteLLM (manual) |
 |--------|:----------:|:---------------:|
 | **±1 tier accuracy** | **99.5%** | N/A (manual) |
 | Exact tier match | 64.5% | N/A |
-| Cost savings vs all-premium | 61.6% | 0% (you pick) |
+| Cost savings vs all-premium* | 61.6% | N/A (manual) |
 | GPU required | No | No |
 | Model weights | 0 KB | 0 KB |
 | Package size | 19.5 KB gzipped | ~50 MB |
 | Startup time | <100 ms | ~500ms |
+
+*Cost savings: Assumes all queries routed to GPT-4o or equivalent premium tier. A3M Router auto-routes to cheapest capable model.
 
 Internal benchmark on 200-query test set. LiteLLM requires manual model selection.
 
@@ -274,7 +276,7 @@ We ran **MMLU-style questions** and **quality tests** against each provider via 
 
 > **May 2026** — 15 MMLU questions + 8 quality questions per provider via real API. Run `node scripts/run-mmlu-benchmark.js` to replicate. Results in [`benchmark-results.json`](benchmark-results.json).
 
-| Metric | A3M Router | LiteLLM |
+| Metric | A3M Router (auto-route) | LiteLLM (manual) |
 |--------|:----------:|:--------:|
 | ±1 tier accuracy | **99.5%** | N/A |
 | Package size | **19.5 KB** | ~50 MB |
