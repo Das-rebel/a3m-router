@@ -15,26 +15,30 @@ OpenAI-compatible **LLM gateway & router** that auto-routes every query to the c
 ### Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                     A3M Router — Generative Engine               │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────────────┐  │
-│  │  Guardrails  │ → │  Semantic    │ → │  Routing Engine   │  │
-│  │  (Security)   │    │  Cache       │    │  (Multi-signal   │  │
-│  │ 17 patterns   │    │  (30% hit)   │    │   + MCTS)         │  │
-│  └──────────────┘    └──────────────┘    └────────┬─────────┘  │
-│                                                      │            │
-│         ┌──────────────────────┬──────────────────────┼────────┐ │
-│         │                      │                      │        │ │
-│         ↓                      ↓                      ↓        │ │
-│  ┌─────────────┐      ┌─────────────┐      ┌─────────────────┐│ │
-│  │  MemoryTree │      │ CostTracker│      │ Circuit Breaker ││ │
-│  │  (History)   │      │ (Budgets)   │      │  (Failover)      ││ │
-│  └─────────────┘      └─────────────┘      └─────────────────┘│ │
-│                                                              │ │
-│  47+ Providers: Groq, DeepSeek, Kimi, Qwen, Zhipu, OpenAI, Anthropic + more  │ │
-└─────────────────────────────────────────────────────────────────┘
+╔══════════════════════════════════════════════════════════════════╗
+║                     A3M Router — LLM Gateway                      ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                   ║
+║  ┌─────────────┐      ┌─────────────┐      ┌─────────────────┐  ║
+║  │  Guardrails │ ──▶  │    Cache     │ ──▶  │   Router        │  ║
+║  │   🔒 17x     │      │   💾 30%+   │      │   🎯 MCTS       │  ║
+║  │  Injection   │      │    Hit      │      │  Multi-Signal   │  ║
+║  │  PII Detect  │      │  Semantic   │      │  12 Signals     │  ║
+║  └─────────────┘      └─────────────┘      └────────┬────────┘  ║
+║                                                      │           ║
+║        ┌─────────────────┬──────────────────────────┴──────┐   ║
+║        │                 │                                    │   ║
+║        ▼                 ▼                                    ▼   ║
+║  ┌─────────────┐  ┌─────────────┐                    ┌─────────────┐║
+║  │  MemoryTree  │  │  CostTrack  │                    │ Circuit     │║
+║  │    🧠        │  │    💰       │                    │ Breaker 🔄  │║
+║  │   EMA        │  │   Budget    │                    │ 3 Fails →   │║
+║  │   Learning   │  │   Alerts    │                    │ 60s Cooldown│║
+║  └─────────────┘  └─────────────┘                    └─────────────┘║
+║                                                                   ║
+║  47+ Providers: Groq · DeepSeek · Kimi · Qwen · Zhipu · Yi · +  ║
+║                   OpenAI · Anthropic · Google · Mistral · +      ║
+╚══════════════════════════════════════════════════════════════════╝
 ```
 
 
@@ -168,6 +172,61 @@ curl -s http://localhost:8787/v1/chat/completions \
 
 ---
 
+
+### Terminal Demo
+
+```bash
+$ npx a3m-router serve
+╔════════════════════════════════════════════════════════════╗
+║                     A3M Router v2.9.2                      ║
+║                🔀 Intelligent LLM Gateway                 ║
+╠════════════════════════════════════════════════════════════╣
+║  ✅ Proxy:     http://localhost:8787                      ║
+║  ✅ Dashboard: http://localhost:8787/dashboard             ║
+║  ✅ Health:    http://localhost:8787/health               ║
+╚════════════════════════════════════════════════════════════╝
+
+[GROQ]  ✅ 145ms  |  [DEEPSEEK]  ✅ 230ms  |  [KIMI]  ✅ 312ms
+[ANTHROPIC]  ✅ 520ms  |  [OPENAI]  ✅ 480ms  |  [QWEN]  ✅ 290ms
+
+🧠 Memory: 1,247 queries cached | 💰 Today: $2.34 / $50.00 budget
+```
+
+```bash
+$ npx a3m-router route "Design a clinical trial for oncology"
+
+🔀 Routing Decision:
+   Query: "Design a clinical trial for oncology"
+   
+   📊 Complexity: 1.00 (premium)
+   🏷️  Tier: premium
+   
+   ✅ Route to: openai/gpt-4o ($2.50/1M tokens)
+   🔄 Fallback: anthropic/claude-3.5-sonnet
+   
+   💡 Signals: medical(+0.35) + design(+0.20) + multi-step(+0.15)
+```
+
+```bash
+$ npx a3m-router cost
+
+💰 Cost Analytics (May 2024)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ Total Spend:     $127.45 / $500.00 budget
+ Daily Average:   $4.27
+ Queries:         28,392
+ 
+📈 By Provider:          📊 By Tier:
+ Groq:        $42.30  ████████ 33%   premium:   $89.10  70%
+ DeepSeek:    $51.20  █████████ 40%   mid:       $28.90  23%
+ Claude:      $28.90  █████     23%   cheap:     $7.45    6%
+ GPT-4o-mini: $5.05   █         4%    free:      $2.00    1%
+
+🚨 Budget Alert: Engineering team at 80% ($160 / $200)
+```
+
+---
+
 ## How It Works — Routing Engine
 
 A3M Router combines multi-signal routing, semantic caching, and load balancing to route queries to the cheapest capable model with 99.5% accuracy.
@@ -236,6 +295,73 @@ User Query
     ↓
 Result: { model, tier, cost, complexity, reasoning[], fallbackModels[] }
 ```
+
+### Visual Routing Flow
+
+```
+                    User Query
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │   Guardrails Check  │
+              │  🔒 PII / Injection │
+              └──────────┬──────────┘
+                         │
+                    ✅ Pass?
+                    /        \
+                 No          Yes
+                  │            │
+                  ▼            ▼
+             [BLOCK]     ┌─────────────────┐
+                         │  Semantic Cache │
+                         │    💾 Lookup    │
+                         └────────┬────────┘
+                                  │
+                             Cache Hit?
+                             /        \
+                          Yes          No
+                           │            │
+                           ▼            ▼
+                     [RETURN]     ┌─────────────────┐
+                         │        │  Route Query    │
+                         │        │  🎯 12 Signals  │
+                         │        │  Complexity →  │
+                         │        │  Tier          │
+                         │        └────────┬────────┘
+                         │                 │
+                         │                 ▼
+                         │        ┌─────────────────┐
+                         │        │ Provider Health │
+                         │        │  📊 Scoring     │
+                         │        └────────┬────────┘
+                         │                 │
+                         │                 ▼
+                         │        ┌─────────────────┐
+                         │        │  Best Provider │
+                         │        │  + Fallbacks   │
+                         │        └────────┬────────┘
+                         │                 │
+                         │                 ▼
+                         │        ┌─────────────────┐
+                         │        │  Execute LLM   │
+                         │        │    Call        │
+                         │        └────────┬────────┘
+                         │                 │
+                         │                 ▼
+                         │        ┌─────────────────┐
+                         │        │  Update Memory  │
+                         │        │  🧠 EMA Update │
+                         │        └────────┬────────┘
+                         │                 │
+                         │                 ▼
+                         │        [RETURN RESPONSE]
+                         │                 │
+                         └─────────────────┘
+```
+
+---
+
+
 
 ### Complexity Examples
 
@@ -365,6 +491,54 @@ Router assigns each sub-task to optimal agent, tracks outcomes, learns preferenc
 
 
 ## Features in Detail
+
+### Feature Overview
+
+```
+┌────────────────────────────────────────────────────────────────────────────┐
+│                         A3M Router Features                               │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  🧠 ADAPTIVE MEMORY          │  🎯 INTELLIGENT ROUTING                     │
+│  ───────────────────         │  ─────────────────────                     │
+│  • MemoryTree storage        │  • 12-keyword signal detection              │
+│  • EMA quality scoring       │  • 99.5% ±1 tier accuracy                  │
+│  • Learns from history       │  • <1ms routing latency                     │
+│  • No retraining needed      │  • MCTS for complex workflows              │
+│                                                                            │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  💰 HARD BUDGET ENFORCEMENT  │  🛡️ GUARDRAILS                             │
+│  ───────────────────────     │  ───────────────────                       │
+│  • Per-user/team budgets     │  • 17-pattern injection detection           │
+│  • Real-time spend tracking  │  • PII redaction                           │
+│  • Alerts at 50/80/100%      │  • Content filtering                        │
+│  • Hard caps (reject when exceeded)  │ • Hallucination checks              │
+│                                                                            │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  🔄 INTELLIGENT FAILOVER     │  💾 SEMANTIC CACHE                         │
+│  ───────────────────────     │  ───────────────────                        │
+│  • Provider health scoring   │  • Embedding-based lookup                   │
+│  • Circuit breaker (3 fails) │  • Configurable similarity threshold       │
+│  • Automatic fallback chain  │  • Per-route TTL                           │
+│  • Chinese provider handling │  • 30%+ cache hit rate                      │
+│                                                                            │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  ⚡ PER-PROVIDER RETRY       │  📊 COST ANALYTICS                         │
+│  ─────────────────────       │  ───────────────────                       │
+│  • Custom timeout per model  │  • Per-provider breakdown                    │
+│  • Exponential backoff       │  • Budget vs actual dashboard               │
+│  • 429 rate limit handling   │  • Projected savings                        │
+│  • Jitter to prevent storms  │  • Monthly/yearly reports                   │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+
 
 ### 🧠 Adaptive Memory & Learning
 
