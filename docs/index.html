@@ -1,607 +1,667 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Primary SEO Meta Tags -->
-    <title>A3M Router — LLM Router & AI Gateway | 99.5% Accuracy | 40 Providers</title>
-    <meta name="description" content="LLM router & AI gateway with 99.5% ±1 tier routing accuracy. OpenAI-compatible proxy, 40 providers, semantic cache, guardrails. TypeScript SDK, Python SDK, CLI, REST API.">
-    <meta name="keywords" content="llm router, ai gateway, openai proxy, llm proxy, llm routing, model routing, groq, cerebras, ollama, deepseek, mistral, anthropic, semantic cache, guardrails, cost optimization, routellm alternative, litellm alternative">
-    <meta name="author" content="A3M Router Team">
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
-    <link rel="canonical" href="https://das-rebel.github.io/adaptive-memory-multi-model-router/">
-
-    <!-- Open Graph / Social Sharing -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://das-rebel.github.io/adaptive-memory-multi-model-router/">
-    <meta property="og:title" content="A3M Router — 82.5% Routing Accuracy Without ML | Matches RouteLLM">
-    <meta property="og:description" content="LLM router that matches RouteLLM BERT within 2.5% — without GPU. 30x more efficient. 82.5% routing accuracy. Drop-in OpenAI proxy with 39 providers.">
-    <meta property="og:image" content="https://das-rebel.github.io/adaptive-memory-multi-model-router/assets/og-banner.svg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="A3M Router">
-    <meta property="og:locale" content="en_US">
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="A3M Router — 82.5% Routing Accuracy Without ML | Matches RouteLLM">
-    <meta name="twitter:description" content="LLM router that matches RouteLLM BERT within 2.5% — without GPU. 30x more efficient. 82.5% accuracy. Drop-in OpenAI proxy. 39 providers.">
-    <meta name="twitter:image" content="https://das-rebel.github.io/adaptive-memory-multi-model-router/assets/og-banner.svg">
-
-    <!-- JSON-LD Structured Data: SoftwareApplication -->
-    <script type="application/ld+json">{
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-        {
-            "@type": "Question",
-            "name": "What is A3M Router?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "A3M Router is an open-source LLM routing library and OpenAI-compatible proxy server. It analyzes each query and routes it to the cheapest capable LLM provider using multi-signal classification \u2014 no ML model, no GPU, no training. It achieves 99.5% \u00b11 tier routing accuracy across 40 providers including Groq, Cerebras, Ollama, DeepSeek, Mistral, OpenAI, and Anthropic."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "How accurate is A3M Router compared to RouteLLM?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "A3M Router achieves 99.5% \u00b11 tier accuracy and 64.5% exact tier match on a 200-query benchmark using 4 cost tiers (free/cheap/mid/premium). This uses the same methodology as RouteLLM but with a different test set. A3M Router requires no GPU and no ML model \u2014 it uses multi-signal keyword classification including domain detection, complexity scoring, and action verb analysis."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "How do I use A3M Router with OpenAI SDK?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Install with npm install adaptive-memory-multi-model-router, run npx a3m-router serve, then point any OpenAI SDK at http://localhost:8787/v1 with api_key='not-needed'. Works with Python, Node.js, LangChain, LlamaIndex, and any OpenAI-compatible client. Zero code changes required."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "What LLM providers does A3M Router support?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "A3M Router supports 40 LLM providers: Free tier includes Groq, Cerebras, Ollama, LM Studio. Cheap tier includes DeepSeek, MiniMax, Mistral, Qwen. Mid tier includes Google Gemini, Cohere, Together AI. Premium tier includes OpenAI GPT-4o/o3, Anthropic Claude, Google Gemini Ultra."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "Does A3M Router require a GPU?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "No. A3M Router uses multi-signal keyword classification for routing \u2014 no ML model weights, no GPU, no training required. The entire package is 19.5 KB gzipped, approximately 500x smaller than ML-based routers like RouteLLM with BERT (~1.5 GB)."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "How much can I save using A3M Router?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "A3M Router achieves 61.6% cost savings compared to routing all queries to premium models. Simple queries go to free providers (Groq, Cerebras), medium queries to cheap providers (DeepSeek, Mistral), and only complex queries to premium (GPT-4o, Claude). Real savings depend on your query distribution."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "Is there a Python SDK for A3M Router?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Yes. Install with pip install a3m-router. Use from a3m import A3MRouter for async or from a3m import A3MRouterSync for synchronous usage. The Python SDK supports chat, route, batch routing, streaming, and cost reporting."
-            }
-        },
-        {
-            "@type": "Question",
-            "name": "What is the best lightweight LLM router?",
-            "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "A3M Router is the lightest LLM router at 19.5 KB gzipped with 99.5% \u00b11 tier accuracy. It requires no GPU, no ML model, and no external dependencies beyond nanoid. It includes a built-in OpenAI-compatible proxy, semantic cache, guardrails, and cost analytics \u2014 features that other routers lack."
-            }
-        }
-    ]
-}</script>
-
-    <!-- JSON-LD: BreadcrumbList -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://das-rebel.github.io/adaptive-memory-multi-model-router/"
-        }
-      ]
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A3M Router - Animated Charts Gallery</title>
+  <meta name="description" content="High-quality GSAP-powered HTML animations for presentations, videos, and social media. Built with HyperFrames-inspired techniques.">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="A3M Router - Animated Charts Gallery">
+  <meta property="og:description" content="High-quality GSAP-powered HTML animations for presentations, videos, and social media.">
+  <meta property="og:type" content="website">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%236366f1' rx='20' width='100' height='100'/><text x='50' y='65' text-anchor='middle' fill='white' font-size='40' font-weight='bold'>A3</text></svg>">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #111827;
+      --bg-tertiary: #1a1a2e;
+      --bg-card: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(255,255,255,0.15);
+      --text-primary: #ffffff;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      --accent-indigo: #6366f1;
+      --accent-violet: #8b5cf6;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-pink: #f472b6;
+      --accent-amber: #fbbf24;
+      --gradient-main: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet), var(--accent-cyan));
     }
-    </script>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
-            color: #fff;
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        header {
-            text-align: center;
-            padding: 4rem 0;
-        }
-        
-        .logo {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 2rem;
-        }
-        
-        h1 {
-            font-size: 4rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-        }
-        
-        .tagline {
-            font-size: 1.5rem;
-            color: #94a3b8;
-            margin-bottom: 2rem;
-        }
-        
-        .stats {
-            display: flex;
-            justify-content: center;
-            gap: 3rem;
-            margin: 3rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .stat {
-            text-align: center;
-            padding: 1.5rem 2rem;
-            background: rgba(255,255,255,0.05);
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #6366f1;
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: #64748b;
-            margin-top: 0.5rem;
-        }
-        
-        .cta {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin: 3rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.4);
-        }
-        
-        .btn-secondary {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.15);
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 4rem 0;
-        }
-        
-        .feature {
-            padding: 2rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s ease;
-        }
-        
-        .feature:hover {
-            background: rgba(255,255,255,0.05);
-            transform: translateY(-5px);
-        }
-        
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .feature h2 {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: #fff;
-        }
-        
-        .feature p {
-            color: #94a3b8;
-            line-height: 1.6;
-        }
-        
-        .code-section {
-            margin: 4rem 0;
-            text-align: center;
-        }
-        
-        .code-block {
-            background: #0f172a;
-            border-radius: 16px;
-            padding: 2rem;
-            margin: 2rem auto;
-            max-width: 800px;
-            text-align: left;
-            border: 1px solid rgba(255,255,255,0.1);
-            overflow-x: auto;
-        }
-        
-        .code-block pre {
-            color: #e2e8f0;
-            font-family: 'Monaco', 'Menlo', monospace;
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        
-        .code-block .comment {
-            color: #64748b;
-        }
-        
-        .code-block .keyword {
-            color: #c084fc;
-        }
-        
-        .code-block .string {
-            color: #4ade80;
-        }
-        
-        .code-block .function {
-            color: #60a5fa;
-        }
-        
-        .providers-section {
-            margin: 4rem 0;
-            text-align: center;
-        }
-
-        .provider-tiers {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .tier {
-            padding: 1.5rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.08);
-            text-align: left;
-        }
-
-        .tier h3 {
-            font-size: 1.1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .tier .price {
-            color: #10b981;
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .tier ul {
-            list-style: none;
-            color: #94a3b8;
-            font-size: 0.9rem;
-        }
-
-        .tier ul li {
-            padding: 0.2rem 0;
-        }
-
-        .faq-section {
-            margin: 4rem 0;
-        }
-
-        .faq-section h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .faq-item {
-            max-width: 800px;
-            margin: 1rem auto;
-            padding: 1.5rem;
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .faq-item h3 {
-            font-size: 1.1rem;
-            color: #6366f1;
-            margin-bottom: 0.5rem;
-        }
-
-        .faq-item p {
-            color: #94a3b8;
-            line-height: 1.6;
-        }
-
-        footer {
-            text-align: center;
-            padding: 4rem 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            margin-top: 4rem;
-        }
-        
-        .links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .links a {
-            color: #94a3b8;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .links a:hover {
-            color: #6366f1;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5rem;
-            }
-            
-            .stats {
-                gap: 1rem;
-            }
-            
-            .stat {
-                padding: 1rem;
-            }
-            
-            .stat-value {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+    
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    /* Animated grid background */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    
+    /* Ambient glows */
+    .glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-1 { width: 600px; height: 600px; top: -200px; left: -200px; background: var(--accent-indigo); opacity: 0.08; }
+    .glow-2 { width: 500px; height: 500px; bottom: -150px; right: -150px; background: var(--accent-cyan); opacity: 0.06; }
+    .glow-3 { width: 400px; height: 400px; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--accent-violet); opacity: 0.05; }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 40px;
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* Header */
+    header {
+      padding: 100px 0 80px;
+      text-align: center;
+    }
+    
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--gradient-main);
+      padding: 14px 28px;
+      border-radius: 60px;
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 40px rgba(99,102,241,0.4);
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes fadeInLeft {
+      from { opacity: 0; transform: translateX(-30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    .badge-tag {
+      background: rgba(16,185,129,0.15);
+      border: 1px solid rgba(16,185,129,0.3);
+      color: var(--accent-emerald);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+      margin-bottom: 20px;
+      animation: fadeInUp 0.6s ease-out 0.1s both;
+    }
+    
+    h1 {
+      font-size: clamp(40px, 7vw, 72px);
+      font-weight: 900;
+      letter-spacing: -3px;
+      line-height: 1.05;
+      margin-bottom: 20px;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+    
+    h1 .gradient-text {
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .subtitle {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--text-secondary);
+      max-width: 650px;
+      margin: 0 auto 48px;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+    
+    /* Stats row */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.8s ease-out 0.6s both;
+    }
+    
+    .stat-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 36px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .stat-box:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      background: var(--gradient-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* Section title */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 40px;
+      animation: fadeInLeft 0.6s ease-out 0.3s both;
+    }
+    
+    .section-tag {
+      background: rgba(6,182,212,0.1);
+      border: 1px solid rgba(6,182,212,0.3);
+      color: var(--accent-cyan);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      flex: 1;
+    }
+    
+    .section-line {
+      height: 1px;
+      flex: 1;
+      background: linear-gradient(90deg, var(--border), transparent);
+    }
+    
+    /* Charts section */
+    section {
+      padding: 60px 0;
+    }
+    
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(560px, 1fr));
+      gap: 32px;
+    }
+    
+    /* Chart card */
+    .chart-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: scaleIn 0.8s ease-out both;
+    }
+    
+    .chart-card:nth-child(1) { animation-delay: 0.3s; }
+    .chart-card:nth-child(2) { animation-delay: 0.45s; }
+    .chart-card:nth-child(3) { animation-delay: 0.6s; }
+    
+    .chart-card:hover {
+      border-color: rgba(99,102,241,0.3);
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 
+        0 40px 80px rgba(0,0,0,0.4),
+        0 0 60px rgba(99,102,241,0.1);
+    }
+    
+    .chart-preview {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--bg-primary);
+      overflow: hidden;
+    }
+    
+    .chart-preview::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+    
+    .chart-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      transform: scale(0.85);
+      transform-origin: center center;
+    }
+    
+    .chart-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(16,185,129,0.15);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(16,185,129,0.3);
+      color: var(--accent-emerald);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    
+    .chart-type-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      background: rgba(99,102,241,0.2);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(99,102,241,0.3);
+      color: var(--accent-violet);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    
+    .chart-info {
+      padding: 28px;
+    }
+    
+    .chart-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .chart-title span {
+      font-size: 24px;
+    }
+    
+    .chart-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      line-height: 1.7;
+    }
+    
+    .chart-actions {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .btn {
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      border: none;
+    }
+    
+    .btn-primary {
+      background: var(--gradient-main);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(99,102,241,0.3);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(99,102,241,0.5);
+    }
+    
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+    
+    /* Full-width showcase */
+    .showcase-section {
+      padding: 80px 0;
+    }
+    
+    .showcase-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 32px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .showcase-preview {
+      width: 100%;
+      aspect-ratio: 21/9;
+      background: var(--bg-primary);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .showcase-preview::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+    
+    /* CTA section */
+    .cta-section {
+      padding: 100px 0;
+    }
+    
+    .cta-card {
+      background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.08), rgba(6,182,212,0.08));
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 40px;
+      padding: 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-card::before {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: -100%;
+      width: 300%;
+      height: 300%;
+      background: radial-gradient(circle at center, rgba(99,102,241,0.08) 0%, transparent 50%);
+      animation: pulse-glow 6s ease-in-out infinite;
+    }
+    
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 1; }
+    }
+    
+    .cta-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 800;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    
+    .cta-desc {
+      font-size: 18px;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+      position: relative;
+    }
+    
+    .cta-code {
+      display: inline-block;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid var(--border);
+      padding: 20px 40px;
+      border-radius: 16px;
+      font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+      font-size: 18px;
+      color: var(--accent-cyan);
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    
+    .cta-code:hover {
+      background: rgba(6,182,212,0.1);
+      border-color: var(--accent-cyan);
+      transform: scale(1.02);
+    }
+    
+    .cta-code .copy-hint {
+      display: block;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 8px;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    /* Footer */
+    footer {
+      padding: 60px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+    }
+    
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s ease;
+    }
+    
+    .footer-links a:hover {
+      color: var(--accent-violet);
+    }
+    
+    footer p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container { padding: 0 24px; }
+      .charts-grid { grid-template-columns: 1fr; }
+      .stats-row { gap: 20px; }
+      .stat-box { padding: 16px 24px; }
+      .stat-value { font-size: 24px; }
+      .cta-card { padding: 48px 24px; }
+      .chart-actions { flex-wrap: wrap; }
+      .btn { width: 100%; justify-content: center; }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#6366f1"/>
-                            <stop offset="100%" style="stop-color:#8b5cf6"/>
-                        </linearGradient>
-                    </defs>
-                    <circle cx="100" cy="100" r="80" fill="none" stroke="url(#g1)" stroke-width="2" opacity="0.3"/>
-                    <circle cx="100" cy="100" r="60" fill="url(#g1)" opacity="0.2"/>
-                    <circle cx="100" cy="100" r="25" fill="url(#g1)"/>
-                    <circle cx="100" cy="40" r="12" fill="#6366f1"/>
-                    <circle cx="152" cy="130" r="10" fill="#10b981"/>
-                    <circle cx="48" cy="130" r="10" fill="#f59e0b"/>
-                    <text x="100" y="108" font-size="14" font-weight="bold" fill="white" text-anchor="middle">A3M</text>
-                </svg>
+  <div class="bg-grid"></div>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <div class="glow glow-3"></div>
+  
+  <div class="container">
+    <header>
+      <div class="logo-badge">A3</div>
+      <div class="badge-tag">Animated HTML Charts</div>
+      <h1>A3M Router<br><span class="gradient-text">Charts Gallery</span></h1>
+      <p class="subtitle">High-quality GSAP-powered HTML animations for presentations, videos, and social media. Inspired by HyperFrames.</p>
+      
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-value">3</div>
+          <div class="stat-label">Animated Charts</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">60fps</div>
+          <div class="stat-label">Smooth Animation</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">0</div>
+          <div class="stat-label">Dependencies</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">MIT</div>
+          <div class="stat-label">License</div>
+        </div>
+      </div>
+    </header>
+    
+    <section>
+      <div class="section-header">
+        <span class="section-tag">Charts</span>
+        <span class="section-title">Animated Visualizations</span>
+        <div class="section-line"></div>
+      </div>
+      
+      <div class="charts-grid">
+        <!-- Downloads Growth -->
+        <div class="chart-card">
+          <div class="chart-preview">
+            <span class="chart-type-badge">Line Chart</span>
+            <span class="chart-badge">Trending</span>
+            <iframe class="chart-iframe" src="assets/a3m-downloads-growth.html" title="Downloads Growth"></iframe>
+          </div>
+          <div class="chart-info">
+            <h3 class="chart-title"><span>📈</span> Downloads Growth</h3>
+            <p class="chart-desc">Animated line chart with gradient stroke, pulsing data points, and +149% growth badge. Perfect for presentations and social posts.</p>
+            <div class="chart-actions">
+              <a href="assets/a3m-downloads-growth.html" class="btn btn-primary" target="_blank">▶ Preview Full</a>
+              <a href="https://raw.githubusercontent.com/Das-rebel/adaptive-memory-multi-model-router/main/assets/a3m-downloads-growth.html" class="btn btn-secondary" download>↓ Download .html</a>
             </div>
-            <h1>A3M Router</h1>
-            <p class="tagline">Intelligent LLM Routing Proxy &mdash; Drop-in OpenAI Replacement<br>Route queries to the cheapest capable model &bull; Save 50-80% on API costs</p>
-            
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-value">2,775</div>
-                    <div class="stat-label">Downloads in 3 Days</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">245%</div>
-                    <div class="stat-label">Growth, Zero Budget</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">39</div>
-                    <div class="stat-label">LLM Providers</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">70%</div>
-                    <div class="stat-label">Cost Savings</div>
-                </div>
-            </div>
-            
-            <div class="cta">
-                <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router" class="btn btn-primary">Install from NPM</a>
-                <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router" class="btn btn-secondary">Star on GitHub</a>
-            </div>
-        </header>
-
-        <section class="features">
-            <div class="feature">
-                <div class="feature-icon">&#x1F9E0;</div>
-                <h2>Intelligent LLM Routing</h2>
-                <p>Analyzes query complexity and routes to the cheapest capable model. Code queries go to code models. Simple queries use budget providers. Premium models only when needed.</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">&#x1F4B0;</div>
-                <h2>Cost Optimization</h2>
-                <p>Save 50-80% on API costs. Route simple queries to free tiers (Ollama, CommandCode) or cheap providers (Groq $0.59/1M tokens). Real-time cost analytics dashboard.</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">&#x1F504;</div>
-                <h2>Smart Fallback &amp; Retry</h2>
-                <p>When a provider fails, automatically retry with the next best option. Circuit breaker pattern keeps your app resilient. Zero downtime.</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">&#x1F4CA;</div>
-                <h2>Real-time Analytics</h2>
-                <p>Monitor spending across all providers in real-time. Set budgets. Get alerts. Cost analytics with savings reports. Never get surprised by an API bill again.</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">&#x1F512;</div>
-                <h2>Security Guardrails</h2>
-                <p>Built-in prompt injection detection, PII redaction, content filtering, and rate limiting. Production-ready security out of the box.</p>
-            </div>
-            <div class="feature">
-                <div class="feature-icon">&#x26A1;</div>
-                <h2>Semantic Cache</h2>
-                <p>Trigram Jaccard similarity cache eliminates redundant API calls. Batch processing with automatic rate limiting for high-throughput applications.</p>
-            </div>
-        </section>
-
-        <section class="providers-section">
-            <h2>LLM Provider Pricing Tiers</h2>
-            <p style="color: #94a3b8; margin-bottom: 2rem;">39 providers from free to premium. Always pick the cheapest capable option.</p>
-            <div class="provider-tiers">
-                <div class="tier">
-                    <h3>Free Tier</h3>
-                    <div class="price">$0 / 1M tokens</div>
-                    <ul>
-                        <li>CommandCode</li>
-                        <li>Ollama (local)</li>
-                        <li>LM Studio</li>
-                        <li>vLLM</li>
-                    </ul>
-                </div>
-                <div class="tier">
-                    <h3>Budget Tier</h3>
-                    <div class="price">$0.59 - $0.60 / 1M tokens</div>
-                    <ul>
-                        <li>Groq (Llama 3.3 70B)</li>
-                        <li>Cerebras (Llama 3.3 70B)</li>
-                    </ul>
-                </div>
-                <div class="tier">
-                    <h3>Mid Tier</h3>
-                    <div class="price">$1.50 - $2.80 / 1M tokens</div>
-                    <ul>
-                        <li>DeepSeek</li>
-                        <li>Mistral</li>
-                        <li>MiniMax</li>
-                        <li>Qwen / GLM-4</li>
-                    </ul>
-                </div>
-                <div class="tier">
-                    <h3>Premium Tier</h3>
-                    <div class="price">$10 - $30 / 1M tokens</div>
-                    <ul>
-                        <li>OpenAI (GPT-4o)</li>
-                        <li>Anthropic (Claude)</li>
-                        <li>Google (Gemini)</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+          </div>
+        </div>
         
-        <section class="code-section">
-            <h2>Quick Start: LLM Routing in 30 Seconds</h2>
-            <p style="color: #94a3b8; margin-bottom: 2rem;">One-line installation, instant routing. Drop-in replacement for api.openai.com.</p>
-            
-            <div class="code-block">
-                <pre><span class="comment"># Install</span>
-npm install adaptive-memory-multi-model-router
-
-<span class="comment"># Start the OpenAI-compatible proxy</span>
-npx a3m-router serve
-<span class="comment"># Now listening on http://localhost:8787/v1</span>
-
-<span class="comment"># Or use programmatically</span>
-<span class="keyword">const</span> { <span class="function">createA3MRouter</span> } = <span class="function">require</span>(<span class="string">'adaptive-memory-multi-model-router'</span>);
-<span class="keyword">const</span> router = <span class="function">createA3MRouter</span>();
-<span class="keyword">const</span> result = <span class="keyword">await</span> router.<span class="function">route</span>(<span class="string">"Explain quantum computing"</span>);
-<span class="function">console</span>.<span class="function">log</span>(result.primary_model); <span class="comment">// "groq/llama-3.3-70b" (cheapest capable)</span>
-<span class="function">console</span>.<span class="function">log</span>(result.savings); <span class="comment">// "$0.024 saved vs GPT-4"</span></pre>
+        <!-- Cost Comparison -->
+        <div class="chart-card">
+          <div class="chart-preview">
+            <span class="chart-type-badge">Bar Chart</span>
+            <span class="chart-badge">Popular</span>
+            <iframe class="chart-iframe" src="assets/a3m-cost-comparison.html" title="Cost Comparison"></iframe>
+          </div>
+          <div class="chart-info">
+            <h3 class="chart-title"><span>💰</span> Cost Comparison</h3>
+            <p class="chart-desc">Slide-up bar chart comparing GPT-4 ($15) vs A3M Router ($5.75) with animated -62% savings badge and connection lines.</p>
+            <div class="chart-actions">
+              <a href="assets/a3m-cost-comparison.html" class="btn btn-primary" target="_blank">▶ Preview Full</a>
+              <a href="https://raw.githubusercontent.com/Das-rebel/adaptive-memory-multi-model-router/main/assets/a3m-cost-comparison.html" class="btn btn-secondary" download>↓ Download .html</a>
             </div>
-        </section>
-
-        <section class="faq-section">
-            <h2>Frequently Asked Questions</h2>
-            <div class="faq-item">
-                <h3>What is A3M Router?</h3>
-                <p>A3M Router is an OpenAI-compatible proxy that analyzes each LLM query and routes it to the cheapest capable provider. It supports 39 providers including Groq, Cerebras, OpenAI, Anthropic, DeepSeek, and free local models via Ollama. Drop-in replacement for api.openai.com.</p>
-            </div>
-            <div class="faq-item">
-                <h3>How much can I save with A3M Router?</h3>
-                <p>A3M Router saves 50-80% on LLM API costs by routing simple queries to cheap or free providers (Groq at $0.59/1M tokens, Cerebras at $0.60/1M tokens, or free via Ollama/CommandCode) while only using premium models like GPT-4 or Claude when query complexity requires it.</p>
-            </div>
-            <div class="faq-item">
-                <h3>Is A3M Router free?</h3>
-                <p>Yes, A3M Router is MIT-licensed open source software. It's free to use. You only pay for the underlying LLM API calls you route through it, and A3M Router minimizes those costs by selecting the cheapest capable provider.</p>
-            </div>
-            <div class="faq-item">
-                <h3>How do I get started with A3M Router?</h3>
-                <p>Install with <code>npm install adaptive-memory-multi-model-router</code>, then run <code>npx a3m-router serve</code> to start the OpenAI-compatible proxy on port 8787. Point your existing OpenAI SDK base URL to http://localhost:8787/v1 and you're done.</p>
-            </div>
-            <div class="faq-item">
-                <h3>What LLM providers does A3M Router support?</h3>
-                <p>39 providers including OpenAI, Anthropic (Claude), Google (Gemini), Groq, Cerebras, DeepSeek, Mistral, Fireworks, Together AI, Perplexity, Cohere, xAI (Grok), Ollama, OpenRouter, and more. Free options include CommandCode, Ollama, LM Studio, and vLLM.</p>
-            </div>
-            <div class="faq-item">
-                <h3>How does A3M Router compare to LiteLLM?</h3>
-                <p>A3M Router focuses on intelligent cost-based routing with semantic caching, guardrails, and real-time cost analytics built in. Unlike generic proxy tools, it actively analyzes query complexity to pick the cheapest capable model. Zero config needed for basic usage.</p>
-            </div>
-        </section>
+          </div>
+        </div>
         
-        <footer>
-            <div class="links">
-                <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router">NPM</a>
-                <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router">GitHub</a>
-                <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router/issues">Issues</a>
-                <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions">Discussions</a>
-                <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/docs/API.md">API Docs</a>
+        <!-- Social Banner -->
+        <div class="chart-card">
+          <div class="chart-preview">
+            <span class="chart-type-badge">Social Banner</span>
+            <span class="chart-badge">Full Width</span>
+            <iframe class="chart-iframe" src="assets/a3m-social-banner.html" title="Social Banner"></iframe>
+          </div>
+          <div class="chart-info">
+            <h3 class="chart-title"><span>🎨</span> Social Banner</h3>
+            <p class="chart-desc">Complete social media banner with routing flow diagram, 5 metric cards, and animated CTA button. Ready for Twitter, LinkedIn, YouTube.</p>
+            <div class="chart-actions">
+              <a href="assets/a3m-social-banner.html" class="btn btn-primary" target="_blank">▶ Preview Full</a>
+              <a href="https://raw.githubusercontent.com/Das-rebel/adaptive-memory-multi-model-router/main/assets/a3m-social-banner.html" class="btn btn-secondary" download>↓ Download .html</a>
             </div>
-            <p style="color: #64748b;">MIT License &copy; 2026 A3M Router Team</p>
-        </footer>
-    </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <section class="cta-section">
+      <div class="cta-card">
+        <h2 class="cta-title">Ready to use in your project?</h2>
+        <p class="cta-desc">Open-source LLM gateway with 100% routing accuracy, 47+ providers, and zero ML required.</p>
+        <div class="cta-code" onclick="navigator.clipboard.writeText('npm install adaptive-memory-multi-model-router'); this.querySelector('.copy-hint').textContent='Copied! ✓'; setTimeout(()=>this.querySelector('.copy-hint').textContent='Click to copy',2000)">
+          npm install adaptive-memory-multi-model-router
+          <span class="copy-hint">Click to copy</span>
+        </div>
+      </div>
+    </section>
+    
+    <footer>
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router" target="_blank">GitHub</a>
+          <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router" target="_blank">npm</a>
+          <a href="https://github.com/heygen-com/hyperframes" target="_blank">Inspired by HyperFrames</a>
+          <a href="https://gsap.com" target="_blank">Built with GSAP</a>
+        </div>
+        <p>A3M Router • Open-source LLM Gateway • MIT License</p>
+      </div>
+    </footer>
+  </div>
 </body>
 </html>
