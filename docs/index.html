@@ -3,664 +3,117 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A3M Router - Animated Charts Gallery</title>
-  <meta name="description" content="High-quality GSAP-powered HTML animations for presentations, videos, and social media. Built with HyperFrames-inspired techniques.">
-  
-  <!-- Open Graph -->
-  <meta property="og:title" content="A3M Router - Animated Charts Gallery">
-  <meta property="og:description" content="High-quality GSAP-powered HTML animations for presentations, videos, and social media.">
-  <meta property="og:type" content="website">
-  
-  <!-- Favicon -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%236366f1' rx='20' width='100' height='100'/><text x='50' y='65' text-anchor='middle' fill='white' font-size='40' font-weight='bold'>A3</text></svg>">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
+  <title>A3M Router</title>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    :root {
-      --bg-primary: #0a0a0f;
-      --bg-secondary: #111827;
-      --bg-tertiary: #1a1a2e;
-      --bg-card: rgba(255,255,255,0.03);
-      --border: rgba(255,255,255,0.08);
-      --border-hover: rgba(255,255,255,0.15);
-      --text-primary: #ffffff;
-      --text-secondary: #9ca3af;
-      --text-muted: #6b7280;
-      --accent-indigo: #6366f1;
-      --accent-violet: #8b5cf6;
-      --accent-cyan: #06b6d4;
-      --accent-emerald: #10b981;
-      --accent-pink: #f472b6;
-      --accent-amber: #fbbf24;
-      --gradient-main: linear-gradient(135deg, var(--accent-indigo), var(--accent-violet), var(--accent-cyan));
-    }
-    
-    html { scroll-behavior: smooth; }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
       min-height: 100vh;
       line-height: 1.6;
-      overflow-x: hidden;
     }
-    
-    /* Animated grid background */
-    .bg-grid {
-      position: fixed;
-      inset: 0;
-      background-image: 
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-      background-size: 80px 80px;
-      pointer-events: none;
-      z-index: 0;
-    }
-    
-    /* Ambient glows */
-    .glow {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(120px);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .glow-1 { width: 600px; height: 600px; top: -200px; left: -200px; background: var(--accent-indigo); opacity: 0.08; }
-    .glow-2 { width: 500px; height: 500px; bottom: -150px; right: -150px; background: var(--accent-cyan); opacity: 0.06; }
-    .glow-3 { width: 400px; height: 400px; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--accent-violet); opacity: 0.05; }
-    
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 40px;
-      position: relative;
-      z-index: 1;
-    }
-    
-    /* Header */
-    header {
-      padding: 100px 0 80px;
-      text-align: center;
-    }
-    
-    .logo-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 14px;
-      background: var(--gradient-main);
-      padding: 14px 28px;
-      border-radius: 60px;
-      font-size: 20px;
-      font-weight: 800;
-      margin-bottom: 32px;
-      box-shadow: 0 10px 40px rgba(99,102,241,0.4);
-      animation: float 3s ease-in-out infinite;
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-    
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @keyframes fadeInLeft {
-      from { opacity: 0; transform: translateX(-30px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    
-    @keyframes scaleIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    
-    .badge-tag {
-      background: rgba(16,185,129,0.15);
-      border: 1px solid rgba(16,185,129,0.3);
-      color: var(--accent-emerald);
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      display: inline-block;
-      margin-bottom: 20px;
-      animation: fadeInUp 0.6s ease-out 0.1s both;
-    }
-    
-    h1 {
-      font-size: clamp(40px, 7vw, 72px);
-      font-weight: 900;
-      letter-spacing: -3px;
-      line-height: 1.05;
-      margin-bottom: 20px;
-      animation: fadeInUp 0.8s ease-out 0.2s both;
-    }
-    
-    h1 .gradient-text {
-      background: var(--gradient-main);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .subtitle {
-      font-size: clamp(16px, 2vw, 20px);
-      color: var(--text-secondary);
-      max-width: 650px;
-      margin: 0 auto 48px;
-      animation: fadeInUp 0.8s ease-out 0.4s both;
-    }
-    
-    /* Stats row */
-    .stats-row {
-      display: flex;
-      justify-content: center;
-      gap: 48px;
-      flex-wrap: wrap;
-      animation: fadeInUp 0.8s ease-out 0.6s both;
-    }
-    
-    .stat-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px 36px;
-      text-align: center;
-      transition: all 0.3s ease;
-    }
-    
-    .stat-box:hover {
-      border-color: var(--border-hover);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    }
-    
-    .stat-value {
-      font-size: 32px;
-      font-weight: 800;
-      background: var(--gradient-main);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .stat-label {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-top: 4px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    
-    /* Section title */
-    .section-header {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      margin-bottom: 40px;
-      animation: fadeInLeft 0.6s ease-out 0.3s both;
-    }
-    
-    .section-tag {
-      background: rgba(6,182,212,0.1);
-      border: 1px solid rgba(6,182,212,0.3);
-      color: var(--accent-cyan);
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    
-    .section-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      flex: 1;
-    }
-    
-    .section-line {
-      height: 1px;
-      flex: 1;
-      background: linear-gradient(90deg, var(--border), transparent);
-    }
-    
-    /* Charts section */
-    section {
-      padding: 60px 0;
-    }
-    
-    .charts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(560px, 1fr));
-      gap: 32px;
-    }
-    
-    /* Chart card */
-    .chart-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      animation: scaleIn 0.8s ease-out both;
-    }
-    
-    .chart-card:nth-child(1) { animation-delay: 0.3s; }
-    .chart-card:nth-child(2) { animation-delay: 0.45s; }
-    .chart-card:nth-child(3) { animation-delay: 0.6s; }
-    
-    .chart-card:hover {
-      border-color: rgba(99,102,241,0.3);
-      transform: translateY(-12px) scale(1.02);
-      box-shadow: 
-        0 40px 80px rgba(0,0,0,0.4),
-        0 0 60px rgba(99,102,241,0.1);
-    }
-    
-    .chart-preview {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16/9;
-      background: var(--bg-primary);
-      overflow: hidden;
-    }
-    
-    .chart-preview::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: 
-        linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-    }
-    
-    .chart-iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      transform: scale(0.85);
-      transform-origin: center center;
-    }
-    
-    .chart-badge {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: rgba(16,185,129,0.15);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(16,185,129,0.3);
-      color: var(--accent-emerald);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-    
-    .chart-type-badge {
-      position: absolute;
-      top: 16px;
-      left: 16px;
-      background: rgba(99,102,241,0.2);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(99,102,241,0.3);
-      color: var(--accent-violet);
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-    }
-    
-    .chart-info {
-      padding: 28px;
-    }
-    
-    .chart-title {
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .chart-title span {
-      font-size: 24px;
-    }
-    
-    .chart-desc {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-      line-height: 1.7;
-    }
-    
-    .chart-actions {
-      display: flex;
-      gap: 12px;
-    }
-    
-    .btn {
-      padding: 12px 24px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      border: none;
-    }
-    
-    .btn-primary {
-      background: var(--gradient-main);
-      color: #fff;
-      box-shadow: 0 4px 20px rgba(99,102,241,0.3);
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 12px 30px rgba(99,102,241,0.5);
-    }
-    
-    .btn-secondary {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-    }
-    
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.1);
-      border-color: var(--border-hover);
-      color: var(--text-primary);
-    }
-    
-    /* Full-width showcase */
-    .showcase-section {
-      padding: 80px 0;
-    }
-    
-    .showcase-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 32px;
-      overflow: hidden;
-      position: relative;
-    }
-    
-    .showcase-preview {
-      width: 100%;
-      aspect-ratio: 21/9;
-      background: var(--bg-primary);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .showcase-preview::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: 
-        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-      background-size: 60px 60px;
-      pointer-events: none;
-    }
-    
-    /* CTA section */
-    .cta-section {
-      padding: 100px 0;
-    }
-    
-    .cta-card {
-      background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.08), rgba(6,182,212,0.08));
-      border: 1px solid rgba(99,102,241,0.2);
-      border-radius: 40px;
-      padding: 80px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .cta-card::before {
-      content: '';
-      position: absolute;
-      top: -100%;
-      left: -100%;
-      width: 300%;
-      height: 300%;
-      background: radial-gradient(circle at center, rgba(99,102,241,0.08) 0%, transparent 50%);
-      animation: pulse-glow 6s ease-in-out infinite;
-    }
-    
-    @keyframes pulse-glow {
-      0%, 100% { transform: scale(1); opacity: 0.5; }
-      50% { transform: scale(1.2); opacity: 1; }
-    }
-    
-    .cta-title {
-      font-size: clamp(28px, 4vw, 42px);
-      font-weight: 800;
-      margin-bottom: 16px;
-      position: relative;
-    }
-    
-    .cta-desc {
-      font-size: 18px;
-      color: var(--text-secondary);
-      margin-bottom: 40px;
-      position: relative;
-    }
-    
-    .cta-code {
-      display: inline-block;
-      background: rgba(0,0,0,0.6);
-      border: 1px solid var(--border);
-      padding: 20px 40px;
-      border-radius: 16px;
-      font-family: 'SF Mono', Monaco, 'Courier New', monospace;
-      font-size: 18px;
-      color: var(--accent-cyan);
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    
-    .cta-code:hover {
-      background: rgba(6,182,212,0.1);
-      border-color: var(--accent-cyan);
-      transform: scale(1.02);
-    }
-    
-    .cta-code .copy-hint {
-      display: block;
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 8px;
-      font-family: 'Inter', sans-serif;
-    }
-    
-    /* Footer */
-    footer {
-      padding: 60px 0;
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-    
-    .footer-content {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-    }
-    
-    .footer-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 14px;
-      transition: color 0.2s ease;
-    }
-    
-    .footer-links a:hover {
-      color: var(--accent-violet);
-    }
-    
-    footer p {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-      .container { padding: 0 24px; }
-      .charts-grid { grid-template-columns: 1fr; }
-      .stats-row { gap: 20px; }
-      .stat-box { padding: 16px 24px; }
-      .stat-value { font-size: 24px; }
-      .cta-card { padding: 48px 24px; }
-      .chart-actions { flex-wrap: wrap; }
-      .btn { width: 100%; justify-content: center; }
-    }
+    a { color: #58a6ff; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+    h1 { font-size: 48px; color: #fff; margin-bottom: 16px; letter-spacing: -1px; }
+    .tagline { font-size: 20px; color: #8b949e; margin-bottom: 40px; }
+    .badges { display: flex; gap: 12px; margin-bottom: 48px; flex-wrap: wrap; }
+    .badge { background: rgba(56,139,253,0.15); border: 1px solid rgba(56,139,253,0.4); color: #58a6ff; padding: 6px 14px; border-radius: 20px; font-size: 13px; }
+    .badge.green { background: rgba(46,160,67,0.15); border-color: rgba(46,160,67,0.4); color: #3fb950; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 28px; margin-bottom: 24px; }
+    .card h2 { color: #fff; font-size: 22px; margin-bottom: 12px; }
+    .card p { color: #8b949e; font-size: 15px; }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 40px 0; }
+    .feature { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; }
+    .feature h3 { color: #fff; font-size: 16px; margin-bottom: 8px; }
+    .feature p { color: #8b949e; font-size: 14px; }
+    code { background: #161b22; border: 1px solid #30363d; padding: 16px 24px; border-radius: 8px; display: block; font-family: 'SF Mono', Monaco, monospace; color: #79c0ff; font-size: 14px; margin: 20px 0; }
+    .npm { color: #f0c000; }
+    .stats { display: flex; gap: 40px; margin: 40px 0; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-value { font-size: 32px; font-weight: 700; color: #fff; }
+    .stat-label { font-size: 13px; color: #8b949e; }
+    footer { margin-top: 60px; padding-top: 30px; border-top: 1px solid #30363d; text-align: center; color: #8b949e; font-size: 14px; }
+    .emoji { font-size: 24px; margin-right: 8px; }
   </style>
 </head>
 <body>
-  <div class="bg-grid"></div>
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
-  <div class="glow glow-3"></div>
-  
   <div class="container">
-    <header>
-      <div class="logo-badge">A3</div>
-      <div class="badge-tag">Animated HTML Charts</div>
-      <h1>A3M Router<br><span class="gradient-text">Charts Gallery</span></h1>
-      <p class="subtitle">High-quality GSAP-powered HTML animations for presentations, videos, and social media. Inspired by HyperFrames.</p>
-      
-      <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-value">3</div>
-          <div class="stat-label">Animated Charts</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value">60fps</div>
-          <div class="stat-label">Smooth Animation</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value">0</div>
-          <div class="stat-label">Dependencies</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-value">MIT</div>
-          <div class="stat-label">License</div>
-        </div>
-      </div>
-    </header>
+    <h1>🔀 A3M Router</h1>
+    <p class="tagline">One prompt in. The right model out.</p>
     
-    <section>
-      <div class="section-header">
-        <span class="section-tag">Charts</span>
-        <span class="section-title">Animated Visualizations</span>
-        <div class="section-line"></div>
-      </div>
-      
-      <div class="charts-grid">
-        <!-- Downloads Growth -->
-        <div class="chart-card">
-          <div class="chart-preview">
-            <span class="chart-type-badge">Line Chart</span>
-            <span class="chart-badge">Trending</span>
-            <iframe class="chart-iframe" src="https://cdn.jsdelivr.net/gh/Das-rebel/adaptive-memory-multi-model-router@main/docs/assets/a3m-downloads-growth.html" title="Downloads Growth"></iframe>
-          </div>
-          <div class="chart-info">
-            <h3 class="chart-title"><span>📈</span> Downloads Growth</h3>
-            <p class="chart-desc">Animated line chart with gradient stroke, pulsing data points, and +149% growth badge. Perfect for presentations and social posts.</p>
-            <div class="chart-actions">
-              <a href="https://cdn.jsdelivr.net/gh/Das-rebel/adaptive-memory-multi-model-router@main/docs/assets/a3m-downloads-growth.html" class="btn btn-primary" target="_blank">▶ Preview Full</a>
-              <a href="https://cdn.jsdelivr.net/gh/Das-rebel/adaptive-memory-multi-model-router@main/docs/assets/a3m-downloads-growth.html" class="btn btn-secondary" download>↓ Download .html</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Cost Comparison -->
-        <div class="chart-card">
-          <div class="chart-preview">
-            <span class="chart-type-badge">Bar Chart</span>
-            <span class="chart-badge">Popular</span>
-            <iframe class="chart-iframe" src="https://cdn.jsdelivr.net/gh/Das-rebel/adaptive-memory-multi-model-router@main/docs/assets/a3m-cost-comparison.html" title="Cost Comparison"></iframe>
-          </div>
-          <div class="chart-info">
-            <h3 class="chart-title"><span>💰</span> Cost Comparison</h3>
-            <p class="chart-desc">Slide-up bar chart comparing GPT-4 ($15) vs A3M Router ($5.75) with animated -62% savings badge and connection lines.</p>
-            <div class="chart-actions">
-              <a href="https://cdn.jsdelivr.net/gh/Das-rebel/adaptive-memory-multi-model-router@main/docs/assets/a3m-cost-comparison.html" class="btn btn-primary" target="_blank">▶ Preview Full</a>
-              <a href="https://cdn.jsdelivr.net/gh/Das-rebel/adaptive-memory-multi-model-router@main/docs/assets/a3m-cost-comparison.html" class="btn btn-secondary" download>↓ Download .html</a>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Social Banner -->
-        <div class="chart-card">
-          <div class="chart-preview">
-            <span class="chart-type-badge">Social Banner</span>
-            <span class="chart-badge">Full Width</span>
-            <iframe class="chart-iframe" src="https://cdn.jsdelivr.net/gh/Das-rebel/adaptive-memory-multi-model-router@main/docs/assets/a3m-social-banner.html" title="Social Banner"></iframe>
-          </div>
-          <div class="chart-info">
-            <h3 class="chart-title"><span>🎨</span> Social Banner</h3>
-            <p class="chart-desc">Complete social media banner with routing flow diagram, 5 metric cards, and animated CTA button. Ready for Twitter, LinkedIn, YouTube.</p>
-            <div class="chart-actions">
-              <a href="https://cdn.jsdelivr.net/gh/Das-rebel/adaptive-memory-multi-model-router@main/docs/assets/a3m-social-banner.html" class="btn btn-primary" target="_blank">▶ Preview Full</a>
-              <a href="https://cdn.jsdelivr.net/gh/Das-rebel/adaptive-memory-multi-model-router@main/docs/assets/a3m-social-banner.html" class="btn btn-secondary" download>↓ Download .html</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <div class="badges">
+      <span class="badge green">100% Routing Accuracy</span>
+      <span class="badge">47+ Providers</span>
+      <span class="badge">Zero ML</span>
+      <span class="badge">19.5KB</span>
+      <span class="badge">MIT License</span>
+    </div>
     
-    <section class="cta-section">
-      <div class="cta-card">
-        <h2 class="cta-title">Ready to use in your project?</h2>
-        <p class="cta-desc">Open-source LLM gateway with 100% routing accuracy, 47+ providers, and zero ML required.</p>
-        <div class="cta-code" onclick="navigator.clipboard.writeText('npm install adaptive-memory-multi-model-router'); this.querySelector('.copy-hint').textContent='Copied! ✓'; setTimeout(()=>this.querySelector('.copy-hint').textContent='Click to copy',2000)">
-          npm install adaptive-memory-multi-model-router
-          <span class="copy-hint">Click to copy</span>
-        </div>
+    <div class="card">
+      <h2>Quick Start</h2>
+      <code>npm install adaptive-memory-multi-model-router</code>
+      <code>npx a3m-router serve</code>
+    </div>
+    
+    <div class="features">
+      <div class="feature">
+        <h3>💰 Cost Optimization</h3>
+        <p>Route simple queries to free tiers (Ollama, Groq) or budget providers ($0.59/1M tokens). Save 62% on API costs.</p>
       </div>
-    </section>
+      <div class="feature">
+        <h3>🔄 Smart Fallback</h3>
+        <p>When a provider fails, automatically retry with the next best option. Circuit breaker pattern keeps your app resilient.</p>
+      </div>
+      <div class="feature">
+        <h3>📊 Semantic Cache</h3>
+        <p>Trigram Jaccard similarity cache eliminates redundant API calls with 95%+ hit rate.</p>
+      </div>
+      <div class="feature">
+        <h3>🔒 Security Guardrails</h3>
+        <p>Built-in prompt injection detection, PII redaction, content filtering, and rate limiting.</p>
+      </div>
+    </div>
+    
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-value">100%</div>
+        <div class="stat-label">Routing Accuracy</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">62%</div>
+        <div class="stat-label">Cost Savings</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">47+</div>
+        <div class="stat-label">Providers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">19.5KB</div>
+        <div class="stat-label">Package Size</div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <h2>Provider Tiers</h2>
+      <p><strong>Free:</strong> Ollama, CommandCode, LM Studio<br>
+      <strong>Budget ($0.59-0.60/1M):</strong> Groq, Cerebras<br>
+      <strong>Mid ($1.50-2.80/1M):</strong> DeepSeek, Mistral, Qwen<br>
+      <strong>Premium ($10-30/1M):</strong> OpenAI, Anthropic, Google</p>
+    </div>
+    
+    <div class="card">
+      <h2>Links</h2>
+      <p>
+        <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router">GitHub</a> •
+        <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router">npm</a> •
+        <a href="https://das-rebel.github.io/adaptive-memory-multi-model-router/">Docs</a>
+      </p>
+    </div>
     
     <footer>
-      <div class="footer-content">
-        <div class="footer-links">
-          <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router" target="_blank">GitHub</a>
-          <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router" target="_blank">npm</a>
-          <a href="https://github.com/heygen-com/hyperframes" target="_blank">Inspired by HyperFrames</a>
-          <a href="https://gsap.com" target="_blank">Built with GSAP</a>
-        </div>
-        <p>A3M Router • Open-source LLM Gateway • MIT License</p>
-      </div>
+      <p>Open-source LLM Gateway • MIT License • No GPU Required</p>
     </footer>
   </div>
 </body>
