@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>A3M Router Cost Comparison</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #0a0a0f; }
+      
+      #cost-comparison {
+        pointer-events: none;
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #0a0a0f 0%, #111827 100%);
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      
+      #cost-comparison::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: 
+          linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+      }
+      
+      .ambient-glow {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.12;
+        pointer-events: none;
+      }
+      .glow-left { width: 500px; height: 500px; top: 20%; left: -10%; background: #3b82f6; }
+      .glow-right { width: 400px; height: 400px; bottom: 20%; right: 0%; background: #10b981; }
+      
+      /* Header */
+      .header {
+        position: absolute;
+        top: 60px;
+        left: 80px;
+        z-index: 10;
+      }
+      .title {
+        font-size: 52px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -1px;
+        clip-path: inset(0 100% 0 0);
+      }
+      .subtitle {
+        font-size: 20px;
+        color: #8888aa;
+        margin-top: 8px;
+        clip-path: inset(0 100% 0 0);
+      }
+      
+      /* Chart container */
+      .chart-container {
+        position: absolute;
+        top: 180px;
+        left: 80px;
+        right: 80px;
+        bottom: 180px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 120px;
+        padding-bottom: 80px;
+      }
+      
+      /* Bar groups */
+      .bar-group {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+      
+      .bar-wrapper {
+        height: 450px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+      }
+      
+      .bar {
+        width: 180px;
+        border-radius: 12px 12px 0 0;
+        transform-origin: bottom;
+        transform: scaleY(0);
+      }
+      
+      .gpt4-bar {
+        background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+        box-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
+      }
+      
+      .a3m-bar {
+        background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+        box-shadow: 0 0 40px rgba(16, 185, 129, 0.4);
+      }
+      
+      /* Bar shine */
+      .bar::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 50%;
+        background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 100%);
+        border-radius: 12px 12px 0 0;
+      }
+      
+      .price-label {
+        font-size: 32px;
+        font-weight: 800;
+        color: #fff;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      
+      .gpt4-price { color: #60a5fa; }
+      .a3m-price { color: #10b981; }
+      
+      .bar-label {
+        font-size: 20px;
+        font-weight: 600;
+        color: #9ca3af;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      
+      .bar-sublabel {
+        font-size: 14px;
+        color: #6b7280;
+        margin-top: 4px;
+        opacity: 0;
+      }
+      
+      /* Savings badge */
+      .savings-badge {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(16,185,129,0.12);
+        border: 2px solid rgba(16,185,129,0.5);
+        border-radius: 24px;
+        padding: 24px 40px;
+        text-align: center;
+        opacity: 0;
+        scale: 0.5;
+      }
+      
+      .savings-value {
+        font-size: 48px;
+        font-weight: 800;
+        color: #10b981;
+        background: linear-gradient(90deg, #10b981, #06b6d4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .savings-label {
+        font-size: 16px;
+        color: #8888aa;
+        margin-top: 4px;
+      }
+      
+      /* Connection lines */
+      .connection-line {
+        stroke: #10b981;
+        stroke-width: 2;
+        stroke-dasharray: 8 8;
+        fill: none;
+        opacity: 0;
+      }
+      
+      /* Footer stats */
+      .footer-stats {
+        position: absolute;
+        bottom: 60px;
+        left: 80px;
+        right: 80px;
+        display: flex;
+        justify-content: center;
+        gap: 60px;
+        opacity: 0;
+      }
+      
+      .stat-item {
+        text-align: center;
+      }
+      
+      .stat-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #e5e7eb;
+      }
+      
+      .stat-label {
+        font-size: 13px;
+        color: #6b7280;
+        margin-top: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="cost-comparison" data-composition-id="a3m-cost-comparison">
+      <div class="ambient-glow glow-left"></div>
+      <div class="ambient-glow glow-right"></div>
+      
+      <div class="header">
+        <h1 class="title">Cost Comparison</h1>
+        <p class="subtitle">100 mixed queries benchmark • May 2026</p>
+      </div>
+      
+      <!-- Bar chart -->
+      <div class="chart-container">
+        <!-- GPT-4 bar -->
+        <div class="bar-group">
+          <div class="bar-wrapper">
+            <div class="bar gpt4-bar" id="gpt4-bar"></div>
+          </div>
+          <div class="price-label gpt4-price" id="gpt4-price">$15.00</div>
+          <div class="bar-label" id="gpt4-label">GPT-4</div>
+          <div class="bar-sublabel" id="gpt4-sub">$0.15/1K tokens</div>
+        </div>
+        
+        <!-- A3M bar -->
+        <div class="bar-group">
+          <div class="bar-wrapper">
+            <div class="bar a3m-bar" id="a3m-bar"></div>
+          </div>
+          <div class="price-label a3m-price" id="a3m-price">$5.75</div>
+          <div class="bar-label" id="a3m-label">A3M Router</div>
+          <div class="bar-sublabel" id="a3m-sub">auto-routed mix</div>
+        </div>
+      </div>
+      
+      <!-- Savings badge -->
+      <div class="savings-badge" id="savings-badge">
+        <div class="savings-value">-62%</div>
+        <div class="savings-label">savings per query</div>
+      </div>
+      
+      <!-- Connection lines (SVG) -->
+      <svg style="position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none;">
+        <path class="connection-line" id="conn-line-1" d="M560,350 Q680,300 800,380"/>
+        <path class="connection-line" id="conn-line-2" d="M1040,380 Q1120,300 1240,350"/>
+      </svg>
+      
+      <!-- Footer stats -->
+      <div class="footer-stats" id="footer-stats">
+        <div class="stat-item">
+          <div class="stat-value" style="color: #3b82f6;">$0.15</div>
+          <div class="stat-label">GPT-4 per 1K tokens</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" style="color: #06b6d4;">$0.06</div>
+          <div class="stat-label">A3M avg per 1K tokens</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value" style="color: #10b981;">9.25</div>
+          <div class="stat-label">Queries per dollar</div>
+        </div>
+      </div>
+    </div>
+    
+    <script>
+      (function() {
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+        
+        // Title animation
+        tl.to('.title', { clipPath: 'inset(0 0% 0 0)', duration: 1, ease: 'power3.out' }, 0);
+        tl.to('.subtitle', { clipPath: 'inset(0 0% 0 0)', duration: 0.8, ease: 'power3.out' }, 0.3);
+        
+        // GPT-4 bar slides up
+        tl.to('#gpt4-bar', { 
+          scaleY: 1, 
+          duration: 1.2, 
+          ease: 'power3.out',
+          transformOrigin: 'bottom'
+        }, 0.8);
+        
+        // GPT-4 labels
+        tl.to('#gpt4-price', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 1.4);
+        tl.to('#gpt4-label', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 1.6);
+        tl.to('#gpt4-sub', { opacity: 1, duration: 0.4 }, 1.8);
+        
+        // Connection lines appear
+        tl.to('#conn-line-1', { opacity: 0.6, duration: 0.4 }, 2);
+        
+        // A3M bar slides up (shorter)
+        tl.to('#a3m-bar', { 
+          scaleY: 1, 
+          duration: 1, 
+          ease: 'power3.out',
+          transformOrigin: 'bottom'
+        }, 2.2);
+        
+        // Connection line 2
+        tl.to('#conn-line-2', { opacity: 0.6, duration: 0.4 }, 2.6);
+        
+        // A3M labels
+        tl.to('#a3m-price', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 2.8);
+        tl.to('#a3m-label', { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 3);
+        tl.to('#a3m-sub', { opacity: 1, duration: 0.4 }, 3.2);
+        
+        // Savings badge pops in
+        tl.to('#savings-badge', { 
+          opacity: 1, 
+          scale: 1, 
+          duration: 0.8, 
+          ease: 'back.out(1.4)'
+        }, 3.5);
+        
+        // Footer stats fade in
+        tl.to('#footer-stats', { opacity: 1, duration: 0.8 }, 4);
+        
+        window.__timelines['a3m-cost-comparison'] = tl;
+        tl.play();
+      })();
+    </script>
+  </body>
+</html>

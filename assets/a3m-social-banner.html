@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>A3M Router Social Banner</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1920px; height: 1080px; margin: 0; overflow: hidden; background: #0a0a0f; }
+      
+      #social-banner {
+        pointer-events: none;
+        position: relative;
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: linear-gradient(135deg, #0a0a0f 0%, #111827 50%, #1a1a2e 100%);
+        font-family: "Inter", system-ui, sans-serif;
+      }
+      
+      #social-banner::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: 
+          linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+        background-size: 80px 80px;
+      }
+      
+      /* Ambient glows */
+      .ambient-glow {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(150px);
+        pointer-events: none;
+      }
+      .glow-center { width: 800px; height: 600px; top: 30%; left: 50%; transform: translateX(-50%); background: radial-gradient(circle, rgba(99,102,241,0.15), transparent 70%); }
+      .glow-top-left { width: 400px; height: 400px; top: -10%; left: -5%; background: #6366f1; opacity: 0.1; }
+      .glow-bottom-right { width: 500px; height: 500px; bottom: -15%; right: -5%; background: #06b6d4; opacity: 0.08; }
+      
+      /* Header row */
+      .header-row {
+        position: absolute;
+        top: 60px;
+        left: 80px;
+        right: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      
+      /* Logo */
+      .logo {
+        width: 90px;
+        height: 90px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        font-weight: 800;
+        color: #fff;
+        box-shadow: 0 10px 40px rgba(99,102,241,0.4);
+        opacity: 0;
+        transform: scale(0);
+      }
+      
+      /* Title */
+      .title-group {
+        text-align: center;
+        flex: 1;
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      
+      .main-title {
+        font-size: 56px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -2px;
+        line-height: 1.1;
+      }
+      
+      .tagline {
+        font-size: 24px;
+        font-weight:  500;
+        background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-top: 8px;
+      }
+      
+      /* Spacer for logo */
+      .logo-spacer { width: 90px; }
+      
+      /* Flow diagram */
+      .flow-diagram {
+        position: absolute;
+        top: 280px;
+        left: 80px;
+        right: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+      }
+      
+      .flow-box {
+        border-radius: 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 32px;
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      
+      .flow-label {
+        font-size: 14px;
+        color: #8888aa;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+      }
+      
+      .flow-text {
+        font-size: 20px;
+        font-weight: 600;
+        color: #fff;
+      }
+      
+      .input-box {
+        background: rgba(99,102,241,0.15);
+        border: 2px solid rgba(99,102,241,0.4);
+        width: 200px;
+        height: 100px;
+      }
+      
+      .a3m-box {
+        background: rgba(139,92,246,0.2);
+        border: 2px solid rgba(139,92,246,0.5);
+        width: 160px;
+        height: 100px;
+      }
+      
+      .a3m-box .flow-text {
+        font-size: 28px;
+        font-weight: 800;
+        background: linear-gradient(90deg, #a78bfa, #c4b5fd);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .output-box {
+        background: rgba(16,185,129,0.15);
+        border: 2px solid rgba(16,185,129,0.4);
+        width: 220px;
+        height: 100px;
+      }
+      
+      .output-box .flow-text { color: #10b981; }
+      
+      /* Arrow */
+      .flow-arrow {
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, #6366f1, #06b6d4);
+        border-radius: 2px;
+        position: relative;
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      
+      .flow-arrow::after {
+        content: '';
+        position: absolute;
+        right: -8px;
+        top: -6px;
+        border: 8px solid transparent;
+        border-left: 12px solid #06b6d4;
+      }
+      
+      /* Metrics row */
+      .metrics-row {
+        position: absolute;
+        top: 460px;
+        left: 80px;
+        right: 80px;
+        display: flex;
+        gap: 20px;
+      }
+      
+      .metric-card {
+        flex: 1;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
+        padding: 28px;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      
+      .metric-value {
+        font-size: 42px;
+        font-weight: 800;
+        line-height: 1;
+      }
+      
+      .metric-label {
+        font-size: 14px;
+        color: #6b7280;
+        margin-top: 8px;
+      }
+      
+      /* CTA button */
+      .cta-button {
+        position: absolute;
+        bottom: 160px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(90deg, #6366f1, #8b5cf6, #06b6d4);
+        border-radius: 40px;
+        padding: 20px 50px;
+        box-shadow: 0 10px 50px rgba(99,102,241,0.4);
+        opacity: 0;
+        scale: 0.8;
+      }
+      
+      .cta-text {
+        font-size: 20px;
+        font-weight: 600;
+        color: #fff;
+        white-space: nowrap;
+      }
+      
+      /* Footer */
+      .footer {
+        position: absolute;
+        bottom: 60px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font-size: 16px;
+        color: #4b5563;
+        opacity: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="social-banner" data-composition-id="a3m-social-banner">
+      <div class="ambient-glow glow-center"></div>
+      <div class="ambient-glow glow-top-left"></div>
+      <div class="ambient-glow glow-bottom-right"></div>
+      
+      <!-- Header row -->
+      <div class="header-row">
+        <div class="logo" id="logo">A3</div>
+        <div class="title-group" id="title-group">
+          <div class="main-title">A3M Router</div>
+          <div class="tagline">One prompt in. The right model out.</div>
+        </div>
+        <div class="logo-spacer"></div>
+      </div>
+      
+      <!-- Flow diagram -->
+      <div class="flow-diagram">
+        <div class="flow-box input-box" id="input-box">
+          <div class="flow-label">Your Prompt</div>
+          <div class="flow-text">"Write Python"</div>
+        </div>
+        
+        <div class="flow-arrow" id="arrow-1"></div>
+        
+        <div class="flow-box a3m-box" id="a3m-box">
+          <div class="flow-label">A3M Router</div>
+          <div class="flow-text">12 Signals</div>
+        </div>
+        
+        <div class="flow-arrow" id="arrow-2"></div>
+        
+        <div class="flow-box output-box" id="output-box">
+          <div class="flow-label">Best Model</div>
+          <div class="flow-text">Groq (free, fast)</div>
+        </div>
+      </div>
+      
+      <!-- Metrics row -->
+      <div class="metrics-row">
+        <div class="metric-card" id="metric-1">
+          <div class="metric-value" style="color: #10b981;">100%</div>
+          <div class="metric-label">Routing Accuracy</div>
+        </div>
+        <div class="metric-card" id="metric-2">
+          <div class="metric-value" style="color: #06b6d4;">62%</div>
+          <div class="metric-label">Cost Savings</div>
+        </div>
+        <div class="metric-card" id="metric-3">
+          <div class="metric-value" style="color: #8b5cf6;">100%</div>
+          <div class="metric-label">Fault Pass Rate</div>
+        </div>
+        <div class="metric-card" id="metric-4">
+          <div class="metric-value" style="color: #f472b6;">47+</div>
+          <div class="metric-label">Providers</div>
+        </div>
+        <div class="metric-card" id="metric-5">
+          <div class="metric-value" style="color: #a78bfa;">19.5KB</div>
+          <div class="metric-label">Package Size</div>
+        </div>
+      </div>
+      
+      <!-- CTA -->
+      <div class="cta-button" id="cta-button">
+        <div class="cta-text">npm install adaptive-memory-multi-model-router</div>
+      </div>
+      
+      <!-- Footer -->
+      <div class="footer" id="footer">Open-source • Zero ML • No GPU Required • MIT License</div>
+    </div>
+    
+    <script>
+      (function() {
+        window.__timelines = window.__timelines || {};
+        const tl = gsap.timeline({ paused: true });
+        
+        // Logo entrance
+        tl.to('#logo', {
+          opacity: 1,
+          scale: 1,
+          duration: 0.7,
+          ease: 'back.out(1.7)'
+        }, 0.3);
+        
+        // Title group
+        tl.to('#title-group', {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out'
+        }, 0.5);
+        
+        // Input box
+        tl.to('#input-box', {
+          opacity: 1,
+          scale: 1,
+          duration: 0.6,
+          ease: 'back.out(1.4)'
+        }, 1);
+        
+        // Arrow 1
+        tl.to('#arrow-1', {
+          opacity: 1,
+          scaleX: 1,
+          duration: 0.4,
+          ease: 'power2.out'
+        }, 1.4);
+        
+        // A3M box
+        tl.to('#a3m-box', {
+          opacity: 1,
+          scale: 1,
+          duration: 0.6,
+          ease: 'back.out(1.4)'
+        }, 1.6);
+        
+        // Arrow 2
+        tl.to('#arrow-2', {
+          opacity: 1,
+          scaleX: 1,
+          duration: 0.4,
+          ease: 'power2.out'
+        }, 2);
+        
+        // Output box
+        tl.to('#output-box', {
+          opacity: 1,
+          scale: 1,
+          duration: 0.6,
+          ease: 'back.out(1.4)'
+        }, 2.2);
+        
+        // Metrics (staggered)
+        tl.to('#metric-1', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 2.8);
+        tl.to('#metric-2', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 3);
+        tl.to('#metric-3', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 3.2);
+        tl.to('#metric-4', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 3.4);
+        tl.to('#metric-5', { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, 3.6);
+        
+        // CTA
+        tl.to('#cta-button', {
+          opacity: 1,
+          scale: 1,
+          duration: 0.7,
+          ease: 'back.out(1.3)'
+        }, 4);
+        
+        // Footer
+        tl.to('#footer', { opacity: 1, duration: 0.6 }, 4.5);
+        
+        window.__timelines['a3m-social-banner'] = tl;
+        tl.play();
+      })();
+    </script>
+  </body>
+</html>
