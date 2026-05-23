@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A3M Router - 90 Second Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background: #0d1117;
+      color: #e6edf3;
+      font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Monaco, monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1000px;
+      width: 100%;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .header h1 {
+      font-size: 2rem;
+      color: #58a6ff;
+      margin-bottom: 8px;
+    }
+    
+    .header .tagline {
+      color: #8b949e;
+      font-size: 1rem;
+    }
+    
+    .terminal {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    
+    .terminal-header {
+      background: #21262d;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #30363d;
+    }
+    
+    .terminal-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27ca40; }
+    
+    .terminal-title {
+      flex: 1;
+      text-align: center;
+      color: #8b949e;
+      font-size: 0.85rem;
+    }
+    
+    .terminal-body {
+      padding: 20px;
+      min-height: 500px;
+      position: relative;
+    }
+    
+    .scene {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .scene.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .line {
+      margin: 4px 0;
+      line-height: 1.6;
+    }
+    
+    .comment { color: #8b949e; }
+    .keyword { color: #ff7b72; }
+    .string { color: #a5d6ff; }
+    .function { color: #d2a8ff; }
+    .number { color: #79c0ff; }
+    .operator { color: #ff7b72; }
+    
+    .success { color: #3fb950; }
+    .error { color: #f85149; }
+    .warning { color: #d29922; }
+    .info { color: #58a6ff; }
+    .muted { color: #8b949e; }
+    
+    .progress-bar {
+      height: 4px;
+      background: #21262d;
+      border-radius: 2px;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #58a6ff, #a371f7);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+    
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    
+    .btn {
+      background: #238636;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-family: inherit;
+      transition: background 0.2s;
+    }
+    
+    .btn:hover { background: #2ea043; }
+    .btn:disabled { background: #484f58; cursor: not-allowed; }
+    
+    .btn-secondary {
+      background: #21262d;
+      border: 1px solid #30363d;
+    }
+    
+    .btn-secondary:hover { background: #30363d; }
+    
+    .scene-indicator {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 16px;
+    }
+    
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #30363d;
+      transition: background 0.3s;
+    }
+    
+    .dot.active { background: #58a6ff; }
+    
+    .time-display {
+      text-align: center;
+      color: #8b949e;
+      margin-top: 12px;
+      font-size: 0.85rem;
+    }
+    
+    .highlight-box {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+    
+    .highlight-box.success { border-color: #238636; }
+    
+    .ascii-box {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 12px;
+      font-size: 0.85rem;
+      white-space: pre;
+      overflow-x: auto;
+    }
+    
+    .cost-compare {
+      display: flex;
+      gap: 20px;
+      margin: 16px 0;
+    }
+    
+    .cost-col {
+      flex: 1;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .cost-without {
+      background: rgba(248, 81, 73, 0.1);
+      border: 1px solid rgba(248, 81, 73, 0.3);
+    }
+    
+    .cost-with {
+      background: rgba(63, 185, 80, 0.1);
+      border: 1px solid rgba(63, 185, 80, 0.3);
+    }
+    
+    .cost-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+    
+    .cost-without .cost-value { color: #f85149; }
+    .cost-with .cost-value { color: #3fb950; }
+    
+    .install-box {
+      background: #161b22;
+      border: 2px solid #58a6ff;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+    
+    .install-cmd {
+      background: #0d1117;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      color: #3fb950;
+      margin: 12px 0;
+      border: 1px solid #30363d;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #8b949e;
+      font-size: 0.85rem;
+    }
+    
+    .footer a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🔀 A3M Router</h1>
+      <p class="tagline">One prompt in. The right model out.</p>
+    </div>
+    
+    <div class="terminal">
+      <div class="terminal-header">
+        <div class="terminal-dot dot-red"></div>
+        <div class="terminal-dot dot-yellow"></div>
+        <div class="terminal-dot dot-green"></div>
+        <div class="terminal-title">a3m-demo — 90-second walkthrough</div>
+      </div>
+      
+      <div class="terminal-body" id="terminal">
+        <!-- Scene 1: Without A3M -->
+        <div class="scene active" id="scene-1">
+          <div class="line comment">#!/bin/bash</div>
+          <div class="line comment"># Your LLM app today</div>
+          <div class="line"></div>
+          <div class="line keyword">const</span> response = <span class="keyword">await</span> openai.chat.completions.create({</div>
+          <div class="line">  model: <span class="string">"gpt-4o"</span>,  <span class="comment">// Always expensive</span></div>
+          <div class="line">  messages: [{ role: <span class="string">"user"</span>, content: <span class="string">"Explain quantum entanglement"</span> }]</div>
+          <div class="line">});</div>
+          <div class="line"></div>
+          <div class="highlight-box" style="border-color: #f85149;">
+            <div class="line error">❌ Problem: $0.015 per request</div>
+            <div class="line error">❌ No fallback if OpenAI goes down</div>
+            <div class="line error">❌ Manual model selection forever</div>
+          </div>
+        </div>
+        
+        <!-- Scene 2: With A3M -->
+        <div class="scene" id="scene-2">
+          <div class="line comment"># With A3M: one line change</div>
+          <div class="line keyword">const</span> response = <span class="keyword">await</span> fetch(<span class="string">"http://localhost:8787/v1/chat/completions"</span>, {</div>
+          <div class="line">  method: <span class="string">"POST"</span>,</div>
+          <div class="line">  headers: { <span class="string">"Content-Type"</span>: <span class="string">"application/json"</span> },</div>
+          <div class="line">  body: JSON.stringify({</div>
+          <div class="line">    model: <span class="string">"auto"</span>,  <span class="comment">// ← A3M picks the best</span></div>
+          <div class="line">    messages: [{ role: <span class="string">"user"</span>, content: <span class="string">"Explain quantum entanglement"</span> }]</div>
+          <div class="line">  })</div>
+          <div class="line">});</div>
+          <div class="line"></div>
+          <div class="highlight-box success">
+            <div class="line info">📊 Task: explanation → Complexity: simple → Budget: minimize</div>
+            <div class="line success">✅ Routed to: Groq (FREE, 847ms)</div>
+            <div class="line muted">   Cost: $0.00 | Quality: 94%</div>
+          </div>
+        </div>
+        
+        <!-- Scene 3: Failover -->
+        <div class="scene" id="scene-3">
+          <div class="line comment"># A3M gracefully handles provider failures...</div>
+          <div class="line"></div>
+          <div class="ascii-box">
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Groq] — Attempting connection...
+  [Groq] — ✗ FAILED — 503 Service Unavailable
+  [Circuit Breaker] — Tripped after 3 failures
+  [DeepSeek] — HEALTHY — Switching...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          </div>
+          <div class="line"></div>
+          <div class="highlight-box success">
+            <div class="line success">✅ Response delivered via DeepSeek fallback</div>
+            <div class="line muted">   Your app: never knew there was a problem</div>
+          </div>
+        </div>
+        
+        <!-- Scene 4: Cost Comparison -->
+        <div class="scene" id="scene-4">
+          <div class="line comment"># Same query. Dramatically different costs.</div>
+          <div class="line"></div>
+          <div class="cost-compare">
+            <div class="cost-col cost-without">
+              <div class="muted">WITHOUT A3M</div>
+              <div class="cost-value">$0.0015</div>
+              <div class="muted">GPT-4o @ $3.00/1K</div>
+              <div class="muted">500 tokens</div>
+            </div>
+            <div class="cost-col cost-with">
+              <div class="muted">WITH A3M</div>
+              <div class="cost-value">$0.00</div>
+              <div class="muted">Groq @ $0.00/1K</div>
+              <div class="muted">500 tokens</div>
+            </div>
+          </div>
+          <div class="highlight-box success">
+            <div class="line success">💰 SAVINGS: 100% per query</div>
+            <div class="line">   At 1000 queries/day → <strong>$1.50 saved daily</strong></div>
+            <div class="line">   At 1000 queries/day → <strong>$547 saved yearly</strong></div>
+          </div>
+        </div>
+        
+        <!-- Scene 5: One Command -->
+        <div class="scene" id="scene-5">
+          <div class="install-box">
+            <div class="line" style="color: #58a6ff; font-size: 1.1rem;">Get started in 10 seconds:</div>
+            <div class="install-cmd">npm install -g adaptive-memory-multi-model-router</div>
+            <div class="line muted"># Auto-detects your API keys, zero config</div>
+            <div class="install-cmd" style="color: #58a6ff;">npx a3m-router serve</div>
+            <div class="line muted"># Change: model: 'gpt-4o' → model: 'auto'</div>
+          </div>
+          <div class="line"></div>
+          <div class="highlight-box">
+            <div class="line info">🔗 github.com/Das-rebel/adaptive-memory-multi-model-router</div>
+            <div class="line info">📦 npmjs.com/package/adaptive-memory-multi-model-router</div>
+          </div>
+          <div class="line" style="text-align: center; margin-top: 24px; color: #a371f7; font-size: 1.1rem;">
+            ✨ One prompt in. The right model out. ✨
+          </div>
+        </div>
+      </div>
+      
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress"></div>
+      </div>
+      
+      <div class="scene-indicator" id="dots">
+        <div class="dot active" data-scene="1"></div>
+        <div class="dot" data-scene="2"></div>
+        <div class="dot" data-scene="3"></div>
+        <div class="dot" data-scene="4"></div>
+        <div class="dot" data-scene="5"></div>
+      </div>
+      
+      <div class="time-display">
+        <span id="current-time">0</span>s / ~90s
+      </div>
+    </div>
+    
+    <div class="controls">
+      <button class="btn" id="playBtn">▶ Play Demo</button>
+      <button class="btn btn-secondary" id="resetBtn">↺ Reset</button>
+    </div>
+    
+    <div class="footer">
+      <p>Open Source LLM Router • 47+ Providers • Budget Enforcement • Semantic Cache</p>
+    </div>
+  </div>
+  
+  <script>
+    const scenes = 5;
+    const sceneDuration = 15000; // 15 seconds per scene
+    let currentScene = 1;
+    let timer = null;
+    
+    const progress = document.getElementById('progress');
+    const currentTimeEl = document.getElementById('current-time');
+    const playBtn = document.getElementById('playBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const dots = document.querySelectorAll('.dot');
+    
+    function showScene(n) {
+      // Hide all scenes
+      document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+      
+      // Show target scene
+      const scene = document.getElementById(`scene-${n}`);
+      if (scene) scene.classList.add('active');
+      
+      // Update dots
+      dots.forEach(d => d.classList.remove('active'));
+      document.querySelector(`.dot[data-scene="${n}"]`)?.classList.add('active');
+      
+      currentScene = n;
+      
+      // Update progress
+      const pct = ((n - 1) / (scenes - 1)) * 100;
+      progress.style.width = `${pct}%`;
+      
+      // Update time
+      currentTimeEl.textContent = (n - 1) * 15;
+    }
+    
+    function nextScene() {
+      if (currentScene < scenes) {
+        showScene(currentScene + 1);
+        return true;
+      }
+      return false;
+    }
+    
+    function startDemo() {
+      if (timer) return;
+      
+      playBtn.disabled = true;
+      showScene(1);
+      
+      timer = setInterval(() => {
+        if (!nextScene()) {
+          clearInterval(timer);
+          timer = null;
+          playBtn.disabled = false;
+          playBtn.textContent = '✓ Demo Complete';
+          currentTimeEl.textContent = '90';
+          progress.style.width = '100%';
+        }
+      }, sceneDuration);
+    }
+    
+    function resetDemo() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+      showScene(1);
+      playBtn.disabled = false;
+      playBtn.textContent = '▶ Play Demo';
+      currentTimeEl.textContent = '0';
+    }
+    
+    playBtn.addEventListener('click', startDemo);
+    resetBtn.addEventListener('click', resetDemo);
+    
+    // Click on dots to jump to scene
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => {
+        const n = parseInt(dot.dataset.scene);
+        if (timer) {
+          clearInterval(timer);
+          timer = null;
+        }
+        showScene(n);
+        playBtn.disabled = false;
+        playBtn.textContent = '▶ Play Demo';
+      });
+    });
+    
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {
+        e.preventDefault();
+        if (timer) {
+          resetDemo();
+        } else {
+          startDemo();
+        }
+      }
+      if (e.code === 'ArrowRight' && !timer) {
+        if (currentScene < scenes) showScene(currentScene + 1);
+      }
+      if (e.code === 'ArrowLeft' && !timer) {
+        if (currentScene > 1) showScene(currentScene - 1);
+      }
+    });
+  </script>
+</body>
+</html>
