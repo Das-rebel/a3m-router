@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A3M Router - 90 Second Demo</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: #0a0a0f;
+  color: #e0e0e0;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+.container { max-width: 1000px; margin: 0 auto; padding: 20px; }
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 40px 0;
+  border-bottom: 1px solid #1a1a2e;
+  margin-bottom: 40px;
+}
+.header h1 {
+  font-size: 2.5rem;
+  color: #00ff88;
+  margin-bottom: 10px;
+}
+.header p { color: #888; font-size: 1.1rem; }
+
+/* Scene */
+.scene {
+  background: #12121a;
+  border: 1px solid #1a1a2e;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 30px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+.scene.visible { opacity: 1; transform: translateY(0); }
+.scene-title {
+  font-size: 1.4rem;
+  color: #00d4ff;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.scene-title .num {
+  background: #00d4ff;
+  color: #0a0a0f;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+/* Terminal mock */
+.terminal {
+  background: #0d0d12;
+  border: 1px solid #2a2a3e;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 15px 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.terminal .line { margin: 8px 0; }
+.terminal .prompt { color: #00ff88; }
+.terminal .comment { color: #6a6a8a; }
+.terminal .code { color: #ffd700; }
+.terminal .output { color: #00d4ff; }
+.terminal .error { color: #ff4444; }
+
+/* Comparison */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 20px;
+  align-items: start;
+}
+.compare-item {
+  background: #0d0d12;
+  border-radius: 8px;
+  padding: 20px;
+}
+.compare-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.without .compare-label { color: #ff4444; }
+.with .compare-label { color: #00ff88; }
+.arrow {
+  display: flex;
+  align-items: center;
+  font-size: 2rem;
+  color: #00ff88;
+}
+
+/* Failover animation */
+.failover {
+  position: relative;
+  height: 120px;
+}
+.provider {
+  position: absolute;
+  width: 150px;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.provider.failed {
+  background: #ff444420;
+  border: 2px solid #ff4444;
+  color: #ff4444;
+}
+.provider.active {
+  background: #00ff8820;
+  border: 2px solid #00ff88;
+  color: #00ff88;
+}
+.provider.groq { left: 10%; top: 20px; }
+.provider.deepseek { right: 10%; top: 20px; }
+.status {
+  margin-top: 10px;
+  padding: 10px;
+  background: #0d0d12;
+  border-radius: 4px;
+  text-align: center;
+}
+.status.success { color: #00ff88; }
+
+/* Cost table */
+.cost-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+}
+.cost-table th, .cost-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #1a1a2e;
+}
+.cost-table th { color: #888; font-size: 0.8rem; text-transform: uppercase; }
+.cost-table .without { color: #ff4444; }
+.cost-table .with { color: #00ff88; }
+.cost-table .savings { color: #00ff88; font-weight: bold; font-size: 1.2rem; }
+
+/* End section */
+.end-section {
+  text-align: center;
+  padding: 40px;
+  background: linear-gradient(135deg, #00ff8810, #00d4ff10);
+  border-radius: 12px;
+  border: 1px solid #00ff8830;
+}
+.command {
+  background: #0d0d12;
+  padding: 15px 30px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  margin: 10px 0;
+  color: #00ff88;
+}
+.links {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+.links a { color: #00d4ff; text-decoration: none; }
+.links a:hover { text-decoration: underline; }
+
+/* Progress bar */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00ff88, #00d4ff);
+  transition: width 0.3s ease;
+  z-index: 100;
+}
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.animate { animation: slideIn 0.5s ease forwards; }
+.pulse { animation: pulse 1.5s ease infinite; }
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progress"></div>
+
+<div class="container">
+  <div class="header">
+    <h1>A3M Router</h1>
+    <p>90-Second Demo — One prompt in. The right model out.</p>
+  </div>
+
+  <!-- Scene 1: Without A3M -->
+  <div class="scene" data-scene="1">
+    <div class="scene-title">
+      <span class="num">1</span>
+      Without A3M — The Hard Way
+    </div>
+    <div class="terminal">
+      <div class="line"><span class="comment">// Your app code...</span></div>
+      <div class="line"><span class="prompt">const</span> response = <span class="keyword">await</span> openai.chat.completions.<span class="code">create</span>({</div>
+      <div class="line" style="margin-left: 20px;">model: <span class="string">"gpt-4o"</span>,</div>
+      <div class="line" style="margin-left: 20px;">messages: [{ role: <span class="string">"user"</span>, content: prompt }]</div>
+      <div class="line">});</div>
+    </div>
+    <div style="color: #ff4444; margin-top: 15px;">
+      <div class="line">✗ Every request costs $0.003–$0.03</div>
+      <div class="line">✗ No fallback if OpenAI goes down</div>
+      <div class="line">✗ You manage all provider logic</div>
+    </div>
+  </div>
+
+  <!-- Scene 2: With A3M -->
+  <div class="scene" data-scene="2">
+    <div class="scene-title">
+      <span class="num">2</span>
+      With A3M — One Line Change
+    </div>
+    <div class="terminal">
+      <div class="line"><span class="comment">// Same request with A3M...</span></div>
+      <div class="line"><span class="prompt">const</span> response = <span class="keyword">await</span> fetch(<span class="string">"http://localhost:8787/v1/chat/completions"</span>, {</div>
+      <div class="line" style="margin-left: 20px;">method: <span class="string">"POST"</span>,</div>
+      <div class="line" style="margin-left: 20px;">headers: { <span class="string">"Content-Type"</span>: <span class="string">"application/json"</span> },</div>
+      <div class="line" style="margin-left: 20px;">body: JSON.stringify({</div>
+      <div class="line" style="margin-left: 40px;">model: <span class="string">"auto"</span>,  <span class="comment">// ← A3M picks the best</span></div>
+      <div class="line" style="margin-left: 40px;">messages: [{ role: <span class="string">"user"</span>, content: prompt }]</div>
+      <div class="line" style="margin-left: 20px;">})</div>
+      <div class="line">});</div>
+    </div>
+    <div style="margin-top: 15px;">
+      <div><span style="color:#00d4ff">A3M analyzes:</span> explanation → simple → minimize cost</div>
+      <div style="margin-top: 10px;">
+        <span class="pulse" style="color: #00ff88;">✓ Routes to: Groq (free, fast)</span>
+      </div>
+      <div style="color: #888;">Cost: $0.00 | Latency: ~800ms</div>
+    </div>
+  </div>
+
+  <!-- Scene 3: Failover -->
+  <div class="scene" data-scene="3">
+    <div class="scene-title">
+      <span class="num">3</span>
+      Graceful Failover — No Downtime
+    </div>
+    <div class="failover">
+      <div class="provider groq" id="groq">
+        <div style="font-weight: bold;">Groq</div>
+        <div style="font-size: 0.8rem;">Free Tier</div>
+      </div>
+      <div style="position: absolute; left: 50%; transform: translateX(-50%); top: 30px; color: #888;">
+        →
+      </div>
+      <div class="provider deepseek" id="deepseek">
+        <div style="font-weight: bold;">DeepSeek</div>
+        <div style="font-size: 0.8rem;">Fallback</div>
+      </div>
+    </div>
+    <div class="status" id="failover-status">
+      <span id="status-text">Groq responding normally...</span>
+    </div>
+  </div>
+
+  <!-- Scene 4: Cost Comparison -->
+  <div class="scene" data-scene="4">
+    <div class="scene-title">
+      <span class="num">4</span>
+      Cost Comparison — Real Numbers
+    </div>
+    <table class="cost-table">
+      <thead>
+        <tr>
+          <th>Approach</th>
+          <th>Model</th>
+          <th>Cost/1K tokens</th>
+          <th>500 tokens</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="without">Without A3M</td>
+          <td>GPT-4o</td>
+          <td class="without">$3.00</td>
+          <td class="without">$0.0015</td>
+        </tr>
+        <tr>
+          <td class="with">With A3M</td>
+          <td>Groq (free)</td>
+          <td class="with">$0.00</td>
+          <td class="with">$0.00</td>
+        </tr>
+        <tr>
+          <td colspan="3" class="savings">Savings per query</td>
+          <td class="savings">100%</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="text-align: center; margin-top: 15px; color: #888;">
+      At 1,000 queries/day: <span style="color: #00ff88;">~$1.50 saved daily</span>
+    </div>
+  </div>
+
+  <!-- Scene 5: One Command -->
+  <div class="scene" data-scene="5">
+    <div class="scene-title">
+      <span class="num">5</span>
+      One Command To Start
+    </div>
+    <div class="end-section">
+      <div class="command">npm install -g adaptive-memory-multi-model-router</div>
+      <div style="margin: 10px 0; color: #888;">then</div>
+      <div class="command">npx a3m-router serve</div>
+      <div style="margin-top: 20px; color: #00d4ff;">
+        Auto-detects your API keys • Starts in seconds
+      </div>
+      <div class="links">
+        <a href="https://github.com/Das-rebel/adaptive-memory-multi-model-router">GitHub</a>
+        <a href="https://npmjs.com/package/adaptive-memory-multi-model-router">npm</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const scenes = document.querySelectorAll('.scene');
+  let currentScene = 0;
+  const progress = document.getElementById('progress');
+  
+  // Intersection Observer for scenes
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.5 });
+  
+  scenes.forEach(scene => observer.observe(scene));
+  
+  // Manual scene reveal on scroll
+  window.addEventListener('scroll', () => {
+    scenes.forEach((scene, index) => {
+      const rect = scene.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.8) {
+        scene.classList.add('visible');
+        updateProgress((index + 1) / scenes.length * 100);
+      }
+    });
+  });
+  
+  function updateProgress(percent) {
+    progress.style.width = percent + '%';
+  }
+  
+  // Failover animation
+  setTimeout(() => {
+    const groq = document.getElementById('groq');
+    const deepseek = document.getElementById('deepseek');
+    const statusText = document.getElementById('status-text');
+    
+    // Simulate failover after 2 seconds
+    setTimeout(() => {
+      groq.classList.add('failed');
+      groq.innerHTML = '<div style="font-weight:bold;">Groq</div><div style="font-size:0.8rem;color:#ff4444;">FAILED</div>';
+      
+      deepseek.classList.add('active');
+      deepseek.innerHTML = '<div style="font-weight:bold;">DeepSeek</div><div style="font-size:0.8rem;color:#00ff88;">ACTIVE ✓</div>';
+      
+      statusText.textContent = '✓ Response delivered via DeepSeek fallback';
+      statusText.style.color = '#00ff88';
+      document.getElementById('failover-status').classList.add('success');
+    }, 2000);
+  }, 500);
+  
+  // Initial scene visibility
+  setTimeout(() => scenes[0].classList.add('visible'), 300);
+});
+</script>
+</body>
+</html>
