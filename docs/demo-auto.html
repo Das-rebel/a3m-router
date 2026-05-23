@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A3M Router - Auto-Playing Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background: #0d1117;
+      color: #e6edf3;
+      font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Monaco, monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container { max-width: 900px; width: 100%; }
+    
+    h1 { color: #58a6ff; margin-bottom: 8px; font-size: 1.8rem; }
+    .tagline { color: #8b949e; margin-bottom: 24px; }
+    
+    .scene {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 16px 0;
+      animation: fadeIn 0.5s ease;
+      display: none;
+    }
+    .scene.active { display: block; }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .line { margin: 6px 0; line-height: 1.5; }
+    .comment { color: #8b949e; }
+    .keyword { color: #ff7b72; }
+    .string { color: #a5d6ff; }
+    
+    .error-text { color: #f85149; }
+    .success-text { color: #3fb950; }
+    .info-text { color: #58a6ff; }
+    .muted { color: #8b949e; }
+    .money { color: #3fb950; font-size: 1.3rem; font-weight: bold; }
+    
+    .box {
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 12px 0;
+    }
+    .box.error { border-color: #f85149; }
+    .box.success { border-color: #3fb950; }
+    
+    .ascii {
+      background: #0d1117;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      white-space: pre;
+    }
+    
+    .cost-row { display: flex; gap: 16px; margin: 12px 0; }
+    .cost-card {
+      flex: 1;
+      background: #21262d;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    .cost-card.bad { border: 1px solid #f85149; }
+    .cost-card.good { border: 1px solid #3fb950; }
+    .cost-card .amount { font-size: 2rem; font-weight: bold; }
+    .cost-card.bad .amount { color: #f85149; }
+    .cost-card.good .amount { color: #3fb950; }
+    
+    .install-box {
+      background: #161b22;
+      border: 2px solid #58a6ff;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+    .install-cmd {
+      background: #0d1117;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 1rem;
+      color: #3fb950;
+      margin: 12px 0;
+      font-family: monospace;
+    }
+    
+    .footer {
+      margin-top: 24px;
+      color: #8b949e;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    
+    .progress {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .dot {
+      width: 10px; height: 10px;
+      background: #30363d;
+      border-radius: 50%;
+    }
+    .dot.done { background: #58a6ff; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔀 A3M Router</h1>
+    <p class="tagline">One prompt in. The right model out.</p>
+    
+    <!-- Scene 1 -->
+    <div class="scene active" id="s1">
+      <h2 style="color: #f85149;">❌ Without A3M</h2>
+      <div class="box error">
+        <div class="line comment">#!/bin/bash</div>
+        <div class="line comment"># Your LLM app today</div>
+        <div class="line"></div>
+        <div class="line"><span class="keyword">const</span> response = <span class="keyword">await</span> openai.chat.completions.create({</div>
+        <div class="line">  model: <span class="string">"gpt-4o"</span>, <span class="comment">// Always expensive</span></div>
+        <div class="line">  messages: [{ role: <span class="string">"user"</span>, content: <span class="string">"Explain quantum entanglement"</span> }]</div>
+        <div class="line">});</div>
+      </div>
+      <div class="box error">
+        <div class="line error-text">❌ Problem: $0.015 per request</div>
+        <div class="line error-text">❌ No fallback if OpenAI goes down</div>
+        <div class="line error-text">❌ Manual model selection forever</div>
+      </div>
+    </div>
+    
+    <!-- Scene 2 -->
+    <div class="scene" id="s2">
+      <h2 style="color: #3fb950;">✅ With A3M - One Line Change</h2>
+      <div class="box">
+        <div class="line comment"># With A3M: one line change</div>
+        <div class="line"><span class="keyword">const</span> response = <span class="keyword">await</span> fetch(<span class="string">"http://localhost:8787/v1/chat/completions"</span>, {</div>
+        <div class="line">  method: <span class="string">"POST"</span>,</div>
+        <div class="line">  body: JSON.stringify({</div>
+        <div class="line">    model: <span class="string">"auto"</span>,  <span class="comment">// ← A3M picks the best</span></div>
+        <div class="line">    messages: [{ role: <span class="string">"user"</span>, content: <span class="string">"Explain quantum entanglement"</span> }]</div>
+        <div class="line">  })</div>
+        <div class="line">});</div>
+      </div>
+      <div class="box success">
+        <div class="line info-text">📊 Task: explanation → Complexity: simple → Budget: minimize</div>
+        <div class="line success-text">✅ Routed to: Groq (FREE, 847ms)</div>
+        <div class="line muted">   Cost: $0.00 | Quality: 94%</div>
+      </div>
+    </div>
+    
+    <!-- Scene 3 -->
+    <div class="scene" id="s3">
+      <h2 style="color: #d29922;">🔄 Graceful Failover</h2>
+      <div class="line comment"># A3M gracefully handles provider failures...</div>
+      <div class="ascii">
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  [Groq] — Attempting connection...
+  [Groq] — ✗ FAILED — 503 Service Unavailable
+  [Circuit Breaker] — Tripped after 3 failures
+  [DeepSeek] — HEALTHY — Switching...
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      </div>
+      <div class="box success">
+        <div class="line success-text">✅ Response delivered via DeepSeek fallback</div>
+        <div class="line muted">   Your app: never knew there was a problem</div>
+      </div>
+    </div>
+    
+    <!-- Scene 4 -->
+    <div class="scene" id="s4">
+      <h2 style="color: #3fb950;">💰 Cost Comparison</h2>
+      <div class="line comment"># Same query. Dramatically different costs.</div>
+      <div class="cost-row">
+        <div class="cost-card bad">
+          <div class="muted">WITHOUT A3M</div>
+          <div class="amount">$0.0015</div>
+          <div class="muted">GPT-4o @ $3.00/1K</div>
+        </div>
+        <div class="cost-card good">
+          <div class="muted">WITH A3M</div>
+          <div class="amount">$0.00</div>
+          <div class="muted">Groq @ $0.00/1K</div>
+        </div>
+      </div>
+      <div class="box success">
+        <div class="line success-text">💰 SAVINGS: 100% per query</div>
+        <div class="line">   At 1000 queries/day → <strong>$1.50 saved daily</strong></div>
+        <div class="line">   At 1000 queries/day → <strong>$547 saved yearly</strong></div>
+      </div>
+    </div>
+    
+    <!-- Scene 5 -->
+    <div class="scene" id="s5">
+      <div class="install-box">
+        <div style="color: #58a6ff; font-size: 1.1rem;">Get started in 10 seconds:</div>
+        <div class="install-cmd">npm install -g adaptive-memory-multi-model-router</div>
+        <div class="muted"># Auto-detects your API keys, zero config</div>
+        <div class="install-cmd" style="color: #58a6ff;">npx a3m-router serve</div>
+        <div class="muted"># Change: model: 'gpt-4o' → model: 'auto'</div>
+      </div>
+      <div style="text-align: center; margin-top: 24px;">
+        <div class="muted">🔗 github.com/Das-rebel/adaptive-memory-multi-model-router</div>
+        <div class="muted">📦 npmjs.com/package/adaptive-memory-multi-model-router</div>
+      </div>
+      <div style="text-align: center; margin-top: 24px; color: #a371f7; font-size: 1.2rem;">
+        ✨ One prompt in. The right model out. ✨
+      </div>
+    </div>
+    
+    <div class="progress">
+      <div class="dot done" id="d1"></div>
+      <div class="dot" id="d2"></div>
+      <div class="dot" id="d3"></div>
+      <div class="dot" id="d4"></div>
+      <div class="dot" id="d5"></div>
+    </div>
+    
+    <div class="footer">
+      Open Source LLM Router • 47+ Providers • Budget Enforcement • Semantic Cache
+    </div>
+  </div>
+  
+  <script>
+    // Auto-playing demo - no button needed
+    const scenes = 5;
+    const delay = 8000; // 8 seconds per scene
+    
+    function showScene(n) {
+      document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.dot').forEach(d => d.classList.remove('done'));
+      
+      document.getElementById('s' + n).classList.add('active');
+      for (let i = 1; i <= n; i++) {
+        document.getElementById('d' + i).classList.add('done');
+      }
+    }
+    
+    let current = 1;
+    showScene(current);
+    
+    setInterval(() => {
+      current = current % scenes + 1;
+      showScene(current);
+    }, delay);
+  </script>
+</body>
+</html>
