@@ -2,7 +2,7 @@
 
 # A3M Router 🔀
 
-[![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?label=npm%20downloads)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
+[![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?label=6.1k%2Fmonth)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![GitHub stars](https://img.shields.io/github/stars/Das-rebel/adaptive-memory-multi-model-router)](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
 [![Discord](https://img.shields.io/badge/Discord-Join-brightgreen?logo=discord)](https://discord.gg/a3m-router)
