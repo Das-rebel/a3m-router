@@ -8,3 +8,6 @@ __pycache__/
 *.py[cod]
 eval/results/
 eval/experiments.jsonl
+Awesome-LLM/
+awesome-ai-gateways/
+awesome-selfhosted/
