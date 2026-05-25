@@ -875,6 +875,21 @@ function createProxyServer(port) {
                 await handleHealth(res);
                 return;
             }
+            // Route: GET /cost — daywise usage breakdown
+            if (method === "GET" && url === "/cost") {
+                const summary = costTracker.getSummary();
+                jsonResponse(res, 200, {
+                    total: summary.total_cost,
+                    requests: summary.request_count,
+                    daily: summary.daily_costs,
+                    monthly: summary.monthly_costs,
+                    by_provider: summary.by_provider,
+                    by_model: summary.by_model,
+                    tokens: summary.token_count,
+                    avg_per_request: summary.average_cost_per_request,
+                });
+                return;
+            }
             // 404 for everything else
             errorResponse(res, 404, `Not found: ${method} ${url}`, "not_found");
         }

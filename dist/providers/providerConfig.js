@@ -294,7 +294,7 @@ exports.DEFAULT_PROVIDERS = {
         name: 'DeepSeek',
         baseUrl: 'https://api.deepseek.com/v1/chat/completions',
         apiKeyEnv: 'DEEPSEEK_API_KEY',
-        models: ['deepseek-chat', 'deepseek-reasoner', 'deepseek-coder'],
+        models: ['deepseek-v4-flash', 'deepseek-v4-pro'],
         costPerK: { input: 0.14, output: 0.28 },
         tier: 'mid',
         format: 'openai',
@@ -650,6 +650,33 @@ exports.DEFAULT_PROVIDERS = {
         type: 'cli',
         cliCommand: 'commandcode',
         priority: 36,
+        maxTokens: 8192,
+    },
+    // ========================================================================
+    // NVIDIA NIM (free tier via NVIDIA API key)
+    // ========================================================================
+    nvidia: {
+        id: 'nvidia',
+        name: 'NVIDIA NIM',
+        baseUrl: 'https://integrate.api.nvidia.com/v1/chat/completions',
+        apiKeyEnv: 'NVIDIA_API_KEY',
+        models: [
+            'meta/llama-3.1-8b-instruct',
+            'meta/llama-3.3-70b-instruct',
+            'meta/llama-4-maverick-17b-128e-instruct',
+            'nvidia/nemotron-mini-4b-instruct',
+            'nvidia/nemotron-3-super-120b-a12b',
+            'google/gemma-4-31b-it',
+            'qwen/qwen3.5-397b-a17b',
+            'minimaxai/minimax-m2.7',
+            'mistralai/mistral-large-3-675b-instruct-2512',
+            'z-ai/glm-5.1',
+        ],
+        costPerK: { input: 0, output: 0 },
+        tier: 'free',
+        format: 'openai',
+        type: 'api',
+        priority: 4,
         maxTokens: 8192,
     },
 };

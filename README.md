@@ -3,6 +3,7 @@
 # A3M Router 🔀
 
 [![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?label=6.1k%2Fmonth)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
+[![Build](https://github.com/Das-rebel/adaptive-memory-multi-model-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Das-rebel/adaptive-memory-multi-model-router/actions)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![GitHub stars](https://img.shields.io/github/stars/Das-rebel/adaptive-memory-multi-model-router)](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
 [![Discord](https://img.shields.io/badge/Discord-Join-brightgreen?logo=discord)](https://discord.gg/a3m-router)
@@ -12,7 +13,7 @@
 
 OpenAI-compatible **LLM gateway** that auto-routes every query to the cheapest capable model across **47+ providers**. Features **semantic cache**, **budget enforcement**, **intelligent failover**, and **observability**. Start in <100ms. Python SDK + TypeScript SDK.
 
-### Architecture
+### Quick Start: [`docs/QUICK_START.md`](./docs/QUICK_START.md)
 
 ```
 ╔══════════════════════════════════════════════════════════════════╗
