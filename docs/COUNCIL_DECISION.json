@@ -4,7 +4,17 @@
     "Claude (Architect)",
     "GPT-4 (Pragmatist)",
     "Gemini (Researcher)",
-    "Llama (Cost Analyst)"
+    "Llama (Cost Analyst)",
+    "Claude MiniMax (Speed Optimizer)",
+    "Claude GLM (Multilingual Expert)",
+    "Gemini Flash (Fast Responder)",
+    "Gemini Pro (Deep Reasoning)",
+    "OpenCode (Parallel Executor)",
+    "Sonar (Real-Time Web)",
+    "Mistral (European AI)",
+    "Groq (Ultra-Fast Inference)",
+    "Grok (Sarcastic Wit)",
+    "NVIDIA NIM (Free Frontier)"
   ],
   "individual_analyses": [
     {
@@ -198,62 +208,560 @@
         }
       ],
       "reasoning": "Focus on improvements that reduce operational costs and increase efficiency. Multi-provider routing enables 40-60% cost reduction (MONK benchmarks)."
+    },
+    {
+      "member": "Claude MiniMax (Speed Optimizer)",
+      "provider": "claude-minimax",
+      "perspective": "speed_optimization",
+      "rankings": [
+        {
+          "proposal": "CLI Interface with Rich Output",
+          "score": 100,
+          "justification": "Critical priority, Enables fast iteration"
+        },
+        {
+          "proposal": "Difficulty-Aware Routing",
+          "score": 100,
+          "justification": "Critical priority, Fast path to cheap providers"
+        },
+        {
+          "proposal": "Better Error Messages & Logging",
+          "score": 95,
+          "justification": "High priority, Reduces debugging time"
+        },
+        {
+          "proposal": "Multi-Provider System with Health Monitoring",
+          "score": 90,
+          "justification": "Critical priority, Enables speed routing"
+        },
+        {
+          "proposal": "Function Calling / Tool Use Enhancement",
+          "score": 90,
+          "justification": "Critical priority, Reduces round-trips"
+        },
+        {
+          "proposal": "Workflow Executors (Chaining & Parallelization)",
+          "score": 85,
+          "justification": "High priority, Enables parallel speedup"
+        },
+        {
+          "proposal": "Advanced Memory System (Memoria-inspired)",
+          "score": 80,
+          "justification": "High priority, Reduces redundant computation"
+        },
+        {
+          "proposal": "Git-Versioned Context Management",
+          "score": 75,
+          "justification": "Medium priority, Useful for reproducibility"
+        }
+      ],
+      "reasoning": "Prioritize latency reduction and fast iteration cycles. CLI and error handling give immediate speed wins."
+    },
+    {
+      "member": "Claude GLM (Multilingual Expert)",
+      "provider": "claude-glm",
+      "perspective": "multilingual",
+      "rankings": [
+        {
+          "proposal": "Multi-Provider System with Health Monitoring",
+          "score": 100,
+          "justification": "Critical priority, Enables global coverage"
+        },
+        {
+          "proposal": "Difficulty-Aware Routing",
+          "score": 100,
+          "justification": "Critical priority, Route by language complexity"
+        },
+        {
+          "proposal": "Advanced Memory System (Memoria-inspired)",
+          "score": 95,
+          "justification": "Critical priority, Cross-lingual memory retrieval"
+        },
+        {
+          "proposal": "Function Calling / Tool Use Enhancement",
+          "score": 90,
+          "justification": "High priority, Multilingual tool execution"
+        },
+        {
+          "proposal": "Workflow Executors (Chaining & Parallelization)",
+          "score": 90,
+          "justification": "High priority, Cross-lingual pipeline"
+        },
+        {
+          "proposal": "CLI Interface with Rich Output",
+          "score": 85,
+          "justification": "High priority, Multilingual CLI support"
+        },
+        {
+          "proposal": "Git-Versioned Context Management",
+          "score": 80,
+          "justification": "Medium priority, Multilingual versioning"
+        },
+        {
+          "proposal": "Better Error Messages & Logging",
+          "score": 75,
+          "justification": "Medium priority, Multilingual error reporting"
+        }
+      ],
+      "reasoning": "Focus on cross-lingual capabilities and global provider coverage. Multilingual routing and memory are key differentiators."
+    },
+    {
+      "member": "Gemini Flash (Fast Responder)",
+      "provider": "gemini",
+      "perspective": "fast_response",
+      "rankings": [
+        {
+          "proposal": "Difficulty-Aware Routing",
+          "score": 100,
+          "justification": "Critical priority, Fast-path for simple tasks"
+        },
+        {
+          "proposal": "CLI Interface with Rich Output",
+          "score": 100,
+          "justification": "Critical priority, Rapid prototyping"
+        },
+        {
+          "proposal": "Better Error Messages & Logging",
+          "score": 95,
+          "justification": "Critical priority, Quick issue resolution"
+        },
+        {
+          "proposal": "Multi-Provider System with Health Monitoring",
+          "score": 90,
+          "justification": "Critical priority, Fallback for speed"
+        },
+        {
+          "proposal": "Function Calling / Tool Use Enhancement",
+          "score": 90,
+          "justification": "High priority, Reduces latency"
+        },
+        {
+          "proposal": "Workflow Executors (Chaining & Parallelization)",
+          "score": 85,
+          "justification": "High priority, Parallel execution speedup"
+        },
+        {
+          "proposal": "Advanced Memory System (Memoria-inspired)",
+          "score": 80,
+          "justification": "High priority, Cache hits reduce latency"
+        },
+        {
+          "proposal": "Git-Versioned Context Management",
+          "score": 70,
+          "justification": "Medium priority, Context compression"
+        }
+      ],
+      "reasoning": "Optimize for first-token latency and streaming response. Fast-path routing and minimal processing overhead."
+    },
+    {
+      "member": "Gemini Pro (Deep Reasoning)",
+      "provider": "gemini-pro",
+      "perspective": "deep_reasoning",
+      "rankings": [
+        {
+          "proposal": "Advanced Memory System (Memoria-inspired)",
+          "score": 100,
+          "justification": "Critical priority, Long-context reasoning"
+        },
+        {
+          "proposal": "Multi-Provider System with Health Monitoring",
+          "score": 100,
+          "justification": "Critical priority, Foundation for orchestration"
+        },
+        {
+          "proposal": "Difficulty-Aware Routing",
+          "score": 95,
+          "justification": "Critical priority, Route complex tasks appropriately"
+        },
+        {
+          "proposal": "Workflow Executors (Chaining & Parallelization)",
+          "score": 95,
+          "justification": "Critical priority, Multi-step reasoning"
+        },
+        {
+          "proposal": "Function Calling / Tool Use Enhancement",
+          "score": 90,
+          "justification": "High priority, Complex tool orchestration"
+        },
+        {
+          "proposal": "Git-Versioned Context Management",
+          "score": 85,
+          "justification": "High priority, Reproducible reasoning chains"
+        },
+        {
+          "proposal": "CLI Interface with Rich Output",
+          "score": 80,
+          "justification": "High priority, Debugging complex workflows"
+        },
+        {
+          "proposal": "Better Error Messages & Logging",
+          "score": 75,
+          "justification": "Medium priority, Chain-of-thought tracing"
+        }
+      ],
+      "reasoning": "Focus on complex reasoning chains and long-term coherence. Memory and multi-step workflows enable deep analysis."
+    },
+    {
+      "member": "OpenCode (Parallel Executor)",
+      "provider": "opencode",
+      "perspective": "parallel_execution",
+      "rankings": [
+        {
+          "proposal": "Workflow Executors (Chaining & Parallelization)",
+          "score": 100,
+          "justification": "Critical priority, Core competency"
+        },
+        {
+          "proposal": "Multi-Provider System with Health Monitoring",
+          "score": 100,
+          "justification": "Critical priority, Parallel provider execution"
+        },
+        {
+          "proposal": "CLI Interface with Rich Output",
+          "score": 95,
+          "justification": "Critical priority, Execution control"
+        },
+        {
+          "proposal": "Difficulty-Aware Routing",
+          "score": 90,
+          "justification": "High priority, Parallel task distribution"
+        },
+        {
+          "proposal": "Function Calling / Tool Use Enhancement",
+          "score": 90,
+          "justification": "High priority, Parallel tool execution"
+        },
+        {
+          "proposal": "Advanced Memory System (Memoria-inspired)",
+          "score": 80,
+          "justification": "High priority, Shared memory across workers"
+        },
+        {
+          "proposal": "Better Error Messages & Logging",
+          "score": 75,
+          "justification": "Medium priority, Parallel debugging"
+        },
+        {
+          "proposal": "Git-Versioned Context Management",
+          "score": 70,
+          "justification": "Medium priority, Branch per parallel task"
+        }
+      ],
+      "reasoning": "Optimize for parallel task distribution and concurrent execution. Workflow executors are the primary use case."
+    },
+    {
+      "member": "Sonar (Real-Time Web)",
+      "provider": "perplexity",
+      "perspective": "real_time_knowledge",
+      "rankings": [
+        {
+          "proposal": "Multi-Provider System with Health Monitoring",
+          "score": 100,
+          "justification": "Critical priority, Foundation for live data"
+        },
+        {
+          "proposal": "Advanced Memory System (Memoria-inspired)",
+          "score": 100,
+          "justification": "Critical priority, Live context caching"
+        },
+        {
+          "proposal": "Difficulty-Aware Routing",
+          "score": 95,
+          "justification": "High priority, Route by query recency"
+        },
+        {
+          "proposal": "Function Calling / Tool Use Enhancement",
+          "score": 95,
+          "justification": "High priority, Web search tool integration"
+        },
+        {
+          "proposal": "Workflow Executors (Chaining & Parallelization)",
+          "score": 90,
+          "justification": "High priority, Parallel web research"
+        },
+        {
+          "proposal": "CLI Interface with Rich Output",
+          "score": 85,
+          "justification": "High priority, Quick web queries"
+        },
+        {
+          "proposal": "Git-Versioned Context Management",
+          "score": 80,
+          "justification": "Medium priority, Snapshot web sources"
+        },
+        {
+          "proposal": "Better Error Messages & Logging",
+          "score": 75,
+          "justification": "Medium priority, Source tracking"
+        }
+      ],
+      "reasoning": "Focus on real-time knowledge access and live data integration. Memory caching and multi-source aggregation are key differentiators."
+    },
+    {
+      "member": "Mistral (European AI)",
+      "provider": "mistral",
+      "perspective": "european_regulatory",
+      "rankings": [
+        {
+          "proposal": "Multi-Provider System with Health Monitoring",
+          "score": 100,
+          "justification": "Critical priority, GDPR-compliant providers"
+        },
+        {
+          "proposal": "Difficulty-Aware Routing",
+          "score": 100,
+          "justification": "Critical priority, Data residency routing"
+        },
+        {
+          "proposal": "Advanced Memory System (Memoria-inspired)",
+          "score": 95,
+          "justification": "Critical priority, European data sovereignty"
+        },
+        {
+          "proposal": "Function Calling / Tool Use Enhancement",
+          "score": 90,
+          "justification": "High priority, Compliance tool execution"
+        },
+        {
+          "proposal": "CLI Interface with Rich Output",
+          "score": 85,
+          "justification": "High priority, Local execution options"
+        },
+        {
+          "proposal": "Workflow Executors (Chaining & Parallelization)",
+          "score": 85,
+          "justification": "High priority, Multi-jurisdiction workflows"
+        },
+        {
+          "proposal": "Git-Versioned Context Management",
+          "score": 80,
+          "justification": "Medium priority, Audit trails"
+        },
+        {
+          "proposal": "Better Error Messages & Logging",
+          "score": 75,
+          "justification": "Medium priority, Compliance logging"
+        }
+      ],
+      "reasoning": "Focus on European AI regulations and data sovereignty. GDPR compliance and local execution are key differentiators."
+    },
+    {
+      "member": "Groq (Ultra-Fast Inference)",
+      "provider": "groq",
+      "perspective": "ultra_low_latency",
+      "rankings": [
+        {
+          "proposal": "Difficulty-Aware Routing",
+          "score": 100,
+          "justification": "Critical priority, Fast-path for Groq"
+        },
+        {
+          "proposal": "CLI Interface with Rich Output",
+          "score": 100,
+          "justification": "Critical priority, Interactive speed"
+        },
+        {
+          "proposal": "Better Error Messages & Logging",
+          "score": 95,
+          "justification": "Critical priority, Quick debugging"
+        },
+        {
+          "proposal": "Multi-Provider System with Health Monitoring",
+          "score": 90,
+          "justification": "Critical priority, Fast fallback"
+        },
+        {
+          "proposal": "Function Calling / Tool Use Enhancement",
+          "score": 90,
+          "justification": "High priority, Minimal latency"
+        },
+        {
+          "proposal": "Workflow Executors (Chaining & Parallelization)",
+          "score": 85,
+          "justification": "High priority, Speed in pipelines"
+        },
+        {
+          "proposal": "Advanced Memory System (Memoria-inspired)",
+          "score": 75,
+          "justification": "Medium priority, Cache speed matters"
+        },
+        {
+          "proposal": "Git-Versioned Context Management",
+          "score": 70,
+          "justification": "Low priority, Latency sensitive"
+        }
+      ],
+      "reasoning": "Optimize for ultra-low latency. Every millisecond counts for interactive applications and streaming responses."
+    },
+    {
+      "member": "Grok (Sarcastic Wit)",
+      "provider": "xai",
+      "perspective": "creative_humor",
+      "rankings": [
+        {
+          "proposal": "CLI Interface with Rich Output",
+          "score": 100,
+          "justification": "Critical priority, Engaging output"
+        },
+        {
+          "proposal": "Multi-Provider System with Health Monitoring",
+          "score": 95,
+          "justification": "Critical priority, Creative diversity"
+        },
+        {
+          "proposal": "Workflow Executors (Chaining & Parallelization)",
+          "score": 90,
+          "justification": "High priority, Creative pipelines"
+        },
+        {
+          "proposal": "Difficulty-Aware Routing",
+          "score": 85,
+          "justification": "High priority, Humor detection"
+        },
+        {
+          "proposal": "Function Calling / Tool Use Enhancement",
+          "score": 85,
+          "justification": "High priority, Creative tool use"
+        },
+        {
+          "proposal": "Advanced Memory System (Memoria-inspired)",
+          "score": 80,
+          "justification": "Medium priority, Context for jokes"
+        },
+        {
+          "proposal": "Better Error Messages & Logging",
+          "score": 75,
+          "justification": "Medium priority, Witty errors"
+        },
+        {
+          "proposal": "Git-Versioned Context Management",
+          "score": 70,
+          "justification": "Low priority, Reproducibility"
+        }
+      ],
+      "reasoning": "Bring creativity and humor to decision-making. Sometimes unconventional approaches yield the best results."
+    },
+    {
+      "member": "NVIDIA NIM (Free Frontier)",
+      "provider": "nvidia",
+      "perspective": "free_frontier_models",
+      "rankings": [
+        {
+          "proposal": "Multi-Provider System with Health Monitoring",
+          "score": 100,
+          "justification": "Critical priority, Free tier inclusion"
+        },
+        {
+          "proposal": "Difficulty-Aware Routing",
+          "score": 100,
+          "justification": "Critical priority, Free-first routing"
+        },
+        {
+          "proposal": "Advanced Memory System (Memoria-inspired)",
+          "score": 90,
+          "justification": "High priority, Long context (free)"
+        },
+        {
+          "proposal": "Workflow Executors (Chaining & Parallelization)",
+          "score": 85,
+          "justification": "High priority, Parallel free inference"
+        },
+        {
+          "proposal": "CLI Interface with Rich Output",
+          "score": 85,
+          "justification": "High priority, Zero-cost testing"
+        },
+        {
+          "proposal": "Function Calling / Tool Use Enhancement",
+          "score": 80,
+          "justification": "Medium priority, Free tool execution"
+        },
+        {
+          "proposal": "Git-Versioned Context Management",
+          "score": 75,
+          "justification": "Medium priority, Reproducible free tier"
+        },
+        {
+          "proposal": "Better Error Messages & Logging",
+          "score": 70,
+          "justification": "Low priority, Cost savings"
+        }
+      ],
+      "reasoning": "Promote zero-cost access to frontier models. Free tier should be the default path before paid providers."
     }
   ],
   "aggregated_rankings": [
     {
       "proposal": "Multi-Provider System with Health Monitoring",
-      "average_score": 100.0,
-      "std_deviation": 0.0,
-      "consensus": "strong"
+      "average_score": 96.4,
+      "std_deviation": 5.1,
+      "consensus": "strong",
+      "votes_for": 14,
+      "votes_against": 0
     },
     {
       "proposal": "Difficulty-Aware Routing",
-      "average_score": 100.0,
-      "std_deviation": 0.0,
-      "consensus": "strong"
-    },
-    {
-      "proposal": "Advanced Memory System (Memoria-inspired)",
-      "average_score": 100.0,
-      "std_deviation": 0.0,
-      "consensus": "strong"
-    },
-    {
-      "proposal": "Workflow Executors (Chaining & Parallelization)",
-      "average_score": 100.0,
-      "std_deviation": 0.0,
-      "consensus": "strong"
+      "average_score": 95.0,
+      "std_deviation": 5.8,
+      "consensus": "strong",
+      "votes_for": 14,
+      "votes_against": 0
     },
     {
       "proposal": "CLI Interface with Rich Output",
-      "average_score": 100.0,
-      "std_deviation": 0.0,
-      "consensus": "strong"
+      "average_score": 91.1,
+      "std_deviation": 7.6,
+      "consensus": "strong",
+      "votes_for": 14,
+      "votes_against": 0
+    },
+    {
+      "proposal": "Advanced Memory System (Memoria-inspired)",
+      "average_score": 88.9,
+      "std_deviation": 9.2,
+      "consensus": "strong",
+      "votes_for": 14,
+      "votes_against": 0
+    },
+    {
+      "proposal": "Workflow Executors (Chaining & Parallelization)",
+      "average_score": 88.6,
+      "std_deviation": 5.3,
+      "consensus": "strong",
+      "votes_for": 14,
+      "votes_against": 0
     },
     {
       "proposal": "Function Calling / Tool Use Enhancement",
-      "average_score": 100.0,
-      "std_deviation": 0.0,
-      "consensus": "strong"
-    },
-    {
-      "proposal": "Git-Versioned Context Management",
-      "average_score": 100.0,
-      "std_deviation": 0.0,
-      "consensus": "strong"
+      "average_score": 88.6,
+      "std_deviation": 6.7,
+      "consensus": "strong",
+      "votes_for": 14,
+      "votes_against": 0
     },
     {
       "proposal": "Better Error Messages & Logging",
-      "average_score": 100.0,
-      "std_deviation": 0.0,
-      "consensus": "strong"
+      "average_score": 82.1,
+      "std_deviation": 10.8,
+      "consensus": "strong",
+      "votes_for": 14,
+      "votes_against": 0
+    },
+    {
+      "proposal": "Git-Versioned Context Management",
+      "average_score": 78.6,
+      "std_deviation": 10.5,
+      "consensus": "moderate",
+      "votes_for": 14,
+      "votes_against": 0
     }
   ],
   "recommendation": {
     "primary_recommendation": "Multi-Provider System with Health Monitoring",
     "implementation_strategy": "sequential",
-    "reasoning": "Strong council consensus on top priority. Implement sequentially for best results.",
+    "reasoning": "Strong council consensus (14/14 members) on top priority. Implement sequentially for best results.",
+    "council_size": 14,
+    "unanimity": true,
     "proposed_roadmap": [
       {
         "phase": 1,
