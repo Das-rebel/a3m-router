@@ -274,67 +274,86 @@ A3M Router combines multi-signal routing, semantic caching, and load balancing t
 
 ### Routing Signals
 
-A3M Router uses **multi-signal heuristic scoring** — 12 keyword signals across 5 dimensions — to classify query complexity and route to the cheapest capable model. No ML model weights. No GPU required. <1ms latency.
+A3M Router uses **multi-signal heuristic scoring** — 12 keyword signals across 5 dimensions — to classify query complexity and route to the cheapest capable model. No ML, no GPU, <1ms.
+
+#### 1. Domain Detection (+0.35 max)
+
+| Keywords | Score |
+|:---------|:----:|
+| `legal`, `contract`, `liability`, `clause` | +0.35 |
+| `medical`, `clinical`, `patient`, `diagnosis` | +0.35 |
+| `security`, `vulnerability`, `exploit` | +0.35 |
+| `finance`, `investment`, `risk`, `portfolio` | +0.30 |
+| `architecture`, `system design` | +0.25 |
+| `ML`, `model`, `training`, `gradient` | +0.25 |
+
+#### 2. Task Indicators (+0.25 max)
+
+| Keywords | Score |
+|:---------|:----:|
+| `code`, `function`, `algorithm`, `debug` | +0.25 |
+| `math`, `calculate`, `equation`, `formula` | +0.20 |
+| `translate`, `multilingual`, `language` | +0.15 |
+| `creative`, `story`, `poem` | +0.10 |
+
+#### 3. Query Structure (+0.20 max)
+
+| Feature | Score |
+|:--------|:----:|
+| Multiple clauses (`and`/`or`/`but`) | +0.10 |
+| Length > 200 characters | +0.05 |
+| Qualifiers (`explain`, `analyze`) | +0.05 |
+
+#### 4. Action Verb Intensity (+0.20 max)
+
+| Intensity | Verbs | Score |
+|:----------|:------|:----:|
+| Expert | `design`, `architect`, `optimize` | +0.20 |
+| Mid | `analyze`, `review`, `evaluate` | +0.10 |
+| Simple | `what`, `who`, `when`, `where` | −0.10 |
+
+#### 5. Multi-Step Detection (+0.15 max)
+
+| Pattern | Score |
+|:--------|:----:|
+| `first...then...finally` | +0.15 |
+| `step 1, step 2, step 3` | +0.15 |
+
+---
+
+**→ Complexity Score gets summed, then mapped to a tier:**
 
 ```
-User Query
-    ↓
-┌──────────────────────────────────────────────────────────────┐
-│                  12-Keyword Signal Extraction                 │
-├──────────────────────────────────────────────────────────────┤
-│                                                               │
-│  Signal 1: Domain Detection          (+0.35 max)            │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ legal/contract/liability/clause   → +0.35              │  │
-│  │ medical/clinical/patient/diagnosis → +0.35             │  │
-│  │ finance/investment/risk/portfolio → +0.30              │  │
-│  │ security/vulnerability/exploit   → +0.35              │  │
-│  │ architecture/system design      → +0.25              │  │
-│  │ ML/model/training/gradient       → +0.25              │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                          ↓                                    │
-│  Signal 2: Task Indicators         (+0.25 max)               │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ code/function/algorithm/debug    → +0.25              │  │
-│  │ math/calculate/equation/formula  → +0.20              │  │
-│  │ creative/story/poem              → +0.10              │  │
-│  │ translate/multilingual/language  → +0.15              │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                          ↓                                    │
-│  Signal 3: Query Structure         (+0.20 max)               │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ Length > 200 chars              → +0.05                │  │
-│  │ Multiple clauses (and/or/but)  → +0.10                │  │
-│  │ Qualifiers (explain, analyze)  → +0.05                │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                          ↓                                    │
-│  Signal 4: Action Verb Intensity   (+0.20 max)               │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ Expert: design/architect/optimize → +0.20             │  │
-│  │ Mid: analyze/review/evaluate    → +0.10             │  │
-│  │ Simple: what/who/when/where      → -0.10             │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                          ↓                                    │
-│  Signal 5: Multi-Step Detection   (+0.15 max)                │
-│  ┌────────────────────────────────────────────────────────┐  │
-│  │ "first...then...finally"        → +0.15               │  │
-│  │ "step 1, step 2, step 3"        → +0.15               │  │
-│  └────────────────────────────────────────────────────────┘  │
-│                                                               │
-├──────────────────────────────────────────────────────────────┤
-│              Complexity Score → Tier Assignment                │
-│                                                               │
-│  0.00 ────────── 0.19 ─────────── 0.44 ──────────── 1.00     │
-│  ├─── free ─────|── cheap ───────|── mid ─────────| premium │
-│  └── taste-1 ───┘ └── llama3.3 ──┘ └── gpt-4o-mini ┘ └──gpt4o│
-│       $0            $0.20/M          $0.60/M          $2.50/M  │
-│                                                               │
-│  Route: Pick cheapest available model in tier                  │
-│  Fallback: +2 fallback models if primary fails               │
-│  Quality: Adaptive scores from historical success rates        │
-└──────────────────────────────────────────────────────────────┘
-    ↓
-Result: { model, tier, cost, complexity, reasoning[], fallbackModels[] }
+0.00 ───────── 0.19 ────────── 0.44 ─────────── 1.00
+├── free ─────|── cheap ───────|── mid ────────| premium ─┤
+│  taste-1   │  llama-3.3-70b │  gpt-4o-mini  │  gpt-4o  │
+│  $0        │  $0.20/M       │  $0.60/M      │  $2.50/M │
+```
+
+Route: pick cheapest available model in the assigned tier, with +2 fallback models.
+
+#### Real-World Classification Examples
+
+| Query | Signals Detected | Score | Tier | Route To |
+|:------|:-----------------|:----:|:----:|:---------|
+| `"What is 2+2?"` | Simple structure | 0.10 | free | taste-1 ($0) |
+| `"Write a Python sort"` | code +0.25, simple −0.10 | 0.33 | cheap | llama-3.3-70b ($0.20/M) |
+| `"Analyze AI implications"` | analyze +0.10 | 0.41 | cheap | llama-3.3-70b ($0.20/M) |
+| `"Review contract liability"` | legal +0.35, review +0.10, long +0.05 | 0.87 | premium | claude-3.5-sonnet ($1.50/M) |
+| `"Design oncology trial"` | medical +0.35, design +0.20, steps +0.15 | 1.00 | premium | gpt-4o ($2.50/M) |
+
+```typescript
+import { extractQueryFeatures, routeQuery } from 'adaptive-memory-multi-model-router';
+
+// See exactly what signals a query triggers
+const features = extractQueryFeatures("Review this contract for liability clauses");
+// → { complexity: 0.87, has_code: false, requires_reasoning: true,
+//     detected_domain: 'legal', domain_score: 0.35 }
+
+// Route to the cheapest capable model
+const decision = routeQuery("Write a Python function to sort an array");
+// → { model: 'groq/llama-3.3-70b', tier: 'cheap', cost: 0.0004,
+//     complexity: 0.33, reasoning: ['code signal +0.25', 'simple verb -0.10'] }
 ```
 
 ### Visual Routing Flow
@@ -403,16 +422,6 @@ Result: { model, tier, cost, complexity, reasoning[], fallbackModels[] }
 ---
 
 
-
-### Complexity Examples
-
-| Query | Signals Detected | Score | Tier | Route To |
-|-------|------------------|:-----:|:----:|----------|
-| "What is 2+2?" | Simple structure | 0.10 | free | taste-1 ($0) |
-| "Write a Python sort" | code+0.25, simple-0.10 | 0.33 | cheap | llama-3.3-70b ($0.20/M) |
-| "Analyze AI implications" | analyze+0.10 | 0.41 | cheap | llama-3.3-70b ($0.20/M) |
-| "Review contract liability" | legal+0.35, review+0.10, long+0.05 | 0.87 | premium | claude-3.5-sonnet ($1.50/M) |
-| "Design oncology trial" | medical+0.35, design+0.20, steps+0.15 | 1.00 | premium | gpt-4o ($2.50/M) |
 
 ### Cost Savings by Query Type
 
