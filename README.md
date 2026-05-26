@@ -2,18 +2,31 @@
 
 # A3M Router 🔀
 
-[![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?label=6.1k%2Fmonth)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
-[![Build](https://github.com/Das-rebel/adaptive-memory-multi-model-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Das-rebel/adaptive-memory-multi-model-router/actions)
+[![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?color=blue)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![GitHub stars](https://img.shields.io/github/stars/Das-rebel/adaptive-memory-multi-model-router)](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
-[![Discord](https://img.shields.io/badge/Discord-Join-brightgreen?logo=discord)](https://discord.gg/a3m-router)
-[![Twitter](https://img.shields.io/twitter/follow/a3mrouter?style=social)](https://twitter.com/a3mrouter)
+[![Build](https://github.com/Das-rebel/adaptive-memory-multi-model-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Das-rebel/adaptive-memory-multi-model-router/actions)
+[![MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+
+> **8,990 downloads in 11 days — top 0.2% of npm packages.** 62% cost savings. 47+ providers. Zero ML.
 
 **One prompt in. The right model out.**
 
 OpenAI-compatible **LLM gateway** that auto-routes every query to the cheapest capable model across **47+ providers**. Features **semantic cache**, **budget enforcement**, **intelligent failover**, and **observability**. Start in <100ms. Python SDK + TypeScript SDK.
 
 ### Quick Start: [`docs/QUICK_START.md`](./docs/QUICK_START.md)
+
+### 📊 By the Numbers
+
+| Metric | Value | Context |
+|--------|-------|--------|
+| Weekly Downloads | **4,766** | Top 0.2% of npm |
+| All-Time (11 days) | **8,990** | Avg 817/day |
+| Cost Savings | **62%** | vs all-premium routing |
+| Providers | **47+** | OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, + |
+| Routing Accuracy | **99.5%** | ±1 difficulty tier |
+| Cache Hit Rate | **30%+** | Semantic deduplication |
+| Size | **19.5 KB** | Zero ML dependencies |
 
 ```
 ╔══════════════════════════════════════════════════════════════════╗

@@ -68,7 +68,7 @@ exports.DEFAULT_PROVIDERS = {
         name: 'Ollama',
         baseUrl: 'http://127.0.0.1:11434/v1/chat/completions',
         apiKeyEnv: '',
-        models: ['llama3', 'mistral', 'qwen2', 'codellama', 'phi3', 'gemma2'],
+        models: ['minicpm5-1b', 'llama3', 'mistral', 'codellama', 'phi3', 'gemma2'],
         costPerK: { input: 0, output: 0 },
         tier: 'free',
         format: 'openai',
