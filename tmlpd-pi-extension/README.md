@@ -1,47 +1,47 @@
-# TMLPD PI Extension — Parallel Multi-LLM for PI Agent
+# TMLPD — Parallel Multi-LLM Execution Module
 
 > **Part of the [A3M Router](https://github.com/Das-rebel/adaptive-memory-multi-model-router) ecosystem.**
 
-PI agent tools for parallel multi-LLM execution with confidence-weighted ensemble merging. Powers `/tmlpd-parallel`, `/tmlpd-route`, `/tmlpd-compare`, and `/tmlpd-cost` commands in the PI CLI.
+Parallel multi-LLM execution with confidence-weighted ensemble merging. Runs providers simultaneously, scores each result, and returns the best answer with transparent reasoning.
 
 ## What This Is
 
-The PI agent integration for A3M Router. These tools let your PI agent:
-
-- **Execute prompts across multiple LLMs in parallel** and pick the best result
-- **Smart-route** single queries to the optimal provider based on task type
-- **Track costs** across all providers and sessions
-- **Persist agent memory** across CLI sessions
+A TypeScript library for executing prompts across multiple LLM providers **in parallel** — not sequentially. Every provider runs at the same time, results are scored on quality, and the best answer is selected with a clear explanation of why it won.
 
 ## Core Features
 
-| Tool | Description |
-|:-----|:------------|
-| `tmlpd_execute` | Run prompt across multiple providers in parallel, merge results |
-| `tmlpd_execute_single` | Smart-route to optimal single provider |
-| Parallel ensemble | NVIDIA + Groq simultaneously, scored and merged |
-| Cost tracking | Per-query cost display, provider-level breakdown |
-| Persistent memory | Cross-session `.memory.json` with keyword indexing |
+| Feature | Description |
+|:--------|:------------|
+| **Parallel execution** | Run N providers simultaneously, not sequentially |
+| **Ensemble scoring** | Score results on specificity, structure, and relevance |
+| **Query-type presets** | Auto-configure provider + temp per task type |
+| **Cost tracking** | Per-query cost display with provider breakdown |
+| **Persistent memory** | Cross-session `.memory.json` with keyword indexing |
+| **Prefix caching** | RadixAttention-style caching for repeated prefixes |
+| **Speculative decoding** | Medusa/EAGLE-style multi-token prediction |
+| **Token compression** | ISON encoding for ~40% token reduction |
 
-## Quick Start
-
-```bash
-npm install tmlpd-pi
-```
+## Usage
 
 ```typescript
-import { createTMLPD } from "tmlpd-pi";
+import { executeEnsemble, createPresetRouter, EpisodicMemoryStore } from "tmlpd-pi";
 
-const tmlpd = createTMLPD({ cache: { ttl_seconds: 3600 } });
-
-// Parallel execution across providers
-const result = await tmlpd.executeParallel(prompt, ["nvidia", "groq"]);
-
-// With ensemble scoring
-const { best, winner, scores } = await executeEnsemble(
-  prompt, systemPrompt, context,
+// Parallel ensemble: run all providers simultaneously, pick best
+const result = await executeEnsemble(
+  "Explain vector databases",
+  systemPrompt,
+  context,
   { nvidia: callNvidia, groq: callGroq }
 );
+console.log(`Winner: ${result.winner} (score: ${result.scores[result.winner]})`);
+
+// Query-type presets: auto-configure per task
+const router = createPresetRouter();
+const preset = router.classify("Write a Python sort function"); // → 'code'
+
+// Persistent memory
+const memory = new EpisodicMemoryStore(1000, './memory.json');
+const similar = memory.getSimilarTasks("Python async API", 5);
 ```
 
 ## Exports
