@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.12.7",
+  "version": "2.13.0",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "Parallel Multi-LLM Execution with Intelligent Merge. The central routing brain for PI CLI, WhatsApp Bot & Telegram Bot. 47+ providers, parallel ensemble (nobody else does this), confidence scoring, query-type presets, persistent memory. RouteLLM-style routing with 99.5% accuracy. 62% cost savings. Zero ML, 19.5KB. MIT.",
