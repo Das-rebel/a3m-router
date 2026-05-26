@@ -3,7 +3,7 @@
   "version": "2.12.7",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
-  "description": "One prompt in. The right model out. Open-source LLM router with 100% routing accuracy, 47+ providers. 6.1k monthly downloads. Budget enforcement, semantic cache, intelligent failover. Zero ML, 19.5KB. MIT.",
+  "description": "Parallel Multi-LLM Execution with Intelligent Merge. The central routing brain for PI CLI, WhatsApp Bot & Telegram Bot. 47+ providers, parallel ensemble (nobody else does this), confidence scoring, query-type presets, persistent memory. RouteLLM-style routing with 99.5% accuracy. 62% cost savings. Zero ML, 19.5KB. MIT.",
   "main": "dist/index.js",
   "bin": {
     "a3m-router": "dist/cli.js",
