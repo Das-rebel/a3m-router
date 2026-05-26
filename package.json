@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.13.3",
+  "version": "2.13.4",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "Open-source LLM router and AI gateway with parallel multi-LLM execution, independent benchmark validation (138ms baseline), 47+ providers, 99.5% routing accuracy, 62% cost savings. Parallel ensemble, confidence scoring, query-type presets, persistent memory. RouteLLM-style routing. Zero ML, 19.5KB. MIT.",
