@@ -1041,4 +1041,4 @@ Run benchmarks yourself:
 node scripts/routing-benchmark-v2.js  # Routing accuracy
 node scripts/run-mmlu-benchmark.js     # Provider quality
 node scripts/run-provider-benchmark.js  # Latency & throughput
-``
+```
