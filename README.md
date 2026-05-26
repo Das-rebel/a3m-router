@@ -1083,12 +1083,17 @@ Expert queries (legal, medical, complex reasoning) are routed to **premium** —
 
 ### Routing Latency
 
-| Operation | p50 | p95 | p99 |
-|:----------|:---:|:---:|:---:|
-| Route decision (12 signals) | **0.4ms** | **0.9ms** | **1.2ms** |
-| Proxy overhead (full pipeline) | **2.1ms** | **4.8ms** | **8.3ms** |
+Measured with [llm-gateway-bench](https://github.com/taffy-owo/llm-gateway-bench) — an independent third-party benchmarking tool.
 
-*Routing adds negligible overhead. The proxy includes guardrails + cache check + routing + cost tracking.*
+| Scenario | TTFT | vs Baseline | What You Get |
+|:---------|:----:|:-----------:|:-------------|
+| **Direct to Groq** (no gateway) | **138ms** | — | Raw provider speed |
+| **Through A3M forced route** | **234ms** | **+96ms** | Guardrails (17 injection patterns, PII), cache lookup (30%+ hit rate), cost tracking, circuit breaker |
+| **Through A3M auto route** | **374ms** | **+236ms** | Everything above + intelligent routing (12 signals → tier → cheapest capable model → 62% cost savings) |
+
+**The routing decision itself takes <1ms.** The extra time is the full proxy pipeline: HTTP parsing → guardrails → cache → routing → forward to provider → response → cost logging.
+
+**236ms total overhead saves $2,604/year** at 100K queries/month. Full methodology: [`docs/BENCHMARK.md`](docs/BENCHMARK.md).
 
 ### Provider Coverage
 
