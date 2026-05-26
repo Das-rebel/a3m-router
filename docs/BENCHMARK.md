@@ -4,7 +4,9 @@
 
 **The answer:** +96ms for passthrough, +236ms for full intelligent routing — on a 138ms baseline.
 
-Everything below explains exactly where those milliseconds go, and why they're worth it.
+![A3M Router Benchmark](benchmark-chart.png)
+
+*Left: latency comparison. Right: cost savings projection. Dark theme.*
 
 ---
 

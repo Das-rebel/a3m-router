@@ -1085,6 +1085,8 @@ Expert queries (legal, medical, complex reasoning) are routed to **premium** —
 
 Measured with [llm-gateway-bench](https://github.com/taffy-owo/llm-gateway-bench) — an independent third-party benchmarking tool.
 
+![A3M Router Benchmark](docs/benchmark-chart.png)
+
 | Scenario | TTFT | vs Baseline | What You Get |
 |:---------|:----:|:-----------:|:-------------|
 | **Direct to Groq** (no gateway) | **138ms** | — | Raw provider speed |
