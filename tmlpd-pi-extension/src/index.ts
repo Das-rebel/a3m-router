@@ -38,6 +38,8 @@ import { BatchProcessor, executeBatch, BatchItem, BatchResult, BatchOptions, Bat
 import { routeQuery, routeBatch, recommendForTask, extractQueryFeatures, updateModelProfile, MODEL_PROFILES, QueryFeatures, ModelProfile, RouteDecision } from "./routing/advancedRouter";
 import { PrefixCache, createWarmedCache, PrefixCacheStats } from "./cache/prefixCache";
 import { SpeculativeDecoder, speculativeBatch, estimateSpeedupPotential, MedusaPredictor, EagleSpeculative, SpeculativeConfig, SpeculativeResult } from "./utils/speculativeDecoding";
+import { executeEnsemble, mergeComplementary, recordFeedback, EnsembleResult, EnsembleConfig } from "./routing/ensembleVoting";
+import { createPresetRouter, getPresetForQuery, DEFAULT_PRESETS, QueryPreset, PresetRouter } from "./routing/queryTypePresets";
 
 // Re-exports
 export { createTMLPD, TMLPDTools, TMLPDConfig, ExecuteResult, ParallelResult, StreamingConfig };
@@ -63,6 +65,12 @@ export { BatchProcessor, executeBatch, BatchItem, BatchResult, BatchOptions, Bat
 
 // Advanced routing (RouteLLM-style)
 export { routeQuery, routeBatch, recommendForTask, extractQueryFeatures, updateModelProfile, MODEL_PROFILES, QueryFeatures, ModelProfile as ModelProfileType, RouteDecision };
+
+// Ensemble voting (P0) — Core differentiator: parallel multi-LLM execution with confidence merging
+export { executeEnsemble, mergeComplementary, recordFeedback, EnsembleResult, EnsembleConfig };
+
+// Query-type presets (P1) — Configurable provider+temp profiles per query type
+export { createPresetRouter, getPresetForQuery, DEFAULT_PRESETS, QueryPreset, PresetRouter };
 
 // Prefix caching (RadixAttention-style)
 export { PrefixCache, createWarmedCache, PrefixCacheStats };

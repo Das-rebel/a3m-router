@@ -44,10 +44,13 @@ export class EpisodicMemoryStore {
   private entries: EpisodicEntry[] = [];
   private maxEntries: number;
   private keywordIndex: Map<string, string[]>;
+  private persistencePath: string | null;
 
-  constructor(maxEntries = 1000) {
+  constructor(maxEntries = 1000, persistencePath?: string) {
     this.maxEntries = maxEntries;
     this.keywordIndex = new Map();
+    this.persistencePath = persistencePath || null;
+    if (this.persistencePath) this.loadFromDisk();
   }
 
   /**
@@ -62,6 +65,7 @@ export class EpisodicMemoryStore {
     };
 
     this.entries.push(fullEntry);
+    this.autoPersist();
 
     // Index keywords
     if (entry.task.description) {
@@ -162,11 +166,79 @@ export class EpisodicMemoryStore {
   }
 
   /**
-   * Clear all memories
+   * Persist current memory to disk as JSON
+   */
+  saveToDisk(): boolean {
+    if (!this.persistencePath) return false;
+    try {
+      const fs = require('fs');
+      const data = JSON.stringify({ entries: this.entries, maxEntries: this.maxEntries }, null, 2);
+      fs.writeFileSync(this.persistencePath, data, 'utf8');
+      return true;
+    } catch (e) {
+      console.error('❌ Memory persist failed:', (e as Error).message);
+      return false;
+    }
+  }
+
+  /**
+   * Load memory from disk JSON
+   */
+  loadFromDisk(): boolean {
+    if (!this.persistencePath) return false;
+    try {
+      const fs = require('fs');
+      if (!fs.existsSync(this.persistencePath)) return false;
+      const data = JSON.parse(fs.readFileSync(this.persistencePath, 'utf8'));
+      if (data.entries && Array.isArray(data.entries)) {
+        this.entries = data.entries;
+        this.maxEntries = data.maxEntries || this.maxEntries;
+        this.rebuildIndex();
+        return true;
+      }
+      return false;
+    } catch (e) {
+      console.error('❌ Memory load failed:', (e as Error).message);
+      return false;
+    }
+  }
+
+  /**
+   * Rebuild keyword index from loaded entries
+   */
+  private rebuildIndex(): void {
+    this.keywordIndex.clear();
+    for (const entry of this.entries) {
+      const words = (entry.task.description + ' ' + (entry.result.output || '')).toLowerCase().split(/\s+/);
+      for (const word of new Set(words)) {
+        if (word.length < 3) continue;
+        if (!this.keywordIndex.has(word)) this.keywordIndex.set(word, []);
+        this.keywordIndex.get(word)!.push(entry.id);
+      }
+    }
+  }
+
+  /**
+   * Auto-persist after adding new entries (if path configured)
+   */
+  private autoPersist(): void {
+    if (this.persistencePath && this.entries.length % 3 === 0) {
+      this.saveToDisk();
+    }
+  }
+
+  /**
+   * Clear all memories (also removes persisted file)
    */
   clear() {
     this.entries = [];
     this.keywordIndex.clear();
+    if (this.persistencePath) {
+      try {
+        const fs = require('fs');
+        if (fs.existsSync(this.persistencePath)) fs.unlinkSync(this.persistencePath);
+      } catch {}
+    }
   }
 }
 
