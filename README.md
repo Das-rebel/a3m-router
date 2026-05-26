@@ -1028,6 +1028,26 @@ Cost breakdown across 200 real API calls:
                You save:                           $0.15  (62%)
 ```
 
+### Third-Party Validation
+
+A3M's routing tiers align with **established third-party benchmarks**:
+
+```
+Provider          MMLU    Tier    Source
+────────────────────────────────────────────────
+gpt-4o            88.7%   premium ← MMLU Leaderboard
+claude-3.5-sonnet  88.4%   premium ← MMLU Leaderboard
+gemini-1.5-pro     85.7%   premium ← MMLU Leaderboard
+mistral-large      84.2%   mid     ← MMLU Leaderboard
+llama-3.3-70b      82.5%   mid     ← MMLU Leaderboard
+deepseek-v2        78.3%   mid     ← MMLU Leaderboard
+llama-3.1-8b       68.3%   cheap   ← MMLU Leaderboard
+```
+
+Expert queries (legal, medical, complex reasoning) are routed to **premium** — matching the top-3 MMLU providers. Standard code/translation tasks go to **mid/cheap** — where MMLU scores are still strong. Trivial lookups go to **free** (taste-1), where no accuracy is needed.
+
+**References:** [MMLU Leaderboard](https://paperswithcode.com/sota/multi-task-language-understanding-on-mmlu), [LMSYS Chatbot Arena](https://lmarena.ai/), [RouteLLM arXiv:2404.06035](https://arxiv.org/abs/2404.06035)
+
 ### Routing Accuracy (200 queries, May 2026)
 
 | Metric | Score | What It Means |
