@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.13.2",
+  "version": "2.13.3",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "Parallel Multi-LLM Execution with Intelligent Merge. 47+ providers, parallel ensemble (nobody else does this), confidence scoring, query-type presets, persistent memory. RouteLLM-style routing with 99.5% accuracy. 62% cost savings. 3 routing modes: heuristic (<1ms), MCTS, ensemble. Zero ML, 19.5KB. MIT.",
