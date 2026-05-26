@@ -1,19 +1,12 @@
 #!/usr/bin/env node
 /**
- * A3M Router TUI — Terminal Dashboard
+ * A3M Router TUI v2 — 10x UI
  *
- * Inspired by: k9s, lazygit, btop, htop, PI CLI
+ * Inspired by: lazygit panels + k9s pulse + btop graphs + Tokyo Night theme
  * Built with: blessed + blessed-contrib
  *
- * Key Bindings:
- *   /     — Command mode (route queries)
- *   r     — Refresh provider health
- *   c     — Cost breakdown view
- *   p     — Provider detail view
- *   l     — Live request log
- *   b     — Budget alerts
- *   q     — Quit
- *   tab   — Switch panel focus
- *   ↑↓    — Navigate lists
+ * TABS:   1-Dashboard  2-Costs  3-Providers  4-Logs  5-Help
+ * F-KEYS: F1 Dash  F2 Costs  F3 Prov  F4 Logs  F5 Help  F10 Quit
+ * vim/hjkl for list nav, mouse for click targets
  */
 export {};

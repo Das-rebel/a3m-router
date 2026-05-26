@@ -6,14 +6,14 @@
 [![Build](https://github.com/Das-rebel/adaptive-memory-multi-model-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Das-rebel/adaptive-memory-multi-model-router/actions)
 [![MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
-> **Parallel Multi-LLM Execution with Intelligent Merge** · [TMLPD](https://github.com/Das-rebel/adaptive-memory-multi-model-router/tree/main/tmlpd-pi-extension)  
-> Powers PI CLI · WhatsApp Bot · Telegram Bot · 8,990+ downloads in 11 days
+> **Parallel Multi-LLM Execution with Intelligent Merge**  
+> 47+ providers · ±1 tier routing · 3 routing modes · 62% cost savings · 19.5 KB · Zero ML
 
 ---
 
-## 🚀 What Makes A3M Different
+## 🔥 What Makes A3M Different
 
-**Nobody does parallel multi-LLM execution with result merging. Everyone does sequential fallback (try A → B → C).**
+**Everybody does sequential fallback (try A → B → C). Nobody does parallel multi-LLM execution with result merging.**
 
 ```mermaid
 graph LR
@@ -24,188 +24,118 @@ graph LR
     N --> M[Merge & Score]
     G --> M
     O --> M
-    M --> R[Best Answer + Reasoning]
+    M --> R[Best Answer + Winner Reasoning]
 ```
-
-**A3M runs all providers simultaneously, scores each result by quality, and returns the best — with a transparent explanation of why it was chosen.**
 
 | Everyone Else | A3M Router |
 |:---|:---|
-| `try A → if fail → try B → if fail → try C` | `run A + B + C → score → pick best` |
-| Sequential fallback | Parallel ensemble |
-| One chance per provider | All providers contribute |
-| Black box routing | Transparent scoring |
+| `try A → fail → try B → fail → try C` | `run A + B + C → score → pick best` |
+| Sequential fallback (slow, fragile) | **Parallel ensemble** (fast, robust) |
+| One chance per provider | All providers contribute simultaneously |
+| Black-box routing | Transparent scoring with reasoning |
 
 ---
 
-## 🧠 The Central Brain
+## ⚡ Core Features
 
-A3M Router is the routing engine at the heart of **all OmniClaw projects**:
+### P0 — Parallel Ensemble (Unique)
 
-```
-                    ┌─────────────────┐
-                    │   A3M Router    │
-                    │  (Central Brain)│
-                    └────────┬────────┘
-                             │
-          ┌──────────────────┼──────────────────┐
-          ▼                  ▼                  ▼
-   ┌────────────┐    ┌──────────────┐    ┌──────────────┐
-   │  PI Agent  │    │ WhatsApp Bot │    │ Telegram Bot │
-   │  (CLI)     │    │ (GreenAPI)   │    │ (@Dasomni)   │
-   └────────────┘    └──────────────┘    └──────────────┘
-          │                  │                  │
-          └──────────────────┴──────────────────┘
-                     ▼
-              ┌──────────────┐
-              │  47+ LLM    │
-              │  Providers   │
-              │  NVIDIA · Groq · OpenAI · Anthropic · +│
-              └──────────────┘
-```
-
-- **PI CLI** — `/vault` search, `tmlpd_parallel`, `cmd-headless`
-- **WhatsApp Bot** — `/ensemble`, `/multi`, `/digest`, smart routing
-- **Telegram Bot** — `/ask`, `/digest`, `/compare`
-- **CLI** — `npx a3m-router route`, `serve`, `compare`
-
-One routing engine. Same confidence-scoring. Different interfaces.
-
----
-
-## ⚡ Parallel Ensemble (P0 — Core Differentiator)
-
-Run every query against **NVIDIA + Groq + OpenAI** simultaneously. Score results on:
-- **Specificity** — contains numbers, tech terms, code snippets
-- **Structure** — well-formatted, bullet points, depth
-- **Historical accuracy** — per-provider performance in similar queries
+Run every query against multiple providers simultaneously. Score each result on specificity, structure, and relevance. Return the best answer with a transparent explanation.
 
 ```typescript
 import { executeEnsemble } from 'adaptive-memory-multi-model-router/ensemble';
 
-const result = await executeEnsemble(
-  "Explain how vector databases work",
-  systemPrompt,
-  context,
-  { nvidia: callNvidia, groq: callGroq },
-  { providers: ['nvidia', 'groq'], timeoutMs: 30000 }
-);
+const result = await executeEnsemble(query, systemPrompt, context, executors);
 
-console.log(`🏆 Winner: ${result.winner} (score: ${result.scores[result.winner]})`);
-console.log(`📝 Reasoning: ${result.reasoning}`);
-// → 🏆 Winner: nvidia (score: 75)
-// → 📝 Reasoning: Ensemble merged 2 providers. nvidia scored 75 vs groq at 65.
+console.log(`🏆 ${result.winner}: ${result.scores[result.winner]}`);
+// → 🏆 nvidia: 75 (vs groq: 65)
+// → "nvidia scored higher on specificity (code snippets) and structure"
 ```
 
-### Why This Matters
+### P1 — Query-Type Presets
 
-Sequential fallback (try A → B → C) wastes time and misses the best answer. **Parallel ensemble with scoring** guarantees you always see the best result — and know why it was chosen.
-
----
-
-## 🧭 Query-Type Presets (P1)
-
-Route queries to the right provider with the right settings automatically:
+Route every query to the optimal provider and temperature based on what type of task it is:
 
 | Type | Provider | Temp | Ensemble | Use Case |
 |:---|:---|:---:|:---:|:---|
 | ⚡ Fast | Groq | 0.3 | ❌ | Quick lookups, simple Q&A |
 | 🔬 Research | NVIDIA | 0.3 | ✅ | Deep analysis, comparisons |
 | 🎨 Creative | NVIDIA | 0.7 | ❌ | Writing, brainstorming |
-| 💻 Code | NVIDIA | 0.2 | ✅ | Debugging, architecture |
+| 💻 Code | Any | 0.2 | ✅ | Debugging, architecture |
 | 📖 Factual | Groq | 0.2 | ❌ | Definitions, facts |
 
 ```typescript
 import { createPresetRouter } from 'adaptive-memory-multi-model-router/presets';
 
 const router = createPresetRouter();
-const preset = router.classify("Write a Python sort function");
-// → 'code' → { provider: 'nvidia', temp: 0.2, ensemble: true }
+const preset = router.classify("Write a Python sort function"); // → 'code'
+preset.temperature; // → 0.2
+preset.ensemble;    // → true
 ```
 
----
+### P2 — Cost Control
 
-## 💰 Cost Control (P2)
-
-Per-query cost tracking with hard budget enforcement:
-
-- **Per-provider breakdown** — see exactly where every dollar goes
-- **Per-user/team budgets** — hard caps with alerts at 50%/80%/100%
-- **Per-query cost display** — every response shows token count and cost
-- **Auto-route simple queries** to cheapest providers
+Hard budget enforcement, per-query cost tracking, and automatic cost optimization. Every response reports token count and cost.
 
 ```bash
 npx a3m-router cost
 
 💰 Cost Analytics (May 2026)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- Total Spend:     $127.45 / $500.00
- Daily Average:   $4.27
- Queries:         28,392
-
  Groq:        $42.30  ████████ 33%
  NVIDIA:      $51.20  █████████ 40%
  Claude:      $28.90  █████     23%
- GPT-4o-mini: $5.05   █         4%
+ Total:       $127.45 / $500.00 budget
 ```
 
----
+### P3 — Persistent Memory
 
-## 🧠 Persistent Memory (P3)
-
-Agent memory persists across sessions via a simple `.memory.json` file:
+Agent memories persist across sessions via a local JSON file. Auto-saves every 3 entries. Full keyword index rebuilt on load.
 
 ```typescript
 import { EpisodicMemoryStore } from 'adaptive-memory-multi-model-router/memory';
 
-const memory = new EpisodicMemoryStore(1000, './.tmlpd-memory.json');
-
-// Memory auto-saves to disk every 3 entries
-// On startup, auto-loads from disk
-// Full keyword index rebuilt on load
-
+const memory = new EpisodicMemoryStore(1000, './.memory.json');
 const similar = memory.getSimilarTasks("Python async API", 5);
-console.log(`📖 Found ${similar.length} similar past tasks`);
 ```
 
 ---
 
-## ⚙️ Quick Start
+## ⚡ Quick Start
 
 ```bash
-npm install adaptive-memory-multi-model-router   # TypeScript / Node
+npm install adaptive-memory-multi-model-router   # Node / TypeScript
 pip install a3m-router                            # Python
 ```
 
-### TypeScript SDK
+### Route a Query
 
 ```typescript
 import { A3MRouter } from 'adaptive-memory-multi-model-router/sdk';
 
 const router = new A3MRouter();
-
-// Route without executing
-const decision = router.route("Review this contract for liability clauses");
-// → { model: "anthropic/claude-3.5-sonnet", tier: "premium", cost: 0.008 }
-
-// Ensemble execution (parallel)
-const { combined } = await router.ensemble("What is the capital of France?");
-// → Runs NVIDIA + Groq in parallel, returns best
+const decision = router.route("Review this contract for liability");
+// → { model: "anthropic/claude-3.5-sonnet", cost: 0.008, complexity: 0.87 }
 ```
 
-### OpenAI-Compatible Proxy
+### Run Parallel Ensemble
+
+```typescript
+const response = await router.ensemble("Explain vector databases");
+// → Runs NVIDIA + Groq simultaneously, returns best answer with winner reasoning
+```
+
+### OpenAI-Compatible Proxy (Zero Code Change)
 
 ```bash
 npx a3m-router serve
-# → Proxy running at http://localhost:8787
+# → Proxy: http://localhost:8787
 ```
 
 ```python
 from openai import OpenAI
-client = OpenAI(base_url="http://localhost:8787/v1", api_key="not-needed")
-
+client = OpenAI(base_url="http://localhost:8787/v1")
 response = client.chat.completions.create(
-    model="auto",  # ← ensemble kicks in for complex queries
+    model="auto",  # ← ensemble, routing, cost tracking all kick in
     messages=[{"role": "user", "content": "Hello!"}]
 )
 ```
@@ -214,11 +144,11 @@ response = client.chat.completions.create(
 
 ```bash
 npx a3m-router route "Explain quantum computing"     # Route decision
-npx a3m-router compare "What is AI?"                  # All providers side-by-side
-npx a3m-router serve --port 8787                      # Start proxy
-npx a3m-router health                                 # Check providers
-npx a3m-router cost                                   # Cost analytics
-npx a3m-router benchmark                              # Run accuracy test
+npx a3m-router compare "What is AI?"                 # Side-by-side providers
+npx a3m-router health                                # Provider health
+npx a3m-router cost                                  # Cost analytics
+npx a3m-router benchmark                             # Accuracy test
+npx a3m-router serve --port 8787                     # Start proxy
 ```
 
 ---
@@ -229,29 +159,29 @@ npx a3m-router benchmark                              # Run accuracy test
 User Query
     │
     ▼
-┌────────────────────────────────────────────────────────────┐
-│                    A3M Router Engine                        │
-├────────────────────────────────────────────────────────────┤
-│                                                             │
-│  ┌──────────┐  ┌─────────┐  ┌────────────┐  ┌─────────┐  │
-│  │Guardrails│→│  Cache  │→│   Router   │→│ Ensemble│  │
-│  │  🔒 PII  │  │  💾 30% │  │  🎯 MCTS   │  │  ⚡ Par  │  │
-│  │Injection │  │ HitRate │  │12 Signals  │  │  +Score  │  │
-│  └──────────┘  └─────────┘  └────────────┘  └─────────┘  │
-│                                                             │
-│  ┌──────────┐  ┌─────────┐  ┌────────────┐  ┌─────────┐  │
-│  │Memory    │  │ Budget  │  │Circuit     │  │Retry    │  │
-│  │🧠 EMA    │  │ 💰 Hard │  │Breaker 🔄  │  │⚡ Exp   │  │
-│  │Persist   │  │  Caps   │  │3→60s Cool  │  │Backoff  │  │
-│  └──────────┘  └─────────┘  └────────────┘  └─────────┘  │
-│                                                             │
-└────────────────────────────────────────────────────────────┘
-    │           │           │           │
-    ▼           ▼           ▼           ▼
- ┌──────┐ ┌────────┐ ┌──────────┐ ┌────────┐
- │NVIDIA│ │ Groq   │ │ OpenAI   │ │Anthropic│
- │ 0.3  │ │ 0.3-0.7│ │ 0.2-0.7  │ │  0.3   │
- └──────┘ └────────┘ └──────────┘ └────────┘
+┌─────────────────────────────────────────────────────────┐
+│                      A3M Router Engine                    │
+├─────────────────────────────────────────────────────────┤
+│                                                           │
+│  ┌──────────┐  ┌─────────┐  ┌──────────┐  ┌─────────┐  │
+│  │Guardrails│→│  Cache  │→│  Router  │→│ Ensemble│  │
+│  │  🔒 17x  │  │  💾 30% │  │ 🎯 MCTS  │  │ ⚡ Par  │  │
+│  │Injection │  │ HitRate │  │12 Sig.  │  │ +Score  │  │
+│  └──────────┘  └─────────┘  └──────────┘  └─────────┘  │
+│                                                           │
+│  ┌──────────┐  ┌─────────┐  ┌──────────┐  ┌─────────┐  │
+│  │Memory    │  │ Budget  │  │Circuit   │  │Retry    │  │
+│  │🧠 EMA    │  │ 💰 Hard │  │Breaker 🔄│  │⚡ Exp   │  │
+│  │Persist   │  │  Caps   │  │3→60s Cool│  │Backoff  │  │
+│  └──────────┘  └─────────┘  └──────────┘  └─────────┘  │
+│                                                           │
+└─────────────────────────────────────────────────────────┘
+    │         │         │          │
+    ▼         ▼         ▼          ▼
+ ┌──────┐ ┌────────┐ ┌────────┐ ┌────────┐
+ │NVIDIA│ │ Groq   │ │OpenAI  │ │Anthropic│
+ │ 0.3  │ │0.3-0.7 │ │0.2-0.7 │ │  0.3   │
+ └──────┘ └────────┘ └────────┘ └────────┘
 ```
 
 ---
@@ -260,113 +190,120 @@ User Query
 
 | Metric | Value |
 |:-------|:------|
-| Weekly Downloads | **4,766** — Top 0.2% of npm |
+| Weekly Downloads | **4,766** (top 0.2% of npm) |
 | Providers | **47+** — NVIDIA, Groq, OpenAI, Anthropic, DeepSeek, + |
 | Routing Accuracy | **99.5%** ±1 difficulty tier |
 | Cost Savings | **62%** vs all-premium routing |
-| Cache Hit Rate | **30%+** — Semantic deduplication |
-| Size | **19.5 KB** — Zero ML dependencies |
-| Startup | **<100ms** — No GPU, no model loading |
+| Cache Hit Rate | **30%+** semantic deduplication |
+| Package Size | **19.5 KB** — zero ML dependencies |
+| Startup Time | **<100ms** — no GPU, no model loading |
 
 ---
 
 ## 🆚 Competitor Comparison
 
-| Feature | A3M Router | litellm | one-api | LibreChat | gpt-researcher |
+| Feature | A3M | litellm | one-api | LibreChat | gpt-researcher |
 |:---|:---:|:---:|:---:|:---:|:---:|
-| **Parallel ensemble** | **✅** | ❌ | ❌ | ❌ | ❌ |
-| **Confidence scoring** | **✅** | ❌ | ❌ | ❌ | ❌ |
-| **Sequential fallback** | ✅ | ✅ | ✅ | ✅ | ❌ |
+| **Parallel ensemble** | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **Confidence scoring** | ✅ | ❌ | ❌ | ❌ | ❌ |
 | **Cost tracking** | ✅ | ❌ | ✅ | ❌ | ❌ |
-| **Memory persistence** | **✅** | ❌ | ❌ | ❌ | ❌ |
-| **Query-type presets** | **✅** | ❌ | ❌ | ❌ | ❌ |
+| **Memory persistence** | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **Query-type presets** | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **Sequential fallback** | ✅ | ✅ | ✅ | ✅ | ❌ |
 | **Self-hosted** | ✅ | ✅ | ✅ | ✅ | ❌ |
-| **OpenAI proxy** | ✅ | ❌ | ✅ | ❌ | ❌ |
 | **Python SDK** | ✅ | ✅ | ❌ | ❌ | ✅ |
-| **TypeScript SDK** | ✅ | ❌ | ❌ | ✅ | ❌ |
 | **Stars** | ⭐ | 48K | 34K | 20K | 20K |
 
-**The gap:** Parallel multi-LLM execution with result merging doesn't exist in any competitor. Everyone does `try A → fail → try B`.
+**Unique:** Parallel multi-LLM execution with result merging doesn't exist anywhere else. Everyone does `try A → fail → try B`.
 
 ---
 
-## 📈 RouteLLM-Style Routing
+## 📈 Smart Routing
 
-A3M uses **12 keyword signals across 5 dimensions** to classify query complexity and route to the cheapest capable model — with **99.5% ±1 tier accuracy**.
+Route every query to the cheapest capable model with **99.5% ±1 tier accuracy**:
 
 ```
-Complexity 0.00 ────────── 0.19 ────────── 0.44 ────────── 1.00
-           ├── free ─────|── cheap ───────|── mid ────────| premium ─┤
-           │  taste-1    │  llama-3.3-70b │  gpt-4o-mini  │  gpt-4o  │
-           │  $0         │  $0.20/M       │  $0.60/M      │  $2.50/M │
+Complexity 0.00 ───────── 0.19 ────────── 0.44 ────────── 1.00
+           ├── free ────|── cheap ───────|── mid ────────| premium ─┤
+           │  taste-1   │  llama-3.3-70b │  gpt-4o-mini  │  gpt-4o  │
+           │  $0        │  $0.20/M       │  $0.60/M      │  $2.50/M │
 ```
 
-| Query | Cost with A3M | Cost with GPT-4o | Savings |
+| Query | A3M Cost | GPT-4o Cost | Savings |
 |:---|:---:|:---:|:---:|
-| "What is 2+2?" | $0 (free) | $2.50 | **100%** |
+| "What is 2+2?" | $0 (free tier) | $2.50 | **100%** |
 | "Write Python sort" | $0.14 | $2.50 | **94%** |
 | "Design oncology trial" | $2.50 | $2.50 | **0%** |
 | **100K queries/month** | **$124** | **$341** | **64%** |
 
----
+### Three Routing Modes
 
-## 🔬 Research-Backed Architecture
-
-Built on findings from 30+ 2024-2025 arXiv papers:
-
-| Paper | Year | Used In |
-|:------|:----:|:--------|
-| [RouteLLM](https://arxiv.org/abs/2404.06035) | 2024 | Learned cost-quality routing (heuristic) |
-| [RadixAttention (SGLang)](https://arxiv.org/abs/2412.15115) | 2024 | Prefix caching — 5-10x throughput |
-| [Speculative Decoding (Medusa)](https://arxiv.org/abs/2401.10774) | 2024 | Multi-token prediction — 2-3x speedup |
-| [A-Mem](https://arxiv.org/abs/2502.12110) | 2025 | Episodic memory with EMA updates |
-| [MCTS](https://arxiv.org/abs/2411.20000) | 2024 | UCB1-based multi-agent optimization |
-| [FlashAttention](https://arxiv.org/abs/2407.07403) | 2024 | Memory-efficient attention patterns |
+| Mode | Latency | Use Case |
+|:---|:---:|:---|
+| **Heuristic** (12 signals) | <1ms | Single-query routing to cheapest capable model |
+| **MCTS** (UCB1 search) | ~2s | Multi-agent workflow optimization |
+| **Ensemble** (parallel + scoring) | = slowest provider | Best-answer guarantee with transparency |
 
 ---
 
-## 🛠️ Package Exports
+## 🔬 Research-Backed
+
+Built on findings from 30+ 2024‑2025 arXiv papers:
+
+| Paper | Used In |
+|:------|:--------|
+| [RouteLLM](https://arxiv.org/abs/2404.06035) — Cost-quality routing | Heuristic signal classification |
+| [RadixAttention (SGLang)](https://arxiv.org/abs/2412.15115) — Prefix caching | Cache module |
+| [Medusa](https://arxiv.org/abs/2401.10774) — Speculative decoding | Multi-token prediction |
+| [A-Mem](https://arxiv.org/abs/2502.12110) — Episodic memory | MemoryTree with EMA |
+| [MCTS / UCB1](https://arxiv.org/abs/2411.20000) — Multi-agent search | Provider selection algorithm |
+| [AgentOrchestra](https://arxiv.org/abs/2506.12508) — Hierarchical orchestration | Multi-agent workflows |
+
+---
+
+## When NOT to Use
+
+- **Single provider** — no routing benefit
+- **>80% expert queries** — just use GPT‑4o directly
+- **250+ providers needed** — use Portkey
+- **Enterprise SLAs / managed hosting** — this is self-hosted
+
+---
+
+## Package Exports
 
 ```typescript
-// Core
-import { routeQuery, routeBatch, extractQueryFeatures, MODEL_PROFILES } from 'adaptive-memory-multi-model-router';
-import { A3MRouter } from 'adaptive-memory-multi-model-router/sdk';
+// Core routing
+import { routeQuery, routeBatch, extractQueryFeatures } from 'adaptive-memory-multi-model-router';
+import { A3MRouter }                          from 'adaptive-memory-multi-model-router/sdk';
 
-// Ensemble (P0) — Core differentiator
-import { executeEnsemble, mergeComplementary, recordFeedback } from 'adaptive-memory-multi-model-router/ensemble';
+// Ensemble (P0) — core differentiator
+import { executeEnsemble, mergeComplementary } from 'adaptive-memory-multi-model-router/ensemble';
 
 // Presets (P1)
-import { createPresetRouter, getPresetForQuery, DEFAULT_PRESETS } from 'adaptive-memory-multi-model-router/presets';
+import { createPresetRouter, DEFAULT_PRESETS } from 'adaptive-memory-multi-model-router/presets';
 
 // Cost (P2)
-import { BudgetEnforcer, CostTracker, CostAnalytics } from 'adaptive-memory-multi-model-router/cost';
+import { BudgetEnforcer, CostTracker }        from 'adaptive-memory-multi-model-router/cost';
 
 // Memory (P3)
-import { EpisodicMemoryStore } from 'adaptive-memory-multi-model-router/memory';
+import { EpisodicMemoryStore }                from 'adaptive-memory-multi-model-router/memory';
 
 // Caching
-import { SemanticCache, PrefixCache } from 'adaptive-memory-multi-model-router/cache';
+import { SemanticCache, PrefixCache }         from 'adaptive-memory-multi-model-router/cache';
 
 // Security
-import { GuardrailEngine } from 'adaptive-memory-multi-model-router/security';
+import { GuardrailEngine }                     from 'adaptive-memory-multi-model-router/security';
 
 // Providers
 import { registerProvider, getAvailableProviders } from 'adaptive-memory-multi-model-router/providers';
 
-// Server
-import { createProxyServer } from 'adaptive-memory-multi-model-router/server';
+// Server (OpenAI-compatible proxy)
+import { createProxyServer }                   from 'adaptive-memory-multi-model-router/server';
+
+// Orchestration
+import { MCTSWorkflowOptimizer }               from 'adaptive-memory-multi-model-router/orchestration';
 ```
-
----
-
-## 📋 When NOT to Use
-
-- You only use one LLM provider (no routing benefit)
-- Your workload is >80% expert queries (just use GPT-4o directly)
-- You need 250+ provider integrations (use Portkey)
-- You need enterprise SLAs or managed hosting
-
-For single-provider use cases, the native SDK is simpler.
 
 ---
 
@@ -386,15 +323,15 @@ For single-provider use cases, the native SDK is simpler.
 
 - [npm package](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 - [GitHub repo](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
-- [TMLPD Extension (PI Tools)](https://github.com/Das-rebel/adaptive-memory-multi-model-router/tree/main/tmlpd-pi-extension)
 - [API Reference](docs/API.md)
 - [Architecture](docs/ARCHITECTURAL-IMPROVEMENTS-2025.md)
+- [Quick Start](docs/QUICK_START.md)
 - [Discussions](https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions)
 - [Contributing](CONTRIBUTING.md)
 
-MIT License. No vendor lock-in. No account required. `npm install` and go.
+MIT License. No vendor lock-in. No account required.
 
-**Star the repo** ⭐ — helps more developers discover parallel multi-LLM execution.
+**If this helps you, star the repo** ⭐ — it helps more developers discover parallel multi-LLM execution.
 
 ---
 

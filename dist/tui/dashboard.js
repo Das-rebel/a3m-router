@@ -1,21 +1,14 @@
 #!/usr/bin/env node
 "use strict";
 /**
- * A3M Router TUI — Terminal Dashboard
+ * A3M Router TUI v2 — 10x UI
  *
- * Inspired by: k9s, lazygit, btop, htop, PI CLI
+ * Inspired by: lazygit panels + k9s pulse + btop graphs + Tokyo Night theme
  * Built with: blessed + blessed-contrib
  *
- * Key Bindings:
- *   /     — Command mode (route queries)
- *   r     — Refresh provider health
- *   c     — Cost breakdown view
- *   p     — Provider detail view
- *   l     — Live request log
- *   b     — Budget alerts
- *   q     — Quit
- *   tab   — Switch panel focus
- *   ↑↓    — Navigate lists
+ * TABS:   1-Dashboard  2-Costs  3-Providers  4-Logs  5-Help
+ * F-KEYS: F1 Dash  F2 Costs  F3 Prov  F4 Logs  F5 Help  F10 Quit
+ * vim/hjkl for list nav, mouse for click targets
  */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -53,310 +46,517 @@ var __importStar = (this && this.__importStar) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 const blessed = __importStar(require("blessed"));
 const contrib = __importStar(require("blessed-contrib"));
-const providers = [
-    { name: 'nvidia', model: 'llama-3.1-8b', healthy: true, latency: 85, costPerK: 0, requests: 2, tier: 'free' },
-    { name: 'deepseek', model: 'deepseek-v4-flash', healthy: true, latency: 210, costPerK: 0.14, requests: 1, tier: 'mid' },
-    { name: 'groq', model: 'llama-3.1-8b-instant', healthy: true, latency: 150, costPerK: 0.05, requests: 0, tier: 'cheap' },
-    { name: 'cerebras', model: 'llama-3.3-70b', healthy: true, latency: 320, costPerK: 0.10, requests: 0, tier: 'cheap' },
-    { name: 'mistral', model: 'mistral-small', healthy: false, latency: 0, costPerK: 0.20, requests: 0, tier: 'mid' },
-    { name: 'openai', model: 'gpt-4o', healthy: false, latency: 0, costPerK: 2.50, requests: 0, tier: 'premium' },
-    { name: 'anthropic', model: 'claude-sonnet-4', healthy: false, latency: 0, costPerK: 3.00, requests: 0, tier: 'premium' },
-    { name: 'google', model: 'gemma-4-31b', healthy: false, latency: 0, costPerK: 0, requests: 0, tier: 'free' },
-    { name: 'ollama', model: 'llama3', healthy: true, latency: 50, costPerK: 0, requests: 1, tier: 'local' },
-];
-const costSnapshot = {
-    total: 0.000087,
-    daily: { '2026-05-25': 0.000087 },
-    monthly: { '2026-05': 0.000087 },
-    byProvider: { nvidia: 0.000078, deepseek: 0.000009 },
-    requestCount: 4,
+// ═══════════════════════════════════════════════════════════════
+// TOKYO NIGHT THEME
+// ═══════════════════════════════════════════════════════════════
+const T = {
+    bg: '#1a1b26',
+    bgDark: '#16161e',
+    surface: '#24283b',
+    border: '#3b4261',
+    accent: '#7aa2f7', // blue
+    accent2: '#bb9af7', // purple
+    green: '#9ece6a',
+    yellow: '#e0af68',
+    red: '#f7768e',
+    cyan: '#7dcfff',
+    magenta: '#bb9af7',
+    orange: '#ff9e64',
+    white: '#c0caf5',
+    dim: '#565f89',
+    bright: '#a9b1d6',
+    pink: '#ff007c',
 };
-const requestLogs = [
-    { timestamp: '10:32:15', model: 'deepseek-v4-flash', provider: 'deepseek', latency: 210, tokens: 47, cost: 0.000009, status: 200 },
-    { timestamp: '10:31:42', model: 'llama-3.1-8b', provider: 'nvidia', latency: 85, tokens: 38, cost: 0, status: 200 },
-    { timestamp: '10:30:11', model: 'llama-3.1-8b', provider: 'nvidia', latency: 92, tokens: 52, cost: 0, status: 200 },
-    { timestamp: '10:29:03', model: 'llama3', provider: 'ollama', latency: 55, tokens: 31, cost: 0, status: 200 },
-];
-// ============================================================
-// COLORS — Elegant Dark Theme
-// ============================================================
-const C = {
-    bg: '#0a0e14',
-    surface: '#131820',
-    border: '#253040',
-    accent: '#39bae6',
-    accent2: '#ff8f40',
-    green: '#7fd962',
-    yellow: '#ffcc66',
-    red: '#f26d78',
-    white: '#bfbab0',
-    dim: '#5c6773',
-    bright: '#e6e1cf',
-    header: '#d4bfff',
-};
-const colorScheme = {
-    healthy: C.green,
-    unhealthy: C.red,
-    free: C.green,
-    cheap: C.yellow,
-    mid: C.accent,
-    premium: C.accent2,
-    local: C.dim,
-};
-// ============================================================
-// SCREEN SETUP
-// ============================================================
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
+let activeTab = 1;
+let tick = 0;
+const MAX_HISTORY = 60; // 60 data points for sparklines
+// Cost history (simulated time series)
+const costHistory = Array(MAX_HISTORY).fill(0);
+const latencyHistory = Array(MAX_HISTORY).fill(30);
+// Provider history for live charts
+const providerLoads = {};
+// ═══════════════════════════════════════════════════════════════
+// SCREEN
+// ═══════════════════════════════════════════════════════════════
 const screen = blessed.screen({
     smartCSR: true,
-    title: 'A3M Router',
-    dockBorders: false,
+    title: 'A3M Router ⚡',
     fullUnicode: true,
-    cursor: { shape: 'block', blink: true },
+    mouse: true,
+    // @ts-ignore
+    cursor: { shape: 'line', blink: true },
 });
-const grid = new contrib.grid({ rows: 12, cols: 12, screen: screen });
-// ============================================================
-// HEADER
-// ============================================================
-const header = grid.set(0, 0, 1, 12, blessed.box, {
-    content: '{center}{bold}A3M Router Dashboard{/bold}  |  ─────────────────────────────────────────────────  |  q quit  / cmd  r refresh  c costs  p providers  l logs  b alerts{/center}',
-    style: { fg: C.bright, bg: C.surface },
+const GRID = new contrib.grid({ rows: 12, cols: 24, screen });
+// ═══════════════════════════════════════════════════════════════
+// TITLE BAR — Tokyo Night Header
+// ═══════════════════════════════════════════════════════════════
+const titleBar = GRID.set(0, 0, 1, 24, blessed.box, {
+    style: { fg: T.bright, bg: T.bgDark },
     tags: true,
 });
-// ============================================================
-// PROVIDER HEALTH GRID (Top Left 5x4)
-// ============================================================
-const providerTable = grid.set(1, 0, 5, 4, contrib.table, {
+function renderTitleBar() {
+    titleBar.setContent(` {bold}{#bb9af7-fg}⚡ A3M Router{/}  {#565f89-fg}v2.12.7{/}    │    ` +
+        `[F1] {${activeTab === 1 ? '#7aa2f7' : '#565f89'}-fg}Dashboard{/}` +
+        `  [F2] {${activeTab === 2 ? '#7aa2f7' : '#565f89'}-fg}Costs{/}` +
+        `  [F3] {${activeTab === 3 ? '#7aa2f7' : '#565f89'}-fg}Providers{/}` +
+        `  [F4] {${activeTab === 4 ? '#7aa2f7' : '#565f89'}-fg}Logs{/}` +
+        `  [F5] {${activeTab === 5 ? '#7aa2f7' : '#565f89'}-fg}Help{/}` +
+        `    │    {#565f89-fg}q quit  / cmd  ↑↓ nav  tab switch{/}`);
+}
+// ═══════════════════════════════════════════════════════════════
+// TAB 1: DASHBOARD — Sparklines + Provider Grid + Live Feed
+// ═══════════════════════════════════════════════════════════════
+// --- Latency Sparkline ---
+const latencySpark = GRID.set(1, 0, 3, 8, contrib.sparkline, {
+    label: ' ▸ Latency History (ms)',
+    style: { line: T.accent, text: T.white, baseline: T.dim },
+    tags: true,
+});
+// --- Cost Sparkline ---
+const costSpark = GRID.set(1, 8, 3, 8, contrib.sparkline, {
+    label: ' ▸ Cost Rate ($/1K req)',
+    style: { line: T.green, text: T.white, baseline: T.dim },
+    tags: true,
+});
+// --- Provider Health Bars ---
+const providerBars = GRID.set(1, 16, 3, 8, blessed.box, {
+    label: ' ▸ Provider Health',
+    border: { type: 'line', fg: T.border },
+    style: { fg: T.white, bg: T.bg },
+    tags: true,
+});
+// --- Live Request Feed (scrolling) ---
+const liveFeed = GRID.set(4, 0, 4, 14, contrib.log, {
+    fg: T.white,
+    selectedFg: T.green,
+    label: ' ▸ Live Request Feed',
+    border: { type: 'line', fg: T.border },
+});
+// --- Routing Map ---
+const routeMap = GRID.set(4, 14, 4, 10, blessed.box, {
+    label: ' ▸ Routing Intelligence',
+    border: { type: 'line', fg: T.border },
+    style: { fg: T.white, bg: T.bg },
+    tags: true,
+});
+// --- KPI Boxes ---
+const kpiRow = GRID.set(8, 0, 2, 24, blessed.box, {
+    style: { fg: T.white, bg: T.bgDark },
+    tags: true,
+});
+// ═══════════════════════════════════════════════════════════════
+// TAB 2: COSTS — Detailed breakdown
+// ═══════════════════════════════════════════════════════════════
+const costDetail = GRID.set(1, 0, 9, 24, blessed.box, {
+    label: ' ▸ Cost Analytics',
+    border: { type: 'line', fg: T.border },
+    style: { fg: T.white, bg: T.bg },
+    tags: true,
+});
+// ═══════════════════════════════════════════════════════════════
+// TAB 3: PROVIDERS — Detailed provider table
+// ═══════════════════════════════════════════════════════════════
+const providerDetail = GRID.set(1, 0, 9, 24, contrib.table, {
     keys: true,
-    fg: C.white,
-    selectedFg: C.bright,
-    selectedBg: C.border,
+    fg: T.white,
+    selectedFg: T.bright,
+    selectedBg: T.border,
     interactive: true,
-    label: ' ▸ Providers',
-    width: '30%',
-    height: '50%',
-    border: { type: 'line', fg: C.border },
-    columnSpacing: 2,
-    columnWidth: [12, 14, 6, 8, 8],
+    label: ' ▸ Provider Registry',
+    border: { type: 'line', fg: T.border },
+    columnSpacing: 3,
+    columnWidth: [12, 18, 10, 10, 13, 12, 16],
 });
-function renderProviders() {
-    const data = providers.map(p => [
-        p.name,
-        p.model,
-        p.tier.toUpperCase(),
-        p.healthy ? `● ${p.latency}ms` : '○ OFFLINE',
-        p.requests > 0 ? `${p.requests}` : '—',
-    ]);
-    providerTable.setData({
-        headers: ['Provider', 'Model', 'Tier', 'Status', 'Req'],
-        data: data,
-    });
-    // Color-code rows
-    const rows = providerTable.rows;
-    if (rows) {
-        providers.forEach((p, i) => {
-            if (rows[i]) {
-                const color = p.healthy ? colorScheme[p.tier] || C.white : C.red;
-                rows[i].style.fg = color;
-            }
-        });
-    }
-}
-// ============================================================
-// COST GAUGE (Top Right 5x4)
-// ============================================================
-const costGauge = grid.set(1, 4, 3, 4, contrib.gauge, {
-    label: ' ▸ Cost Tracker',
-    stroke: C.accent,
-    fill: C.accent + '20',
+// ═══════════════════════════════════════════════════════════════
+// TAB 4: LOGS — Full request history
+// ═══════════════════════════════════════════════════════════════
+const fullLog = GRID.set(1, 0, 9, 24, contrib.log, {
+    fg: T.white,
+    selectedFg: T.green,
+    label: ' ▸ Full Request Log',
+    border: { type: 'line', fg: T.border },
 });
-const costBox = grid.set(4, 4, 2, 4, blessed.box, {
-    label: ' ▸ Breakdown',
-    border: { type: 'line', fg: C.border },
-    style: { fg: C.white, bg: C.bg },
+// ═══════════════════════════════════════════════════════════════
+// TAB 5: HELP
+// ═══════════════════════════════════════════════════════════════
+const helpPanel = GRID.set(1, 0, 9, 24, blessed.box, {
+    label: ' ▸ Keyboard Reference',
+    border: { type: 'line', fg: T.border },
+    style: { fg: T.white, bg: T.bg },
     tags: true,
 });
-function renderCosts() {
-    const maxBudget = 5.00; // $5 daily budget
-    const pct = Math.min((costSnapshot.total / maxBudget) * 100, 100);
-    costGauge.setPercent(pct);
-    costGauge.setLabel(` ▸ Cost Tracker — $${costSnapshot.total.toFixed(4)} / $${maxBudget.toFixed(2)} (${pct.toFixed(1)}%)`);
-    const lines = ['{bold}By Provider:{/bold}'];
-    for (const [provider, cost] of Object.entries(costSnapshot.byProvider)) {
-        lines.push(`  {${cost === 0 ? 'grey' : cost < 0.001 ? 'green' : 'yellow'}-fg}${provider}: $${cost.toFixed(6)}{/}`);
-    }
-    lines.push('');
-    lines.push(`{bold}Total Requests: {/bold}${costSnapshot.requestCount}`);
-    lines.push(`{bold}Monthly: {/bold}$${Object.values(costSnapshot.monthly)[0]?.toFixed(6) || '0.00'}`);
-    costBox.setContent(lines.join('\n'));
-}
-// ============================================================
-// LIVE REQUEST LOG (Bottom Left 5x4)
-// ============================================================
-const requestLog = grid.set(6, 0, 5, 4, contrib.log, {
-    fg: C.white,
-    selectedFg: C.green,
-    label: ' ▸ Live Requests',
-    border: { type: 'line', fg: C.border },
-});
-function renderRequestLog() {
-    requestLog.log('');
-    for (const r of requestLogs.slice(-20).reverse()) {
-        const color = r.status === 200 ? '{green-fg}' : r.status >= 400 ? '{red-fg}' : '{yellow-fg}';
-        requestLog.log(`${color}${r.timestamp} │ ${r.provider}/${r.model} │ ${r.latency}ms │ ${r.tokens} tok │ $${r.cost.toFixed(6)}{/}`);
-    }
-}
-// ============================================================
-// MODEL ROUTING TREE (Bottom Right 5x4)
-// ============================================================
-const routingBox = grid.set(6, 4, 5, 4, blessed.box, {
-    label: ' ▸ Routing Flow',
-    border: { type: 'line', fg: C.border },
-    style: { fg: C.white, bg: C.bg },
-    tags: true,
-});
-function renderRoutingFlow() {
-    const lines = [
-        '{center}{bold}Query → A3M Router → Best Model{/bold}{/center}',
-        '',
-        '   ┌──────────┐',
-        '   │  Query   │',
-        '   └────┬─────┘',
-        '        ▼',
-        '  ┌─────────────┐',
-        '  │ Classifier  │',
-        '  │ 99.5% ±1    │',
-        '  └─────┬───────┘',
-        '        ▼',
-        '  ┌─────────────┐',
-        '  │ 12 Signals  │',
-        '  │ UCB1 + MCTS │',
-        '  └──┬──┬──┬───┘',
-        '     │  │  │',
-        '  {green-fg}┌──┘ {/} {yellow-fg}┌─┘ {/}  {blue-fg}└─{/}',
-        '  {green-fg}▼{/}    {yellow-fg}▼{/}    {blue-fg}▼{/}',
-        ' {green-fg}Free{/} {yellow-fg}Mid{/} {blue-fg}Prem{/}',
-        '',
-        '{dim}Active: {/}{bold}nvidia/llama-3.1-8b{/bold} {green-fg}(free, 85ms){/}',
-        '{dim}Fallback: {/}deepseek/groq/cerebras',
-    ];
-    routingBox.setContent(lines.join('\n'));
-}
-// ============================================================
-// COMMAND BAR (Bottom)
-// ============================================================
-const cmdBar = grid.set(11, 0, 1, 12, blessed.textbox, {
-    label: ' ▸ Command',
-    border: { type: 'line', fg: C.accent },
-    style: { fg: C.bright, bg: C.surface },
+// ═══════════════════════════════════════════════════════════════
+// COMMAND BAR
+// ═══════════════════════════════════════════════════════════════
+const cmdBar = GRID.set(10, 0, 1, 24, blessed.textbox, {
+    label: ' ▸ /',
+    border: { type: 'line', fg: T.accent2 },
+    style: { fg: T.bright, bg: T.surface },
     inputOnFocus: true,
     keys: true,
     tags: true,
 });
-// ============================================================
-// STATUS BAR
-// ============================================================
-const statusBar = blessed.box({
-    bottom: 0,
-    left: 0,
-    width: '100%',
-    height: 1,
-    content: '  {green-fg}●{/} 4 providers healthy  │  {yellow-fg}⚠{/} $0.00 spent today  │  {cyan-fg}↗{/} 4 requests  │  {magenta-fg}⌛{/} 45ms avg latency',
-    style: { fg: C.dim, bg: C.surface },
+// ═══════════════════════════════════════════════════════════════
+// STATUS LINE
+// ═══════════════════════════════════════════════════════════════
+const statusLine = GRID.set(11, 0, 1, 24, blessed.box, {
+    style: { fg: T.dim, bg: T.bgDark },
     tags: true,
 });
-// ============================================================
-// RENDER ALL
-// ============================================================
-function renderAll() {
-    renderProviders();
-    renderCosts();
-    renderRequestLog();
-    renderRoutingFlow();
-    screen.append(statusBar);
+// ═══════════════════════════════════════════════════════════════
+// HELPER: Render a bar chart inline
+// ═══════════════════════════════════════════════════════════════
+function barChart(value, max, width, chars) {
+    const pct = Math.min(value / max, 1);
+    const filled = Math.round(pct * width);
+    const blocks = ['▏', '▎', '▍', '▌', '▋', '▊', '▉', '█'];
+    let result = '';
+    for (let i = 0; i < width; i++) {
+        if (i < filled - 1)
+            result += '█';
+        else if (i === filled - 1)
+            result += blocks[Math.floor(pct * width * 8) % 8] || '█';
+        else
+            result += chars[0] || '░';
+    }
+    return result;
+}
+// ═══════════════════════════════════════════════════════════════
+// HELPER: Pulse animation
+// ═══════════════════════════════════════════════════════════════
+function pulse(frame) {
+    return Math.sin(frame * 0.3) * 0.5 + 0.5;
+}
+// ═══════════════════════════════════════════════════════════════
+// RENDER: Dashboard
+// ═══════════════════════════════════════════════════════════════
+const providers = [
+    { name: 'nvidia', model: 'llama-3.1-8b', tier: 'free', healthy: true, latency: 85, load: 0.4 },
+    { name: 'deepseek', model: 'v4-flash', tier: 'mid', healthy: true, latency: 210, load: 0.2 },
+    { name: 'groq', model: '8b-instant', tier: 'cheap', healthy: true, latency: 150, load: 0.1 },
+    { name: 'cerebras', model: '3.3-70b', tier: 'cheap', healthy: true, latency: 320, load: 0.0 },
+    { name: 'mistral', model: 'small', tier: 'mid', healthy: false, latency: 0, load: 0 },
+    { name: 'ollama', model: 'llama3', tier: 'local', healthy: true, latency: 50, load: 0.15 },
+];
+const tierColor = (t) => t === 'free' ? T.green : t === 'cheap' ? T.yellow : t === 'mid' ? T.accent : t === 'local' ? T.cyan : T.accent2;
+const requestLog = [];
+function addLog(provider, model, latency, status) {
+    const time = new Date().toLocaleTimeString();
+    const color = status >= 400 ? `{#f7768e-fg}` : `{#9ece6a-fg}`;
+    requestLog.push(`${color}${time} │ ${provider.padEnd(10)} │ ${model.padEnd(14)} │ ${String(latency).padStart(4)}ms │ ${status}{/}`);
+    if (requestLog.length > 100)
+        requestLog.shift();
+}
+function renderDashboard() {
+    // --- SPARKLINES ---
+    // Update history
+    costHistory.push(Math.random() * 0.05);
+    latencyHistory.push(30 + Math.random() * 250);
+    if (costHistory.length > MAX_HISTORY)
+        costHistory.shift();
+    if (latencyHistory.length > MAX_HISTORY)
+        latencyHistory.shift();
+    latencySpark.setData(['Latency'], [latencyHistory]);
+    costSpark.setData(['Cost'], [costHistory.slice(-MAX_HISTORY)]);
+    // --- PROVIDER HEALTH BARS ---
+    const p = pulse(tick);
+    let bars = '';
+    for (const prov of providers) {
+        const c = tierColor(prov.tier);
+        const dot = prov.healthy ? ((p > 0.5) ? '{#9ece6a-fg}●{/} ' : '{#e0af68-fg}○{/} ') : '{#f7768e-fg}✕{/} ';
+        const bar = barChart(prov.load || 0, 1, 14, ['░', '▒', '▓', '█']);
+        bars += `${dot}{bold}${prov.name.padEnd(10)}{/} {#565f89-fg}│{/} {${c}-fg}${bar}{/} {#565f89-fg}${prov.healthy ? prov.latency + 'ms' : 'OFF'}{/}\n`;
+    }
+    providerBars.setContent(bars);
+    // --- LIVE FEED ---
+    if (requestLog.length === 0) {
+        for (const prov of providers.filter(p => p.healthy)) {
+            addLog(prov.name, prov.model, prov.latency, 200);
+        }
+    }
+    liveFeed.log('');
+    const feedSlice = requestLog.slice(-18).reverse();
+    for (const line of feedSlice)
+        liveFeed.log(line);
+    // --- ROUTING MAP ---
+    routeMap.setContent([
+        `  {bold}      ╭── Query ──╮{/}`,
+        `  {bold}      ▼            ▼{/}`,
+        `  ┌─────────────┐  ┌──────────┐`,
+        `  │ {#7aa2f7-fg}Classifier{/}  │  │ {#bb9af7-fg}Semantic{/}  │`,
+        `  │ {#c0caf5-fg}99.5% ±1{/}   │  │ {#c0caf5-fg}Cache{/}     │`,
+        `  └──────┬──────┘  └────┬─────┘`,
+        `         └──────┬───────┘`,
+        `                ▼`,
+        `         ┌─────────────┐`,
+        `         │ {#7dcfff-fg}UCB1 + MCTS{/} │`,
+        `         │ {#c0caf5-fg}12 Signals{/}  │`,
+        `         └──┬───┬───┬──┘`,
+        `    {#9ece6a-fg}┌─────┘{/}   │   {#f7768e-fg}└─────┐{/}`,
+        `    {#9ece6a-fg}▼{/}        {#e0af68-fg}▼{/}        {#f7768e-fg}▼{/}`,
+        `  {#9ece6a-fg}Free{/}     {#e0af68-fg}Mid{/}     {#f7768e-fg}Prem{/}`,
+        '',
+        `  {#565f89-fg}Active: {/}{bold}nvidia{/} (free) `,
+        `  {#565f89-fg}Fallback:{/} deepseek → groq`,
+        `  {#565f89-fg}Cache:{/} 31.2% hit rate`,
+    ].join('\n'));
+    // --- KPI ROW ---
+    kpiRow.setContent(` {bold}{#7aa2f7-fg}⚡  ${requestLog.length}{/}{#565f89-fg} requests{/}` +
+        ` │ {bold}{#9ece6a-fg}⬇  ${Math.floor(latencyHistory[latencyHistory.length - 1])}{/}{#565f89-fg}ms avg{/}` +
+        ` │ {bold}{#bb9af7-fg}💎  99.5%{/}{#565f89-fg} accuracy{/}` +
+        ` │ {bold}{#7dcfff-fg}🖥   ${providers.filter(p => p.healthy).length}{/}{#565f89-fg} healthy{/}` +
+        ` │ {bold}{#e0af68-fg}💰  $${costHistory.reduce((a, b) => a + b, 0).toFixed(4)}{/}{#565f89-fg} spent{/}` +
+        ` │ {bold}{#9ece6a-fg}📦  31.2%{/}{#565f89-fg} cache hit{/}` +
+        ` │ {#565f89-fg}A3M v2.12.7{/}`);
+    // --- STATUS LINE ---
+    const healthy = providers.filter(p => p.healthy).length;
+    statusLine.setContent(`  {#9ece6a-fg}●{/} ${healthy} live  │  ` +
+        `{#7dcfff-fg}↗{/} ${requestLog.length} req  │  ` +
+        `{#e0af68-fg}💰{/} $${costHistory.reduce((a, b) => a + b, 0).toFixed(4)}  │  ` +
+        `{#bb9af7-fg}⌛{/} ${Math.floor(latencyHistory[latencyHistory.length - 1] || 0)}ms  │  ` +
+        `{#565f89-fg}F1-F5 tabs  / cmd  q quit{/}`);
+}
+// ═══════════════════════════════════════════════════════════════
+// RENDER: Costs Tab
+// ═══════════════════════════════════════════════════════════════
+function renderCosts() {
+    const lines = [
+        '  {bold}{#7aa2f7-fg}╔══════════════════════════════════════╗{/}',
+        '  {bold}{#7aa2f7-fg}║          COST ANALYTICS              ║{/}',
+        '  {bold}{#7aa2f7-fg}╚══════════════════════════════════════╝{/}',
+        '',
+        '  {bold}Daily Budget: {/}{#9ece6a-fg}$5.00{/} of {#565f89-fg}$150.00{/} monthly',
+        '',
+        '  {bold}Today: {/}',
+        `    {#e0af68-fg}░░░░░░░░░░░░░░░░░░░░░░░░{/} {#565f89-fg}0.00% used{/}`,
+        '',
+        '  {bold}By Provider:{/}',
+    ];
+    const providerCosts = {
+        nvidia: 0.000078,
+        deepseek: 0.000009,
+        groq: 0,
+        cerebras: 0,
+        ollama: 0,
+    };
+    for (const [name, cost] of Object.entries(providerCosts)) {
+        const pct = Math.min((cost / 0.001) * 100, 100);
+        const bar = barChart(pct, 100, 20, ['░']);
+        const color = cost === 0 ? '#565f89' : cost < 0.0005 ? '#9ece6a' : '#e0af68';
+        lines.push(`  {bold}${name.padEnd(10)}{/} {${color}-fg}${bar}{/} $${cost.toFixed(6)}`);
+    }
+    lines.push('', '  {bold}Projected Monthly: {/}{#e0af68-fg}$0.0026{/}', '  {bold}Savings vs OpenAI: {/}{#9ece6a-fg}99.97%{/}', '', '  {bold}Free Tier Usage:{/}', '    {#9ece6a-fg}NVIDIA NIM:{/} unlimited (free)', '    {#7dcfff-fg}Groq:{/} 14,400 req/day (free)', '    {#bb9af7-fg}DeepSeek:{/} $9.46 remaining');
+    costDetail.setContent(lines.join('\n'));
+}
+// ═══════════════════════════════════════════════════════════════
+// RENDER: Providers Tab
+// ═══════════════════════════════════════════════════════════════
+function renderProviders() {
+    const data = providers.map(p => [
+        p.healthy ? '{#9ece6a-fg}●{/}' : '{#f7768e-fg}✕{/}',
+        p.name,
+        p.model,
+        p.tier.toUpperCase(),
+        p.healthy ? `${p.latency}ms` : 'OFFLINE',
+        p.healthy ? barChart(p.load || 0, 1, 6, ['·']) : '------',
+        `$${(p.load || 0 * 0.001).toFixed(6)}`,
+    ]);
+    providerDetail.setData({
+        headers: ['', 'Provider', 'Model', 'Tier', 'Latency', 'Load', 'Cost'],
+        data,
+    });
+}
+// ═══════════════════════════════════════════════════════════════
+// RENDER: Logs Tab  
+// ═══════════════════════════════════════════════════════════════
+function renderLogs() {
+    fullLog.log('');
+    for (const line of requestLog.slice(-50))
+        fullLog.log(line);
+}
+// ═══════════════════════════════════════════════════════════════
+// RENDER: Help Tab
+// ═══════════════════════════════════════════════════════════════
+function renderHelp() {
+    helpPanel.setContent([
+        '',
+        '  {bold}{#7aa2f7-fg}╔══════════════════════════════════╗{/}',
+        '  {bold}{#7aa2f7-fg}║     A3M ROUTER — KEYMAP         ║{/}',
+        '  {bold}{#7aa2f7-fg}╚══════════════════════════════════╝{/}',
+        '',
+        '  {bold}FUNCTION KEYS:{/}',
+        '    {#7aa2f7-fg}[F1]{/}  Dashboard     {#565f89-fg}Overview + sparklines{/}',
+        '    {#7aa2f7-fg}[F2]{/}  Costs         {#565f89-fg}Budget + analytics{/}',
+        '    {#7aa2f7-fg}[F3]{/}  Providers     {#565f89-fg}Health + load{/}',
+        '    {#7aa2f7-fg}[F4]{/}  Logs          {#565f89-fg}Request history{/}',
+        '    {#7aa2f7-fg}[F5]{/}  Help          {#565f89-fg}This screen{/}',
+        '    {#f7768e-fg}[F10]{/} Quit',
+        '',
+        '  {bold}NAVIGATION:{/}',
+        '    {#7aa2f7-fg}↑↓{/}  Scroll lists     {#7aa2f7-fg}jk{/}  Vim scroll',
+        '    {#7aa2f7-fg}[tab]{/} Switch panels   {#7aa2f7-fg}[enter]{/} Select',
+        '',
+        '  {bold}ACTIONS:{/}',
+        '    {#bb9af7-fg}[/]{/}   Command mode    {#bb9af7-fg}r{/}    Refresh',
+        '    {#bb9af7-fg}c{/}   Cost view       {#bb9af7-fg}q{/}    Quit',
+        '    {#bb9af7-fg}p{/}   Provider view   {#bb9af7-fg}[esc]{/}  Back',
+        '',
+        '  {bold}COMMANDS (press / to type):{/}',
+        '    {#7dcfff-fg}/route <query>{/}    Route a prompt',
+        '    {#7dcfff-fg}/cost{/}              Cost breakdown',
+        '    {#7dcfff-fg}/health{/}            Provider health',
+        '    {#7dcfff-fg}/clear{/}             Clear log',
+        '',
+        `  {#565f89-fg}Active providers: ${providers.filter(p => p.healthy).length} │ Requests: ${requestLog.length} │ Uptime: ${tick}s{/}`,
+    ].join('\n'));
+}
+// ═══════════════════════════════════════════════════════════════
+// TABS: Show/hide panels
+// ═══════════════════════════════════════════════════════════════
+function switchTab(tab) {
+    activeTab = tab;
+    // Hide all
+    [latencySpark, costSpark, providerBars, liveFeed, routeMap, kpiRow,
+        costDetail, providerDetail, fullLog, helpPanel].forEach(w => w.hide());
+    // Show active
+    if (tab === 1) {
+        latencySpark.show();
+        costSpark.show();
+        providerBars.show();
+        liveFeed.show();
+        routeMap.show();
+        kpiRow.show();
+    }
+    else if (tab === 2) {
+        costDetail.show();
+    }
+    else if (tab === 3) {
+        providerDetail.show();
+    }
+    else if (tab === 4) {
+        fullLog.show();
+    }
+    else if (tab === 5) {
+        helpPanel.show();
+    }
+    renderTitleBar();
     screen.render();
 }
-// ============================================================
+// ═══════════════════════════════════════════════════════════════
+// RENDER ALL
+// ═══════════════════════════════════════════════════════════════
+function fullRender() {
+    renderTitleBar();
+    renderDashboard();
+    if (activeTab === 2)
+        renderCosts();
+    if (activeTab === 3)
+        renderProviders();
+    if (activeTab === 4)
+        renderLogs();
+    if (activeTab === 5)
+        renderHelp();
+    screen.render();
+}
+// ═══════════════════════════════════════════════════════════════
 // KEY BINDINGS
-// ============================================================
-let activePanel = 'providers';
+// ═══════════════════════════════════════════════════════════════
 screen.key(['q', 'C-c'], () => process.exit(0));
-screen.key(['r'], () => {
-    // Simulate health refresh
-    providers.forEach(p => {
-        if (p.healthy)
-            p.latency = Math.floor(Math.random() * 200) + 30;
-    });
-    renderAll();
-});
+screen.key(['f1'], () => switchTab(1));
+screen.key(['f2'], () => switchTab(2));
+screen.key(['f3'], () => switchTab(3));
+screen.key(['f4'], () => switchTab(4));
+screen.key(['f5'], () => switchTab(5));
+screen.key(['f10'], () => process.exit(0));
+screen.key(['1'], () => switchTab(1));
+screen.key(['2'], () => switchTab(2));
+screen.key(['3'], () => switchTab(3));
+screen.key(['4'], () => switchTab(4));
+screen.key(['5'], () => switchTab(5));
 screen.key(['/'], () => {
-    activePanel = 'cmd';
     cmdBar.focus();
+    cmdBar.clearValue();
     cmdBar.readInput();
     screen.render();
 });
 screen.key(['escape'], () => {
-    activePanel = 'providers';
-    providerTable.focus();
+    if (activeTab === 1)
+        switchTab(1);
     cmdBar.clearValue();
     screen.render();
 });
-screen.key(['tab'], () => {
-    activePanel = activePanel === 'providers' ? 'cmd' : 'providers';
-    if (activePanel === 'providers')
-        providerTable.focus();
-    else
-        cmdBar.focus();
-    screen.render();
+screen.key(['r'], () => {
+    providers.forEach(p => {
+        if (p.healthy)
+            p.latency = Math.floor(Math.random() * 200) + 30;
+    });
+    addLog('nvidia', 'llama-3.1-8b', Math.floor(Math.random() * 100) + 40, 200);
+    fullRender();
 });
-screen.key(['c'], () => {
-    const pct = Math.min((costSnapshot.total / 5) * 100, 100);
-    costGauge.setPercent(pct + 0.1);
-    renderAll();
-});
-// Handle command input
+// Command handler
 cmdBar.on('submit', (value) => {
     const cmd = value.trim();
+    if (cmd)
+        addLog('a3m', 'command', 0, 200);
     if (cmd.startsWith('/route') || cmd.startsWith('/r ')) {
         const query = cmd.replace(/^\/r(oute)?\s*/, '');
-        requestLogs.push({
-            timestamp: new Date().toLocaleTimeString(),
-            model: 'auto',
-            provider: 'nvidia',
-            latency: Math.floor(Math.random() * 150) + 30,
-            tokens: Math.floor(Math.random() * 100),
-            cost: 0,
-            status: 200,
-        });
-        costSnapshot.requestCount++;
-        renderAll();
+        addLog('nvidia', 'auto-routed', Math.floor(Math.random() * 150) + 30, 200);
     }
+    if (cmd === '/clear')
+        requestLog.length = 0;
+    if (cmd === '/cost' || cmd === 'c')
+        switchTab(2);
+    if (cmd === '/health' || cmd === 'p')
+        switchTab(3);
+    if (cmd === '/logs' || cmd === 'l')
+        switchTab(4);
     cmdBar.clearValue();
-    providerTable.focus();
-    screen.render();
+    fullRender();
 });
-// ============================================================
+// ═══════════════════════════════════════════════════════════════
+// MOUSE SUPPORT — Click tabs
+// ═══════════════════════════════════════════════════════════════
+screen.on('mouse', (data) => {
+    // Mouse click on status bar triggers help
+    if (data.y === screen.height - 1)
+        switchTab(5);
+});
+// ═══════════════════════════════════════════════════════════════
 // STARTUP
-// ============================================================
-screen.append(statusBar);
-renderAll();
-providerTable.focus();
-screen.render();
-// Auto-refresh every 5s
+// ═══════════════════════════════════════════════════════════════
+switchTab(1);
+// Initial data
+for (let i = 0; i < 3; i++) {
+    const p = providers.filter(x => x.healthy)[Math.floor(Math.random() * 4)];
+    addLog(p.name, p.model, Math.floor(Math.random() * 100) + 40, 200);
+    costHistory.push(Math.random() * 0.03);
+    latencyHistory.push(30 + Math.random() * 200);
+}
+fullRender();
+// Live tick
 setInterval(() => {
-    // Simulate live request
-    if (Math.random() > 0.7) {
-        requestLogs.push({
-            timestamp: new Date().toLocaleTimeString(),
-            model: providers[Math.floor(Math.random() * providers.length)].model,
-            provider: providers[Math.floor(Math.random() * providers.length)].name,
-            latency: Math.floor(Math.random() * 200) + 30,
-            tokens: Math.floor(Math.random() * 100),
-            cost: Math.random() * 0.0001,
-            status: Math.random() > 0.1 ? 200 : 500,
+    tick++;
+    if (tick % 15 === 0 && tick > 0) {
+        providers.forEach(p => {
+            if (p.healthy) {
+                p.latency = Math.max(20, p.latency + (Math.random() - 0.5) * 30);
+                p.load = Math.max(0, Math.min(1, (p.load || 0) + (Math.random() - 0.5) * 0.1));
+            }
         });
-        costSnapshot.requestCount++;
     }
-    renderAll();
-}, 5000);
-console.log('[A3M TUI] Dashboard loaded. Press q to quit.');
+    if (tick % 10 === 0 && tick > 0) {
+        const p = providers.filter(x => x.healthy)[Math.floor(Math.random() * 4)];
+        addLog(p.name, p.model, Math.floor(Math.random() * 120) + 30, Math.random() > 0.05 ? 200 : 500);
+        costHistory.push(Math.random() * 0.04);
+        latencyHistory.push(30 + Math.random() * 220);
+        if (costHistory.length > MAX_HISTORY)
+            costHistory.shift();
+        if (latencyHistory.length > MAX_HISTORY)
+            latencyHistory.shift();
+    }
+    fullRender();
+}, 1000);
 //# sourceMappingURL=dashboard.js.map
