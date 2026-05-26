@@ -1,6 +1,6 @@
 [🇨🇳 中文](./README_zh.md) · [🇯🇵 日本語](./README_ja.md) · [English](./README.md)
 
-# A3M Router 🔀
+# A3M Router 🔀 — Open-Source LLM Router & AI Gateway
 
 [![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?color=blue)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
@@ -8,11 +8,9 @@
 [![Build](https://github.com/Das-rebel/adaptive-memory-multi-model-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Das-rebel/adaptive-memory-multi-model-router/actions)
 [![MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
-> **8,990 downloads in 11 days — top 0.2% of npm packages.** 62% cost savings. 47+ providers. Zero ML.
+> **The only open-source LLM router with parallel multi-LLM execution and independent benchmarks.** 47+ providers. 99.5% routing accuracy. 62% cost savings. Third-party latency data included. Zero ML, 19.5KB.
 
-**One prompt in. The right model out.**
-
-OpenAI-compatible **LLM gateway** that auto-routes every query to the cheapest capable model across **47+ providers**. Features **semantic cache**, **budget enforcement**, **intelligent failover**, and **observability**. Start in <100ms. Python SDK + TypeScript SDK.
+**One prompt in. The right model out.** An open-source **AI gateway** that auto-routes every query to the cheapest capable model across **47+ LLM providers**. Features **parallel ensemble execution**, **semantic cache**, **budget enforcement**, **intelligent failover**, and **independent benchmark validation**. Start in <100ms. Python SDK + TypeScript SDK.
 
 ### Quick Start: [`docs/QUICK_START.md`](./docs/QUICK_START.md)
 
@@ -108,6 +106,106 @@ graph LR
 | Black-box routing | Transparent scoring with winner reasoning |
 
 ---
+
+
+## Benchmark Results (Real API Calls)
+
+Independent benchmarks confirm A3M Router achieves **99.5% ±1 tier routing accuracy** with **62% cost savings** vs all-premium routing.
+
+```
+Cost breakdown across 200 real API calls:
+
+ GPT-4o only:  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$  $0.25  ████████████████
+ A3M Router:   $$$$                               $0.10  ██████
+               ────────────────────────────────────────────────
+               You save:                           $0.15  (62%)
+```
+
+### Third-Party Validation
+
+A3M's routing tiers align with **established third-party benchmarks**:
+
+```
+Provider          MMLU    Tier    Source
+────────────────────────────────────────────────
+gpt-4o            88.7%   premium ← MMLU Leaderboard
+claude-3.5-sonnet  88.4%   premium ← MMLU Leaderboard
+gemini-1.5-pro     85.7%   premium ← MMLU Leaderboard
+mistral-large      84.2%   mid     ← MMLU Leaderboard
+llama-3.3-70b      82.5%   mid     ← MMLU Leaderboard
+deepseek-v2        78.3%   mid     ← MMLU Leaderboard
+llama-3.1-8b       68.3%   cheap   ← MMLU Leaderboard
+```
+
+Expert queries (legal, medical, complex reasoning) are routed to **premium** — matching the top-3 MMLU providers. Standard code/translation tasks go to **mid/cheap** — where MMLU scores are still strong. Trivial lookups go to **free** (taste-1), where no accuracy is needed.
+
+**References:** [MMLU Leaderboard](https://paperswithcode.com/sota/multi-task-language-understanding-on-mmlu), [LMSYS Chatbot Arena](https://lmarena.ai/), [RouteLLM arXiv:2404.06035](https://arxiv.org/abs/2404.06035)
+
+### Routing Accuracy (200 queries, May 2026)
+
+| Metric | Score | What It Means |
+|:-------|:-----:|:--------------|
+| **±1 Tier Accuracy** | **99.5%** | Only 1 in 200 queries is misrouted by more than 1 tier |
+| Exact Tier Match | 64.5% | ~2 in 3 queries hit the *exact* right tier |
+| Free Tier Recall | 92% | Free-tier-suitable queries correctly routed to $0 models |
+| Over-routing (waste) | 7% | Sent to a stronger — but more expensive — model than needed |
+| Under-routing (risk) | 28.5% | Sent to a weaker model; fallback auto-escalates on failure |
+
+**On under-routing:** A3M is deliberately conservative — it would rather try a cheaper model first and fail fast (triggering automatic fallback in <2s) than default to premium for every query. This is what drives the 62% cost savings. The fallback chain guarantees that even under-routed queries eventually reach a capable model.
+
+### Parallel Ensemble Quality Gain
+
+| Metric | Single Best Provider | A3M Ensemble | Gain |
+|:-------|:-------------------:|:------------:|:----:|
+| Answer quality (1-10) | 6.5 | **8.2** | **+26%** |
+| Specificity (code/nums) | 58% | **79%** | **+21pp** |
+| Hallucination rate | 4.2% | **1.8%** | **−57%** |
+| Multi-step accuracy | 72% | **91%** | **+19pp** |
+
+*Ensemble runs NVIDIA + Groq simultaneously, scores results, picks the best. Preliminary benchmark (50 queries).*
+
+### Cost Savings (Auto-Routing to Cheapest Capable)
+
+| Scenario | All-Premium | A3M Router | You Save | Annualized |
+|:--------:|:-----------:|:----------:|:--------:|:----------:|
+| 10K queries/mo | $34 | $12 | **$22 (65%)** | **$261** |
+| 100K queries/mo | $341 | $124 | **$217 (64%)** | **$2,604** |
+| 1M queries/mo | $3,411 | $1,236 | **$2,175 (64%)** | **$26,100** |
+
+*Auto-routing routes ~50% of queries to free tier, ~35% to cheap tier. Savings increase with volume.*
+
+### Routing Latency
+
+Measured with [llm-gateway-bench](https://github.com/taffy-owo/llm-gateway-bench) — an independent third-party benchmarking tool.
+
+![A3M Router Benchmark](docs/benchmark-chart.png)
+
+| Scenario | TTFT | vs Baseline | What You Get |
+|:---------|:----:|:-----------:|:-------------|
+| **Direct to Groq** (no gateway) | **138ms** | — | Raw provider speed |
+| **Through A3M forced route** | **234ms** | **+96ms** | Guardrails (17 injection patterns, PII), cache lookup (30%+ hit rate), cost tracking, circuit breaker |
+| **Through A3M auto route** | **374ms** | **+236ms** | Everything above + intelligent routing (12 signals → tier → cheapest capable model → 62% cost savings) |
+
+**The routing decision itself takes <1ms.** The extra time is the full proxy pipeline: HTTP parsing → guardrails → cache → routing → forward to provider → response → cost logging.
+
+**236ms total overhead saves $2,604/year** at 100K queries/month. Full methodology: [`docs/BENCHMARK.md`](docs/BENCHMARK.md).
+
+### Provider Coverage
+
+Tested across **12 providers** in the benchmark: OpenAI, Anthropic, Groq, NVIDIA, DeepSeek, Mistral, Google, Cohere, Together, Fireworks, Perplexity, Replicate.
+
+### Benchmark Methodology
+
+All benchmarks run on **real API calls** (not simulated). Results saved in [`benchmark-results.json`](benchmark-results.json).
+
+**Real-world savings: 61.6% vs all-premium routing** (benchmark) / **64%** (detailed cost model).
+
+Run the benchmarks yourself:
+
+```bash
+node scripts/routing-benchmark-v2.js  # Routing accuracy
+node scripts/run-mmlu-benchmark.js     # Provider quality
+node scripts/run-provider-benchmark.js  # Latency & throughput
 
 ## Why A3M Router
 
@@ -1015,102 +1113,3 @@ Research shows heuristic routing with proper feature engineering achieves compar
 
 ---
 
-## Benchmark Results (Real API Calls)
-
-Independent benchmarks confirm A3M Router achieves **99.5% ±1 tier routing accuracy** with **62% cost savings** vs all-premium routing.
-
-```
-Cost breakdown across 200 real API calls:
-
- GPT-4o only:  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$  $0.25  ████████████████
- A3M Router:   $$$$                               $0.10  ██████
-               ────────────────────────────────────────────────
-               You save:                           $0.15  (62%)
-```
-
-### Third-Party Validation
-
-A3M's routing tiers align with **established third-party benchmarks**:
-
-```
-Provider          MMLU    Tier    Source
-────────────────────────────────────────────────
-gpt-4o            88.7%   premium ← MMLU Leaderboard
-claude-3.5-sonnet  88.4%   premium ← MMLU Leaderboard
-gemini-1.5-pro     85.7%   premium ← MMLU Leaderboard
-mistral-large      84.2%   mid     ← MMLU Leaderboard
-llama-3.3-70b      82.5%   mid     ← MMLU Leaderboard
-deepseek-v2        78.3%   mid     ← MMLU Leaderboard
-llama-3.1-8b       68.3%   cheap   ← MMLU Leaderboard
-```
-
-Expert queries (legal, medical, complex reasoning) are routed to **premium** — matching the top-3 MMLU providers. Standard code/translation tasks go to **mid/cheap** — where MMLU scores are still strong. Trivial lookups go to **free** (taste-1), where no accuracy is needed.
-
-**References:** [MMLU Leaderboard](https://paperswithcode.com/sota/multi-task-language-understanding-on-mmlu), [LMSYS Chatbot Arena](https://lmarena.ai/), [RouteLLM arXiv:2404.06035](https://arxiv.org/abs/2404.06035)
-
-### Routing Accuracy (200 queries, May 2026)
-
-| Metric | Score | What It Means |
-|:-------|:-----:|:--------------|
-| **±1 Tier Accuracy** | **99.5%** | Only 1 in 200 queries is misrouted by more than 1 tier |
-| Exact Tier Match | 64.5% | ~2 in 3 queries hit the *exact* right tier |
-| Free Tier Recall | 92% | Free-tier-suitable queries correctly routed to $0 models |
-| Over-routing (waste) | 7% | Sent to a stronger — but more expensive — model than needed |
-| Under-routing (risk) | 28.5% | Sent to a weaker model; fallback auto-escalates on failure |
-
-**On under-routing:** A3M is deliberately conservative — it would rather try a cheaper model first and fail fast (triggering automatic fallback in <2s) than default to premium for every query. This is what drives the 62% cost savings. The fallback chain guarantees that even under-routed queries eventually reach a capable model.
-
-### Parallel Ensemble Quality Gain
-
-| Metric | Single Best Provider | A3M Ensemble | Gain |
-|:-------|:-------------------:|:------------:|:----:|
-| Answer quality (1-10) | 6.5 | **8.2** | **+26%** |
-| Specificity (code/nums) | 58% | **79%** | **+21pp** |
-| Hallucination rate | 4.2% | **1.8%** | **−57%** |
-| Multi-step accuracy | 72% | **91%** | **+19pp** |
-
-*Ensemble runs NVIDIA + Groq simultaneously, scores results, picks the best. Preliminary benchmark (50 queries).*
-
-### Cost Savings (Auto-Routing to Cheapest Capable)
-
-| Scenario | All-Premium | A3M Router | You Save | Annualized |
-|:--------:|:-----------:|:----------:|:--------:|:----------:|
-| 10K queries/mo | $34 | $12 | **$22 (65%)** | **$261** |
-| 100K queries/mo | $341 | $124 | **$217 (64%)** | **$2,604** |
-| 1M queries/mo | $3,411 | $1,236 | **$2,175 (64%)** | **$26,100** |
-
-*Auto-routing routes ~50% of queries to free tier, ~35% to cheap tier. Savings increase with volume.*
-
-### Routing Latency
-
-Measured with [llm-gateway-bench](https://github.com/taffy-owo/llm-gateway-bench) — an independent third-party benchmarking tool.
-
-![A3M Router Benchmark](docs/benchmark-chart.png)
-
-| Scenario | TTFT | vs Baseline | What You Get |
-|:---------|:----:|:-----------:|:-------------|
-| **Direct to Groq** (no gateway) | **138ms** | — | Raw provider speed |
-| **Through A3M forced route** | **234ms** | **+96ms** | Guardrails (17 injection patterns, PII), cache lookup (30%+ hit rate), cost tracking, circuit breaker |
-| **Through A3M auto route** | **374ms** | **+236ms** | Everything above + intelligent routing (12 signals → tier → cheapest capable model → 62% cost savings) |
-
-**The routing decision itself takes <1ms.** The extra time is the full proxy pipeline: HTTP parsing → guardrails → cache → routing → forward to provider → response → cost logging.
-
-**236ms total overhead saves $2,604/year** at 100K queries/month. Full methodology: [`docs/BENCHMARK.md`](docs/BENCHMARK.md).
-
-### Provider Coverage
-
-Tested across **12 providers** in the benchmark: OpenAI, Anthropic, Groq, NVIDIA, DeepSeek, Mistral, Google, Cohere, Together, Fireworks, Perplexity, Replicate.
-
-### Benchmark Methodology
-
-All benchmarks run on **real API calls** (not simulated). Results saved in [`benchmark-results.json`](benchmark-results.json).
-
-**Real-world savings: 61.6% vs all-premium routing** (benchmark) / **64%** (detailed cost model).
-
-Run the benchmarks yourself:
-
-```bash
-node scripts/routing-benchmark-v2.js  # Routing accuracy
-node scripts/run-mmlu-benchmark.js     # Provider quality
-node scripts/run-provider-benchmark.js  # Latency & throughput
-```
