@@ -1,0 +1,49 @@
+# A3M Router — GitHub Pages Configuration
+# https://das-rebel.github.io/a3m-router/
+
+title: A3M Router
+tagline: Open-Source LLM Router & AI Gateway — 47+ providers, 99.5% routing accuracy, 62% cost savings
+description: >-
+  A3M Router is an open-source AI gateway that auto-routes every query to the
+  cheapest capable model across 47+ LLM providers. Features parallel ensemble
+  execution, semantic cache, budget enforcement, intelligent failover, and
+  independent benchmark validation. Start in <100ms. Zero ML, 19.5KB.
+url: "https://das-rebel.github.io"
+baseurl: "/a3m-router"
+
+# GitHub Pages settings
+lsi: false
+safe: true
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+highlighter: rouge
+permalink: pretty
+
+# SEO
+author: Subhajit Das
+lang: en
+social:
+  name: A3M Router
+  links:
+    - https://github.com/Das-rebel/a3m-router
+    - https://www.npmjs.com/package/adaptive-memory-multi-model-router
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+      image: /a3m-router/benchmark-chart.png
+
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - README.md
+  - BENCHMARK.md
+  - "*.md"

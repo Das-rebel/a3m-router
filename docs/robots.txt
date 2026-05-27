@@ -34,4 +34,4 @@ User-agent: Applebot-Extended
 Allow: /
 
 # Sitemap
-Sitemap: https://das-rebel.github.io/adaptive-memory-multi-model-router/sitemap.xml
+Sitemap: https://das-rebel.github.io/a3m-router/sitemap.xml

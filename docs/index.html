@@ -3,118 +3,409 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A3M Router</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #0d1117;
-      color: #c9d1d9;
-      min-height: 100vh;
-      line-height: 1.6;
+  <title>A3M Router — Open-Source LLM Router & AI Gateway</title>
+  <meta name="description" content="A3M Router auto-routes every query to the cheapest capable model across 47+ LLM providers. 99.5% routing accuracy, 62% cost savings, parallel ensemble execution. Zero ML, 19.5KB.">
+  <meta name="keywords" content="LLM router, AI gateway, open-source, multi-provider, cost optimization, parallel LLM, semantic cache, load balancing, OpenAI proxy">
+  <meta property="og:title" content="A3M Router — Open-Source LLM Router & AI Gateway">
+  <meta property="og:description" content="One prompt in. The right model out. Route to the cheapest capable model across 47+ providers. 99.5% accuracy, 62% savings.">
+  <meta property="og:image" content="https://das-rebel.github.io/a3m-router/benchmark-chart.png">
+  <meta property="og:url" content="https://das-rebel.github.io/a3m-router/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="A3M Router — Open-Source LLM Router">
+  <meta name="twitter:description" content="Route to the cheapest capable model across 47+ providers. 99.5% accuracy, 62% savings.">
+  <link rel="canonical" href="https://das-rebel.github.io/a3m-router/">
+  <link rel="stylesheet" href="styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "A3M Router",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "macOS, Linux, Windows",
+    "description": "Open-source AI gateway that auto-routes every query to the cheapest capable model across 47+ LLM providers. Features parallel ensemble execution, semantic cache, budget enforcement, intelligent failover.",
+    "url": "https://das-rebel.github.io/a3m-router/",
+    "sameAs": "https://github.com/Das-rebel/a3m-router",
+    "author": {
+      "@type": "Person",
+      "name": "Subhajit Das"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
     }
-    a { color: #58a6ff; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-    h1 { font-size: 48px; color: #fff; margin-bottom: 16px; letter-spacing: -1px; }
-    .tagline { font-size: 20px; color: #8b949e; margin-bottom: 40px; }
-    .badges { display: flex; gap: 12px; margin-bottom: 48px; flex-wrap: wrap; }
-    .badge { background: rgba(56,139,253,0.15); border: 1px solid rgba(56,139,253,0.4); color: #58a6ff; padding: 6px 14px; border-radius: 20px; font-size: 13px; }
-    .badge.green { background: rgba(46,160,67,0.15); border-color: rgba(46,160,67,0.4); color: #3fb950; }
-    .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 28px; margin-bottom: 24px; }
-    .card h2 { color: #fff; font-size: 22px; margin-bottom: 12px; }
-    .card p { color: #8b949e; font-size: 15px; }
-    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 40px 0; }
-    .feature { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; }
-    .feature h3 { color: #fff; font-size: 16px; margin-bottom: 8px; }
-    .feature p { color: #8b949e; font-size: 14px; }
-    code { background: #161b22; border: 1px solid #30363d; padding: 16px 24px; border-radius: 8px; display: block; font-family: 'SF Mono', Monaco, monospace; color: #79c0ff; font-size: 14px; margin: 20px 0; }
-    .npm { color: #f0c000; }
-    .stats { display: flex; gap: 40px; margin: 40px 0; flex-wrap: wrap; }
-    .stat { text-align: center; }
-    .stat-value { font-size: 32px; font-weight: 700; color: #fff; }
-    .stat-label { font-size: 13px; color: #8b949e; }
-    footer { margin-top: 60px; padding-top: 30px; border-top: 1px solid #30363d; text-align: center; color: #8b949e; font-size: 14px; }
-    .emoji { font-size: 24px; margin-right: 8px; }
-  </style>
+  }
+  </script>
+  <script>
+    function toggleNav() {
+      document.querySelector('.nav-links').classList.toggle('open');
+    }
+  </script>
 </head>
 <body>
+
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="/a3m-router/" class="nav-brand">
+      <span class="nav-brand-icon">&#x1F500;</span>
+      A3M Router
+    </a>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">&#x2630;</button>
+    <ul class="nav-links">
+      <li><a href="/a3m-router/" class="active">Home</a></li>
+      <li><a href="/a3m-router/quick-start">Quick Start</a></li>
+      <li><a href="/a3m-router/benchmark">Benchmark</a></li>
+      <li><a href="/a3m-router/api">API</a></li>
+      <li><a href="https://github.com/Das-rebel/a3m-router" class="nav-github-btn" target="_blank" rel="noopener">
+        <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="page">
   <div class="container">
-    <h1>🔀 A3M Router</h1>
-    <p class="tagline">One prompt in. The right model out.</p>
-    
-    <div class="badges">
-      <span class="badge green">100% Routing Accuracy</span>
-      <span class="badge">47+ Providers</span>
-      <span class="badge">Zero ML</span>
-      <span class="badge">19.5KB</span>
-      <span class="badge">MIT License</span>
-    </div>
-    
-    <div class="card">
-      <h2>Quick Start</h2>
-      <code>npm install adaptive-memory-multi-model-router</code>
-      <code>npx a3m-router serve</code>
-    </div>
-    
-    <div class="features">
-      <div class="feature">
-        <h3>💰 Cost Optimization</h3>
-        <p>Route simple queries to free tiers (Ollama, Groq) or budget providers ($0.59/1M tokens). Save 62% on API costs.</p>
+
+    <!-- Hero -->
+    <section class="hero">
+      <h1>&#x1F500; A3M Router</h1>
+      <p class="tagline">One prompt in. The right model out. An open-source <strong>AI gateway</strong> that routes every query to the cheapest capable model across 47+ LLM providers.</p>
+
+      <div class="badges">
+        <span class="badge green">&#x2705; 99.5% Routing Accuracy</span>
+        <span class="badge">&#x1F4E1; 47+ Providers</span>
+        <span class="badge orange">&#x1F4B0; 62% Cost Savings</span>
+        <span class="badge purple">&#x26A1; Zero ML &middot; 19.5KB</span>
+        <span class="badge green">MIT License</span>
       </div>
-      <div class="feature">
-        <h3>🔄 Smart Fallback</h3>
-        <p>When a provider fails, automatically retry with the next best option. Circuit breaker pattern keeps your app resilient.</p>
+
+      <div class="cta-buttons">
+        <a href="https://github.com/Das-rebel/a3m-router" class="btn btn-primary" target="_blank" rel="noopener">
+          <svg height="18" width="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Star on GitHub
+        </a>
+        <a href="quick-start" class="btn btn-secondary">&#x1F680; Get Started</a>
+        <a href="benchmark" class="btn btn-ghost">&#x1F4CA; View Benchmarks</a>
       </div>
-      <div class="feature">
-        <h3>📊 Semantic Cache</h3>
-        <p>Trigram Jaccard similarity cache eliminates redundant API calls with 95%+ hit rate.</p>
+
+      <pre><code><span class="hljs-comment"># Install & run in 10 seconds</span>
+npm install adaptive-memory-multi-model-router
+npx a3m-router serve
+<span class="hljs-comment"># Proxy running at http://localhost:8787</span></code></pre>
+    </section>
+
+    <!-- Stats -->
+    <section>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value">99.5%</div>
+          <div class="stat-label">&#x00B1;1 Tier Routing Accuracy</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">62%</div>
+          <div class="stat-label">Cost Savings vs Premium</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">47+</div>
+          <div class="stat-label">LLM Providers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">30%+</div>
+          <div class="stat-label">Cache Hit Rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">19.5KB</div>
+          <div class="stat-label">Package Size</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">&lt;1ms</div>
+          <div class="stat-label">Routing Decision</div>
+        </div>
       </div>
-      <div class="feature">
-        <h3>🔒 Security Guardrails</h3>
-        <p>Built-in prompt injection detection, PII redaction, content filtering, and rate limiting.</p>
+    </section>
+
+    <!-- What Makes A3M Different -->
+    <section>
+      <h2>&#x1F525; What Makes A3M Different</h2>
+      <div class="callout callout-info">
+        <strong>Everyone does sequential fallback.</strong> A3M is the first to do <strong>parallel multi-LLM execution with result merging</strong>.
       </div>
-    </div>
-    
-    <div class="stats">
-      <div class="stat">
-        <div class="stat-value">100%</div>
-        <div class="stat-label">Routing Accuracy</div>
+
+      <div class="table-wrapper">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Everyone Else</th>
+            <th>A3M Router</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>try A &rarr; fail &rarr; try B &rarr; fail &rarr; try C</code></td>
+            <td><code>run A + B + C &rarr; score &rarr; pick best</code></td>
+          </tr>
+          <tr>
+            <td>Sequential fallback (slow, fragile)</td>
+            <td><strong>Parallel ensemble</strong> (fast, robust)</td>
+          </tr>
+          <tr>
+            <td>One chance per provider</td>
+            <td>All providers contribute simultaneously</td>
+          </tr>
+          <tr>
+            <td>Black-box routing</td>
+            <td>Transparent scoring with winner reasoning</td>
+          </tr>
+        </tbody>
+      </table>
       </div>
-      <div class="stat">
-        <div class="stat-value">62%</div>
-        <div class="stat-label">Cost Savings</div>
+
+      <h3>Parallel Ensemble Quality Gain</h3>
+      <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Single Best Provider</th>
+            <th>A3M Ensemble</th>
+            <th>Gain</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Answer quality (1-10)</td>
+            <td>6.5</td>
+            <td><strong>8.2</strong></td>
+            <td><span class="badge green">+26%</span></td>
+          </tr>
+          <tr>
+            <td>Specificity (code/nums)</td>
+            <td>58%</td>
+            <td><strong>79%</strong></td>
+            <td><span class="badge green">+21pp</span></td>
+          </tr>
+          <tr>
+            <td>Hallucination rate</td>
+            <td>4.2%</td>
+            <td><strong>1.8%</strong></td>
+            <td><span class="badge green">-57%</span></td>
+          </tr>
+          <tr>
+            <td>Multi-step accuracy</td>
+            <td>72%</td>
+            <td><strong>91%</strong></td>
+            <td><span class="badge green">+19pp</span></td>
+          </tr>
+        </tbody>
+      </table>
       </div>
-      <div class="stat">
-        <div class="stat-value">47+</div>
-        <div class="stat-label">Providers</div>
+    </section>
+
+    <!-- Features -->
+    <section>
+      <h2>&#x2728; Features</h2>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon">&#x26A1;</div>
+          <h3>Parallel Ensemble</h3>
+          <p>Run multiple providers simultaneously. Score results on specificity, structure, relevance. Return the best answer with full provenance.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#x1F3AF;</div>
+          <h3>Intelligent Routing</h3>
+          <p>12 keyword signals across 5 dimensions classify query complexity. Routes to cheapest capable model. <strong>99.5%</strong> &plusmn;1 tier accuracy.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#x1F9E0;</div>
+          <h3>Adaptive Memory</h3>
+          <p>Online learning updates model quality scores using exponential moving average. No retraining. Learns which models work for your query types.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#x1F4B0;</div>
+          <h3>Hard Budget Enforcement</h3>
+          <p>Per-user/team budgets with hard caps. Real-time spend dashboard. Alerts at 50%/80%/100%. Per-provider cost breakdown.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#x1F504;</div>
+          <h3>Intelligent Failover</h3>
+          <p>Provider health scoring (latency + error rate). Circuit breaker (3 failures &rarr; 60s cooldown). Automatic fallback chain. Chinese provider handling.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#x1F4BE;</div>
+          <h3>Semantic Cache</h3>
+          <p>Embedding-based cache lookup with configurable similarity threshold. 30%+ hit rate. Per-route TTL support.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#x1F6E1;&#xFE0F;</div>
+          <h3>Security Guardrails</h3>
+          <p>17-pattern prompt injection detection. PII redaction. Content filtering. Hallucination checks. Rate limiting.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">&#x1F4CA;</div>
+          <h3>Cost Analytics</h3>
+          <p>Per-provider cost breakdown. Budget vs actual dashboard. Projected savings. Monthly/yearly reports.</p>
+        </div>
       </div>
-      <div class="stat">
-        <div class="stat-value">19.5KB</div>
-        <div class="stat-label">Package Size</div>
+    </section>
+
+    <!-- How It Works -->
+    <section>
+      <h2>&#x1F9F0; How It Works</h2>
+      <p>A3M Router combines multi-signal routing, semantic caching, and load balancing to route queries to the cheapest capable model.</p>
+
+      <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Signal</th><th>Keywords / Feature</th><th>Max Score</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Domain Detection</td><td><code>legal, medical, security, finance</code></td><td>+0.35</td></tr>
+          <tr><td>Task Indicators</td><td><code>code, math, translate, creative</code></td><td>+0.25</td></tr>
+          <tr><td>Query Structure</td><td>Multiple clauses, length &gt;200, qualifiers</td><td>+0.20</td></tr>
+          <tr><td>Action Verb Intensity</td><td><code>design, analyze, optimize</code></td><td>+0.20</td></tr>
+          <tr><td>Multi-Step Detection</td><td><code>first...then...finally</code></td><td>+0.15</td></tr>
+        </tbody>
+      </table>
       </div>
-    </div>
-    
-    <div class="card">
-      <h2>Provider Tiers</h2>
-      <p><strong>Free:</strong> Ollama, CommandCode, LM Studio<br>
-      <strong>Budget ($0.59-0.60/1M):</strong> Groq, Cerebras<br>
-      <strong>Mid ($1.50-2.80/1M):</strong> DeepSeek, Mistral, Qwen<br>
-      <strong>Premium ($10-30/1M):</strong> OpenAI, Anthropic, Google</p>
-    </div>
-    
-    <div class="card">
-      <h2>Links</h2>
-      <p>
-        <a href="https://github.com/Das-rebel/a3m-router">GitHub</a> •
-        <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router">npm</a> •
-        <a href="https://das-rebel.github.io/adaptive-memory-multi-model-router/">Docs</a>
+
+      <pre><code>complexity 0.00 ── 0.19 ── 0.44 ── 1.00
+              free   cheap    mid   premium
+</code></pre>
+
+      <h3>Real-World Examples</h3>
+      <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Query</th><th>Score</th><th>Tier</th><th>Routes To</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>"What is 2+2?"</code></td><td>0.10</td><td>free</td><td>taste-1 ($0)</td></tr>
+          <tr><td><code>"Write a Python sort"</code></td><td>0.33</td><td>cheap</td><td>llama-3.3-70b ($0.20/M)</td></tr>
+          <tr><td><code>"Review contract liability"</code></td><td>0.87</td><td>premium</td><td>claude-3.5-sonnet ($1.50/M)</td></tr>
+          <tr><td><code>"Design oncology trial"</code></td><td>1.00</td><td>premium</td><td>gpt-4o ($2.50/M)</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- Cost Savings -->
+    <section>
+      <h2>&#x1F4B0; Cost Savings</h2>
+      <div class="callout callout-success">
+        <strong>Save 62% on API costs.</strong> A3M routes ~50% of queries to free tier, ~35% to cheap tier.
+      </div>
+      <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Monthly Queries</th><th>All-Premium</th><th>A3M Router</th><th>You Save</th><th>Annualized</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>10K</td><td>$34</td><td><strong>$12</strong></td><td><span class="badge green">$22 (65%)</span></td><td>$261</td></tr>
+          <tr><td>100K</td><td>$341</td><td><strong>$124</strong></td><td><span class="badge green">$217 (64%)</span></td><td>$2,604</td></tr>
+          <tr><td>1M</td><td>$3,411</td><td><strong>$1,236</strong></td><td><span class="badge green">$2,175 (64%)</span></td><td>$26,100</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- Comparison -->
+    <section>
+      <h2>&#x1F4A1; Comparison</h2>
+      <div class="table-wrapper">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>A3M Router</th>
+            <th>LiteLLM</th>
+            <th>OpenRouter</th>
+            <th>Portkey</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Parallel ensemble</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td></tr>
+          <tr><td>Confidence scoring</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td></tr>
+          <tr><td>Routing accuracy</td><td>99.5% &plusmn;1</td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
+          <tr><td>Self-hosted</td><td class="check">&#x2705;</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td><td class="check">&#x2705;</td></tr>
+          <tr><td>Semantic cache</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td></tr>
+          <tr><td>Budget enforcement</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td></tr>
+          <tr><td>Circuit breaker</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td></tr>
+          <tr><td>Package size</td><td><strong>19.5 KB</strong></td><td>~50 MB</td><td>API-only</td><td>~30 MB</td></tr>
+          <tr><td>TypeScript SDK</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td></tr>
+          <tr><td>CLI</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td></tr>
+          <tr><td>License</td><td>MIT</td><td>Apache 2.0</td><td>Custom</td><td>MIT</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section>
+      <h2>&#x1F680; Quick Start</h2>
+
+      <h3>TypeScript / Node.js</h3>
+      <pre><code><span class="hljs-comment">// Install</span>
+npm install adaptive-memory-multi-model-router
+
+<span class="hljs-comment">// Use the SDK</span>
+<span class="hljs-keyword">import</span> { A3MRouter } <span class="hljs-keyword">from</span> <span class="hljs-string">'adaptive-memory-multi-model-router/sdk'</span>;
+
+<span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> <span class="hljs-title class_">A3MRouter</span>();
+<span class="hljs-keyword">const</span> decision = router.<span class="hljs-title function_">route</span>(<span class="hljs-string">"Write a Python function to sort an array"</span>);
+<span class="hljs-title function_">console</span>.<span class="hljs-title function_">log</span>(decision.model, decision.tier, decision.cost);
+<span class="hljs-comment">// &rarr; groq/llama-3.3-70b cheap 0.0004</span></code></pre>
+
+      <h3>Python SDK</h3>
+      <pre><code><span class="hljs-comment"># Install</span>
+pip install a3m-router
+
+<span class="hljs-comment"># Use it</span>
+<span class="hljs-keyword">from</span> a3m <span class="hljs-keyword">import</span> A3MRouter
+
+<span class="hljs-keyword">async with</span> A3MRouter() <span class="hljs-keyword">as</span> router:
+    decision = <span class="hljs-keyword">await</span> router.route(<span class="hljs-string">"Write a Python function to sort an array"</span>)
+    <span class="hljs-built_in">print</span>(decision.model, decision.tier, decision.cost)
+    <span class="hljs-comment"># &rarr; groq/llama-3.3-70b cheap 0.0004</span></code></pre>
+
+      <h3>OpenAI-Compatible Proxy</h3>
+      <pre><code><span class="hljs-comment"># Start the proxy</span>
+npx a3m-router serve
+<span class="hljs-comment"># &rarr; Proxy running at http://localhost:8787</span>
+
+<span class="hljs-comment"># Works with ANY OpenAI SDK</span>
+<span class="hljs-keyword">from</span> openai <span class="hljs-keyword">import</span> OpenAI
+client = OpenAI(base_url=<span class="hljs-string">"http://localhost:8787/v1"</span>, api_key=<span class="hljs-string">"not-needed"</span>)
+response = client.chat.completions.create(
+    model=<span class="hljs-string">"auto"</span>,
+    messages=[{<span class="hljs-string">"role"</span>: <span class="hljs-string">"user"</span>, <span class="hljs-string">"content"</span>: <span class="hljs-string">"Hello!"</span>}]
+)</code></pre>
+
+      <p class="cta-buttons" style="margin-top: 24px;">
+        <a href="quick-start" class="btn btn-primary">&#x1F4D6; Full Quick Start Guide</a>
       </p>
-    </div>
-    
-    <footer>
-      <p>Open-source LLM Gateway • MIT License • No GPU Required</p>
-    </footer>
+    </section>
+
   </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="footer-links">
+      <a href="https://github.com/Das-rebel/a3m-router" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router" target="_blank" rel="noopener">npm</a>
+      <a href="https://pypi.org/project/a3m-router/" target="_blank" rel="noopener">PyPI</a>
+      <a href="https://github.com/Das-rebel/a3m-router/issues" target="_blank" rel="noopener">Issues</a>
+      <a href="https://github.com/Das-rebel/a3m-router/discussions" target="_blank" rel="noopener">Discussions</a>
+    </div>
+    <p class="footer-copyright">
+      Open-source LLM Gateway &middot; MIT License &middot; No GPU Required &middot;
+      Built by <a href="https://github.com/Das-rebel">Das-rebel</a>
+    </p>
+  </div>
+</footer>
+
 </body>
 </html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Reference — A3M Router</title>
+  <meta name="description" content="Complete API reference for A3M Router: TypeScript SDK, Python SDK, CLI commands, REST API endpoints, configuration, and error handling.">
+  <meta name="keywords" content="A3M Router API, LLM gateway API, TypeScript SDK, Python SDK, REST API, OpenAI proxy">
+  <meta property="og:title" content="A3M Router — API Reference">
+  <meta property="og:image" content="https://das-rebel.github.io/a3m-router/benchmark-chart.png">
+  <link rel="canonical" href="https://das-rebel.github.io/a3m-router/api">
+  <link rel="stylesheet" href="../styles.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "APIReference",
+    "name": "A3M Router API",
+    "description": "Complete API reference for A3M Router LLM gateway.",
+    "url": "https://das-rebel.github.io/a3m-router/api"
+  }
+  </script>
+  <script>
+    function toggleNav() {
+      document.querySelector('.nav-links').classList.toggle('open');
+    }
+  </script>
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav-container">
+    <a href="/a3m-router/" class="nav-brand">
+      <span class="nav-brand-icon">&#x1F500;</span>
+      A3M Router
+    </a>
+    <button class="nav-toggle" onclick="toggleNav()" aria-label="Menu">&#x2630;</button>
+    <ul class="nav-links">
+      <li><a href="/a3m-router/">Home</a></li>
+      <li><a href="/a3m-router/quick-start">Quick Start</a></li>
+      <li><a href="/a3m-router/benchmark">Benchmark</a></li>
+      <li><a href="/a3m-router/api" class="active">API</a></li>
+      <li><a href="https://github.com/Das-rebel/a3m-router" class="nav-github-btn" target="_blank" rel="noopener">
+        <svg height="16" width="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="page">
+  <div class="container">
+
+    <h1>&#x1F4D6; API Reference</h1>
+    <p>Complete reference for the A3M Router &mdash; TypeScript SDK, Python SDK, CLI, REST API, and integrations.</p>
+
+    <!-- TOC -->
+    <div class="toc">
+      <h4>On this page</h4>
+      <ul>
+        <li><a href="#typescript-sdk">TypeScript SDK</a></li>
+        <li><a href="#python-sdk">Python SDK</a></li>
+        <li><a href="#cli">CLI</a></li>
+        <li><a href="#rest-api">REST API</a></li>
+        <li><a href="#openai-compatibility">OpenAI SDK Compatibility</a></li>
+        <li><a href="#configuration">Configuration</a></li>
+        <li><a href="#error-handling">Error Handling</a></li>
+        <li><a href="#package-exports">Package Exports</a></li>
+      </ul>
+    </div>
+
+    <!-- ===== TypeScript SDK ===== -->
+    <section id="typescript-sdk">
+      <h2>TypeScript SDK</h2>
+
+      <h3>Installation</h3>
+      <pre><code>npm install adaptive-memory-multi-model-router</code></pre>
+
+      <h3>Import</h3>
+      <pre><code><span class="hljs-keyword">import</span> { A3MRouter } <span class="hljs-keyword">from</span> <span class="hljs-string">'adaptive-memory-multi-model-router/sdk'</span>;</code></pre>
+
+      <h3>Constructor</h3>
+      <pre><code><span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> <span class="hljs-title class_">A3MRouter</span>(config?: A3MRouterConfig);</code></pre>
+
+      <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Option</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>defaultModel</code></td><td><code>string</code></td><td>&mdash;</td><td>Fallback model when routing is ambiguous</td></tr>
+          <tr><td><code>maxCostPerQuery</code></td><td><code>number</code></td><td>&mdash;</td><td>Max cost per query in USD</td></tr>
+          <tr><td><code>preferSpeedOverQuality</code></td><td><code>boolean</code></td><td><code>false</code></td><td>Prefer fast models over higher quality</td></tr>
+          <tr><td><code>providers</code></td><td><code>string[]</code></td><td>all</td><td>Restrict routing to these provider IDs</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3>Methods</h3>
+
+      <h4><code>route(query: string): RoutingResult</code></h4>
+      <p>Route a query to the best available model. Returns the decision without executing the query.</p>
+      <pre><code><span class="hljs-keyword">const</span> decision = router.<span class="hljs-title function_">route</span>(<span class="hljs-string">"Write a Python function to sort a list"</span>);
+<span class="hljs-title function_">console</span>.<span class="hljs-title function_">log</span>(decision.model);     <span class="hljs-comment">// "groq/llama-3.3-70b-versatile"</span>
+<span class="hljs-title function_">console</span>.<span class="hljs-title function_">log</span>(decision.tier);      <span class="hljs-comment">// "cheap"</span>
+<span class="hljs-title function_">console</span>.<span class="hljs-title function_">log</span>(decision.cost);      <span class="hljs-comment">// 0.00035</span>
+<span class="hljs-title function_">console</span>.<span class="hljs-title function_">log</span>(decision.complexity); <span class="hljs-comment">// 0.35</span></code></pre>
+
+      <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>model</code></td><td><code>string</code></td><td>Selected model identifier (e.g. <code>groq/llama-3.3-70b-versatile</code>)</td></tr>
+          <tr><td><code>tier</code></td><td><code>'free' | 'cheap' | 'mid' | 'premium'</code></td><td>Cost tier</td></tr>
+          <tr><td><code>cost</code></td><td><code>number</code></td><td>Estimated cost in USD</td></tr>
+          <tr><td><code>complexity</code></td><td><code>number</code></td><td>Query complexity score (0.0&ndash;1.0)</td></tr>
+          <tr><td><code>reasoning</code></td><td><code>string</code></td><td>Human-readable routing reason</td></tr>
+          <tr><td><code>fallbackModels</code></td><td><code>string[]</code></td><td>Alternative models in priority order</td></tr>
+          <tr><td><code>isFree</code></td><td><code>boolean</code></td><td>Whether the selected model is free</td></tr>
+          <tr><td><code>isExpert</code></td><td><code>boolean</code></td><td>Whether this is an expert-level query</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h4><code>routeBatch(queries: string[]): RoutingResult[]</code></h4>
+      <p>Route multiple queries at once.</p>
+      <pre><code><span class="hljs-keyword">const</span> decisions = router.<span class="hljs-title function_">routeBatch</span>([
+    <span class="hljs-string">"What is 2+2?"</span>,
+    <span class="hljs-string">"Design a distributed database"</span>,
+    <span class="hljs-string">"Translate to French"</span>
+]);</code></pre>
+
+      <h4><code>recommend(task: string): RoutingResult</code></h4>
+      <p>Get model recommendation for a task category.</p>
+      <pre><code><span class="hljs-keyword">const</span> rec = router.<span class="hljs-title function_">recommend</span>(<span class="hljs-string">"code generation"</span>);
+<span class="hljs-title function_">console</span>.<span class="hljs-title function_">log</span>(rec.model); <span class="hljs-comment">// "deepseek/deepseek-chat"</span></code></pre>
+
+      <h4><code>analyze(query: string): QueryFeatures</code></h4>
+      <p>Extract detailed features from a query for debugging.</p>
+      <pre><code><span class="hljs-keyword">const</span> features = router.<span class="hljs-title function_">analyze</span>(<span class="hljs-string">"Design a secure authentication system"</span>);
+<span class="hljs-title function_">console</span>.<span class="hljs-title function_">log</span>(features.complexity);       <span class="hljs-comment">// 0.72</span>
+<span class="hljs-title function_">console</span>.<span class="hljs-title function_">log</span>(features.detected_domain);  <span class="hljs-comment">// "security"</span>
+<span class="hljs-title function_">console</span>.<span class="hljs-title function_">log</span>(features.domain_score);     <span class="hljs-comment">// 0.30</span></code></pre>
+
+      <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Field</th><th>Type</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>complexity</code></td><td><code>number</code></td><td>Overall complexity score (0.0&ndash;1.0)</td></tr>
+          <tr><td><code>length</code></td><td><code>number</code></td><td>Word count</td></tr>
+          <tr><td><code>has_code</code></td><td><code>boolean</code></td><td>Code-related keywords detected</td></tr>
+          <tr><td><code>has_math</code></td><td><code>boolean</code></td><td>Math-related keywords detected</td></tr>
+          <tr><td><code>is_multilingual</code></td><td><code>boolean</code></td><td>Non-ASCII characters detected</td></tr>
+          <tr><td><code>is_translation</code></td><td><code>boolean</code></td><td>Translation request detected</td></tr>
+          <tr><td><code>is_creative</code></td><td><code>boolean</code></td><td>Creative writing request</td></tr>
+          <tr><td><code>requires_reasoning</code></td><td><code>boolean</code></td><td>Analytical/reasoning verbs detected</td></tr>
+          <tr><td><code>is_security</code></td><td><code>boolean</code></td><td>Security domain keywords</td></tr>
+          <tr><td><code>is_devops</code></td><td><code>boolean</code></td><td>DevOps/infrastructure keywords</td></tr>
+          <tr><td><code>is_data</code></td><td><code>boolean</code></td><td>Data/ML keywords</td></tr>
+          <tr><td><code>detected_domain</code></td><td><code>string</code></td><td>Best matching domain</td></tr>
+          <tr><td><code>domain_score</code></td><td><code>number</code></td><td>Domain match confidence</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h4><code>serve(port?: number): Promise&lt;string&gt;</code></h4>
+      <p>Start the OpenAI-compatible proxy server.</p>
+      <pre><code><span class="hljs-keyword">const</span> proxyURL = <span class="hljs-keyword">await</span> router.<span class="hljs-title function_">serve</span>(<span class="hljs-number">8787</span>);
+<span class="hljs-title function_">console</span>.<span class="hljs-title function_">log</span>(proxyURL); <span class="hljs-comment">// "http://localhost:8787/v1"</span>
+
+<span class="hljs-comment">// Now use with any OpenAI SDK</span>
+<span class="hljs-keyword">import</span> OpenAI <span class="hljs-keyword">from</span> <span class="hljs-string">'openai'</span>;
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> OpenAI({ baseURL: proxyURL, apiKey: <span class="hljs-string">'not-needed'</span> });</code></pre>
+
+      <h3>Ensemble Module</h3>
+      <pre><code><span class="hljs-keyword">import</span> { executeEnsemble, recordFeedback } <span class="hljs-keyword">from</span> <span class="hljs-string">'adaptive-memory-multi-model-router/ensemble'</span>;
+
+<span class="hljs-comment">// Run multiple providers in parallel</span>
+<span class="hljs-keyword">const</span> result = <span class="hljs-keyword">await</span> <span class="hljs-title function_">executeEnsemble</span>(
+    <span class="hljs-string">"Explain vector databases"</span>,
+    systemPrompt, context,
+    { nvidia: callNvidia, groq: callGroq },
+    { providers: [<span class="hljs-string">'nvidia'</span>, <span class="hljs-string">'groq'</span>], timeoutMs: <span class="hljs-number">30000</span> }
+);
+<span class="hljs-title function_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Winner: ${result.winner}`</span>);  <span class="hljs-comment">// "nvidia"</span>
+<span class="hljs-title function_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`Reasoning: ${result.reasoning}`</span>);
+
+<span class="hljs-comment">// Track historical accuracy</span>
+<span class="hljs-keyword">let</span> history = {};
+history = <span class="hljs-title function_">recordFeedback</span>(<span class="hljs-string">'nvidia'</span>, <span class="hljs-literal">true</span>, history);
+history = <span class="hljs-title function_">recordFeedback</span>(<span class="hljs-string">'groq'</span>, <span class="hljs-literal">false</span>, history);
+<span class="hljs-comment">// &rarr; { nvidia: { good: 1, bad: 0 }, groq: { good: 0, bad: 1 } }</span></code></pre>
+
+      <h3>Budget Module</h3>
+      <pre><code><span class="hljs-keyword">import</span> { BudgetManager } <span class="hljs-keyword">from</span> <span class="hljs-string">'adaptive-memory-multi-model-router/billing'</span>;
+
+<span class="hljs-keyword">const</span> budgets = <span class="hljs-keyword">new</span> <span class="hljs-title class_">BudgetManager</span>({
+    monthlyLimit: <span class="hljs-number">500</span>,
+    alerts: [<span class="hljs-number">0.5</span>, <span class="hljs-number">0.8</span>, <span class="hljs-number">1.0</span>],
+    perTeamLimits: { <span class="hljs-string">'engineering'</span>: <span class="hljs-number">200</span> }
+});
+
+budgets.<span class="hljs-title function_">onAlert</span>((alert) => {
+    <span class="hljs-title function_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">`${alert.type}: ${alert.team} at ${alert.percentage}%`</span>);
+});</code></pre>
+
+      <h3>Failover Module</h3>
+      <pre><code><span class="hljs-keyword">import</span> { HealthScoreManager, CircuitBreaker } <span class="hljs-keyword">from</span> <span class="hljs-string">'adaptive-memory-multi-model-router/failover'</span>;
+
+<span class="hljs-comment">// Provider health scoring</span>
+<span class="hljs-keyword">const</span> health = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HealthScoreManager</span>({
+    latencyWeight: <span class="hljs-number">0.6</span>, errorRateWeight: <span class="hljs-number">0.4</span>
+});
+health.<span class="hljs-title function_">getScore</span>(<span class="hljs-string">'groq'</span>); <span class="hljs-comment">// &rarr; 0.85</span>
+
+<span class="hljs-comment">// Circuit breaker</span>
+<span class="hljs-keyword">const</span> cb = <span class="hljs-keyword">new</span> <span class="hljs-title class_">CircuitBreaker</span>({
+    failureThreshold: <span class="hljs-number">3</span>, cooldownMs: <span class="hljs-number">60000</span>,
+    fallbackChain: [<span class="hljs-string">'groq'</span>, <span class="hljs-string">'deepseek'</span>, <span class="hljs-string">'openai'</span>]
+});</code></pre>
+
+      <h3>Semantic Cache</h3>
+      <pre><code><span class="hljs-keyword">import</span> { SemanticCache } <span class="hljs-keyword">from</span> <span class="hljs-string">'adaptive-memory-multi-model-router/cache'</span>;
+
+<span class="hljs-keyword">const</span> cache = <span class="hljs-keyword">new</span> <span class="hljs-title class_">SemanticCache</span>({
+    maxSize: <span class="hljs-number">1000</span>,
+    similarityThreshold: <span class="hljs-number">0.92</span>,
+    ttl: <span class="hljs-number">3600000</span>,
+    perRouteTTL: { <span class="hljs-string">'legal/*'</span>: <span class="hljs-number">86400000</span> }
+});
+
+cache.<span class="hljs-title function_">getStats</span>(); <span class="hljs-comment">// { hits: 1, misses: 1, hitRate: 0.5 }</span></code></pre>
+
+      <h3>Query-Type Presets</h3>
+      <pre><code><span class="hljs-keyword">import</span> { createPresetRouter, DEFAULT_PRESETS } <span class="hljs-keyword">from</span> <span class="hljs-string">'adaptive-memory-multi-model-router/presets'</span>;
+
+<span class="hljs-keyword">const</span> router = <span class="hljs-title function_">createPresetRouter</span>();
+<span class="hljs-keyword">const</span> preset = router.<span class="hljs-title function_">classify</span>(<span class="hljs-string">"Write a Python function"</span>);
+<span class="hljs-comment">// &rarr; 'code'</span>
+preset.provider;     <span class="hljs-comment">// 'nvidia'</span>
+preset.temperature;  <span class="hljs-comment">// 0.2</span>
+preset.ensemble;     <span class="hljs-comment">// true</span></code></pre>
+
+      <h3>Episodic Memory</h3>
+      <pre><code><span class="hljs-keyword">import</span> { EpisodicMemoryStore } <span class="hljs-keyword">from</span> <span class="hljs-string">'adaptive-memory-multi-model-router/memory'</span>;
+
+<span class="hljs-keyword">const</span> memory = <span class="hljs-keyword">new</span> <span class="hljs-title class_">EpisodicMemoryStore</span>(<span class="hljs-number">1000</span>, <span class="hljs-string">'./.a3m-memory.json'</span>);
+memory.<span class="hljs-title function_">storeEntry</span>({
+    task: { description: <span class="hljs-string">"Build a REST API"</span>, type: <span class="hljs-string">"code"</span>, complexity: <span class="hljs-number">0.7</span> },
+    result: { success: <span class="hljs-literal">true</span>, duration_ms: <span class="hljs-number">45000</span> },
+    agent: { id: <span class="hljs-string">"codex"</span>, model: <span class="hljs-string">"gpt-4o"</span> }
+});
+memory.<span class="hljs-title function_">getStats</span>(); <span class="hljs-comment">// { total_entries: 142, success_rate: 0.94 }</span></code></pre>
+    </section>
+
+    <!-- ===== Python SDK ===== -->
+    <section id="python-sdk">
+      <h2>&#x1F40D; Python SDK</h2>
+
+      <h3>Installation</h3>
+      <pre><code>pip install a3m-router</code></pre>
+
+      <h3>Usage</h3>
+      <pre><code><span class="hljs-keyword">from</span> a3m <span class="hljs-keyword">import</span> A3MRouter
+
+<span class="hljs-keyword">async with</span> A3MRouter() <span class="hljs-keyword">as</span> router:
+    <span class="hljs-comment"># Route without executing</span>
+    decision = <span class="hljs-keyword">await</span> router.route(<span class="hljs-string">"Write a Python function to sort an array"</span>)
+    <span class="hljs-built_in">print</span>(decision.model, decision.tier, decision.cost)
+
+    <span class="hljs-comment"># Execute via OpenAI-compatible chat</span>
+    response = <span class="hljs-keyword">await</span> router.chat(<span class="hljs-string">"What is 2+2?"</span>, model=<span class="hljs-string">"auto"</span>)
+    <span class="hljs-built_in">print</span>(response[<span class="hljs-string">"choices"</span>][<span class="hljs-number">0</span>][<span class="hljs-string">"message"</span>][<span class="hljs-string">"content"</span>])
+
+    <span class="hljs-comment"># Batch routing</span>
+    decisions = <span class="hljs-keyword">await</span> router.route_batch([
+        <span class="hljs-string">"Hello"</span>,
+        <span class="hljs-string">"Write code"</span>,
+        <span class="hljs-string">"Medical advice"</span>
+    ])</code></pre>
+    </section>
+
+    <!-- ===== CLI ===== -->
+    <section id="cli">
+      <h2>&#x1F5A5;&#xFE0F; CLI</h2>
+
+      <p>All CLI commands are accessible via <code>npx a3m-router</code>.</p>
+
+      <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Command</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>route &lt;query&gt;</code></td><td>Route a query to the best model</td></tr>
+          <tr><td><code>serve [--port PORT]</code></td><td>Start OpenAI-compatible proxy server</td></tr>
+          <tr><td><code>benchmark</code></td><td>Run routing accuracy tests</td></tr>
+          <tr><td><code>health</code></td><td>Check all provider health status</td></tr>
+          <tr><td><code>cost</code></td><td>Show cost analytics and budget usage</td></tr>
+          <tr><td><code>compare &lt;query&gt;</code></td><td>Compare all providers side-by-side</td></tr>
+          <tr><td><code>models</code></td><td>List available models with pricing</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <pre><code><span class="hljs-comment"># Start the proxy</span>
+$ npx a3m-router serve
+&#x250C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2510;
+&#x2502;                     A3M Router v2.9.2                      &#x2502;
+&#x2502;                &#x1F500; Intelligent LLM Gateway                 &#x2502;
+&#x251C;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2514;
+&#x2502;  &#x2705; Proxy:     http://localhost:8787                      &#x2502;
+&#x2502;  &#x2705; Dashboard: http://localhost:8787/dashboard             &#x2502;
+&#x2502;  &#x2705; Health:    http://localhost:8787/health               &#x2502;
+&#x2514;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2518;
+
+[GROQ]  &#x2705; 145ms  |  [DEEPSEEK]  &#x2705; 230ms  |  [KIMI]  &#x2705; 312ms
+&#x1F9E0; Memory: 1,247 queries cached | &#x1F4B0; Today: $2.34 / $50.00 budget</code></pre>
+    </section>
+
+    <!-- ===== REST API ===== -->
+    <section id="rest-api">
+      <h2>&#x1F310; REST API</h2>
+
+      <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Method</th><th>Endpoint</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>POST</td><td><code>/v1/chat/completions</code></td><td>OpenAI-compatible chat (streaming + non-streaming)</td></tr>
+          <tr><td>POST</td><td><code>/v1/completions</code></td><td>OpenAI text completions</td></tr>
+          <tr><td>POST</td><td><code>/v1/route</code></td><td>Routing decision without LLM call</td></tr>
+          <tr><td>GET</td><td><code>/v1/models</code></td><td>List available models with pricing</td></tr>
+          <tr><td>GET</td><td><code>/health</code></td><td>Provider health + cost summary</td></tr>
+          <tr><td>GET</td><td><code>/dashboard</code></td><td>Cost analytics dashboard</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <h3>POST /v1/route</h3>
+      <p>Get a routing decision without making an LLM call.</p>
+      <pre><code>curl -s http://localhost:8787/v1/route \
+  -H <span class="hljs-string">"Content-Type: application/json"</span> \
+  -d <span class="hljs-string">'{"query": "Design a clinical trial"}'</span> | jq .</code></pre>
+
+      <pre><code>{
+  <span class="hljs-string">"model"</span>: <span class="hljs-string">"openai/gpt-4o"</span>,
+  <span class="hljs-string">"tier"</span>: <span class="hljs-string">"premium"</span>,
+  <span class="hljs-string">"cost"</span>: <span class="hljs-number">0.0025</span>,
+  <span class="hljs-string">"complexity"</span>: <span class="hljs-number">1.0</span>,
+  <span class="hljs-string">"reasoning"</span>: <span class="hljs-string">"Medical domain (+0.35) + design verb (+0.20) + multi-step (+0.15)"</span>
+}</code></pre>
+
+      <h3>POST /v1/chat/completions</h3>
+      <p>Standard OpenAI-compatible chat completions endpoint. Pass <code>model: "auto"</code> for intelligent routing.</p>
+      <pre><code>curl -s http://localhost:8787/v1/chat/completions \
+  -H <span class="hljs-string">"Content-Type: application/json"</span> \
+  -d <span class="hljs-string">'{
+    "model": "auto",
+    "messages": [{"role": "user", "content": "Explain quantum computing"}],
+    "stream": true
+  }'</span></code></pre>
+
+      <h3>GET /v1/models</h3>
+      <p>List all available models with pricing information.</p>
+      <pre><code>curl -s http://localhost:8787/v1/models | jq .</code></pre>
+
+      <h3>GET /health</h3>
+      <p>Check provider health status and cost summary.</p>
+      <pre><code>curl -s http://localhost:8787/health | jq .</code></pre>
+    </section>
+
+    <!-- ===== OpenAI Compatibility ===== -->
+    <section id="openai-compatibility">
+      <h2>&#x1F91D; OpenAI SDK Compatibility</h2>
+      <p>A3M Router is a fully compatible OpenAI API proxy. Point any OpenAI SDK at it with <code>model: "auto"</code>.</p>
+
+      <pre><code><span class="hljs-comment"># Python</span>
+<span class="hljs-keyword">from</span> openai <span class="hljs-keyword">import</span> OpenAI
+client = OpenAI(base_url=<span class="hljs-string">"http://localhost:8787/v1"</span>, api_key=<span class="hljs-string">"not-needed"</span>)
+response = client.chat.completions.create(model=<span class="hljs-string">"auto"</span>, messages=[...])</code></pre>
+
+      <pre><code><span class="hljs-comment">// TypeScript</span>
+<span class="hljs-keyword">import</span> OpenAI <span class="hljs-keyword">from</span> <span class="hljs-string">'openai'</span>;
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> OpenAI({ baseURL: <span class="hljs-string">'http://localhost:8787/v1'</span>, apiKey: <span class="hljs-string">'not-needed'</span> });</code></pre>
+
+      <p>Compatible with: <strong>LangChain</strong>, <strong>Vercel AI SDK</strong>, <strong>LlamaIndex</strong>, <strong>any OpenAI SDK</strong>.</p>
+    </section>
+
+    <!-- ===== Configuration ===== -->
+    <section id="configuration">
+      <h2>&#x2699;&#xFE0F; Configuration</h2>
+
+      <h3>Environment Variables</h3>
+      <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Variable</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>OPENAI_API_KEY</code></td><td>OpenAI API key</td></tr>
+          <tr><td><code>ANTHROPIC_API_KEY</code></td><td>Anthropic API key</td></tr>
+          <tr><td><code>GROQ_API_KEY</code></td><td>Groq API key</td></tr>
+          <tr><td><code>DEEPSEEK_API_KEY</code></td><td>DeepSeek API key</td></tr>
+          <tr><td><code>NVIDIA_API_KEY</code></td><td>NVIDIA API key</td></tr>
+          <tr><td><code>GOOGLE_API_KEY</code></td><td>Google Gemini API key</td></tr>
+          <tr><td><code>MISTRAL_API_KEY</code></td><td>Mistral API key</td></tr>
+          <tr><td><code>COHERE_API_KEY</code></td><td>Cohere API key</td></tr>
+          <tr><td><code>A3M_PROVIDERS</code></td><td>Restrict to specific providers (comma-separated)</td></tr>
+          <tr><td><code>A3M_MONTHLY_BUDGET</code></td><td>Monthly budget in USD</td></tr>
+          <tr><td><code>A3M_PORT</code></td><td>Proxy server port (default: 8787)</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- ===== Error Handling ===== -->
+    <section id="error-handling">
+      <h2>&#x26A0;&#xFE0F; Error Handling</h2>
+
+      <h3>Retry Configuration</h3>
+      <pre><code><span class="hljs-keyword">import</span> { RetryManager } <span class="hljs-keyword">from</span> <span class="hljs-string">'adaptive-memory-multi-model-router/retry'</span>;
+
+<span class="hljs-keyword">const</span> retry = <span class="hljs-keyword">new</span> <span class="hljs-title class_">RetryManager</span>({
+    providers: {
+        <span class="hljs-string">'openai'</span>: { timeout: <span class="hljs-number">30000</span>, maxRetries: <span class="hljs-number">3</span>, baseDelay: <span class="hljs-number">1000</span> },
+        <span class="hljs-string">'anthropic'</span>: { timeout: <span class="hljs-number">45000</span>, maxRetries: <span class="hljs-number">3</span>, baseDelay: <span class="hljs-number">1000</span> },
+        <span class="hljs-string">'groq'</span>: { timeout: <span class="hljs-number">15000</span>, maxRetries: <span class="hljs-number">2</span>, baseDelay: <span class="hljs-number">500</span> },
+    },
+    backoffMultiplier: <span class="hljs-number">2</span>,
+    jitter: <span class="hljs-number">0.3</span>,
+    rateLimitHandling: <span class="hljs-string">'retry-after'</span>,
+});</code></pre>
+
+      <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Option</th><th>Type</th><th>Default</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>timeout</code></td><td><code>number</code></td><td>30000</td><td>Request timeout in ms</td></tr>
+          <tr><td><code>maxRetries</code></td><td><code>number</code></td><td>3</td><td>Maximum retry attempts</td></tr>
+          <tr><td><code>baseDelay</code></td><td><code>number</code></td><td>1000</td><td>Initial backoff delay in ms</td></tr>
+          <tr><td><code>backoffMultiplier</code></td><td><code>number</code></td><td>2</td><td>Exponential backoff multiplier</td></tr>
+          <tr><td><code>jitter</code></td><td><code>number</code></td><td>0.3</td><td>Jitter factor (&plusmn;30%)</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <p>For the full configuration reference, see the <a href="https://github.com/Das-rebel/a3m-router/blob/main/docs/CONFIGURATION.md" target="_blank" rel="noopener">Configuration Guide on GitHub</a>.</p>
+    </section>
+
+    <!-- ===== Package Exports ===== -->
+    <section id="package-exports">
+      <h2>&#x1F4E6; Package Exports</h2>
+
+      <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr><th>Import Path</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>adaptive-memory-multi-model-router</code></td><td>Main package — everything</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/sdk</code></td><td>Clean high-level API (A3MRouter class)</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/cache</code></td><td>Semantic cache module</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/guardrails</code></td><td>Security guardrails (injection, PII)</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/cost</code></td><td>Cost analytics and tracking</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/analytics</code></td><td>Usage analytics</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/memory</code></td><td>Episodic memory store</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/langchain</code></td><td>LangChain integration</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/providers</code></td><td>Provider definitions and pricing</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/server</code></td><td>HTTP server</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/ensemble</code></td><td>Parallel ensemble execution (P0)</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/presets</code></td><td>Query-type presets (P1)</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/billing</code></td><td>Budget enforcement</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/failover</code></td><td>Circuit breaker + health scoring</td></tr>
+          <tr><td><code>adaptive-memory-multi-model-router/retry</code></td><td>Per-provider retry logic</td></tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <p class="cta-buttons" style="margin-top: 32px;">
+      <a href="quick-start" class="btn btn-primary">&#x1F680; Back to Quick Start</a>
+      <a href="benchmark" class="btn btn-secondary">&#x1F4CA; View Benchmarks</a>
+      <a href="https://github.com/Das-rebel/a3m-router/blob/main/docs/API.md" class="btn btn-ghost" target="_blank" rel="noopener">&#x1F4D6; Full API Doc on GitHub</a>
+    </p>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-content">
+    <div class="footer-links">
+      <a href="https://github.com/Das-rebel/a3m-router" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router" target="_blank" rel="noopener">npm</a>
+      <a href="https://pypi.org/project/a3m-router/" target="_blank" rel="noopener">PyPI</a>
+      <a href="https://github.com/Das-rebel/a3m-router/issues" target="_blank" rel="noopener">Issues</a>
+      <a href="https://github.com/Das-rebel/a3m-router/discussions" target="_blank" rel="noopener">Discussions</a>
+    </div>
+    <p class="footer-copyright">
+      Open-source LLM Gateway &middot; MIT License &middot; No GPU Required &middot;
+      Built by <a href="https://github.com/Das-rebel">Das-rebel</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
