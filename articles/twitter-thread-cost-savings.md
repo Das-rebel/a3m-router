@@ -1,64 +1,50 @@
-1/7 Three LLM infrastructure problems that shouldn't exist in 2026:
+1/7 Three LLM infrastructure problems that keep coming up:
 
-• Your bill is 3x higher than it should be
-• Sequential fallback gives you one provider's answer, not the best one
-• Every gateway claims "negligible overhead" without publishing numbers
+• Your bill is 3x higher than it needs to be  
+• Sequential fallback gives you one answer, never the best  
+• Every gateway says "negligible overhead" — zero data  
 
-We built something that fixes all three.
+We built the thing that fixes all three.
 
-2/7 Problem 1: Your LLM bill is 3x higher than it should be.
+2/7 A dev on X: "Cancelled both my Claude Code Pro and ChatGPT Pro. Kimi K2.6 is just as good for side projects. Price is crazy low."
 
-Every query goes to GPT-4 because configuring per-query routing is a pain.
+Another: "Vectorized 27K notes for $0.07. That's pretty amazing."
 
-A3M classifies every query by complexity (12 signals) and routes to the cheapest capable model.
+Everyone's looking for cheaper options. The hard part is doing it per-query without wasting time.
 
-Simple Q&A → free ($0)
-Code → cheap ($0.20/M)
-Expert → premium ($2.50/M)
+We route every query to the cheapest capable model. 62% savings. Measured.
 
-62% cost savings.
+3/7 Every LLM "router" does: try A → fail → try B → fail → try C.
 
-3/7 Problem 2: Sequential fallback is a design flaw.
+You always get whatever A gave you. Nobody runs them all and picks the best.
 
-Every gateway does: try A → fail → try B → fail → try C.
+Someone already built `ai-retry` just for the fallback part — that's how common this pain is.
 
-You always get one provider's answer. Never the best across all.
+We run all providers in parallel. Score results. Return the best answer. With reasoning why it won.
 
-A3M runs ALL providers in parallel, scores every result, and returns the best answer with reasoning.
+4/7 "Negligible overhead" — every gateway claims this. Zero publish numbers.
 
-We call it parallel ensemble. No other router does this.
+We ran ours through llm-gateway-bench (third-party, not our tool) and published everything.
 
-4/7 Problem 3: "Negligible overhead" with zero data.
-
-Every gateway claims this. None publish numbers.
-
-We ran ours through a third-party benchmarking tool (llm-gateway-bench) and published everything:
-
-Direct: 138ms
+Direct: 138ms  
 Through A3M: 374ms
 
-236ms overhead saves 62% on API costs. Reproducible by anyone.
+236ms overhead. Real. Documented. Runs 62% cheaper.
 
-5/7 Why 10K developers downloaded it in 14 days (zero marketing):
+5/7 The numbers since we shipped:  
+10,024 downloads in 14 days.  
+72 versions.  
+Zero marketing.  
+47 providers.  
+19.5 KB.  
+Zero ML dependencies.
 
-They told us they were hacking these solutions together manually — running prompts through multiple providers in separate browser tabs, comparing outputs by hand.
-
-We automated what they were already doing.
-
-6/7 What's inside the 19.5 KB package:
-
-• Parallel ensemble (the unique feature)
-• RouteLLM-style routing (99.5% accuracy)
-• 47 providers
-• Budget enforcement with alerts
-• Semantic cache (30%+ hit rate)
-• Circuit breaker + auto failover
-• Persistent memory
-
-7/7 npm install adaptive-memory-multi-model-router
+6/7 npm install adaptive-memory-multi-model-router  
 npx a3m-router serve
 
-Point any OpenAI SDK at localhost:8787.
+Point any OpenAI SDK at localhost:8787. Works.
 
-GitHub: github.com/Das-rebel/a3m-router
-Docs: github.com/Das-rebel/a3m-router#benchmark-results-real-api-calls
+7/7 GitHub: github.com/Das-rebel/a3m-router  
+Benchmarks: third-party via llm-gateway-bench 
+
+Built because the existing stuff didn't fix the actual problems.

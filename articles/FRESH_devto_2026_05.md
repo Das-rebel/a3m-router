@@ -1,95 +1,73 @@
----
-title: "Three LLM Infrastructure Problems That Shouldn't Exist in 2026"
-published: false
-description: "Every LLM gateway claims to solve these. Most don't. Here's what actually works and why 10K developers downloaded a 19.5 KB router in two weeks."
-tags: llm, devops, infrastructure, ai, opensource
-cover_image: https://raw.githubusercontent.com/Das-rebel/a3m-router/main/docs/benchmark-chart.png
----
-
-LLM infrastructure has a dirty secret: most "solutions" solve imaginary problems while ignoring the real ones.
-
-After building and shipping an open-source LLM router that hit 10K downloads in two weeks with zero marketing, here are the three actual problems developers told us they were trying to solve.
+LLM infrastructure has three problems that shouldn't exist in 2026. Here's what we built because nobody else fixed them.
 
 ---
 
-## Problem 1: Your LLM Bill Is 3x Higher Than It Should Be
+## Problem 1: Your LLM bill is unnecessarily high
 
-Most teams route every query to GPT-4. Not because every query needs GPT-4 — because nobody has time to configure per-query routing.
+Everyone routes everything to GPT-4 because who has time to configure per-query routing. The bill hits 3-5x what it should be for zero extra value.
 
-The result is predictable: monthly bills that are 3-5x higher than they need to be, with zero visibility into which team or query type is driving costs.
+People are already switching because of this. A dev on X: *"Cancelled both my Claude Code Pro and ChatGPT Pro. Kimi K2.6 is just as good for my side projects as Opus or GPT 5.4 were. The price for this is crazy low."*
 
-**What we built:** A router that classifies every query by complexity (12 signals across 5 dimensions) and routes it to the cheapest capable model.
+Another one: *"Just used gemini-embedding-2 to vectorize 27,603 notes for semantic search. Total cost: $0.07. That's pretty amazing."*
 
-```
+The pattern is obvious — developers are actively looking for cheaper alternatives. The problem is doing it query-by-query without wasting time.
+
+We built a router that classifies every query by complexity and sends it to the cheapest capable model.
+
+```javascript
 "Design a clinical trial protocol"  → premium  ($2.50/M tokens)
-"Write a Python sort function"      → cheap    ($0.20/M tokens)
+"Write a Python sort function"      → groq     ($0.20/M tokens)  
 "What is 2+2?"                      → free     ($0.00/M tokens)
 ```
 
-The result: **62% cost savings**. Not theoretical — measured across 200 real API calls in our benchmark suite.
+Result: **62% cost savings** measured across 200 real API calls. Not theoretical.
 
 ---
 
-## Problem 2: Sequential Fallback Is a Design Flaw
+## Problem 2: Sequential fallback gives you one answer, not the best
 
-Every LLM gateway uses the same pattern:
+Every gateway does: try A → fail → try B → fail → try C.
 
-```
-try Provider A → fails → wait → try Provider B → fails → wait → try Provider C
-```
+You always get one provider's answer. Never the best across all. If A is slow, everything waits.
 
-This is sequential fallback. It's the default. And it's wrong for three reasons:
+Someone already built `ai-retry` — a library for retry and fallback mechanisms — because this is such a common pain. People are hacking around it manually.
 
-1. **You always get one provider's answer** — never the best across all
-2. **If the first provider is slow, everything waits**
-3. **No way to know if a different model would have given a better answer**
-
-**What we built:** Parallel ensemble execution. Fire all providers at once. Score every result on specificity, structure, and relevance. Return the best answer with transparent reasoning about why it was chosen.
+We went further. Run all providers in parallel. Score every result on specificity, structure, and relevance. Return the best answer with reasons why it won.
 
 ```javascript
-const result = await executeEnsemble(query, systemPrompt, context, {
+const result = await executeEnsemble(query, context, {
   nvidia: callNvidia,
   groq: callGroq,
   openai: callOpenAI
 });
-console.log(`Winner: ${result.winner}`);    // → nvidia (scored 75)
-console.log(`Reason: ${result.reasoning}`); // → higher specificity on code
+// → nvidia (scored 75, higher specificity on code)
 ```
 
-This isn't a feature we added for marketing. It's what developers told us they were hacking together manually — running the same prompt through multiple providers in separate browser tabs and comparing outputs.
+---
+
+## Problem 3: Every gateway claims "negligible overhead." None publish numbers.
+
+It's the standard line. "Negligible overhead" followed by zero data.
+
+We ran ours through a third-party benchmark tool (llm-gateway-bench) and published everything:
+
+| Scenario | Time | What's included |
+|:---------|:----:|:----------------|
+| Direct to Groq | **138ms** | Raw API call |
+| Through A3M | **374ms** | Routing + cache + guardrails + cost tracking |
+
+236ms overhead. Not zero. But it saves 62% on API costs — that's ~$2,600/year at 100K queries/month.
 
 ---
 
-## Problem 3: Every Gateway Claims "Negligible Overhead" — None Publish Numbers
+## Why it grew
 
-Gateways add latency. Everyone knows this. Nobody publishes the actual numbers.
+10,024 downloads in 14 days. Zero marketing. Developers found it on npm, tried it, told other developers.
 
-The standard line is "negligible overhead" followed by zero data. When we started building A3M, we couldn't find a single competitor that published independent latency benchmarks for their own proxy.
-
-**What we did:** Ran our proxy through [llm-gateway-bench](https://github.com/taffy-owo/llm-gateway-bench) — a third-party benchmarking tool — and published every number.
-
-| Scenario | TTFT | What happens |
-|:---------|:----:|:-------------|
-| Direct to Groq | **138ms** | Raw provider call |
-| Through A3M (forced) | **234ms** | Guardrails + cache + cost tracking |
-| Through A3M (auto) | **374ms** | Above + routing decision (12 signals) |
-
-The overhead is real. It's also documented, reproducible, and pays for itself — 236ms saves 62% on API costs.
+The feedback loop was: *"My bill is too high"* → 62% savings. *"I want the best answer, not the first one"* → parallel ensemble. *"I don't trust your latency claims"* → here's the third-party benchmark, run it yourself.
 
 ---
 
-## Why Developers Switched
-
-The three pain points above keep coming up in the same pattern:
-
-1. **"My bill is out of control"** → They try the routing → 62% savings
-2. **"I'm tired of mediocre answers from the only model I can afford"** → They try the ensemble → better answers
-3. **"I don't trust black-box gateways"** → They see the benchmarks → they trust it
-
-10,024 downloads. 72 versions. Zero marketing budget.
-
----
-
-*GitHub: [github.com/Das-rebel/a3m-router](https://github.com/Das-rebel/a3m-router)*  
 *npm: `npm install adaptive-memory-multi-model-router`*  
-*Benchmark methodology: [docs/BENCHMARK.md](https://github.com/Das-rebel/a3m-router/blob/main/docs/BENCHMARK.md)*
+*GitHub: [github.com/Das-rebel/a3m-router](https://github.com/Das-rebel/a3m-router)*  
+*Benchmarks: third-party via [llm-gateway-bench](https://github.com/taffy-owo/llm-gateway-bench)*
