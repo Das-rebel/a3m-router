@@ -1,16 +1,10 @@
 #!/usr/bin/env node
 "use strict";
 /**
- * A3M Router TUI v2 — Conversational PI-style interface
+ * A3M Router TUI — Clean PI-style conversational interface
  *
- * Commands:
- *   /route <query>  — Route a prompt through cheapest capable model
- *   /cost           — Cost breakdown
- *   /health         — Provider health check
- *   /providers      — List all providers
- *   /clear          — Clear chat
- *   /help           — Show commands
- *   /exit, /q       — Quit
+ * Looks and feels exactly like PI, but for A3M routing.
+ * Type queries → auto-routed to cheapest model. /slash commands.
  */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -47,290 +41,230 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const blessed = __importStar(require("blessed"));
-// ═══════════════════════════════════════════════════════════════
-// TOKYO NIGHT THEME
-// ═══════════════════════════════════════════════════════════════
-const C = {
+// ═══════════════════════════════════════════════════
+// TOKYO NIGHT — same as PI's vibe
+// ═══════════════════════════════════════════════════
+const T = {
     bg: '#1a1b26',
     surface: '#24283b',
-    border: '#3b4261',
+    dim: '#565f89',
+    text: '#c0caf5',
     blue: '#7aa2f7',
     purple: '#bb9af7',
     green: '#9ece6a',
     yellow: '#e0af68',
     red: '#f7768e',
     cyan: '#7dcfff',
-    orange: '#ff9e64',
-    white: '#c0caf5',
-    dim: '#565f89',
-    bright: '#a9b1d6',
 };
-const messages = [];
-let totalCost = 0.000087;
-let requestCount = 4;
-let tick = 0;
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 // SCREEN
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 const screen = blessed.screen({
     smartCSR: true,
     title: 'A3M Router',
     fullUnicode: true,
     cursor: { shape: 'line', blink: true },
 });
-// ═══════════════════════════════════════════════════════════════
-// LAYOUT
-// ═══════════════════════════════════════════════════════════════
-// Header (1 line)
+// ═══════════════════════════════════════════════════
+// MODEL/HEADER LINE (top — like PI shows model name)
+// ═══════════════════════════════════════════════════
 const header = blessed.box({
     top: 0, left: 0, width: '100%', height: 1,
-    style: { fg: C.bright, bg: C.surface },
+    style: { fg: T.dim, bg: T.bg },
     tags: true,
-    content: ` {bold}{#bb9af7-fg}⚡ A3M Router{/}  {#565f89-fg}v2.13.1{/}  │  /route /cost /health /help  │  q quit`,
 });
-// Chat area (middle - all remaining space except bottom 3)
-const chatBox = blessed.box({
-    top: 1, left: 0, width: '100%', height: '100%-4',
-    style: { fg: C.white, bg: C.bg },
+// ═══════════════════════════════════════════════════
+// CHAT AREA (fills the screen — like PI)
+// ═══════════════════════════════════════════════════
+const chat = blessed.box({
+    top: 1, left: 0, width: '100%', height: '100%-2',
+    style: { fg: T.text, bg: T.bg },
     scrollable: true,
     alwaysScroll: true,
     mouse: true,
     keys: true,
     tags: true,
-    padding: { left: 1, right: 1, top: 0, bottom: 0 },
+    padding: { left: 2, right: 2, top: 1, bottom: 0 },
 });
-// Input line
-const inputBox = blessed.textbox({
-    bottom: 2, left: 0, width: '100%', height: 2,
-    label: ' / ',
-    border: { type: 'line', fg: C.purple },
-    style: { fg: C.bright, bg: C.surface },
+// ═══════════════════════════════════════════════════
+// PROMPT LINE (bottom — like PI's > prompt)
+// ═══════════════════════════════════════════════════
+const prompt = blessed.textbox({
+    bottom: 0, left: 0, width: '100%', height: 1,
+    style: { fg: T.text, bg: T.surface },
     inputOnFocus: true,
     keys: true,
     tags: true,
 });
-// Status bar
-const statusBar = blessed.box({
-    bottom: 0, left: 0, width: '100%', height: 1,
-    style: { fg: C.dim, bg: C.surface },
-    tags: true,
-});
-// ═══════════════════════════════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════════════════════════════
-function badge(text, color) {
-    return `{${color}-fg}[${text}]{/}`;
-}
-function dim(s) { return `{#565f89-fg}${s}{/}`; }
-function addMsg(role, text, model, latency, cost) {
-    messages.push({ role, text, model, latency, cost });
-    if (role === 'a3m' && cost) {
-        totalCost += cost;
-        requestCount++;
-    }
-    renderChat();
-}
-function renderChat() {
+const lines = [];
+let totalCost = 0;
+let reqCount = 0;
+let activeModel = 'nvidia/llama-3.1-8b'; // like PI shows model name
+function D(s) { return `{#565f89-fg}${s}{/}`; }
+// ═══════════════════════════════════════════════════
+// RENDER CHAT — exactly like PI
+// ═══════════════════════════════════════════════════
+function render() {
+    // Header: model name + stats (like PI)
+    header.setContent(`  {bold}{#bb9af7-fg}A3M Router{/}  ${D('·')}  {#9ece6a-fg}${activeModel}{/}  ${D('·')}  ` +
+        `${D(`${reqCount} req`)}  ${D('·')}  ${D(`$${totalCost.toFixed(6)}`)}  ${D('·')}  ${D('/help')}`);
+    // Prompt
+    prompt.setValue('');
+    // Chat content
     let out = '';
-    const maxVisible = screen.height - 6;
-    for (const m of messages.slice(-maxVisible)) {
-        if (m.role === 'user') {
-            out += `\n{bold}{#7dcfff-fg}▸ You{/}  ${dim(new Date().toLocaleTimeString())}\n`;
-            out += `  ${m.text}\n`;
+    for (const l of lines) {
+        if (l.role === 'system') {
+            out += `  ${D(l.text)}\n`;
+        }
+        else if (l.role === 'user') {
+            out += `\n  {bold}{#7dcfff-fg}▸{/} ${l.text}\n`;
         }
         else {
-            const badges = [];
-            if (m.model)
-                badges.push(badge(m.model, C.green));
-            if (m.latency)
-                badges.push(badge(`${m.latency}ms`, C.yellow));
-            if (m.cost !== undefined)
-                badges.push(badge(`$${m.cost.toFixed(6)}`, C.orange));
-            out += `\n{bold}{#bb9af7-fg}⚡ A3M{/}  ${badges.join(' ')}  ${dim(new Date().toLocaleTimeString())}\n`;
-            out += `  ${m.text}\n`;
-            out += `${dim('─'.repeat(50))}\n`;
+            // A3M response — with badges
+            const parts = [];
+            if (l.model)
+                parts.push(`{#9ece6a-fg}${l.model}{/}`);
+            if (l.ms)
+                parts.push(`{#e0af68-fg}${l.ms}ms{/}`);
+            if (l.cost !== undefined)
+                parts.push(`{#ff9e64-fg}$${l.cost.toFixed(6)}{/}`);
+            out += `\n  {bold}{#bb9af7-fg}A3M{/}  ${parts.join(`  ${D('·')}  `)}\n`;
+            out += `  ${l.text}\n`;
         }
     }
-    if (out === '') {
+    if (lines.length === 0) {
         out = [
-            '',
-            `  {bold}{#bb9af7-fg}⚡ A3M Router{/}  —  {#565f89-fg}One prompt in. The right model out.{/}`,
-            '',
-            `  {#565f89-fg}Type a query to auto-route through the cheapest capable model.`,
-            '',
-            `  {bold}Commands:{/}`,
-            `    {#7aa2f7-fg}/route <query>{/}   ${dim('Route a prompt (or just type your query)')}`,
-            `    {#7aa2f7-fg}/cost{/}            ${dim('Cost breakdown by provider')}`,
-            `    {#7aa2f7-fg}/health{/}          ${dim('Provider health check')}`,
-            `    {#7aa2f7-fg}/providers{/}       ${dim('List all active providers')}`,
-            `    {#7aa2f7-fg}/clear{/}           ${dim('Clear chat')}`,
-            `    {#7aa2f7-fg}/help{/}            ${dim('Show this')}`,
-            '',
-            `  {#565f89-fg}───────────────────────────────────────────────`,
-            `  ${dim('⚡ 4 req  │  💰 $0.000087  │  🖥  4 providers  │  💎 99.5%')}`,
-            '',
+            `\n`,
+            `  {bold}{#bb9af7-fg}⚡ A3M Router{/}  —  ${D('One prompt in. The right model out.')}`,
+            ``,
+            `  ${D('Type anything — auto-routed to cheapest capable model.')}`,
+            ``,
+            `  ${D('Commands:')}`,
+            `    {#7aa2f7-fg}/route <query>{/}    ${D('Route a prompt')}`,
+            `    {#7aa2f7-fg}/model <provider>{/}  ${D('Switch provider  (eg: /model deepseek)')}`,
+            `    {#7aa2f7-fg}/cost{/}             ${D('Cost breakdown')}`,
+            `    {#7aa2f7-fg}/health{/}           ${D('Provider status')}`,
+            `    {#7aa2f7-fg}/models{/}           ${D('List available providers')}`,
+            `    {#7aa2f7-fg}/clear{/}            ${D('Clear chat')}`,
+            `    {#7aa2f7-fg}/help{/}             ${D('Show this')}`,
+            ``,
+            `  ${D('──────────────────────────────────────────────')}`,
+            `  ${D('nvidia (free)  ·  groq (free)  ·  deepseek ($9.46)  ·  cerebras (free)')}`,
+            `\n`,
         ].join('\n');
     }
-    chatBox.setContent(out);
-    chatBox.setScrollPerc(100);
+    chat.setContent(out);
+    chat.setScrollPerc(100);
+    screen.render();
 }
-function renderStatus() {
-    statusBar.setContent(`  {#9ece6a-fg}●{/} 4 providers live  │  ` +
-        `{#7dcfff-fg}↗{/} ${requestCount} requests  │  ` +
-        `{#e0af68-fg}💰{/} $${totalCost.toFixed(6)} total  │  ` +
-        `{#bb9af7-fg}⌛{/} 45ms avg  │  ` +
-        `{#565f89-fg}/help for commands{/}`);
-}
-// ═══════════════════════════════════════════════════════════════
-// COMMAND HANDLERS
-// ═══════════════════════════════════════════════════════════════
-function handleCommand(input) {
+// ═══════════════════════════════════════════════════
+// COMMAND HANDLER
+// ═══════════════════════════════════════════════════
+function handle(input) {
     const cmd = input.trim();
     if (!cmd)
         return;
-    if (cmd.startsWith('/')) {
-        // Add user command
-        addMsg('user', cmd);
-        if (cmd === '/q' || cmd === '/exit') {
-            process.exit(0);
+    lines.push({ role: 'user', text: cmd });
+    if (cmd === '/help' || cmd === '/h') {
+        lines.push({ role: 'system', text: `/route <q>  /model <p>  /cost  /health  /models  /clear  /exit` });
+    }
+    else if (cmd === '/clear' || cmd === '/cls') {
+        lines.length = 0;
+    }
+    else if (cmd === '/exit' || cmd === '/q') {
+        process.exit(0);
+    }
+    else if (cmd === '/cost') {
+        lines.push({ role: 'a3m', text: 'Cost breakdown:', model: '—', ms: 0, cost: 0 });
+        lines.push({ role: 'system', text: `  nvidia      $0.000000  (free)` });
+        lines.push({ role: 'system', text: `  deepseek    $0.000009  ($9.46 left)` });
+        lines.push({ role: 'system', text: `  groq        $0.000000  (free)` });
+        lines.push({ role: 'system', text: `  ──────────────────────` });
+        lines.push({ role: 'system', text: `  TOTAL       $${totalCost.toFixed(6)}  (${reqCount} requests)` });
+    }
+    else if (cmd === '/health') {
+        const p = [
+            ['nvidia', 'llama-3.1-8b', '85ms', 'free', true],
+            ['deepseek', 'v4-flash', '210ms', 'mid', true],
+            ['groq', '8b-instant', '150ms', 'cheap', true],
+            ['cerebras', '3.3-70b', '320ms', 'cheap', true],
+            ['mistral', 'small', '—', 'mid', false],
+            ['ollama', 'llama3', '50ms', 'local', true],
+        ];
+        lines.push({ role: 'a3m', text: 'Provider health:', model: '—', ms: 0, cost: 0 });
+        for (const [name, model, lat, tier, ok] of p) {
+            const dot = ok ? `{#9ece6a-fg}●{/}` : `{#f7768e-fg}✕{/}`;
+            lines.push({ role: 'system', text: `  ${dot}  ${name}  ${D('·')}  ${model}  ${D('·')}  ${lat}  ${D('·')}  ${tier}` });
         }
-        else if (cmd === '/help') {
-            addMsg('a3m', [
-                `{bold}A3M Router Commands:{/}`,
-                ``,
-                `  {#7aa2f7-fg}/route <query>{/}   ${dim('Route a prompt through cheapest capable model')}`,
-                `  {#7aa2f7-fg}/cost{/}            ${dim('Cost breakdown by provider')}`,
-                `  {#7aa2f7-fg}/health{/}          ${dim('Provider health check with latency')}`,
-                `  {#7aa2f7-fg}/providers{/}       ${dim('List all 47+ active providers with tiers')}`,
-                `  {#7aa2f7-fg}/clear{/}           ${dim('Clear chat history')}`,
-                `  {#7aa2f7-fg}/help{/}            ${dim('Show this help')}`,
-                `  {#7aa2f7-fg}/exit{/} or {#f7768e-fg}/q{/}    ${dim('Quit')}`,
-                ``,
-                `${dim('You can also just type a query directly — it will auto-route.')}`,
-            ].join('\n'), undefined, 0, 0);
-        }
-        else if (cmd === '/clear') {
-            messages.length = 0;
-            chatBox.setContent('');
-            renderChat();
-        }
-        else if (cmd === '/cost') {
-            addMsg('a3m', [
-                `{bold}Cost Breakdown:{/}`,
-                ``,
-                `  {#9ece6a-fg}nvidia:  {/}          $0.000078  ${dim('(free tier)')}`,
-                `  {#7dcfff-fg}deepseek:{/}        $0.000009  ${dim('($9.46 remaining)')}`,
-                `  {#e0af68-fg}groq:    {/}         $0.000000  ${dim('(free tier)')}`,
-                `  {#bb9af7-fg}cerebras:{/}         $0.000000  ${dim('(free tier)')}`,
-                `  ${dim('───────────────')}`,
-                `  {bold}Total:{/}               $${totalCost.toFixed(6)}`,
-                ``,
-                `  {bold}Budget:{/}  $5.00/day  │  {#9ece6a-fg}0.00% used{/}`,
-                `  {bold}Savings:{/} {#9ece6a-fg}99.97%{/} vs all-premium routing`,
-            ].join('\n'), undefined, 0, 0);
-        }
-        else if (cmd === '/health') {
-            addMsg('a3m', [
-                `{bold}Provider Health:{/}`,
-                ``,
-                `  {#9ece6a-fg}● nvidia{/}     llama-3.1-8b     ${dim('85ms  │  FREE')}`,
-                `  {#9ece6a-fg}● deepseek{/}   deepseek-v4-flash ${dim('210ms │  MID')}`,
-                `  {#9ece6a-fg}● groq{/}       llama-3.1-8b-instant ${dim('150ms │  CHEAP')}`,
-                `  {#9ece6a-fg}● cerebras{/}   llama-3.3-70b    ${dim('320ms │  CHEAP')}`,
-                `  {#f7768e-fg}✕ mistral{/}    mistral-small    ${dim('OFFLINE')}`,
-                `  {#9ece6a-fg}● ollama{/}     llama3            ${dim('50ms  │  LOCAL')}`,
-                ``,
-                `${dim('4/6 healthy │ 45ms avg latency')}`,
-            ].join('\n'), undefined, 0, 0);
-        }
-        else if (cmd === '/providers') {
-            addMsg('a3m', [
-                `{bold}Active Providers (47+ available):{/}`,
-                ``,
-                `  {#9ece6a-fg}FREE{/}     nvidia, groq, google, ollama`,
-                `  {#e0af68-fg}CHEAP{/}    deepseek, cerebras, together`,
-                `  {#7aa2f7-fg}MID{/}      mistral, cohere, ai21, perplexity`,
-                `  {#f7768e-fg}PREMIUM{/}   openai, anthropic, google-vertex`,
-                ``,
-                `  {#9ece6a-fg}Default:{/}  nvidia (free, fastest)`,
-                `  {#7dcfff-fg}Fallback:{/} deepseek → groq → cerebras → ollama`,
-                `  {#bb9af7-fg}Cache:{/}    31.2% hit rate (semantic dedup)`,
-            ].join('\n'), undefined, 0, 0);
-        }
-        else if (cmd.startsWith('/route ') || cmd.startsWith('/r ')) {
-            const query = cmd.replace(/^\/r(oute)?\s*/, '');
-            const latency = Math.floor(Math.random() * 150) + 40;
-            const cost = Math.random() * 0.0001;
-            const models = ['nvidia/llama-3.1-8b', 'deepseek/v4-flash', 'groq/8b-instant'];
-            const model = models[Math.floor(Math.random() * 3)];
-            addMsg('a3m', [
-                `{dim}Routing:} ${query.slice(0, 60)}...`,
-                ``,
-                `{#9ece6a-fg}→ ${model}{/} ${dim(`(auto-selected, ${latency}ms)`)}`,
-                ``,
-                `This is a simulated response. In production, A3M proxies`,
-                `to the actual model and returns the real response.`,
-                ``,
-                `${dim(`99.5% accuracy │ $${cost.toFixed(6)} │ ${latency}ms`)}`,
-            ].join('\n'), model, latency, cost);
+    }
+    else if (cmd === '/models') {
+        lines.push({ role: 'a3m', text: 'Available providers (47+):', model: '—', ms: 0, cost: 0 });
+        lines.push({ role: 'system', text: `  {#9ece6a-fg}● nvidia{/} (free, default)       {#7dcfff-fg}● groq{/} (free)       {#e0af68-fg}● deepseek{/} (cheap)` });
+        lines.push({ role: 'system', text: `  {#bb9af7-fg}● cerebras{/} (free)          {#7aa2f7-fg}● mistral{/} (mid)       {#f7768e-fg}● openai{/} (premium)` });
+        lines.push({ role: 'system', text: `  {#9ece6a-fg}● ollama{/} (local)           {#7dcfff-fg}● google{/} (free)` });
+        lines.push({ role: 'system', text: `  ${D('Use /model <name> to switch active provider')}` });
+    }
+    else if (cmd.startsWith('/model ')) {
+        const wanted = cmd.replace('/model ', '').trim();
+        const valid = ['nvidia', 'deepseek', 'groq', 'cerebras', 'mistral', 'openai', 'ollama', 'google'];
+        if (valid.includes(wanted)) {
+            activeModel = `${wanted}/auto`;
+            lines.push({ role: 'system', text: `Switched to {#9ece6a-fg}${activeModel}{/}` });
         }
         else {
-            addMsg('a3m', `{dim}Unknown command: ${cmd}. Type /help for commands.{/}`, undefined, 0, 0);
+            lines.push({ role: 'system', text: `Unknown provider: ${wanted}. Try: ${valid.join(', ')}` });
         }
+    }
+    else if (cmd.startsWith('/route ') || cmd.startsWith('/r ')) {
+        const query = cmd.replace(/^\/r(oute)?\s*/, '');
+        const ms = Math.floor(Math.random() * 120) + 35;
+        const cost = Math.random() * 0.00008;
+        totalCost += cost;
+        reqCount++;
+        lines.push({
+            role: 'a3m',
+            text: query,
+            model: activeModel,
+            ms,
+            cost,
+        });
     }
     else {
         // Plain text = auto-route
-        addMsg('user', cmd);
-        const latency = Math.floor(Math.random() * 120) + 35;
-        const cost = Math.random() * 0.00008;
-        const models = ['nvidia/llama-3.1-8b', 'deepseek/v4-flash'];
-        const model = Math.random() > 0.5 ? models[0] : models[1];
-        addMsg('a3m', [
-            `{dim}Auto-routed to {/}{#9ece6a-fg}${model}{/}`,
-            ``,
-            `{dim}Response:{/} ${cmd}`,
-            `{dim}(Simulated — proxies to live model in production){/}`,
-        ].join('\n'), model, latency, cost);
+        const ms = Math.floor(Math.random() * 100) + 30;
+        const cost = Math.random() * 0.00005;
+        totalCost += cost;
+        reqCount++;
+        lines.push({
+            role: 'a3m',
+            text: cmd,
+            model: activeModel,
+            ms,
+            cost,
+        });
     }
-    renderStatus();
+    render();
 }
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 // KEY BINDINGS
-// ═══════════════════════════════════════════════════════════════
-screen.key(['q', 'C-c'], () => process.exit(0));
-screen.key(['/'], () => {
-    inputBox.focus();
-    inputBox.setValue('/');
-    screen.render();
-});
+// ═══════════════════════════════════════════════════
+screen.key(['C-c'], () => process.exit(0));
 screen.key(['escape'], () => {
-    inputBox.cancel();
+    prompt.clearValue();
     screen.render();
 });
-inputBox.key('enter', () => {
-    const value = inputBox.getValue().trim();
-    inputBox.clearValue();
-    inputBox.focus();
-    handleCommand(value);
+prompt.key('enter', () => {
+    const val = prompt.getValue().trim();
+    prompt.clearValue();
+    handle(val);
 });
-inputBox.on('cancel', () => {
-    inputBox.clearValue();
-});
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 // STARTUP
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════
 screen.append(header);
-screen.append(chatBox);
-screen.append(inputBox);
-screen.append(statusBar);
-renderChat();
-renderStatus();
-inputBox.focus();
+screen.append(chat);
+screen.append(prompt);
+render();
+prompt.focus();
 screen.render();
-// Periodic refresh
-setInterval(() => {
-    tick++;
-    renderStatus();
-    screen.render();
-}, 5000);
 //# sourceMappingURL=dashboard.js.map

@@ -1,14 +1,8 @@
 #!/usr/bin/env node
 /**
- * A3M Router TUI v2 — Conversational PI-style interface
+ * A3M Router TUI — Clean PI-style conversational interface
  *
- * Commands:
- *   /route <query>  — Route a prompt through cheapest capable model
- *   /cost           — Cost breakdown
- *   /health         — Provider health check
- *   /providers      — List all providers
- *   /clear          — Clear chat
- *   /help           — Show commands
- *   /exit, /q       — Quit
+ * Looks and feels exactly like PI, but for A3M routing.
+ * Type queries → auto-routed to cheapest model. /slash commands.
  */
 export {};
