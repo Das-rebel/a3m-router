@@ -25,25 +25,7 @@
 node dist/tui/dashboard.js
 ```
 
-Sakura pink overlay box. `/route` `/cost` `/health` `/models` `/model <provider>`. Type to auto-route.
-
-```
-╭──────────────────────────────────────────────────────────────────────╮
-│ ⚡ A3M Router  ·  nvidia/llama-3.1-8b  ·  4 req  ·  $0.000087       │
-│ ──────────────────────────────────────────────────────────────────── │
-│                                                                      │
-│   Type a query — auto-routed to cheapest model.                      │
-│                                                                      │
-│   Commands:                                                          │
-│   /route <query>       /cost              /model nvidia               │
-│   /health              /models            /clear                      │
-│   /exit                /help                                          │
-│                                                                      │
-│   nvidia (free)  ·  groq (free)  ·  deepseek ($9.46)                 │
-│                                                                      │
-│  ▸ _                                                                 │
-╰──────────────────────────────────────────────────────────────────────╯
-```
+Sakura pink overlay box with `/route`, `/cost`, `/health`, `/models`, `/model <provider>`. Type anything to auto-route through the cheapest model.
 
 ### 📊 By the Numbers
 
