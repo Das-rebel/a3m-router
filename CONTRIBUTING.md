@@ -1,38 +1,50 @@
 # Contributing to A3M Router
 
-Thank you for your interest in contributing! 
+Thanks for helping build the fastest-growing open-source LLM router! 🚀
 
-## Quick Start
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## Areas We Need Help
-
-- 🌍 **New providers**: Add support for more LLM providers
-- 🧪 **Tests**: Improve test coverage
-- 📖 **Documentation**: Fix typos, add examples
-- 🐛 **Bug fixes**: Check open issues
-- 🎨 **Examples**: Add real-world usage examples
-
-## Development Setup
+## Quick Setup
 
 ```bash
 git clone https://github.com/Das-rebel/a3m-router.git
-cd adaptive-memory-multi-model-router
+cd a3m-router
 npm install
-npm test
+npm run build
 ```
 
-## Code Style
+## Project Structure
 
-- TypeScript strict mode
-- No external dependencies in core routing logic
-- Keep the package small (<25 KB)
+```
+src/
+├── providers/     # 47+ LLM provider configurations
+├── routing/       # UCB1 + MCTS routing engine
+├── cache/         # Semantic deduplication cache
+├── proxy/         # OpenAI-compatible proxy server
+└── tui/           # Terminal UI overlay
+```
 
-## License
+## Development
 
-By contributing, you agree that your contributions will be licensed under the MIT License.
+```bash
+npm run build      # Compile TypeScript
+npm test           # Run tests
+node dist/tui/dashboard.js  # Launch TUI
+```
+
+## PR Guidelines
+
+- Keep the package under 20KB (no ML deps)
+- Add provider configs in `src/providers/`
+- Route logic in `src/routing/`
+- TUI changes in `src/tui/`
+- Update CHANGELOG.md
+
+## Adding a Provider
+
+1. Add config in `src/providers/providerConfig.ts`
+2. Set tier: `free` / `cheap` / `mid` / `premium`
+3. Add to `PROVIDER_TIERS` map
+4. PR with latency benchmarks
+
+## Questions?
+
+Open an issue or reach out on [GitHub Discussions](https://github.com/Das-rebel/a3m-router/discussions).

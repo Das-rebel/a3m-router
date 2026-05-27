@@ -17,15 +17,33 @@
 
 ### Quick Start: [`docs/QUICK_START.md`](./docs/QUICK_START.md)
 
+> **⭐ If A3M Router saves you money, star the repo!** → [github.com/Das-rebel/a3m-router](https://github.com/Das-rebel/a3m-router)
+
 ### 💅 Terminal UI
 
 ```bash
-npx a3m
-# or directly:
 node dist/tui/dashboard.js
 ```
 
-Sakura pink overlay box. Commands: `/route`, `/cost`, `/health`, `/models`, `/model <provider>`. Type anything to auto-route. `esc` to quit.
+Sakura pink overlay box. `/route` `/cost` `/health` `/models` `/model <provider>`. Type to auto-route.
+
+```
+╭──────────────────────────────────────────────────────────────────────╮
+│ ⚡ A3M Router  ·  nvidia/llama-3.1-8b  ·  4 req  ·  $0.000087       │
+│ ──────────────────────────────────────────────────────────────────── │
+│                                                                      │
+│   Type a query — auto-routed to cheapest model.                      │
+│                                                                      │
+│   Commands:                                                          │
+│   /route <query>       /cost              /model nvidia               │
+│   /health              /models            /clear                      │
+│   /exit                /help                                          │
+│                                                                      │
+│   nvidia (free)  ·  groq (free)  ·  deepseek ($9.46)                 │
+│                                                                      │
+│  ▸ _                                                                 │
+╰──────────────────────────────────────────────────────────────────────╯
+```
 
 ### 📊 By the Numbers
 
