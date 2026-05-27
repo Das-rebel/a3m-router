@@ -13,6 +13,8 @@
 
 **One prompt in. The right model out.** An open-source **AI gateway** that auto-routes every query to the cheapest capable model across **47+ LLM providers**. Features **parallel ensemble execution**, **semantic cache**, **budget enforcement**, **intelligent failover**, and **independent benchmark validation**. Start in <100ms. Python SDK + TypeScript SDK.
 
+### 📖 AI-Friendly: [`llms.txt`](./llms.txt) · [`llms-full.txt`](./llms-full.txt)
+
 ### Quick Start: [`docs/QUICK_START.md`](./docs/QUICK_START.md)
 
 ### 📊 By the Numbers
