@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.13.10",
+  "version": "2.13.11",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "🔥 Fastest-growing npm LLM router — 0 to 10,024 downloads in 14 days. Parallel multi-LLM execution with independent benchmark validation (138ms baseline, +96ms proxy overhead), 47+ providers, 99.5% routing accuracy, 62% cost savings. Open-source AI gateway. Parallel ensemble, confidence scoring, query-type presets, persistent memory. Zero ML, 19.5KB. MIT.",

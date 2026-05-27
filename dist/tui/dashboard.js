@@ -38,28 +38,10 @@ function moveTo(row, col) { process.stdout.write(`\x1b[${row};${col}H`); }
 function clearLine() { process.stdout.write('\x1b[2K'); }
 function hideCursor() { process.stdout.write('\x1b[?25l'); }
 function showCursor() { process.stdout.write('\x1b[?25h'); }
+function stripAnsi(s) {
+    return s.replace(/\x1b\[[0-9;]*m/g, '');
+}
 const B = { tl: '╭', tr: '╮', bl: '╰', br: '╯', h: '─', v: '│' };
-function drawOverlay(rows, cols, top, left, lines) {
-    const w = cols - 2;
-    // Top border
-    moveTo(top, left);
-    process.stdout.write(C.bg + C.purple + B.tl + B.h.repeat(w) + B.tr + R);
-    // Content rows
-    for (let i = 0; i < rows - 2; i++) {
-        moveTo(top + 1 + i, left);
-        const content = (i < lines.length ? lines[i] : '').padEnd(w, ' ');
-        process.stdout.write(C.bg + C.purple + B.v + R + C.bg + content + C.purple + B.v + R);
-    }
-    // Bottom border
-    moveTo(top + rows - 1, left);
-    process.stdout.write(C.bg + C.purple + B.bl + B.h.repeat(w) + B.br + R);
-}
-function drawPrompt(top, left, w, text) {
-    moveTo(top, left);
-    clearLine();
-    process.stdout.write(C.surface + C.text + BOLD + ' ▸ ' + R + C.surface + C.text + text + R);
-    moveTo(top, left + 3); // cursor after " ▸ "
-}
 let inputBuf = '';
 let cursorPos = 3;
 function handleInput(char) {
@@ -149,50 +131,82 @@ function processCommand(cmd) {
     while (log.length > maxLog)
         log.shift();
 }
-function buildOverlayLines() {
+function buildOverlayLines(boxW) {
+    const contentW = boxW - 4; // inside padding
     const lines = [];
-    // Header
-    lines.push(`${C.purple + BOLD}⚡ A3M Router${R}  ${C.dim}·${R}  ${C.green}${activeModel}${R}  ${C.dim}·${R}  ${C.dim}${reqCount} req${R}  ${C.dim}·${R}  ${C.dim}$${totalCost.toFixed(6)}${R}`);
-    lines.push(`${C.dim}${'─'.repeat(78)}${R}`);
+    // Header row
+    const hdr = `${C.purple + BOLD}⚡ A3M Router${R}  ${C.dim}·${R}  ${C.green}${activeModel}${R}  ${C.dim}·${R}  ${C.dim}${reqCount} req${R}  ${C.dim}·${R}  ${C.dim}$${totalCost.toFixed(6)}${R}`;
+    lines.push(hdr.padEnd(contentW));
+    // Separator
+    lines.push(`${C.dim}${'─'.repeat(Math.max(0, contentW))}${R}`);
     lines.push('');
     // Log lines
     for (const l of log) {
-        lines.push(l);
+        lines.push(l.padEnd(contentW));
     }
-    // If no log, show welcome
+    // Welcome message if empty
     if (log.length === 0) {
-        lines.push(`  ${C.dim}Type a query — auto-routed to cheapest model.${R}`);
+        lines.push(`  ${C.dim}Type a query — auto-routed to cheapest model.${R}`.padEnd(contentW));
         lines.push('');
-        lines.push(`  ${C.dim}Commands:${R}`);
-        lines.push(`  ${C.blue}/route${R} ${C.dim}<query>${R}       ${C.blue}/cost${R}              ${C.blue}/model nvidia${R}`);
-        lines.push(`  ${C.blue}/health${R}              ${C.blue}/models${R}            ${C.blue}/clear${R}`);
-        lines.push(`  ${C.blue}/exit${R}                ${C.blue}/help${R}`);
+        lines.push(`  ${C.dim}Commands:${R}`.padEnd(contentW));
+        lines.push(`  ${C.blue}/route${R} ${C.dim}<query>${R}       ${C.blue}/cost${R}              ${C.blue}/model nvidia${R}`.padEnd(contentW));
+        lines.push(`  ${C.blue}/health${R}              ${C.blue}/models${R}            ${C.blue}/clear${R}`.padEnd(contentW));
+        lines.push(`  ${C.blue}/exit${R}                ${C.blue}/help${R}`.padEnd(contentW));
     }
-    // Fill remaining with empty
-    while (lines.length < 16)
-        lines.push('');
     return lines;
 }
 function render() {
     const [w, h] = getSize();
-    const BOX_W = 82;
+    const BOX_W = Math.min(82, w - 4);
     const BOX_H = 18;
     const left = Math.max(0, Math.floor((w - BOX_W) / 2));
     const top = Math.max(0, Math.floor((h - BOX_H) / 2));
-    const overlayLines = buildOverlayLines();
+    const overlayLines = buildOverlayLines(BOX_W);
     hideCursor();
-    drawOverlay(BOX_H, BOX_W, top, left, overlayLines);
-    // Prompt line at bottom of box
-    drawPrompt(top + BOX_H - 1, left, BOX_W, inputBuf);
+    // Draw the box
+    const innerW = BOX_W - 2;
+    // Top border
+    moveTo(top, left);
+    clearLine();
+    process.stdout.write(C.bg + C.purple + B.tl + B.h.repeat(innerW) + B.tr + R);
+    // Content rows (BOX_H - 3 for borders + prompt)
+    const contentRows = BOX_H - 3;
+    for (let i = 0; i < contentRows; i++) {
+        moveTo(top + 1 + i, left);
+        clearLine();
+        const content = (overlayLines[i] || '').slice(0, innerW);
+        const padded = content + ' '.repeat(Math.max(0, innerW - stripAnsi(content).length));
+        process.stdout.write(C.bg + C.purple + B.v + R + C.bg + padded + C.purple + B.v + R);
+    }
+    // Prompt row (second-to-last)
+    const promptRow = top + 1 + contentRows;
+    moveTo(promptRow, left);
+    clearLine();
+    const promptText = `${BOLD} ▸ ${R}${inputBuf}`;
+    const promptPadded = promptText + ' '.repeat(Math.max(0, innerW - stripAnsi(promptText).length));
+    process.stdout.write(C.bg + C.purple + B.v + R + C.surface + promptPadded + C.purple + B.v + R);
+    // Cursor position
+    moveTo(promptRow, left + 2 + stripAnsi(BOLD + ' ▸ ' + R).length + inputBuf.length);
+    // Bottom border
+    moveTo(promptRow + 1, left);
+    clearLine();
+    process.stdout.write(C.bg + C.purple + B.bl + B.h.repeat(innerW) + B.br + R);
     showCursor();
 }
 function renderPromptLine() {
     const [w, h] = getSize();
-    const BOX_W = 82;
+    const BOX_W = Math.min(82, w - 4);
     const BOX_H = 18;
     const left = Math.max(0, Math.floor((w - BOX_W) / 2));
     const top = Math.max(0, Math.floor((h - BOX_H) / 2));
-    drawPrompt(top + BOX_H - 1, left, BOX_W, inputBuf);
+    const innerW = BOX_W - 2;
+    const promptRow = top + 1 + (BOX_H - 3);
+    moveTo(promptRow, left);
+    clearLine();
+    const promptText = `${BOLD} ▸ ${R}${inputBuf}`;
+    const promptPadded = promptText + ' '.repeat(Math.max(0, innerW - stripAnsi(promptText).length));
+    process.stdout.write(C.bg + C.purple + B.v + R + C.surface + promptPadded + C.purple + B.v + R);
+    moveTo(promptRow, left + 2 + stripAnsi(BOLD + ' ▸ ' + R).length + inputBuf.length);
     showCursor();
 }
 let cleanedUp = false;
@@ -201,8 +215,7 @@ function cleanup() {
         return;
     cleanedUp = true;
     const [w, h] = getSize();
-    // Clear overlay area
-    const BOX_W = 82;
+    const BOX_W = Math.min(82, w - 4);
     const BOX_H = 18;
     const left = Math.max(0, Math.floor((w - BOX_W) / 2));
     const top = Math.max(0, Math.floor((h - BOX_H) / 2));
