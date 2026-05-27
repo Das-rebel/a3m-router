@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
- * A3M Router TUI — Clean PI-style conversational interface
+ * A3M Router CLI — Inline REPL (no fullscreen)
+ * Like PI's /search — prints inline, no terminal takeover.
  *
- * Looks and feels exactly like PI, but for A3M routing.
- * Type queries → auto-routed to cheapest model. /slash commands.
+ * Usage: node dist/tui/dashboard.js
+ *        Then type queries or /slash commands.
  */
 export {};
