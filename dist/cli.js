@@ -17,6 +17,7 @@
  *   npx a3m-router models                  List known models
  *   npx a3m-router memory add/search/stats Memory operations
  *   npx a3m-router status                  Show router status
+ *   npx a3m-router tui                    Launch terminal UI overlay
  */
 
 const { execSync } = require('child_process');

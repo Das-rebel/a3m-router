@@ -17,6 +17,16 @@
 
 ### Quick Start: [`docs/QUICK_START.md`](./docs/QUICK_START.md)
 
+### 💅 Terminal UI
+
+```bash
+npx a3m
+# or directly:
+node dist/tui/dashboard.js
+```
+
+Sakura pink overlay box. Commands: `/route`, `/cost`, `/health`, `/models`, `/model <provider>`. Type anything to auto-route. `esc` to quit.
+
 ### 📊 By the Numbers
 
 | Metric | Value | Context |
