@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 /**
- * A3M Router — Overlay Box (blessed, non-fullscreen)
+ * A3M Router — Overlay Box TUI (Sakura Light Theme)
  */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -38,67 +38,61 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const blessed = __importStar(require("blessed"));
-// State
+// ── State ──
 let activeModel = 'nvidia/llama-3.1-8b';
 let totalCost = 0.000087;
 let reqCount = 4;
 const log = [];
-// Screen — floating overlay, not fullscreen
+// ── Screen ──
 const screen = blessed.screen({
     smartCSR: true,
     fullUnicode: true,
     dockBorders: false,
     cursor: { shape: 'line', blink: true },
 });
-// Box settings
 const BW = 82;
 const BH = 18;
-function boxLeft() { return Math.max(0, Math.floor((screen.width - BW) / 2)); }
-function boxTop() { return Math.max(0, Math.floor((screen.height - BH) / 2)); }
-// Overlay box
+function L() { return Math.max(0, Math.floor((screen.width - BW) / 2)); }
+function T() { return Math.max(0, Math.floor((screen.height - BH) / 2)); }
+// ── SAKURA LIGHT THEME ──
+// bg:  #fff5f7  (blush white)
+// srf: #fce7f3  (light pink)
+// dim: #d8a4b8  (muted rose)
+// txt: #831843  (deep maroon)
+// pink:#be185d  (hot pink)
+// grn: #059669  (emerald)
+// blu: #2563eb  (royal blue)
+// amb: #d97706  (amber)
+// red: #dc2626  (crimson)
+// cyn: #0891b2  (teal)
+// prp: #7c3aed  (violet)
 const box = blessed.box({
-    top: boxTop(),
-    left: boxLeft(),
-    width: BW,
-    height: BH,
-    border: { type: 'line', fg: 'magenta' },
-    style: { fg: '#c0caf5', bg: '#1a1b26' },
-    tags: true,
-    scrollable: true,
-    mouse: true,
-    keys: true,
+    top: T(), left: L(), width: BW, height: BH,
+    border: { type: 'line', fg: '#f472b6' },
+    style: { fg: '#831843', bg: '#fff5f7' },
+    tags: true, scrollable: true, mouse: true, keys: true,
     padding: { left: 1, right: 1, top: 0, bottom: 0 },
 });
-// Prompt
 const prompt = blessed.textbox({
-    parent: box,
-    bottom: 1,
-    left: 0,
-    width: BW - 4,
-    height: 1,
-    style: { fg: '#c0caf5', bg: '#24283b' },
-    inputOnFocus: true,
-    keys: true,
-    tags: true,
+    parent: box, bottom: 1, left: 0, width: BW - 4, height: 1,
+    style: { fg: '#831843', bg: '#fce7f3' },
+    inputOnFocus: true, keys: true, tags: true,
 });
-// Helpers
-const D = (s) => `{#565f89-fg}${s}{/}`;
+const D = (s) => `{#d8a4b8-fg}${s}{/}`;
 function render() {
     const maxLines = BH - 4;
     const visible = log.slice(-maxLines);
     let out = '';
-    out += `{bold}{#bb9af7-fg}⚡ A3M Router{/}  ${D('·')}  {#9ece6a-fg}${activeModel}{/}  ${D('·')}  ${D(`${reqCount} req`)}  ${D('·')}  ${D(`$${totalCost.toFixed(6)}`)}\n`;
-    out += `${D('─'.repeat(BW - 6))}\n`;
-    out += '\n';
-    for (const line of visible) {
+    out += `{bold}{#be185d-fg}⚡ A3M Router{/}  ${D('·')}  {#059669-fg}${activeModel}{/}  ${D('·')}  ${D(`${reqCount} req`)}  ${D('·')}  ${D(`$${totalCost.toFixed(6)}`)}\n`;
+    out += `${D('─'.repeat(BW - 6))}\n\n`;
+    for (const line of visible)
         out += line + '\n';
-    }
     if (visible.length === 0) {
         out += `  ${D('Type a query — auto-routed to cheapest model.')}\n\n`;
         out += `  ${D('Commands:')}\n`;
-        out += `  {#7aa2f7-fg}/route{/} ${D('<query>')}       /cost              /model nvidia\n`;
-        out += `  {#7aa2f7-fg}/health{/}              /models            /clear\n`;
-        out += `  {#7aa2f7-fg}/exit{/}                /help\n\n`;
+        out += `  {#2563eb-fg}/route{/} ${D('<query>')}       /cost              /model nvidia\n`;
+        out += `  {#2563eb-fg}/health{/}              /models            /clear\n`;
+        out += `  {#2563eb-fg}/exit{/}                /help\n\n`;
         out += `  ${D('nvidia (free)  ·  groq (free)  ·  deepseek ($9.46)')}\n`;
     }
     box.setContent(out);
@@ -107,7 +101,7 @@ function render() {
 function cmd(c) {
     if (!c)
         return;
-    log.push(`{bold}{#7dcfff-fg}▸{/} ${c}`);
+    log.push(`{bold}{#0891b2-fg}▸{/} ${c}`);
     if (c === '/exit' || c === '/q') {
         screen.destroy();
         process.exit(0);
@@ -117,25 +111,25 @@ function cmd(c) {
     else if (c === '/clear')
         log.length = 0;
     else if (c === '/cost') {
-        log.push(`  {#bb9af7-fg}A3M{/}  Cost:`);
+        log.push(`  {#be185d-fg}A3M{/}  Cost:`);
         log.push(`  ${D('nvidia $0  |  deepseek $0.000009  |  groq $0  |  cerebras $0')}`);
         log.push(`  ${D(`TOTAL $${totalCost.toFixed(6)}  |  ${reqCount} req  |  99.97% saved`)}`);
     }
     else if (c === '/health') {
-        log.push(`  {#bb9af7-fg}A3M{/}  Health:`);
-        log.push(`  {#9ece6a-fg}●{/} nvidia 85ms  {#9ece6a-fg}●{/} deepseek 210ms  {#9ece6a-fg}●{/} groq 150ms  {#9ece6a-fg}●{/} cerebras 320ms`);
-        log.push(`  {#f7768e-fg}✕{/} mistral OFFLINE  {#9ece6a-fg}●{/} ollama 50ms`);
+        log.push(`  {#be185d-fg}A3M{/}  Health:`);
+        log.push(`  {#059669-fg}●{/} nvidia 85ms  {#059669-fg}●{/} deepseek 210ms  {#059669-fg}●{/} groq 150ms  {#059669-fg}●{/} cerebras 320ms`);
+        log.push(`  {#dc2626-fg}✕{/} mistral OFFLINE  {#059669-fg}●{/} ollama 50ms`);
     }
     else if (c === '/models') {
-        log.push(`  {#bb9af7-fg}A3M{/}  47+ providers:`);
-        log.push(`  {#9ece6a-fg}● nvidia{/} (free)  {#7dcfff-fg}● groq{/} (free)  {#e0af68-fg}● deepseek{/} (cheap)  {#bb9af7-fg}● cerebras{/} (free)`);
+        log.push(`  {#be185d-fg}A3M{/}  47+ providers:`);
+        log.push(`  {#059669-fg}● nvidia{/} (free)  {#0891b2-fg}● groq{/} (free)  {#d97706-fg}● deepseek{/} (cheap)  {#7c3aed-fg}● cerebras{/} (free)`);
     }
     else if (c.startsWith('/model ')) {
         const w = c.replace('/model ', '').trim();
-        const valid = ['nvidia', 'deepseek', 'groq', 'cerebras', 'mistral', 'openai', 'ollama'];
-        if (valid.includes(w)) {
+        const ok = ['nvidia', 'deepseek', 'groq', 'cerebras', 'mistral', 'openai', 'ollama'];
+        if (ok.includes(w)) {
             activeModel = `${w}/auto`;
-            log.push(`  ${D(`→ {#9ece6a-fg}${activeModel}{/}`)}`);
+            log.push(`  ${D(`→ {#059669-fg}${activeModel}{/}`)}`);
         }
         else
             log.push(`  ${D(`Unknown: ${w}`)}`);
@@ -145,7 +139,7 @@ function cmd(c) {
         const cost = Math.random() * 0.00005;
         totalCost += cost;
         reqCount++;
-        log.push(`  {#bb9af7-fg}A3M{/}  {#9ece6a-fg}${activeModel}{/}  ${D('·')}  {#e0af68-fg}${ms}ms{/}  ${D('·')}  {#ff9e64-fg}$${cost.toFixed(6)}{/}`);
+        log.push(`  {#be185d-fg}A3M{/}  {#059669-fg}${activeModel}{/}  ${D('·')}  {#d97706-fg}${ms}ms{/}  ${D('·')}  {#ea580c-fg}$${cost.toFixed(6)}{/}`);
         log.push(`  ${c}`);
     }
     while (log.length > 25)
@@ -153,10 +147,8 @@ function cmd(c) {
     render();
     prompt.focus();
 }
-// Keys
 screen.key(['C-c', 'escape'], () => { screen.destroy(); process.exit(0); });
 prompt.key('enter', () => { const v = prompt.getValue().trim(); prompt.clearValue(); cmd(v); });
-// Start
 screen.append(box);
 render();
 prompt.focus();
