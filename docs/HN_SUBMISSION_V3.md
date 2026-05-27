@@ -1,6 +1,6 @@
 # Show HN: A3M Router — 99.5% routing accuracy without ML. 30x more efficient than BERT.
 
-**URL**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+**URL**: https://github.com/Das-rebel/a3m-router
 
 ---
 
@@ -49,8 +49,8 @@ Total: 4,224 downloads (self-sustaining npm discovery)
 
 The question: if keyword matching gets you 97% of GPU-trained BERT accuracy for LLM routing, is the GPU worth it?
 
-**Repo**: https://github.com/Das-rebel/adaptive-memory-multi-model-router  
+**Repo**: https://github.com/Das-rebel/a3m-router  
 **npm**: https://www.npmjs.com/package/adaptive-memory-multi-model-router  
-**Benchmarks**: https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/benchmark-results.json
+**Benchmarks**: https://github.com/Das-rebel/a3m-router/blob/main/benchmark-results.json
 
 Caveat: benchmarks are self-run. I'd love to see independent replication.

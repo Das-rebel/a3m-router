@@ -169,7 +169,7 @@ For most production workloads, that tradeoff is favorable.
 
 I packaged the routing logic into an npm library: **adaptive-memory-multi-model-router**.
 
-- GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- GitHub: https://github.com/Das-rebel/a3m-router
 - npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 It handles provider selection, automatic fallback on failure/timeout, and cost tracking per request. The routing table is configurable -- you can set your own quality/cost thresholds. It ships with the benchmark data above as default routing weights.
@@ -226,7 +226,7 @@ Several things this benchmark does **not** tell you:
 ---
 
 **Links:**
-- GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- GitHub: https://github.com/Das-rebel/a3m-router
 - npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 Raw benchmark data is in the repo under `benchmarks/`. PRs welcome if you want to add your own provider data.

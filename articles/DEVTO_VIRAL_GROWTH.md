@@ -3,7 +3,7 @@ title: "2,775 Downloads in 3 Days With Zero Marketing Budget — Here's What Hap
 published: true
 description: "The honest growth story of an open-source LLM router: what worked, what failed, and why 1,903 people downloaded it yesterday"
 tags: discuss, opensource, ai, webdev
-canonical_url: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+canonical_url: https://github.com/Das-rebel/a3m-router
 ---
 
 # 2,775 Downloads in 3 Days With Zero Marketing Budget — Here's What Happened
@@ -27,7 +27,7 @@ This is the story of what we did, what actually worked, what completely failed, 
 
 ## What We Built
 
-First, context. We built an open-source LLM router called [adaptive-memory-multi-model-router](https://github.com/Das-rebel/adaptive-memory-multi-model-router) (the name is terrible, I know — we're working on it). It does three things:
+First, context. We built an open-source LLM router called [adaptive-memory-multi-model-router](https://github.com/Das-rebel/a3m-router) (the name is terrible, I know — we're working on it). It does three things:
 
 1. **Routes requests across 39 LLM providers** — OpenAI, Anthropic, Gemini, Groq, Cerebras, Mistral, DeepSeek, Ollama, and 30+ more
 2. **Adaptive memory** — tracks which models work best for your use case and routes accordingly
@@ -247,7 +247,7 @@ const response = await client.chat.completions.create({
 
 Same SDK. Same API. Different backend. That's the point.
 
-**GitHub:** [github.com/Das-rebel/adaptive-memory-multi-model-router](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
+**GitHub:** [github.com/Das-rebel/a3m-router](https://github.com/Das-rebel/a3m-router)
 
 **NPM:** [npmjs.com/package/adaptive-memory-multi-model-router](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 
@@ -255,7 +255,7 @@ Same SDK. Same API. Different backend. That's the point.
 
 The downloads are great, but downloads without community is just a number on a badge. Here's what we need:
 
-1. **GitHub stars help discoverability.** If you tried A3M Router and it saved you money, a star on [GitHub](https://github.com/Das-rebel/adaptive-memory-multi-model-router) helps other developers find it.
+1. **GitHub stars help discoverability.** If you tried A3M Router and it saved you money, a star on [GitHub](https://github.com/Das-rebel/a3m-router) helps other developers find it.
 
 2. **What providers do you need?** We have 39. But if your provider isn't listed, tell us. We'll add it.
 
@@ -277,4 +277,4 @@ The 2,775 downloads proved npm search is a viable growth channel. Now we're buil
 
 ---
 
-*If this story was useful, follow along at [github.com/Das-rebel/adaptive-memory-multi-model-router](https://github.com/Das-rebel/adaptive-memory-multi-model-router). Stars appreciated. Issues celebrated. PRs worshipped.*
+*If this story was useful, follow along at [github.com/Das-rebel/a3m-router](https://github.com/Das-rebel/a3m-router). Stars appreciated. Issues celebrated. PRs worshipped.*

@@ -1,5 +1,5 @@
 # A3M Router - robots.txt
-# https://github.com/Das-rebel/adaptive-memory-multi-model-router
+# https://github.com/Das-rebel/a3m-router
 
 User-agent: *
 Allow: /

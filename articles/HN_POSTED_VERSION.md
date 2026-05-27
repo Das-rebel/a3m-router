@@ -50,7 +50,7 @@ const result = await router.route("Your query");
 npm install adaptive-memory-multi-model-router
 npx a3m-router route "Your query"
 
-GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+GitHub: https://github.com/Das-rebel/a3m-router
 NPM: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 Full benchmark dataset is open source (MIT). What providers did I miss? Happy to benchmark more.

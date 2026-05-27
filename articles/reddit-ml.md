@@ -71,6 +71,6 @@ npx a3m-router route "Write Python to sort an array"
 npx a3m-router benchmark
 ```
 
-GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+GitHub: https://github.com/Das-rebel/a3m-router
 
 The honest caveat: this is a young project (3 days since launch). The 82.5% number is from our benchmark suite, not an independent evaluation. We welcome scrutiny and would love to see third-party replication.

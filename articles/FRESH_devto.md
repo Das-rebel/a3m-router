@@ -450,7 +450,7 @@ console.log(`Tier: ${result.tier}`);
 console.log(`Cost: $${result.cost}`);
 ```
 
-**GitHub:** https://github.com/Das-rebel/adaptive-memory-multi-model-router
+**GitHub:** https://github.com/Das-rebel/a3m-router
 **npm:** https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 MIT license. Self-hosted. No account. 19.5 KB. TypeScript + Python SDKs, CLI, REST API, OpenAI proxy, LangChain adapter.

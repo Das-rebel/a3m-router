@@ -1,6 +1,6 @@
 # TMLPD — Parallel Multi-LLM Execution Module
 
-> **Part of the [A3M Router](https://github.com/Das-rebel/adaptive-memory-multi-model-router) ecosystem.**
+> **Part of the [A3M Router](https://github.com/Das-rebel/a3m-router) ecosystem.**
 
 Parallel multi-LLM execution with confidence-weighted ensemble merging. Runs providers simultaneously, scores each result, and returns the best answer with transparent reasoning.
 

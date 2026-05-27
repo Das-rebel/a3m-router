@@ -49,6 +49,6 @@ npx a3m-router benchmark
 
 40 providers. Semantic cache. Circuit breakers. Real-time cost dashboard. 3MB.
 
-GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+GitHub: https://github.com/Das-rebel/a3m-router
 
 The question I keep coming back to: if keyword matching gets you 97% of GPU-trained BERT accuracy, is the GPU worth it?

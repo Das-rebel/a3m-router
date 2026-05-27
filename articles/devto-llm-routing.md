@@ -3,7 +3,7 @@ title: "How We Matched a GPU-Trained Router With Zero ML"
 published: false
 description: "A3M Router gets 82.5% routing accuracy with keyword matching. RouteLLM's BERT gets 85%. That's 97% of the accuracy at 3% of the compute. Here's how."
 tags: llm, ai, routing, javascript, typescript, benchmark, routellm
-canonical_url: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+canonical_url: https://github.com/Das-rebel/a3m-router
 ---
 
 # How We Matched a GPU-Trained Router With Zero ML
@@ -128,7 +128,7 @@ npx a3m-router serve
 
 ## Links
 
-- GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- GitHub: https://github.com/Das-rebel/a3m-router
 - NPM: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 ---

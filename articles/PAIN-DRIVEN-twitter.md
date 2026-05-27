@@ -103,14 +103,14 @@ npx a3m-router benchmark
 ```
 
 Or try online:
-https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground
 
 No API keys needed for testing.
 
 ## Tweet 10/10 - CTA
 872+ weekly downloads. 33 tests passing. Production-ready.
 
-GitHub: github.com/Das-rebel/adaptive-memory-multi-model-router
+GitHub: github.com/Das-rebel/a3m-router
 NPM: npmjs.com/package/adaptive-memory-multi-model-router
 
 What's your current LLM spend? I'd bet we can cut it 50%.

@@ -4,8 +4,8 @@
 
 [![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?color=blue)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
-[![GitHub stars](https://img.shields.io/github/stars/Das-rebel/adaptive-memory-multi-model-router)](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
-[![Build](https://github.com/Das-rebel/adaptive-memory-multi-model-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Das-rebel/adaptive-memory-multi-model-router/actions)
+[![GitHub stars](https://img.shields.io/github/stars/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router)
+[![Build](https://github.com/Das-rebel/a3m-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Das-rebel/a3m-router/actions)
 [![MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
 > **The only open-source LLM router with parallel multi-LLM execution and independent benchmarks.** 47+ providers. 99.5% routing accuracy. 62% cost savings. Third-party latency data included. Zero ML, 19.5KB.
@@ -63,7 +63,7 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 
 [![npm version](https://badge.fury.io/js/adaptive-memory-multi-model-router.svg)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm downloads](https://img.shields.io/npm/dw/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
-[![GitHub license](https://img.shields.io/github/license/Das-rebel/adaptive-memory-multi-model-router)](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/LICENSE)
+[![GitHub license](https://img.shields.io/github/license/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router/blob/main/LICENSE)
 
 ---
 > ⚡️ **A3M Router** — Intelligent LLM gateway with semantic routing, load balancing, circuit breakers, and cost-based routing. 99.5% routing accuracy. Save 62% on API costs. Zero ML, starts in <100ms.
@@ -74,9 +74,9 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 ### Used By
 
 ![Used by](https://img.shields.io/badge/Used%20by-Startups%20%26%20Developers-brightgreen)
-[![Star this repo](https://img.shields.io/github/stars/Das-rebel/adaptive-memory-multi-model-router?style=social)](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
+[![Star this repo](https://img.shields.io/github/stars/Das-rebel/a3m-router?style=social)](https://github.com/Das-rebel/a3m-router)
 
-*We track usage but don't collect personal data. If you're using A3M Router, [let us know](https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions)!*
+*We track usage but don't collect personal data. If you're using A3M Router, [let us know](https://github.com/Das-rebel/a3m-router/discussions)!*
 
 
 
@@ -234,7 +234,7 @@ For **generative engine optimization** — synthesizing multiple AI models into 
 ### TypeScript SDK
 
 ```typescript
-import { A3MRouter } from 'adaptive-memory-multi-model-router/sdk';
+adaptive-memory-multi-model-router/sdk';
 
 const router = new A3MRouter();
 
@@ -441,7 +441,7 @@ Route: pick cheapest available model in the assigned tier, with +2 fallback mode
 | `"Design oncology trial"` | medical +0.35, design +0.20, steps +0.15 | 1.00 | premium | gpt-4o ($2.50/M) |
 
 ```typescript
-import { extractQueryFeatures, routeQuery } from 'adaptive-memory-multi-model-router';
+adaptive-memory-multi-model-router';
 
 // See exactly what signals a query triggers
 const features = extractQueryFeatures("Review this contract for liability clauses");
@@ -573,7 +573,7 @@ Where `C = √2 ≈ 1.414` is the exploration constant.
 After N iterations, the node with the highest average reward is the best strategy.
 
 ```typescript
-import { MCTSWorkflowOptimizer } from 'adaptive-memory-multi-model-router/orchestration';
+adaptive-memory-multi-model-router/orchestration';
 
 const optimizer = new MCTSWorkflowOptimizer({
   maxIterations: 50,          // tree search depth
@@ -704,7 +704,7 @@ Router assigns each sub-task to optimal agent, tracks outcomes, learns preferenc
 **Per-User/Team Budgets with Hard Caps + Real-Time Dashboard**
 
 ```typescript
-import { BudgetManager } from 'adaptive-memory-multi-model-router/billing';
+adaptive-memory-multi-model-router/billing';
 
 const budgets = new BudgetManager({
   monthlyLimit: 500,              // $500/month hard cap
@@ -732,8 +732,8 @@ budgets.getSpendBreakdown();
 **Provider Health Scoring + Circuit Breaker + Chinese Provider Handling**
 
 ```typescript
-import { HealthScoreManager } from 'adaptive-memory-multi-model-router/failover';
-import { CircuitBreaker } from 'adaptive-memory-multi-model-router/failover';
+adaptive-memory-multi-model-router/failover';
+adaptive-memory-multi-model-router/failover';
 
 // Provider health scoring
 const health = new HealthScoreManager({
@@ -769,7 +769,7 @@ const chineseHandler = new ChineseProviderHandler({
 **Embedding-Based Cache Lookup + Per-Route TTL + Configurable Similarity**
 
 ```typescript
-import { SemanticCache } from 'adaptive-memory-multi-model-router/cache';
+adaptive-memory-multi-model-router/cache';
 
 const cache = new SemanticCache({
   maxSize: 1000,              // max entries
@@ -795,7 +795,7 @@ cache.getStats(); // { hits: 1, misses: 1, hitRate: 0.5, size: 1 }
 **Custom Timeout + Exponential Backoff + Rate Limit Detection**
 
 ```typescript
-import { RetryManager } from 'adaptive-memory-multi-model-router/retry';
+adaptive-memory-multi-model-router/retry';
 
 const retry = new RetryManager({
   providers: {
@@ -820,7 +820,7 @@ retry.execute('groq', () => callGroq());
 Run every query against multiple providers simultaneously. Score each result on specificity, structure, and relevance. Return the best answer with transparent reasoning about why it was chosen.
 
 ```typescript
-import { executeEnsemble } from 'adaptive-memory-multi-model-router/ensemble';
+adaptive-memory-multi-model-router/ensemble';
 
 const result = await executeEnsemble(
   "Explain how vector databases work",
@@ -844,7 +844,7 @@ console.log(result.allResults.groq);  // → groq's answer (available if needed)
 
 ```typescript
 // Track historical accuracy per provider
-import { recordFeedback } from 'adaptive-memory-multi-model-router/ensemble';
+adaptive-memory-multi-model-router/ensemble';
 
 let history = {};
 history = recordFeedback('nvidia', true, history);  // good answer
@@ -867,7 +867,7 @@ Route queries to the optimal provider and temperature based on task type — no 
 | 📖 Factual | Groq | 0.2 | ❌ | Definitions, facts |
 
 ```typescript
-import { createPresetRouter } from 'adaptive-memory-multi-model-router/presets';
+adaptive-memory-multi-model-router/presets';
 
 const router = createPresetRouter();
 
@@ -882,7 +882,7 @@ preset.maxTokens;     // → 3000
 preset.timeoutMs;     // → 45000
 
 // Customize presets for your workload
-import { DEFAULT_PRESETS } from 'adaptive-memory-multi-model-router/presets';
+adaptive-memory-multi-model-router/presets';
 
 const customRouter = createPresetRouter({
   ...DEFAULT_PRESETS,
@@ -897,7 +897,7 @@ const customRouter = createPresetRouter({
 Agent execution memories persist across CLI or API sessions via a local JSON file. Auto-saves after every 3 entries. Full keyword index rebuilt on load.
 
 ```typescript
-import { EpisodicMemoryStore } from 'adaptive-memory-multi-model-router/memory';
+adaptive-memory-multi-model-router/memory';
 
 // Pass a file path to enable persistence
 const memory = new EpisodicMemoryStore(1000, './.a3m-memory.json');
@@ -997,29 +997,29 @@ Full API docs: [`docs/API.md`](docs/API.md)
 
 ```typescript
 // Main — everything
-import { routeQuery, createProxyServer, SemanticCache, GuardrailEngine } from 'adaptive-memory-multi-model-router';
+adaptive-memory-multi-model-router';
 
 // SDK — clean high-level API
-import { A3MRouter } from 'adaptive-memory-multi-model-router/sdk';
+adaptive-memory-multi-model-router/sdk';
 
 // Individual modules
-import { SemanticCache } from 'adaptive-memory-multi-model-router/cache';
-import { GuardrailEngine } from 'adaptive-memory-multi-model-router/guardrails';
-import { CostTracker } from 'adaptive-memory-multi-model-router/cost';
-import { CostAnalytics } from 'adaptive-memory-multi-model-router/analytics';
-import { MemoryTree } from 'adaptive-memory-multi-model-router/memory';
-import { A3MChatModel } from 'adaptive-memory-multi-model-router/langchain';
-import { registerProvider } from 'adaptive-memory-multi-model-router/providers';
-import { createProxyServer } from 'adaptive-memory-multi-model-router/server';
+adaptive-memory-multi-model-router/cache';
+adaptive-memory-multi-model-router/guardrails';
+adaptive-memory-multi-model-router/cost';
+adaptive-memory-multi-model-router/analytics';
+adaptive-memory-multi-model-router/memory';
+adaptive-memory-multi-model-router/langchain';
+adaptive-memory-multi-model-router/providers';
+adaptive-memory-multi-model-router/server';
 
 // Ensemble (P0) — core differentiator
-import { executeEnsemble, mergeComplementary, recordFeedback } from 'adaptive-memory-multi-model-router/ensemble';
+adaptive-memory-multi-model-router/ensemble';
 
 // Query-type presets (P1)
-import { createPresetRouter, getPresetForQuery, DEFAULT_PRESETS } from 'adaptive-memory-multi-model-router/presets';
+adaptive-memory-multi-model-router/presets';
 
 // Persistent memory (P3)
-import { EpisodicMemoryStore } from 'adaptive-memory-multi-model-router/memory';
+adaptive-memory-multi-model-router/memory';
 ```
 
 ---
@@ -1055,11 +1055,11 @@ These features are on our roadmap based on user feedback:
 ## Links
 
 - [npm package](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
-- [GitHub repo](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
+- [GitHub repo](https://github.com/Das-rebel/a3m-router)
 - [API Reference](docs/API.md)
 - [Architecture](docs/ARCHITECTURAL-IMPROVEMENTS-2025.md)
-- [Discussions](https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions)
-- [Contributing](CONTRIBUTING.md) · [Good first issues](https://github.com/Das-rebel/adaptive-memory-multi-model-router/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
+- [Discussions](https://github.com/Das-rebel/a3m-router/discussions)
+- [Contributing](CONTRIBUTING.md) · [Good first issues](https://github.com/Das-rebel/a3m-router/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
 MIT License. No vendor lock-in. No account required. `npm install` and go.
 

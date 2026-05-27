@@ -5,14 +5,14 @@ Try A3M Router instantly in your browser!
 ## 🎮 Live Playgrounds
 
 ### CodeSandbox
-[![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?logo=codesandbox)](https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground)
+[![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?logo=codesandbox)](https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground)
 
-**Direct Link:** https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+**Direct Link:** https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground
 
 ### StackBlitz
-[![Open in StackBlitz](https://img.shields.io/badge/Open%20in-StackBlitz-blue?logo=stackblitz)](https://stackblitz.com/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground)
+[![Open in StackBlitz](https://img.shields.io/badge/Open%20in-StackBlitz-blue?logo=stackblitz)](https://stackblitz.com/github/Das-rebel/a3m-router/tree/main/playground)
 
-**Direct Link:** https://stackblitz.com/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+**Direct Link:** https://stackblitz.com/github/Das-rebel/a3m-router/tree/main/playground
 
 ### Repl.it
 [![Run on Repl.it](https://img.shields.io/badge/Run%20on-Replit-blue?logo=replit)](https://replit.com/@Das-rebel/a3m-router-playground)

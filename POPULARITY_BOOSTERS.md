@@ -56,8 +56,8 @@
 
 **Try it now:**
 
-[![CodeSandbox](https://img.shields.io/badge/🎮%20CodeSandbox-6366f1?style=for-the-badge&logo=codesandbox)](https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground)
-[![StackBlitz](https://img.shields.io/badge/⚡%20StackBlitz-1389FD?style=for-the-badge&logo=stackblitz)](https://stackblitz.com/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground)
+[![CodeSandbox](https://img.shields.io/badge/🎮%20CodeSandbox-6366f1?style=for-the-badge&logo=codesandbox)](https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground)
+[![StackBlitz](https://img.shields.io/badge/⚡%20StackBlitz-1389FD?style=for-the-badge&logo=stackblitz)](https://stackblitz.com/github/Das-rebel/a3m-router/tree/main/playground)
 
 **What users can try:**
 - See all 9 configured providers
@@ -196,7 +196,7 @@
 
 3. **Post to Hacker News**
    - Use "Show HN" format
-   - Link: `https://github.com/Das-rebel/adaptive-memory-multi-model-router`
+   - Link: `https://github.com/Das-rebel/a3m-router`
    - Text from `articles/hackernews-show-hn.md`
 
 ### This Week
@@ -259,11 +259,11 @@
 
 | Resource | URL |
 |----------|-----|
-| **GitHub Repo** | https://github.com/Das-rebel/adaptive-memory-multi-model-router |
+| **GitHub Repo** | https://github.com/Das-rebel/a3m-router |
 | **NPM Package** | https://www.npmjs.com/package/adaptive-memory-multi-model-router |
 | **GitHub Pages** | https://das-rebel.github.io/adaptive-memory-multi-model-router/ (after activation) |
-| **CodeSandbox** | https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground |
-| **StackBlitz** | https://stackblitz.com/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground |
+| **CodeSandbox** | https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground |
+| **StackBlitz** | https://stackblitz.com/github/Das-rebel/a3m-router/tree/main/playground |
 
 ---
 

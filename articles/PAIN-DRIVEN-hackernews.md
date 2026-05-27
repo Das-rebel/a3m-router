@@ -120,9 +120,9 @@ If your OpenAI bill is >$500/month, you're overpaying.
 
 ## Links
 
-- GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- GitHub: https://github.com/Das-rebel/a3m-router
 - NPM: https://www.npmjs.com/package/adaptive-memory-multi-model-router
-- Playground: https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+- Playground: https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground
 
 **872 weekly downloads. 33 tests passing. Production-ready.**
 

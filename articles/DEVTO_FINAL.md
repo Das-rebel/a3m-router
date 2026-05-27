@@ -3,7 +3,7 @@ title: "I Benchmarked 47 LLM Providers Against Real Queries - Here's What I Foun
 published: true
 description: "After testing 47 providers across 12,847 real queries, I built an open-source router that cuts LLM costs by 70%. Full data, code examples, and step-by-step setup inside."
 tags: node, javascript, ai, llm, webdev
-canonical_url: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+canonical_url: https://github.com/Das-rebel/a3m-router
 cover_image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/placeholder.png
 ---
 
@@ -123,7 +123,7 @@ Multilingual     → GLM-4 ($2.80/1M) -- beats GPT-4 at 1/10th cost
 
 ## Building a Smart Router
 
-Manually switching providers per query is not sustainable. I needed automation. So I built [A3M Router](https://github.com/Das-rebel/adaptive-memory-multi-model-router) -- an open-source routing layer with all the benchmark data baked in.
+Manually switching providers per query is not sustainable. I needed automation. So I built [A3M Router](https://github.com/Das-rebel/a3m-router) -- an open-source routing layer with all the benchmark data baked in.
 
 ### How It Works
 
@@ -359,7 +359,7 @@ This was the biggest takeaway. No single provider wins across all categories. GP
 
 No installation needed. Test routing decisions right in your browser:
 
-[CodeSandbox Playground](https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground)
+[CodeSandbox Playground](https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground)
 
 ### Quick Start
 
@@ -379,9 +379,9 @@ npx a3m-router compare "Write a binary search in Python"
 
 ### Links
 
-- **GitHub:** [Das-rebel/adaptive-memory-multi-model-router](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
+- **GitHub:** [Das-rebel/a3m-router](https://github.com/Das-rebel/a3m-router)
 - **NPM:** [adaptive-memory-multi-model-router](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
-- **Full Benchmark Data:** [docs/BENCHMARK_DATA.md](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/docs/BENCHMARK_DATA.md)
+- **Full Benchmark Data:** [docs/BENCHMARK_DATA.md](https://github.com/Das-rebel/a3m-router/blob/main/docs/BENCHMARK_DATA.md)
 - **License:** MIT (code and data)
 
 ### Stats
@@ -397,7 +397,7 @@ npx a3m-router compare "Write a binary search in Python"
 
 I'm sharing the full benchmark dataset because keeping it proprietary defeats the purpose of doing the research. Use it to build your own router, validate my findings, or find providers I missed.
 
-**Full dataset:** [BENCHMARK_DATA.md](https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/docs/BENCHMARK_DATA.md)
+**Full dataset:** [BENCHMARK_DATA.md](https://github.com/Das-rebel/a3m-router/blob/main/docs/BENCHMARK_DATA.md)
 
 Includes all 47 providers, 12,847 query results, cost/latency/quality breakdowns, and query-type-specific recommendations.
 

@@ -81,7 +81,7 @@ function showStarPrompt() {
     console.log('');
     console.log('  \x1b[2m── ────────────────────────────────────────\x1b[0m');
     console.log('  \x1b[2m⭐  Found this useful? Star us on GitHub:\x1b[0m');
-    console.log('  \x1b[1m\x1b[36m   https://github.com/Das-rebel/adaptive-memory-multi-model-router\x1b[0m');
+    console.log('  \x1b[1m\x1b[36m   https://github.com/Das-rebel/a3m-router\x1b[0m');
     console.log('  \x1b[2m── ────────────────────────────────────────\x1b[0m');
     console.log('');
     

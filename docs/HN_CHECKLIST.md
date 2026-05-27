@@ -15,7 +15,7 @@
 - [ ] 8:00 AM EST — Open HN submit page
 - [ ] 8:20 AM EST — Fill form:
 - [ ]   Title: "Show HN: A3M Router — 99.5% routing accuracy without ML. 30x more efficient than BERT."
-- [ ]   URL: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- [ ]   URL: https://github.com/Das-rebel/a3m-router
 - [ ]   Text: (paste from /tmp/HN_SUBMISSION_FINAL_v3.md)
 - [ ] 8:30 AM EST — HIT SUBMIT
 - [ ] 8:31 AM EST — Post founder comment immediately
@@ -35,4 +35,4 @@
 - HN upvotes (target: 100+ for front page, 500+ for top 10)
 - GitHub stars (target: +50 within 24h if front page)
 - npm downloads (target: 2,000+ within 24h)
-- GitHub traffic (check at https://github.com/Das-rebel/adaptive-memory-multi-model-router/traffic)
+- GitHub traffic (check at https://github.com/Das-rebel/a3m-router/traffic)

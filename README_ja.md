@@ -26,7 +26,7 @@ OpenAI SDKを`http://localhost:8787/v1`に向けるだけで、コード変更�
 
 ## オープンソース
 
-- **GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- **GitHub**: https://github.com/Das-rebel/a3m-router
 - **npm**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 MITライセンス。

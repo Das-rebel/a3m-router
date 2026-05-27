@@ -117,7 +117,7 @@ npx a3m-router benchmark
 ## Links
 
 - NPM: https://www.npmjs.com/package/adaptive-memory-multi-model-router
-- GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- GitHub: https://github.com/Das-rebel/a3m-router
 - Weekly Downloads: 872+ and growing
 
 ---

@@ -4,7 +4,7 @@
 - **Name**: `adaptive-memory-multi-model-router`
 - **Version**: 2.0.7
 - **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
-- **GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- **GitHub**: https://github.com/Das-rebel/a3m-router
 - **Core Claim**: 99.5% routing accuracy, zero ML. Matches RouteLLM's BERT within 2.5%.
 
 ---
@@ -57,7 +57,7 @@ Point any OpenAI SDK at localhost:8787. Zero code changes.
 
 The question: if keyword matching gets you 97% of BERT accuracy, is the GPU worth it?
 
-Repo: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+Repo: https://github.com/Das-rebel/a3m-router
 ```
 
 **Best Time to Post**: Tuesday-Thursday, 8:30 AM EST
@@ -153,7 +153,7 @@ await router.route("Analyze legal contract"); // -> premium ($0.03)
 ```
 npm install adaptive-memory-multi-model-router
 
-GitHub: github.com/Das-rebel/adaptive-memory-multi-model-router
+GitHub: github.com/Das-rebel/a3m-router
 
 99.5% accuracy. Zero ML. Zero GPU.
 Matches BERT within 2.5%. 61.6% cost savings. 40 providers.
@@ -221,7 +221,7 @@ Growth: 552 -> 320 -> 1,903 downloads in 3 days. 245% growth. Zero marketing.
 
 npm install adaptive-memory-multi-model-router
 
-GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+GitHub: https://github.com/Das-rebel/a3m-router
 ```
 
 ---
@@ -246,7 +246,7 @@ Growth: Day 1: 552, Day 2: 320, Day 3: 1,903 downloads. Zero marketing.
 
 npm install adaptive-memory-multi-model-router
 
-GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+GitHub: https://github.com/Das-rebel/a3m-router
 ```
 
 ---
@@ -276,7 +276,7 @@ Try it:
   npm install adaptive-memory-multi-model-router
   npx a3m-router serve
 
-GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+GitHub: https://github.com/Das-rebel/a3m-router
 ```
 
 **Topics**: Developer Tools, AI, API, Open Source, JavaScript
@@ -329,7 +329,7 @@ GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
 
 ## SUPPORT
 
-- GitHub Issues: https://github.com/Das-rebel/adaptive-memory-multi-model-router/issues
+- GitHub Issues: https://github.com/Das-rebel/a3m-router/issues
 - Email: Sdas22@gmail.com
 
 ---

@@ -21,7 +21,7 @@ Show HN: A3M Router — the only LLM router besides RouteLLM with published benc
 
 ## Submission Text
 
-**URL**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+**URL**: https://github.com/Das-rebel/a3m-router
 
 **Text** (HN "text" field):
 
@@ -57,7 +57,7 @@ Growth (zero marketing):
 
 The question: if keyword matching gets you 97% of GPU-trained BERT accuracy for LLM routing, is the GPU worth it?
 
-Repo: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+Repo: https://github.com/Das-rebel/a3m-router
 npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 RouteLLM paper: arXiv:2404.06035

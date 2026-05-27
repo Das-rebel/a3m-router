@@ -84,7 +84,7 @@ On the same query workload:
 
 ## Links
 
-- **Repo:** https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- **Repo:** https://github.com/Das-rebel/a3m-router
 - **npm:** https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 The classifier is ~200 lines of TypeScript. No dependencies beyond a standard Node.js runtime. If you want to reproduce the benchmark or contribute a more rigorous evaluation, PRs welcome.

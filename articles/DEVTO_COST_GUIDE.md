@@ -4,7 +4,7 @@ published: true
 description: "Step-by-step guide to reducing LLM API costs by 70% with intelligent routing"
 tags: node, javascript, ai, webdev
 cover_image:
-canonical_url: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+canonical_url: https://github.com/Das-rebel/a3m-router
 ---
 
 # Stop Overpaying for LLM APIs: A Practical Cost Optimization Guide
@@ -450,7 +450,7 @@ tracker.onAlert(alert => console.warn('Budget alert:', alert));
 ```
 
 **Links:**
-- GitHub: [Das-rebel/adaptive-memory-multi-model-router](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
+- GitHub: [Das-rebel/a3m-router](https://github.com/Das-rebel/a3m-router)
 - NPM: [adaptive-memory-multi-model-router](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 - License: MIT
 

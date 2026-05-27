@@ -202,7 +202,7 @@ const router = createA3MRouter({
 ## Links
 
 - **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
-- **GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- **GitHub**: https://github.com/Das-rebel/a3m-router
 - **CLI**: `npx a3m-router --help`
 
 ## Summary

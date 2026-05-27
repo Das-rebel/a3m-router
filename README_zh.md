@@ -48,7 +48,7 @@ npx a3m-router serve                            # 启动代理
 
 ## 开源地址
 
-- **GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- **GitHub**: https://github.com/Das-rebel/a3m-router
 - **npm**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 - **文档**: https://das-rebel.github.io/adaptive-memory-multi-model-router/
 

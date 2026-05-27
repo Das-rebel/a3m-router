@@ -594,12 +594,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Das-rebel/adaptive-memory-multi-model-router"
+    "url": "git+https://github.com/Das-rebel/a3m-router.git"
   },
   "bugs": {
-    "url": "https://github.com/Das-rebel/adaptive-memory-multi-model-router/issues"
+    "url": "https://github.com/Das-rebel/a3m-router/issues"
   },
-  "homepage": "https://das-rebel.github.io/adaptive-memory-multi-model-router/",
+  "homepage": "https://github.com/Das-rebel/a3m-router",
   "scripts": {
     "test": "node test.js && node test/provider-test.js",
     "test:py": "python3 -m pytest -q",

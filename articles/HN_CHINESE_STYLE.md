@@ -217,7 +217,7 @@ npx a3m-router benchmark
 npx a3m-router providers --detailed
 ```
 
-**Or try it online:** https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+**Or try it online:** https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground
 
 No API keys needed. The routing decisions are based on the benchmark data I collected.
 
@@ -249,7 +249,7 @@ No API keys needed. The routing decisions are based on the benchmark data I coll
 
 I considered keeping this proprietary, but that's not in the spirit of HN.
 
-**Full benchmark dataset:** https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/docs/BENCHMARK_DATA.md
+**Full benchmark dataset:** https://github.com/Das-rebel/a3m-router/blob/main/docs/BENCHMARK_DATA.md
 
 **Includes:**
 - All 47 providers tested
@@ -294,10 +294,10 @@ I considered keeping this proprietary, but that's not in the spirit of HN.
 
 ## Links
 
-- **GitHub:** https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- **GitHub:** https://github.com/Das-rebel/a3m-router
 - **NPM:** https://www.npmjs.com/package/adaptive-memory-multi-model-router
-- **Benchmark Data:** https://github.com/Das-rebel/adaptive-memory-multi-model-router/blob/main/docs/BENCHMARK_DATA.md
-- **Playground:** https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+- **Benchmark Data:** https://github.com/Das-rebel/a3m-router/blob/main/docs/BENCHMARK_DATA.md
+- **Playground:** https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground
 
 **Stats:** 872 weekly downloads, 33 tests passing, 156 keywords, 116 integrations.
 

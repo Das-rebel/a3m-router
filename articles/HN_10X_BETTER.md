@@ -327,7 +327,7 @@ npx a3m-router benchmark
 # → Full comparison of all 12 providers
 ```
 
-**Or try it online:** https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+**Or try it online:** https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground
 
 No API keys. No signup. See the routing logic in action.
 
@@ -394,7 +394,7 @@ We almost died because of this problem. $47K in 90 days for a startup our size i
 
 If this saves one other startup from the same fate, it's worth it.
 
-**GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+**GitHub**: https://github.com/Das-rebel/a3m-router
 
 **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 

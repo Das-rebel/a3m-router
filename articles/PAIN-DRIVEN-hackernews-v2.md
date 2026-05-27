@@ -110,7 +110,7 @@ npx a3m-router compare "Summarize this report"
 npx a3m-router benchmark
 ```
 
-**Playground**: https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+**Playground**: https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground
 
 ## The Math
 
@@ -127,7 +127,7 @@ At 10,000 queries/day, you're leaving $6,300/month on the table.
 
 ## Links
 
-- **GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- **GitHub**: https://github.com/Das-rebel/a3m-router
 - **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 - **Supported**: OpenAI, GLM-4, MiniMax, Cerebras, Groq, Mistral, Anthropic, Google, DeepSeek, CommandCode, OpenCode, Ollama
 

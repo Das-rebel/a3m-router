@@ -145,7 +145,7 @@ npm install adaptive-memory-multi-model-router
 npx a3m-router route "Your query"
 ```
 
-GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+GitHub: https://github.com/Das-rebel/a3m-router
 
 What's your current LLM spend?
 ```
@@ -277,7 +277,7 @@ What's your current LLM spend?
 - Twitter: https://analytics.twitter.com/
 - Reddit: Post notifications
 - NPM: https://npm-stat.com/
-- GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router/graphs/traffic
+- GitHub: https://github.com/Das-rebel/a3m-router/graphs/traffic
 
 ---
 
@@ -298,7 +298,7 @@ We were paying $2,400/month. Cut it to $720 with intelligent routing.
 
 npm install adaptive-memory-multi-model-router
 
-GitHub: github.com/Das-rebel/adaptive-memory-multi-model-router
+GitHub: github.com/Das-rebel/a3m-router
 
 Try the playground: [link]
 

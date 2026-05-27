@@ -4,7 +4,7 @@ published: true
 description: "Learn to build an LLM routing system from scratch, then upgrade to A3M Router for production"
 tags: node, javascript, tutorial, beginners
 cover_image:
-canonical_url: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+canonical_url: https://github.com/Das-rebel/a3m-router
 ---
 
 # How to Build a Multi-Provider LLM Router in 50 Lines of Code
@@ -263,7 +263,7 @@ Production routers learn from outcomes. They track quality scores per provider p
 
 ## The Production Upgrade: A3M Router
 
-This is exactly why I built [A3M Router](https://github.com/Das-rebel/adaptive-memory-multi-model-router). It handles the problems above so you don't have to.
+This is exactly why I built [A3M Router](https://github.com/Das-rebel/a3m-router). It handles the problems above so you don't have to.
 
 ### The 3-Line Equivalent
 
@@ -330,7 +330,7 @@ No maintenance. The provider registry stays current:
 | Ollama | llama3, mistral (local) | **Free** | varies |
 | xAI | grok-2 | $2.00 - $10.00 | 1.2s |
 
-Plus Together, vLLM, LM Studio, and DeepSeek. [Full list in the docs](https://github.com/Das-rebel/adaptive-memory-multi-model-router).
+Plus Together, vLLM, LM Studio, and DeepSeek. [Full list in the docs](https://github.com/Das-rebel/a3m-router).
 
 ---
 
@@ -533,7 +533,7 @@ console.log(result.output, result.provider, result.cost);
 That's it. 872+ weekly downloads, MIT licensed, 12 providers, zero config to start.
 
 **Links:**
-- GitHub: [github.com/Das-rebel/adaptive-memory-multi-model-router](https://github.com/Das-rebel/adaptive-memory-multi-model-router)
+- GitHub: [github.com/Das-rebel/a3m-router](https://github.com/Das-rebel/a3m-router)
 - NPM: [npmjs.com/package/adaptive-memory-multi-model-router](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 - Research: Based on [RouteLLM](https://arxiv.org/abs/2404.06035), [RadixAttention](https://arxiv.org/abs/2312.07104), [Medusa](https://arxiv.org/abs/2401.10774)
 

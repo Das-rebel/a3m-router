@@ -74,7 +74,7 @@ await router.route("Write Python to sort an array");
 ## T7/7 — CTA
 npm install adaptive-memory-multi-model-router
 
-GitHub: github.com/Das-rebel/adaptive-memory-multi-model-router
+GitHub: github.com/Das-rebel/a3m-router
 NPM: npmjs.com/package/adaptive-memory-multi-model-router
 
 82.5% accuracy. Zero ML. Zero GPU. Matches BERT within 2.5%. 63.7% cost savings. 40 providers.

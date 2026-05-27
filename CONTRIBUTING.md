@@ -21,7 +21,7 @@ Thank you for your interest in contributing!
 ## Development Setup
 
 ```bash
-git clone https://github.com/Das-rebel/adaptive-memory-multi-model-router.git
+git clone https://github.com/Das-rebel/a3m-router.git
 cd adaptive-memory-multi-model-router
 npm install
 npm test

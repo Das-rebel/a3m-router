@@ -1,10 +1,10 @@
 blank_issues_enabled: false
 contact_links:
   - name: 📖 Documentation
-    url: https://github.com/Das-rebel/adaptive-memory-multi-model-router#readme
+    url: https://github.com/Das-rebel/a3m-router#readme
     about: Check the README for usage examples and API documentation
   - name: 💬 Discussions
-    url: https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions
+    url: https://github.com/Das-rebel/a3m-router/discussions
     about: Ask questions and share ideas in our community forum
   - name: 🚀 NPM Package
     url: https://www.npmjs.com/package/adaptive-memory-multi-model-router

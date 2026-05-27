@@ -295,11 +295,11 @@ Route simple queries to GLM-4. Route code to MiniMax. Keep OpenAI for complex re
 
 ---
 
-**GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+**GitHub**: https://github.com/Das-rebel/a3m-router
 
 **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
-**Try the playground**: https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+**Try the playground**: https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground
 
 **Supported providers**: OpenAI, GLM-4, MiniMax, Cerebras, Groq, Mistral, Anthropic, Google, DeepSeek, CommandCode, OpenCode, Ollama
 

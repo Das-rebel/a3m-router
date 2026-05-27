@@ -147,7 +147,7 @@ That's what A3M Router does.
 
 Try it: `npm install adaptive-memory-multi-model-router`
 
-GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+GitHub: https://github.com/Das-rebel/a3m-router
 
 #LLM #AI #WebDev #OpenSource
 

@@ -226,7 +226,7 @@ registerProvider('my-provider', {
 **[Screen: GitHub and NPM links]**
 
 "Links in the description:
-- GitHub: github.com/Das-rebel/adaptive-memory-multi-model-router
+- GitHub: github.com/Das-rebel/a3m-router
 - NPM: npmjs.com/package/adaptive-memory-multi-model-router
 - Docs: Full documentation on GitHub"
 

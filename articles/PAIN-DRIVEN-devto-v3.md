@@ -218,7 +218,7 @@ npx a3m-router compare "Write Python to sort an array"
 npx a3m-router benchmark
 ```
 
-**Or try it online:** https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+**Or try it online:** https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground
 
 No API keys needed to test the routing logic.
 
@@ -257,7 +257,7 @@ No configuration. No model training. Just intelligent routing based on what your
 
 ---
 
-**GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+**GitHub**: https://github.com/Das-rebel/a3m-router
 
 **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 

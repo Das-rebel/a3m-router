@@ -4,7 +4,7 @@ If you're calling OpenAI for everything, you're overpaying. Most queries don't n
 
 So I built **A3M Router** — a zero-config OpenAI-compatible proxy that automatically routes each query to the cheapest provider that can handle it.
 
-**GitHub:** https://github.com/Das-rebel/adaptive-memory-multi-model-router
+**GitHub:** https://github.com/Das-rebel/a3m-router
 **npm:** https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 ## What it does
@@ -121,7 +121,7 @@ The whole routing classifier is ~200 lines of TypeScript, no ML weights, no GPU,
 
 ## Links
 
-- GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- GitHub: https://github.com/Das-rebel/a3m-router
 - npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 - Available as: TypeScript SDK, Python SDK, CLI, REST API, OpenAI proxy, LangChain adapter
 

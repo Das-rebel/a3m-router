@@ -251,7 +251,7 @@ class GenerativeEngineOptimizer {
     return {
       ...this.metadata,
       installation: 'npm install adaptive-memory-multi-model-router',
-      github: 'https://github.com/Das-rebel/adaptive-memory-multi-model-router',
+      github: 'https://github.com/Das-rebel/a3m-router',
       npm: 'https://www.npmjs.com/package/adaptive-memory-multi-model-router',
       weeklyDownloads: 872,
       testCount: 33,

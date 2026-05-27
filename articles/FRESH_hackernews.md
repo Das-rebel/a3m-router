@@ -8,7 +8,7 @@ Supports 36 providers (OpenAI, Anthropic, Google, Groq, Cerebras, Mistral, DeepS
 
 The core insight is that keyword-based routing is within ±1 tier of BERT-based routing for nearly all queries, at zero infrastructure cost. The routing signals are composable and adjustable — if a particular domain routes poorly, you add domain-specific patterns without retraining anything.
 
-Repo: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+Repo: https://github.com/Das-rebel/a3m-router
 npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 Caveat: the 99.5% figure is self-benchmarked. We'd welcome independent evaluation, especially on non-English or creative writing query distributions where the keyword signals may be weaker.

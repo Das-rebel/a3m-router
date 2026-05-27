@@ -185,7 +185,7 @@ async function runWizard() {
   console.log('  2. npx a3m-router test       # Test provider connections');
   console.log('  3. npx a3m-router route "hi" # Try routing a query');
   console.log('');
-  console.log('  Docs: https://github.com/Das-rebel/adaptive-memory-multi-model-router');
+  console.log('  Docs: https://github.com/Das-rebel/a3m-router');
   console.log('');
   
   rl.close();

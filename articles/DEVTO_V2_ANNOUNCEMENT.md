@@ -3,7 +3,7 @@ title: "A3M Router v2.0: Now an OpenAI-Compatible AI Gateway with 39 Providers �
 published: true
 description: "Drop-in OpenAI proxy, LangChain adapter, guardrails, semantic cache, cost analytics, and 39 LLM providers — all in one npm package"
 tags: node, javascript, ai, webdev
-canonical_url: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+canonical_url: https://github.com/Das-rebel/a3m-router
 ---
 
 We just shipped A3M Router v2.0.0 — the biggest update since launch.
@@ -149,7 +149,7 @@ node -e "const { createA3MRouter } = require('adaptive-memory-multi-model-router
 
 ## Links
 
-- **GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- **GitHub**: https://github.com/Das-rebel/a3m-router
 - **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 - **872+ weekly downloads**
 

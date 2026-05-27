@@ -197,11 +197,11 @@ npx a3m-router compare "Write Python to reverse a string"
 npx a3m-router benchmark
 ```
 
-**Online playground**: https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+**Online playground**: https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground
 
 ## Links
 
-- **GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- **GitHub**: https://github.com/Das-rebel/a3m-router
 - **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 - **Paper**: Inspired by RouteLLM (arXiv:2404.06035)
 

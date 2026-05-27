@@ -125,7 +125,7 @@ npx a3m-router compare "Write Python to sort"
 npx a3m-router benchmark
 ```
 
-**Playground**: https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+**Playground**: https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground
 
 ## The Math
 
@@ -140,9 +140,9 @@ If you're using one provider for everything:
 
 ## Links
 
-- **GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- **GitHub**: https://github.com/Das-rebel/a3m-router
 - **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
-- **Playground**: https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+- **Playground**: https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground
 
 **Stats**: 872 weekly downloads, 33 tests passing, 156 keywords, 116 integrations.
 

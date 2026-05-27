@@ -46,6 +46,6 @@ npx a3m-router serve                              # Proxy at localhost:8787
 - Obsidian vault integration for decision logging
 
 ## Links
-- GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- GitHub: https://github.com/Das-rebel/a3m-router
 - npm: https://www.npmjs.org/package/adaptive-memory-multi-model-router
 - License: MIT

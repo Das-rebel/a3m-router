@@ -6,7 +6,7 @@ Hey r/SideProject — wanted to share something unexpected that happened with my
 
 I built **A3M Router** — a TypeScript package that routes LLM queries to the cheapest provider that can handle them. 36 providers, 5 complexity tiers, semantic caching, injection guardrails. The whole package is 19.5 KB gzipped. MIT license, no account needed, self-hosted.
 
-Repo: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+Repo: https://github.com/Das-rebel/a3m-router
 npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 ## The surprising part: the downloads
@@ -68,5 +68,5 @@ If you're building a dev tool, **take npm keyword search seriously**. It's an or
 
 Happy to answer questions about the routing algorithm, the npm discovery, or the architecture.
 
-GitHub: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+GitHub: https://github.com/Das-rebel/a3m-router
 npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router

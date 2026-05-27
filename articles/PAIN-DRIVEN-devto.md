@@ -231,11 +231,11 @@ No configuration. No model training. Just intelligent routing based on what your
 
 ---
 
-**GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+**GitHub**: https://github.com/Das-rebel/a3m-router
 
 **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
-**Try the playground**: https://codesandbox.io/p/sandbox/github/Das-rebel/adaptive-memory-multi-model-router/tree/main/playground
+**Try the playground**: https://codesandbox.io/p/sandbox/github/Das-rebel/a3m-router/tree/main/playground
 
 ---
 

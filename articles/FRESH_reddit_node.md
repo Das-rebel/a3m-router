@@ -2,7 +2,7 @@
 
 r/node — I want to show you the architecture behind a routing system that classifies LLM query complexity in 0.3ms, with zero ML runtime.
 
-**GitHub:** https://github.com/Das-rebel/adaptive-memory-multi-model-router
+**GitHub:** https://github.com/Das-rebel/a3m-router
 **npm:** https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 ## The problem
@@ -190,7 +190,7 @@ function scoreToTier(score: number): Tier {
 
 ## Links
 
-- **Source:** https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- **Source:** https://github.com/Das-rebel/a3m-router
 - **npm:** https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 MIT license. Self-hosted. No account. `npm install adaptive-memory-multi-model-router` and you're routing.

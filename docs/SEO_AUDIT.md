@@ -3,7 +3,7 @@
 **Date:** 2026-05-18 (Updated)
 **Package:** adaptive-memory-multi-model-router
 **NPM URL:** https://www.npmjs.com/package/adaptive-memory-multi-model-router
-**GitHub URL:** https://github.com/Das-rebel/adaptive-memory-multi-model-router
+**GitHub URL:** https://github.com/Das-rebel/a3m-router
 
 ---
 

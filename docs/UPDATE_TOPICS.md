@@ -3,7 +3,7 @@
 Run this to update GitHub repository topics:
 
 ```bash
-curl -X PATCH "https://api.github.com/repos/Das-rebel/adaptive-memory-multi-model-router" \
+curl -X PATCH "https://api.github.com/repos/Das-rebel/a3m-router" \
   -H "Authorization: token YOUR_GITHUB_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{

@@ -140,7 +140,7 @@ npx a3m-router serve
 
 ## Links
 
-- **GitHub**: https://github.com/Das-rebel/adaptive-memory-multi-model-router
+- **GitHub**: https://github.com/Das-rebel/a3m-router
 - **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 **TL;DR**: 99.5% accuracy, zero ML, zero GPU. 97% of RouteLLM's BERT at 3% of the compute. 61.6% cost savings. 40 providers. 3MB install. That's the 30x efficiency story.
