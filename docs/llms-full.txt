@@ -1,0 +1,227 @@
+# A3M Router — Complete Reference
+
+## Overview
+A3M Router is an open-source LLM router and AI gateway. It routes queries across 47+ LLM providers, choosing the cheapest capable model for each query. Its unique feature is parallel multi-LLM execution: running multiple providers simultaneously and scoring results to pick the best answer.
+
+**npm:** `adaptive-memory-multi-model-router`  
+**GitHub:** `Das-rebel/a3m-router`  
+**License:** MIT  
+**Size:** 19.5 KB gzipped (zero ML dependencies)  
+**Language:** TypeScript (Node.js)
+
+---
+
+## Architecture
+
+```
+Request → Guardrails (17 patterns) → Semantic Cache (30% hit) → Router →
+  ├─ 12 Signal Analyzer (keyword density, complexity, domain, etc.)
+  ├─ RouteLLM Tier Classifier (free/cheap/mid/premium/enterprise)
+  └─ Provider Selector → Execute → Cost Track → Response
+```
+
+### Parallel Ensemble (P0 feature)
+```
+Request → fire all providers simultaneously →
+  Score 1: specificity (keyword density, length, code ratio)
+  Score 2: structure (headings, lists, code blocks)
+  Score 3: relevance (overlap with query terms)
+  Winner: highest combined score → return with reasoning
+```
+
+---
+
+## All Features
+
+### Core Routing
+- **RouteLLM-style routing** (`src/routing/advancedRouter.ts`): 12 signals across 5 dimensions → difficulty tier → model selection
+- **Parallel ensemble** (`src/routing/ensembleVoting.ts`): Run N providers, score results, pick best
+- **Query-type presets** (`src/routing/queryTypePresets.ts`): Auto-classify into fast/creative/deep/code
+- **Smart routing cache**: TTL-based with LRU eviction
+
+### Providers (47+)
+All major LLM providers: OpenAI (GPT-4, GPT-4o, o1, o3), Anthropic (Claude Opus, Sonnet, Haiku), Groq (Llama 3, Mixtral), DeepSeek (V3, R1), NVIDIA NIM, Google Gemini, Together AI, OpenRouter, Mistral AI, Cohere, Perplexity, AWS Bedrock, Azure OpenAI, Anyscale, Replicate, Fireworks AI, Lepton AI, OctoAI, DeepInfra, and more.
+
+### Caching
+- **Semantic cache**: Embedding-based similarity matching for semantically identical queries
+- **TTL cache**: Time-based with LRU eviction
+- **Cache hit rate**: 30%+ in production
+
+### Cost Management
+- **Per-query cost tracking**: Real-time with provider-specific pricing
+- **Budget enforcement**: Per-provider caps, monthly limits, team-level budgets
+- **Cost alerts**: Configurable thresholds
+- **62% average savings** vs all-premium routing
+
+### Reliability
+- **Circuit breaker**: 3 consecutive failures → 60s cooldown → half-open retry
+- **Auto failover**: Fallback to next cheapest capable provider
+- **Provider scoring**: Latency-weighted history
+- **Retry logic**: Exponential backoff with jitter
+
+### Security
+- **Prompt injection guardrails**: 17 detection patterns
+- **PII detection**: Email, phone, SSN, API keys, credit cards
+- **Content filtering**: Configurable safety levels
+
+### Memory
+- **Episodic memory** (`src/memory/episodicMemory.ts`): JSON file-based, auto-save every 3 entries, keyword index rebuild
+- **Query history**: Last N queries with outcomes
+- **Provider preference learning**: EMA-based
+
+### Observability
+- **Cost tracking**: Per-provider breakdown
+- **Performance metrics**: Latency, error rates, cache hit rates
+- **Provider health monitoring**: Circuit breaker status
+
+---
+
+## API Reference
+
+### TypeScript SDK
+```typescript
+import { createA3MRouter } from 'adaptive-memory-multi-model-router';
+
+const router = createA3MRouter();
+
+// Route a query
+const result = await router.route("What is 2+2?");
+// { provider: "groq", model: "llama-3.3-70b", cost: 0, latency: 374ms }
+
+// Parallel ensemble
+import { executeEnsemble } from 'adaptive-memory-multi-model-router';
+const best = await executeEnsemble(query, context, providers);
+// { winner: "nvidia", reasoning: "higher specificity score (75 vs 62)", result: "..." }
+```
+
+### OpenAI-compatible Proxy
+```bash
+npx a3m-router serve
+# Point any OpenAI SDK at localhost:8787 with model: "auto"
+```
+
+### CLI
+```bash
+npx a3m-router route "Write Python sort"     # Routing decision
+npx a3m-router compare "Explain black holes"   # Side-by-side providers
+npx a3m-router providers                       # List available providers
+npx a3m-router cache                           # Cache stats
+npx a3m-router cost                            # Cost breakdown
+```
+
+---
+
+## Configuration
+```javascript
+const router = createA3MRouter({
+  cache: { ttl: 3600000, maxSize: 1000 },
+  costs: { monthlyBudget: 50 },
+  circuitBreaker: { threshold: 3, cooldown: 60000 },
+  providers: ['openai', 'anthropic', 'groq', 'deepseek'],
+  ensemble: { enabled: true, minProviders: 2 }
+});
+```
+
+---
+
+## Benchmark Data
+**Tool:** llm-gateway-bench v0.2.0 (third-party, not our own scripts)  
+**Date:** May 2026  
+**Provider:** Groq (llama-3.3-70b-versatile)
+
+| Scenario | TTFT | vs Direct |
+|:---------|:----:|:---------:|
+| Direct to Groq | 138ms | baseline |
+| Through A3M (forced) | 234ms | +96ms |
+| Through A3M (auto route) | 374ms | +236ms |
+
+**100% success rate** across all scenarios.  
+**62% cost savings** at ~100K queries/month.
+
+Full details: `docs/BENCHMARK.md`
+
+---
+
+## Directory Structure
+```
+├── src/
+│   ├── index.ts                    # Main entry
+│   ├── routing/
+│   │   ├── advancedRouter.ts       # 12-signal routing
+│   │   ├── ensembleVoting.ts       # Parallel ensemble (P0)
+│   │   ├── queryTypePresets.ts     # Query type classification (P1)
+│   │   └── providerRetry.ts        # Retry + failover
+│   ├── providers/
+│   │   └── providerConfig.ts       # 47 provider configs
+│   ├── cache/
+│   │   └── semanticCache.ts        # Embedding cache
+│   ├── memory/
+│   │   └── episodicMemory.ts       # Persistent memory (P3)
+│   ├── cost/
+│   │   └── budgetEnforcer.ts       # Budget tracking
+│   ├── guardrails/
+│   │   └── securityGuardrails.ts   # 17 injection patterns
+│   └── security/
+│       └── piiDetection.ts         # PII detection
+├── docs/
+│   ├── BENCHMARK.md                # Independent benchmark
+│   ├── QUICK_START.md              # Quick start guide
+│   └── CORE_VISION_PRD.md          # Product vision
+└── articles/                       # Community content
+```
+
+---
+
+## Getting Started
+```bash
+npm install adaptive-memory-multi-model-router
+# or
+npx adaptive-memory-multi-model-router
+
+# Full docs: README.md
+# Quick start: docs/QUICK_START.md
+# Benchmarks: docs/BENCHMARK.md
+```
+
+## Additional Resources
+
+### Docs
+- [BENCHMARK.md](./docs/BENCHMARK.md) — Independent benchmark data
+- [API.md](./docs/API.md) — API reference
+- [CORE_VISION_PRD.md](./docs/CORE_VISION_PRD.md) — Product requirements
+- [CONFIGURATION.md](./docs/CONFIGURATION.md) — Configuration reference
+- [ENGINEERING_SPEC.md](./docs/ENGINEERING_SPEC.md) — Engineering specification
+- [INTEGRATIONS.md](./docs/INTEGRATIONS.md) — Integration guide
+- [QUICK_START.md](./docs/QUICK_START.md) — Quick start guide
+- [ARCHITECTURAL-IMPROVEMENTS.md](./docs/ARCHITECTURAL-IMPROVEMENTS-2025.md) — Architecture docs
+
+### Integrations
+- [LangChain](./integrations/langchain/) — LangChain integration adapter
+- [Vercel AI SDK](./integrations/vercel-ai-sdk/) — Vercel AI SDK integration (use with @ai-sdk packages)
+
+### Servers & Tools
+- [MCP Server](./mcp-server/) — Model Context Protocol server
+- [Demo](./demo/) — Interactive demo application
+- [Proxy](./proxy/) — OpenAI-compatible proxy server
+
+### Community
+- [GitHub Discussions](https://github.com/Das-rebel/a3m-router/discussions) — Community Q&A, ideas, and show-and-tell
+
+### Documentation Site
+- [GitHub Pages](https://das-rebel.github.io/a3m-router/) — Full documentation website
+- [Benchmark Results](https://das-rebel.github.io/a3m-router/benchmark) — Independent benchmark data
+- [Quick Start](https://das-rebel.github.io/a3m-router/quick-start) — Getting started guide
+- [API Reference](https://das-rebel.github.io/a3m-router/api) — SDK and CLI reference
+
+### Docs
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Codebase architecture
+- [CHANGELOG.md](./CHANGELOG.md) — Version history
+- [docs/comparison.md](./docs/comparison.md) — Competitor comparison
+- [docs/cli-cheatsheet.md](./docs/cli-cheatsheet.md) — CLI quick reference
+- [docs/curl-examples.md](./docs/curl-examples.md) — One-liner curl examples
+- [docs/openapi.yaml](./docs/openapi.yaml) — OpenAPI specification
+- [docs/BENCHMARK.md](./docs/BENCHMARK.md) — Detailed benchmark data
+
+### Deployments
+- [Docker](https://github.com/Das-rebel/a3m-router) — Multi-stage Dockerfile and docker-compose
+- [npm](https://www.npmjs.com/package/adaptive-memory-multi-model-router) — npm package (install: npm install -g adaptive-memory-multi-model-router)
