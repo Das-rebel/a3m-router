@@ -60,4 +60,4 @@ Parallel ensemble execution: runs N providers simultaneously, scores results on 
 - MCP Server: `mcp-server/`
 - Demo: `demo/`
 - Proxy: `proxy/`
-- Community: [GitHub Discussions](https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions)
+- Community: [GitHub Discussions](https://github.com/Das-rebel/a3m-router/discussions)

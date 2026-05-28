@@ -205,4 +205,23 @@ npx adaptive-memory-multi-model-router
 - [Proxy](./proxy/) — OpenAI-compatible proxy server
 
 ### Community
-- [GitHub Discussions](https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions) — Community Q&A, ideas, and show-and-tell
+- [GitHub Discussions](https://github.com/Das-rebel/a3m-router/discussions) — Community Q&A, ideas, and show-and-tell
+
+### Documentation Site
+- [GitHub Pages](https://das-rebel.github.io/A3M-Router-Parallel-multi-LLM-Gateway/) — Full documentation website
+- [Benchmark Results](https://das-rebel.github.io/A3M-Router-Parallel-multi-LLM-Gateway/benchmark) — Independent benchmark data
+- [Quick Start](https://das-rebel.github.io/A3M-Router-Parallel-multi-LLM-Gateway/quick-start) — Getting started guide
+- [API Reference](https://das-rebel.github.io/A3M-Router-Parallel-multi-LLM-Gateway/api) — SDK and CLI reference
+
+### Docs
+- [ARCHITECTURE.md](./ARCHITECTURE.md) — Codebase architecture
+- [CHANGELOG.md](./CHANGELOG.md) — Version history
+- [docs/comparison.md](./docs/comparison.md) — Competitor comparison
+- [docs/cli-cheatsheet.md](./docs/cli-cheatsheet.md) — CLI quick reference
+- [docs/curl-examples.md](./docs/curl-examples.md) — One-liner curl examples
+- [docs/openapi.yaml](./docs/openapi.yaml) — OpenAPI specification
+- [docs/BENCHMARK.md](./docs/BENCHMARK.md) — Detailed benchmark data
+
+### Deployments
+- [Docker](https://github.com/Das-rebel/a3m-router) — Multi-stage Dockerfile and docker-compose
+- [npm](https://www.npmjs.com/package/adaptive-memory-multi-model-router) — npm package (install: npm install -g adaptive-memory-multi-model-router)
