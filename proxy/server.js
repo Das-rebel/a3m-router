@@ -43,6 +43,8 @@ const {
 
 const { routeQuery } = require(path.join(A3M_ROOT, "dist/routing/advancedRouter"));
 
+const RateLimiter = require("./rate-limit");
+
 // ============================================================
 // BOOTSTRAP — Load config & API keys from env
 // ============================================================
@@ -636,6 +638,10 @@ app.use((req, res, next) => {
 
 // Raw body parsing for streaming detection
 app.use(express.json({ type: "application/json" }));
+
+// Rate limiting
+const rateLimiter = new RateLimiter();
+app.use(rateLimiter.middleware());
 
 // ============================================================
 // POST /v1/chat/completions
