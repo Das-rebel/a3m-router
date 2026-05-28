@@ -49,8 +49,6 @@ jobs:
 
           # -- Exempt from stale --
           # Never mark these as stale
-          exempt-issue-labels: "pinned,security,blocked,awaiting-review,help-wanted,good-first-issue"
-          exempt-pr-labels: "pinned,security,blocked,awaiting-review,WIP"
 
           # -- Delete stale branches on close --
           delete-branch: false
