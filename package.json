@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.13.23",
+  "version": "2.13.24",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "🥇 #1 on RouterArena (76.43) · Cheapest LLM router at $0.047/1K · Open-source AI gateway with parallel multi-LLM execution across 47+ providers, ensemble voting, semantic cache, and budget enforcement",

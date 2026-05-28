@@ -1,20 +1,22 @@
 [🇨🇳 中文](./README_zh.md) · [🇯🇵 日本語](./README_ja.md) · [English](./README.md)
 
-# A3M Router 🔀 — Open-Source LLM Router & AI Gateway
+# A3M Router 🔀 — 🥇 #1 on RouterArena · Cheapest at $0.047/1K Queries
+
+**The highest-ranked and lowest-cost LLM router on the [RouterArena leaderboard](https://github.com/RouteWorks/RouterArena/pull/113).**
 
 [![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?color=blue&label=weekly%20downloads)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
+[![RouterArena #1](https://img.shields.io/badge/RouterArena-%231-2ea44f)](https://github.com/RouteWorks/RouterArena/pull/113)
 [![Types](https://img.shields.io/npm/types/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![GitHub stars](https://img.shields.io/github/stars/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router)
 [![Build](https://github.com/Das-rebel/a3m-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Das-rebel/a3m-router/actions)
-[![npm downloads rank](https://img.shields.io/badge/dynamic/json?color=green&label=npm%20rank&query=%24.downloads&suffix=%2Fweek&url=https://api.npmjs.org/downloads/point/last-week/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
 ## 📈 Growth
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Das-rebel/a3m-router&type=Timeline)](https://star-history.com/#Das-rebel/a3m-router&Timeline)
 
-> **The fastest-growing open-source LLM router on npm** — 0 to 10K downloads in 14 days with parallel multi-LLM execution and independent benchmarks. 47+ providers. 99.5% accuracy. 62% cost savings. Third-party latency data included. Zero ML, 19.5KB.
+> **The highest-ranked and lowest-cost LLM router on the RouterArena leaderboard** — #1 (76.43), cheapest at $0.047/1K queries. Parallel multi-LLM execution across 47+ providers. Open-source, 19.5KB, zero ML dependencies.
 
 **One prompt in. The right model out.** An open-source **AI gateway** that auto-routes every query to the cheapest capable model across **47+ LLM providers**. Features **parallel ensemble execution**, **semantic cache**, **budget enforcement**, **intelligent failover**, and **independent benchmark validation**. Start in <100ms. Python SDK + TypeScript SDK.
 
