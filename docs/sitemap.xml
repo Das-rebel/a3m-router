@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://das-rebel.github.io/a3m-router/</loc>
+    <loc>https://das-rebel.github.io/A3M-Router-Parallel-multi-LLM-Gateway/</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://das-rebel.github.io/a3m-router/quick-start</loc>
+    <loc>https://das-rebel.github.io/A3M-Router-Parallel-multi-LLM-Gateway/quick-start</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://das-rebel.github.io/a3m-router/benchmark</loc>
+    <loc>https://das-rebel.github.io/A3M-Router-Parallel-multi-LLM-Gateway/benchmark</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://das-rebel.github.io/a3m-router/api</loc>
+    <loc>https://das-rebel.github.io/A3M-Router-Parallel-multi-LLM-Gateway/api</loc>
     <lastmod>2026-05-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
