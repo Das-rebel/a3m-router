@@ -14,7 +14,7 @@
 
 ## 📈 Growth
 
-[![Star History Chart](https://api.star-history.com/svg?repos=Das-rebel/a3m-router&type=Timeline)](https://star-history.com/#Das-rebel/a3m-router&Timeline)
+[![npm Downloads Chart](./docs/npm-downloads-chart.svg)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 
 > **The highest-ranked and lowest-cost LLM router on the RouterArena leaderboard** — #1 (76.43), cheapest at $0.047/1K queries. Parallel multi-LLM execution across 47+ providers. Open-source, 19.5KB, zero ML dependencies.
 
@@ -32,7 +32,7 @@
 node dist/tui/dashboard.js
 ```
 
-Sakura pink overlay box with `/route`, `/cost`, `/health`, `/models`, `/model <provider>`. Type anything to auto-route through the cheapest model.
+Terminal overlay box with `/route`, `/cost`, `/health`, `/models`, `/model <provider>`. Type anything to auto-route through the cheapest model.
 
 ### 📊 By the Numbers
 
