@@ -1,0 +1,840 @@
+#!/usr/bin/env node
+/**
+ * A3M Router — Standalone CLI
+ * =============================
+ * Zero dependencies. Just: chmod +x a3m && ./a3m "your query"
+ *
+ * Features:
+ *   - 14 built-in providers (auto-detects API keys from env)
+ *   - Parallel ensemble mode (run N providers simultaneously)
+ *   - Automatic fallback (try A -> B -> C on failure)
+ *   - Rich ANSI output without chalk
+ *   - Single file, no npm install required
+ *
+ * Usage:
+ *   ./a3m "what is the capital of France?"
+ *   ./a3m --provider groq "tell me a joke"
+ *   ./a3m --ensemble "compare responses across providers"
+ *   ./a3m --fallback "try providers until one works"
+ *   ./a3m --list-providers
+ *   ./a3m --help
+ */
+
+// =====================================================================
+//  ANSI COLORS (no chalk dependency)
+// =====================================================================
+const C = {
+  reset: '\x1b[0m',
+  bold: '\x1b[1m',
+  dim: '\x1b[2m',
+  italic: '\x1b[3m',
+  ul: '\x1b[4m',
+
+  red: '\x1b[31m',
+  green: '\x1b[32m',
+  yellow: '\x1b[33m',
+  blue: '\x1b[34m',
+  magenta: '\x1b[35m',
+  cyan: '\x1b[36m',
+  white: '\x1b[37m',
+
+  bgRed: '\x1b[41m',
+  bgGreen: '\x1b[42m',
+  bgYellow: '\x1b[43m',
+  bgBlue: '\x1b[44m',
+  bgMagenta: '\x1b[45m',
+  bgCyan: '\x1b[46m',
+
+  // Bright variants
+  brightRed: '\x1b[91m',
+  brightGreen: '\x1b[92m',
+  brightYellow: '\x1b[93m',
+  brightBlue: '\x1b[94m',
+  brightMagenta: '\x1b[95m',
+  brightCyan: '\x1b[96m',
+};
+
+function c(code, text) {
+  return code + text + C.reset;
+}
+
+function colorize(providerName, text) {
+  const colors = [C.cyan, C.green, C.yellow, C.magenta, C.brightBlue, C.brightCyan, C.brightGreen, C.brightMagenta];
+  let hash = 0;
+  for (let i = 0; i < providerName.length; i++) hash = ((hash << 5) - hash) + providerName.charCodeAt(i);
+  return colors[Math.abs(hash) % colors.length] + text + C.reset;
+}
+
+// =====================================================================
+//  PROVIDER DEFINITIONS
+// =====================================================================
+// Each provider has:
+//   - id: short name for --provider flag
+//   - name: human-readable
+//   - envKey: env var that holds the API key
+//   - baseUrl: API endpoint
+//   - model: default model
+//   - format: 'openai' (standard chat completions) | 'anthropic' | 'google'
+//   - headers(): returns {Authorization, Content-Type} etc.
+//   - parseResponse(json): extracts {content, model, usage}
+// =====================================================================
+
+function getEnv(key, fallback) {
+  // Also checks .env file in cwd
+  const val = process.env[key];
+  if (val && val.length > 0 && val !== '...' && val !== 'sk-...' && val !== 'gsk_...' && val !== 'nvapi-...') return val;
+  return fallback || '';
+}
+
+function makeProvider(id, name, envKey, baseUrl, model, opts) {
+  opts = opts || {};
+  return {
+    id,
+    name,
+    envKey,
+    baseUrl,
+    model: opts.model || model,
+    format: opts.format || 'openai',
+    maxTokens: opts.maxTokens || 2048,
+    priority: opts.priority || 50,
+    tier: opts.tier || 'unknown',
+    costPerK: opts.costPerK || { input: 0, output: 0 },
+    getApiKey() {
+      return getEnv(this.envKey);
+    },
+    isAvailable() {
+      return !!this.getApiKey();
+    },
+    buildBody(prompt, systemPrompt) {
+      const msgs = [];
+      if (systemPrompt) msgs.push({ role: 'system', content: systemPrompt });
+      msgs.push({ role: 'user', content: prompt });
+      return { model: this.model, messages: msgs, max_tokens: this.maxTokens };
+    },
+    buildHeaders() {
+      return {
+        'Authorization': 'Bearer ' + this.getApiKey(),
+        'Content-Type': 'application/json',
+      };
+    },
+    parseResponse(json) {
+      if (json.error) throw new Error(json.error.message || JSON.stringify(json.error));
+      const choice = json.choices && json.choices[0];
+      if (!choice) throw new Error('No response choices returned');
+      return {
+        content: choice.message ? (choice.message.content || '') : '',
+        model: json.model || this.model,
+        usage: json.usage || {},
+      };
+    },
+  };
+}
+
+function makeGoogleProvider(id, name, envKey, baseUrl, model, opts) {
+  opts = opts || {};
+  const p = makeProvider(id, name, envKey, baseUrl, model, opts);
+  p.format = 'google';
+  p.buildHeaders = function () {
+    return { 'Content-Type': 'application/json' };
+  };
+  p.buildBody = function (prompt, systemPrompt) {
+    const contents = [];
+    if (systemPrompt) {
+      contents.push({ role: 'user', parts: [{ text: systemPrompt + '\n\n' + prompt }] });
+    } else {
+      contents.push({ role: 'user', parts: [{ text: prompt }] });
+    }
+    return {
+      contents,
+      generationConfig: { maxOutputTokens: this.maxTokens },
+    };
+  };
+  p.parseResponse = function (json) {
+    if (json.error) throw new Error(json.error.message || JSON.stringify(json.error));
+    const candidate = json.candidates && json.candidates[0];
+    if (!candidate) throw new Error('No candidates returned');
+    const parts = candidate.content && candidate.content.parts;
+    const text = parts ? parts.map(function (p) { return p.text || ''; }).join('') : '';
+    return {
+      content: text,
+      model: json.modelVersion || this.model,
+      usage: {},
+    };
+  };
+  return p;
+}
+
+function makeAnthropicProvider(id, name, envKey, baseUrl, model, opts) {
+  opts = opts || {};
+  const p = makeProvider(id, name, envKey, baseUrl, model, opts);
+  p.format = 'anthropic';
+  p.buildHeaders = function () {
+    return {
+      'x-api-key': this.getApiKey(),
+      'anthropic-version': '2023-06-01',
+      'Content-Type': 'application/json',
+    };
+  };
+  p.buildBody = function (prompt, systemPrompt) {
+    return {
+      model: this.model,
+      max_tokens: this.maxTokens,
+      system: systemPrompt || '',
+      messages: [{ role: 'user', content: prompt }],
+    };
+  };
+  p.parseResponse = function (json) {
+    if (json.error) throw new Error(json.error.message || JSON.stringify(json.error));
+    return {
+      content: json.content && json.content[0] ? json.content[0].text : '',
+      model: json.model || this.model,
+      usage: json.usage || {},
+    };
+  };
+  return p;
+}
+
+function makeNvidiaProvider(id, name, envKey, baseUrl, model, opts) {
+  opts = opts || {};
+  const p = makeProvider(id, name, envKey, baseUrl, model, opts);
+  // NVIDIA uses nvapi- prefix but still Bearer auth
+  p.getApiKey = function () {
+    const val = getEnv('NVIDIA_API_KEY');
+    return val;
+  };
+  return p;
+}
+
+// =====================================================================
+// ALL PROVIDERS
+// =====================================================================
+
+const PROVIDERS = [
+  // -- Fast inference (cheap/free) --
+  {
+    id: 'groq',
+    name: 'Groq',
+    envKey: 'GROQ_API_KEY',
+    baseUrl: 'https://api.groq.com/openai/v1/chat/completions',
+    model: 'llama-3.3-70b-versatile',
+    priority: 1,
+    tier: 'cheap',
+    costPerK: { input: 0.59, output: 0.79 },
+  },
+  {
+    id: 'cerebras',
+    name: 'Cerebras',
+    envKey: 'CEREBRAS_API_KEY',
+    baseUrl: 'https://api.cerebras.ai/v1/chat/completions',
+    model: 'llama-3.3-70b',
+    priority: 2,
+    tier: 'cheap',
+    costPerK: { input: 0.60, output: 0.60 },
+  },
+  {
+    id: 'deepinfra',
+    name: 'DeepInfra',
+    envKey: 'DEEPINFRA_API_KEY',
+    baseUrl: 'https://api.deepinfra.com/v1/openai/chat/completions',
+    model: 'meta-llama/Meta-Llama-3.1-70B-Instruct',
+    priority: 3,
+    tier: 'cheap',
+    costPerK: { input: 0.05, output: 0.05 },
+  },
+  {
+    id: 'together',
+    name: 'Together AI',
+    envKey: 'TOGETHER_API_KEY',
+    baseUrl: 'https://api.together.xyz/v1/chat/completions',
+    model: 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo',
+    priority: 4,
+    tier: 'cheap',
+    costPerK: { input: 0.18, output: 0.18 },
+  },
+  {
+    id: 'fireworks',
+    name: 'Fireworks AI',
+    envKey: 'FIREWORKS_API_KEY',
+    baseUrl: 'https://api.fireworks.ai/inference/v1/chat/completions',
+    model: 'accounts/fireworks/models/llama-v3p1-70b-instruct',
+    priority: 5,
+    tier: 'cheap',
+    costPerK: { input: 0.20, output: 0.20 },
+  },
+
+  // -- Free tier providers --
+  {
+    id: 'nvidia',
+    name: 'NVIDIA NIM',
+    envKey: 'NVIDIA_API_KEY',
+    baseUrl: 'https://integrate.api.nvidia.com/v1/chat/completions',
+    model: 'meta/llama-3.3-70b-instruct',
+    priority: 6,
+    tier: 'free',
+    costPerK: { input: 0, output: 0 },
+  },
+  {
+    id: 'google',
+    name: 'Google Gemini',
+    envKey: 'GOOGLE_API_KEY',
+    baseUrl: 'https://generativelanguage.googleapis.com/v1beta/models/',
+    model: 'gemini-2.5-flash',
+    priority: 7,
+    tier: 'free',
+    format: 'google',
+    costPerK: { input: 0, output: 0 },
+  },
+  {
+    id: 'openrouter',
+    name: 'OpenRouter',
+    envKey: 'OPENROUTER_API_KEY',
+    baseUrl: 'https://openrouter.ai/api/v1/chat/completions',
+    model: 'openai/gpt-4o',
+    priority: 8,
+    tier: 'cheap',
+    costPerK: { input: 0, output: 0 },
+  },
+
+  // -- Mid tier --
+  {
+    id: 'mistral',
+    name: 'Mistral',
+    envKey: 'MISTRAL_API_KEY',
+    baseUrl: 'https://api.mistral.ai/v1/chat/completions',
+    model: 'mistral-large-latest',
+    priority: 9,
+    tier: 'mid',
+    costPerK: { input: 0.20, output: 0.60 },
+  },
+  {
+    id: 'deepseek',
+    name: 'DeepSeek',
+    envKey: 'DEEPSEEK_API_KEY',
+    baseUrl: 'https://api.deepseek.com/v1/chat/completions',
+    model: 'deepseek-v4-flash',
+    priority: 10,
+    tier: 'mid',
+    costPerK: { input: 0.14, output: 0.28 },
+  },
+  {
+    id: 'perplexity',
+    name: 'Perplexity',
+    envKey: 'PERPLEXITY_API_KEY',
+    baseUrl: 'https://api.perplexity.ai/chat/completions',
+    model: 'llama-3.1-sonar-large-128k-online',
+    priority: 11,
+    tier: 'mid',
+    costPerK: { input: 1.0, output: 1.0 },
+  },
+
+  // -- Premium --
+  {
+    id: 'openai',
+    name: 'OpenAI',
+    envKey: 'OPENAI_API_KEY',
+    baseUrl: 'https://api.openai.com/v1/chat/completions',
+    model: 'gpt-4o',
+    priority: 12,
+    tier: 'premium',
+    costPerK: { input: 2.50, output: 10.0 },
+  },
+  {
+    id: 'anthropic',
+    name: 'Anthropic',
+    envKey: 'ANTHROPIC_API_KEY',
+    baseUrl: 'https://api.anthropic.com/v1/messages',
+    model: 'claude-sonnet-4-20250514',
+    priority: 13,
+    tier: 'premium',
+    format: 'anthropic',
+    costPerK: { input: 3.0, output: 15.0 },
+  },
+  {
+    id: 'xai',
+    name: 'xAI Grok',
+    envKey: 'XAI_API_KEY',
+    baseUrl: 'https://api.x.ai/v1/chat/completions',
+    model: 'grok-3',
+    priority: 14,
+    tier: 'premium',
+    costPerK: { input: 3.0, output: 15.0 },
+  },
+];
+
+// =====================================================================
+//  PROVIDER FACTORY
+// =====================================================================
+
+function buildProvider(cfg) {
+  if (cfg.format === 'google') {
+    const url = cfg.baseUrl + cfg.model + ':generateContent?key=' + getEnv(cfg.envKey);
+    return makeGoogleProvider(cfg.id, cfg.name, cfg.envKey, url, cfg.model, cfg);
+  }
+  if (cfg.format === 'anthropic') {
+    return makeAnthropicProvider(cfg.id, cfg.name, cfg.envKey, cfg.baseUrl, cfg.model, cfg);
+  }
+  if (cfg.id === 'nvidia') {
+    return makeNvidiaProvider(cfg.id, cfg.name, cfg.envKey, cfg.baseUrl, cfg.model, cfg);
+  }
+  return makeProvider(cfg.id, cfg.name, cfg.envKey, cfg.baseUrl, cfg.model, cfg);
+}
+
+function getAvailableProviders() {
+  return PROVIDERS
+    .filter(function (p) { return buildProvider(p).isAvailable(); })
+    .sort(function (a, b) { return a.priority - b.priority; });
+}
+
+// =====================================================================
+//  HTTP REQUEST (no dependencies)
+// =====================================================================
+
+function httpsRequest(url, method, headers, body, timeout) {
+  return new Promise(function (resolve, reject) {
+    timeout = timeout || 30000;
+    var u = new URL(url);
+    var mod = u.protocol === 'https:' ? require('https') : require('http');
+
+    var options = {
+      hostname: u.hostname,
+      port: u.port || (u.protocol === 'https:' ? 443 : 80),
+      path: u.pathname + u.search,
+      method: method || 'GET',
+      headers: headers || {},
+      timeout: timeout,
+    };
+
+    var req = mod.request(options, function (res) {
+      var data = '';
+      res.on('data', function (chunk) { data += chunk; });
+      res.on('end', function () {
+        try {
+          var parsed = JSON.parse(data);
+          resolve({ status: res.statusCode, headers: res.headers, data: parsed, raw: data });
+        } catch (e) {
+          reject(new Error('Invalid JSON response (' + res.statusCode + '): ' + data.substring(0, 200)));
+        }
+      });
+    });
+
+    req.on('error', function (e) { reject(e); });
+    req.on('timeout', function () { req.destroy(); reject(new Error('Request timed out after ' + timeout + 'ms')); });
+
+    if (body) {
+      req.write(typeof body === 'string' ? body : JSON.stringify(body));
+    }
+    req.end();
+  });
+}
+
+// =====================================================================
+//  CALL A SINGLE PROVIDER
+// =====================================================================
+
+async function callProvider(providerCfg, prompt, systemPrompt) {
+  var provider = buildProvider(providerCfg);
+  var startTime = Date.now();
+
+  var body = provider.buildBody(prompt, systemPrompt);
+  var headers = provider.buildHeaders();
+
+  var resp = await httpsRequest(provider.baseUrl, 'POST', headers, body, 60000);
+
+  if (resp.status >= 400) {
+    var errMsg = resp.data && resp.data.error ? (resp.data.error.message || JSON.stringify(resp.data.error)) : ('HTTP ' + resp.status);
+    throw new Error(errMsg);
+  }
+
+  var parsed = provider.parseResponse(resp.data);
+  var latency = Date.now() - startTime;
+
+  var usage = parsed.usage || {};
+  var promptTokens = usage.prompt_tokens || 0;
+  var completionTokens = usage.completion_tokens || 0;
+  var totalTokens = usage.total_tokens || (promptTokens + completionTokens) || estimateTokens(prompt) + estimateTokens(parsed.content);
+
+  var cost = (promptTokens / 1000000 * providerCfg.costPerK.input) +
+             (completionTokens / 1000000 * providerCfg.costPerK.output);
+
+  return {
+    provider: providerCfg.name,
+    model: parsed.model,
+    content: parsed.content || '',
+    latency: latency,
+    totalTokens: totalTokens,
+    cost: cost,
+    usage: usage,
+    success: true,
+  };
+}
+
+// =====================================================================
+//  TOKEN ESTIMATION (rough)
+// =====================================================================
+
+function estimateTokens(text) {
+  if (!text) return 0;
+  // Rough: ~4 chars per token for English
+  return Math.ceil(text.length / 4);
+}
+
+// =====================================================================
+//  FALLBACK MODE (try providers in priority order)
+// =====================================================================
+
+async function withFallback(prompt, opts) {
+  opts = opts || {};
+  var available = getAvailableProviders();
+  if (opts.providerFilter) {
+    available = available.filter(function (p) { return opts.providerFilter === p.id; });
+  }
+  if (available.length === 0) {
+    return { success: false, error: 'No providers available. Set at least one API key.', errors: [] };
+  }
+
+  var errors = [];
+  var systemPrompt = opts.systemPrompt || '';
+
+  // If specific provider requested, try just that one first
+  if (opts.providerFilter) {
+    var target = available[0];
+    try {
+      var result = await callProvider(target, prompt, systemPrompt);
+      return result;
+    } catch (e) {
+      errors.push({ provider: target.name, error: e.message });
+      return { success: false, error: e.message, errors: errors, provider: target.name };
+    }
+  }
+
+  // Try each provider in priority order
+  for (var i = 0; i < available.length; i++) {
+    var p = available[i];
+    try {
+      var result = await callProvider(p, prompt, systemPrompt);
+      result.fallbackAttempts = i;
+      return result;
+    } catch (e) {
+      var emsg = e.message.substring(0, 200);
+      errors.push({ provider: p.name, error: emsg });
+      // Continue to next provider
+    }
+  }
+
+  return { success: false, error: 'All providers failed', errors: errors };
+}
+
+// =====================================================================
+//  ENSEMBLE MODE (run N providers in parallel, merge results)
+// =====================================================================
+
+async function runEnsemble(prompt, opts) {
+  opts = opts || {};
+  var available = getAvailableProviders();
+  var systemPrompt = opts.systemPrompt || '';
+
+  // Limit to max providers
+  var maxProviders = opts.maxProviders || 5;
+  var selected = available.slice(0, maxProviders);
+
+  if (selected.length === 0) {
+    return { success: false, error: 'No providers available.', results: [] };
+  }
+
+  // Fire all requests in parallel
+  var results = await Promise.allSettled(
+    selected.map(function (p) {
+      return callProvider(p, prompt, systemPrompt);
+    })
+  );
+
+  var successes = [];
+  var failures = [];
+
+  for (var i = 0; i < results.length; i++) {
+    var r = results[i];
+    if (r.status === 'fulfilled') {
+      successes.push(r.value);
+    } else {
+      failures.push({ provider: selected[i].name, error: r.reason.message || String(r.reason) });
+    }
+  }
+
+  return {
+    success: successes.length > 0,
+    totalResults: successes.length,
+    totalFailures: failures.length,
+    results: successes,
+    failures: failures,
+  };
+}
+
+// =====================================================================
+//  OUTPUT FORMATTING
+// =====================================================================
+
+function printBanner() {
+  var banner = '';
+  banner += c(C.cyan, '  ╔═══════════════════════════════════════════════╗\n');
+  banner += c(C.cyan, '  ║') + c(C.bold + C.brightCyan, '   A3M Router — Adaptive Multi-Model Router ') + c(C.dim + C.cyan, ' v2.13  ') + c(C.cyan, ' ║\n');
+  banner += c(C.cyan, '  ║') + c(C.dim + C.cyan, '   Parallel multi-LLM execution · 14 providers ') + c(C.cyan, '  ║\n');
+  banner += c(C.cyan, '  ╚═══════════════════════════════════════════════╝\n');
+  console.log(banner);
+}
+
+function printHelp() {
+  printBanner();
+  console.log(c(C.bold, '  USAGE:'));
+  console.log('    ./a3m ' + c(C.cyan, '"your query"') + '           Route query to best available provider');
+  console.log('    ./a3m ' + c(C.green, '--provider groq') + ' ' + c(C.cyan, '"query"') + '  Use a specific provider');
+  console.log('    ./a3m ' + c(C.yellow, '--ensemble') + ' ' + c(C.cyan, '"query"') + '       Run ALL providers in parallel, compare results');
+  console.log('    ./a3m ' + c(C.magenta, '--fallback') + ' ' + c(C.cyan, '"query"') + '      Try providers in priority order until one works');
+  console.log('    ./a3m ' + c(C.brightBlue, '--list-providers') + '     Show all providers and their status');
+  console.log('    ./a3m ' + c(C.blue, '--help') + '                 Show this help');
+  console.log('');
+  console.log(c(C.bold, '  EXAMPLES:'));
+  console.log('    ./a3m "explain quantum computing"');
+  console.log('    ./a3m --provider groq "write a poem"');
+  console.log('    ./a3m --ensemble "compare these models for me"');
+  console.log('    ./a3m --fallback "try until one works"');
+  console.log('');
+  console.log(c(C.bold, '  CONFIGURATION:'));
+  console.log('    Set any of these env vars (or in .env file):');
+  console.log('    ' + c(C.dim, 'GROQ_API_KEY   CEREBRAS_API_KEY   MISTRAL_API_KEY'));
+  console.log('    ' + c(C.dim, 'NVIDIA_API_KEY  GOOGLE_API_KEY    OPENAI_API_KEY'));
+  console.log('    ' + c(C.dim, 'ANTHROPIC_API_KEY  DEEPSEEK_API_KEY  DEEPINFRA_API_KEY'));
+  console.log('    ' + c(C.dim, 'TOGETHER_API_KEY  PERPLEXITY_API_KEY  XAI_API_KEY'));
+  console.log('    ' + c(C.dim, 'FIREWORKS_API_KEY  OPENROUTER_API_KEY'));
+  console.log('');
+  process.exit(0);
+}
+
+function printProviders() {
+  printBanner();
+  console.log(c(C.bold, '  AVAILABLE PROVIDERS:\n'));
+
+  var allProviders = PROVIDERS;
+  var available = getAvailableProviders();
+  var availableIds = {};
+  for (var i = 0; i < available.length; i++) availableIds[available[i].id] = true;
+
+  for (var pi = 0; pi < allProviders.length; pi++) {
+    var p = allProviders[pi];
+    var avail = availableIds[p.id];
+    var statusStr = avail ? c(C.green, '  ✅') : c(C.dim + C.white, '  ❌');
+    var keyStr = avail ? c(C.green, '  ✅ KEY SET') : (function () {
+      // Check if env var exists at all
+      var val = process.env[p.envKey];
+      if (val) return c(C.yellow, '  ⚠ no key');
+      return c(C.dim, '  not set');
+    })();
+    var tierColor = p.tier === 'free' ? C.green : p.tier === 'cheap' ? C.cyan : p.tier === 'mid' ? C.yellow : C.magenta;
+    var modelStr = p.model.length > 35 ? p.model.substring(0, 33) + '..' : p.model;
+
+    console.log(
+      statusStr + ' ' +
+      c(C.bold, p.name.padEnd(18)) +
+      c(tierColor, ('[' + p.tier + ']').padEnd(8)) +
+      c(C.dim, modelStr.padEnd(38)) +
+      c(C.dim, '#' + p.envKey) + ' ' +
+      keyStr
+    );
+  }
+
+  console.log('\n  ' + c(C.bold, String(available.length)) + ' of ' + allProviders.length + ' providers available\n');
+  process.exit(0);
+}
+
+function printResult(result, verbose) {
+  if (!result.success) {
+    console.log(c(C.red, '  ERROR: ') + result.error);
+    if (result.errors && result.errors.length > 0) {
+      console.log('');
+      for (var i = 0; i < result.errors.length; i++) {
+        var e = result.errors[i];
+        console.log('    ' + c(C.yellow, e.provider + ':') + ' ' + c(C.dim, e.error));
+      }
+    }
+    return;
+  }
+
+  var providerColor = colorize(result.provider, result.provider);
+
+  console.log('');
+  console.log('  ' + c(C.dim, '┌─') + c(C.bold, ' A3M Response ') + c(C.dim, '─────────────────────────────────────────────'));
+  console.log('  ' + c(C.dim, '│'));
+  console.log('  ' + c(C.dim, '│  Provider:  ') + providerColor);
+  console.log('  ' + c(C.dim, '│  Model:     ') + c(C.italic, result.model));
+  console.log('  ' + c(C.dim, '│  Latency:   ') + c(C.cyan, result.latency + 'ms'));
+  console.log('  ' + c(C.dim, '│  Tokens:    ') + c(C.yellow, String(result.totalTokens)));
+  console.log('  ' + c(C.dim, '│  Cost:      ') + c(C.magenta, '$' + result.cost.toFixed(6)));
+  if (result.fallbackAttempts !== undefined && result.fallbackAttempts > 0) {
+    console.log('  ' + c(C.dim, '│  Fallback:  ') + c(C.yellow, 'attempted ' + result.fallbackAttempts + ' provider(s) before success'));
+  }
+  console.log('  ' + c(C.dim, '│'));
+  console.log('  ' + c(C.dim, '│  Response:'));
+  console.log('  ' + c(C.dim, '│'));
+  var lines = (result.content || '').split('\n');
+  for (var li = 0; li < lines.length; li++) {
+    console.log('  ' + c(C.dim, '│ ') + lines[li]);
+  }
+  console.log('  ' + c(C.dim, '│'));
+  console.log('  ' + c(C.dim, '└──────────────────────────────────────────────────────'));
+  console.log('');
+}
+
+function printEnsembleResults(ensembleResult) {
+  console.log('');
+  console.log('  ' + c(C.dim, '┌─') + c(C.bold, ' A3M Ensemble (') + c(C.cyan, String(ensembleResult.totalResults)) + c(C.bold, ' responses, ') + c(C.yellow, String(ensembleResult.totalFailures)) + c(C.bold, ' failed) ') + c(C.dim, '────'));
+  console.log('');
+
+  var results = ensembleResult.results || [];
+
+  for (var ri = 0; ri < results.length; ri++) {
+    var r = results[ri];
+    var pColor = colorize(r.provider, r.provider);
+
+    console.log('  ' + c(C.dim, '── ') + c(C.bold, '[' + String(ri + 1) + '] ') + pColor + c(C.dim, '  (') + r.model + ', ' + r.latency + 'ms, ' + (r.cost > 0 ? '$' + r.cost.toFixed(6) : 'free') + ')'));
+    console.log('');
+
+    var lines2 = (r.content || '').substring(0, 1000).split('\n');
+    for (var lj = 0; lj < Math.min(lines2.length, 20); lj++) {
+      console.log('    ' + lines2[lj]);
+    }
+    if (r.content.length > 1000) {
+      console.log(c(C.dim, '    ... (' + (r.content.length - 1000) + ' more chars)'));
+    }
+    console.log('');
+  }
+
+  if (ensembleResult.failures && ensembleResult.failures.length > 0) {
+    console.log('  ' + c(C.yellow, '  Failed:'));
+    for (var fi = 0; fi < ensembleResult.failures.length; fi++) {
+      console.log('    ' + c(C.red, '✗ ') + c(C.bold, ensembleResult.failures[fi].provider) + c(C.dim, ': ' + ensembleResult.failures[fi].error.substring(0, 120)));
+    }
+    console.log('');
+  }
+
+  console.log('  ' + c(C.dim, '└──────────────────────────────────────────────────────'));
+  console.log('');
+}
+
+// =====================================================================
+//  MAIN CLI
+// =====================================================================
+
+async function main() {
+  var args = process.argv.slice(2);
+
+  // Extract flags
+  var flags = { provider: null, ensemble: false, fallback: false, listProviders: false, help: false, verbose: false, maxEnsemble: 5 };
+
+  var queryParts = [];
+
+  for (var ai = 0; ai < args.length; ai++) {
+    var arg = args[ai];
+    if (arg === '--help' || arg === '-h') {
+      flags.help = true;
+    } else if (arg === '--list-providers') {
+      flags.listProviders = true;
+    } else if (arg === '--ensemble' || arg === '-e') {
+      flags.ensemble = true;
+    } else if (arg === '--fallback' || arg === '-f') {
+      flags.fallback = true;
+    } else if (arg === '--verbose' || arg === '-v') {
+      flags.verbose = true;
+    } else if (arg === '--provider' || arg === '-p') {
+      flags.provider = args[++ai];
+    } else if (arg === '--max-ensemble' || arg === '-m') {
+      flags.maxEnsemble = parseInt(args[++ai], 10) || 5;
+    } else if (arg.startsWith('--')) {
+      // unknown flag, skip
+    } else {
+      queryParts.push(arg);
+    }
+  }
+
+  if (flags.help) {
+    printHelp();
+    return;
+  }
+
+  if (flags.listProviders) {
+    printProviders();
+    return;
+  }
+
+  var query = queryParts.join(' ');
+
+  // If no query, show interactive mode
+  if (!query) {
+    // Check if we should read from stdin
+    var stdin = '';
+    if (!process.stdin.isTTY) {
+      // Read from pipe
+      var chunks = [];
+      for await (var chunk of process.stdin) chunks.push(chunk);
+      stdin = Buffer.concat(chunks).toString('utf-8').trim();
+    }
+
+    if (stdin) {
+      query = stdin;
+    } else {
+      printHelp();
+      return;
+    }
+  }
+
+  // Print banner
+  printBanner();
+
+  // Check if any providers available
+  var available = getAvailableProviders();
+  if (available.length === 0) {
+    console.log(c(C.red, '  ERROR: No providers available.'));
+    console.log('  Set at least one API key as an environment variable:');
+    console.log('    export GROQ_API_KEY=gsk_...');
+    console.log('    export NVIDIA_API_KEY=nvapi-...');
+    console.log('    export GOOGLE_API_KEY=...');
+    console.log('');
+    console.log('  Or run with --list-providers to see all options.\n');
+    process.exit(1);
+  }
+
+  console.log(c(C.dim, '  Query: ') + c(C.italic, '"' + query.substring(0, 80) + (query.length > 80 ? '...' : '') + '"'));
+  console.log(c(C.dim, '  Providers available: ') + c(C.green, String(available.length)));
+  console.log('');
+
+  // Route based on mode
+  if (flags.ensemble) {
+    var ensembleResult = await runEnsemble(query, { maxProviders: flags.maxEnsemble });
+    printEnsembleResults(ensembleResult);
+  } else if (flags.fallback || flags.provider) {
+    var result = await withFallback(query, { providerFilter: flags.provider });
+    if (result.success) {
+      printResult(result, flags.verbose);
+    } else {
+      printResult(result, flags.verbose);
+    }
+  } else {
+    // Default: use highest priority available provider
+    var defaultResult = await withFallback(query, { providerFilter: available[0].id });
+    if (defaultResult.success) {
+      printResult(defaultResult, flags.verbose);
+      // Show tip about ensemble
+      console.log(c(C.dim, '  💡 Tip: Try ') + c(C.cyan, '--ensemble') + c(C.dim, ' to compare responses from all providers.'));
+      console.log(c(C.dim, '  💡 Tip: Try ') + c(C.green, '--provider mistral') + c(C.dim, ' to use a specific provider.'));
+      console.log('');
+    } else {
+      // Fallback: try without filter (full fallback chain)
+      console.log(c(C.yellow, '  Primary provider failed. Trying full fallback chain...\n'));
+      var fallbackResult = await withFallback(query);
+      printResult(fallbackResult, flags.verbose);
+    }
+  }
+}
+
+main().catch(function (err) {
+  console.error(c(C.red, '\n  UNEXPECTED ERROR: ') + err.message + '\n');
+  process.exit(1);
+});
