@@ -1,0 +1,13 @@
+{
+  "name": "a3m-router-demo",
+  "version": "1.0.0",
+  "description": "Interactive demo of A3M Router - parallel multi-LLM execution with intelligent routing",
+  "scripts": {
+    "start": "node server.js",
+    "build": "echo 'no build needed'"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "adaptive-memory-multi-model-router": "^2.13.0"
+  }
+}

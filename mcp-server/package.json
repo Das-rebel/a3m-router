@@ -1,0 +1,29 @@
+{
+  "name": "@a3m/mcp-server",
+  "version": "0.1.0",
+  "description": "MCP server for A3M Router - parallel multi-LLM execution for AI agents",
+  "type": "module",
+  "bin": {
+    "a3m-mcp": "./dist/index.js"
+  },
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "adaptive-memory-multi-model-router": "^2.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Das-rebel/a3m-router.git"
+  }
+}
