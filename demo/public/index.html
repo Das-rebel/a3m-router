@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A3M Router — Interactive Demo</title>
+  <meta name="description" content="Interactive demo of A3M Router - parallel multi-LLM execution with intelligent routing" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f1a;
+      --surface: #1a1a2e;
+      --surface2: #242440;
+      --border: #2d2d4a;
+      --text: #e4e4f0;
+      --text2: #9090b0;
+      --accent1: #7c3aed;
+      --accent2: #4f46e5;
+      --accent3: #06b6d4;
+      --gradient: linear-gradient(135deg, #7c3aed, #4f46e5, #06b6d4);
+      --green: #22c55e;
+      --yellow: #eab308;
+      --red: #ef4444;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Header ─────────────────────────────────────── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 800;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-sub {
+      font-size: 13px;
+      color: var(--text2);
+      -webkit-text-fill-color: var(--text2);
+      font-weight: 400;
+    }
+
+    .badge {
+      margin-left: auto;
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+    .badge.live { background: #065f4620; color: var(--green); border: 1px solid var(--green); }
+    .badge.demo { background: #7c3aed20; color: var(--accent1); border: 1px solid var(--accent1); }
+
+    /* ── Main ───────────────────────────────────────── */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+
+    section {
+      margin-bottom: 32px;
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text2);
+    }
+
+    /* ── Input Area ─────────────────────────────────── */
+    .input-area {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+    }
+
+    .prompt-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .prompt-row textarea {
+      flex: 1;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      font-size: 15px;
+      color: var(--text);
+      resize: vertical;
+      min-height: 70px;
+      font-family: inherit;
+      line-height: 1.5;
+      transition: border-color 0.2s;
+    }
+    .prompt-row textarea:focus {
+      outline: none;
+      border-color: var(--accent1);
+      box-shadow: 0 0 0 3px #7c3aed20;
+    }
+    .prompt-row textarea::placeholder { color: var(--text2); }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .mode-select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .mode-select:focus { outline: none; border-color: var(--accent1); }
+
+    .btn {
+      background: var(--gradient);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 10px 28px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-clear {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 18px;
+      color: var(--text2);
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .btn-clear:hover { border-color: var(--text2); }
+
+    .preset-chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 13px;
+      color: var(--text2);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .chip:hover {
+      border-color: var(--accent1);
+      color: var(--accent1);
+    }
+
+    /* ── Provider Status ────────────────────────────── */
+    .provider-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+    }
+
+    #provider-count {
+      font-size: 14px;
+      color: var(--text2);
+      margin-bottom: 12px;
+    }
+
+    .provider-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 8px;
+    }
+
+    .provider-item {
+      background: var(--surface2);
+      border-radius: var(--radius-sm);
+      padding: 8px 12px;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .provider-item .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .provider-item .dot.configured { background: var(--green); }
+    .provider-item .dot.unconfigured { background: var(--text2); opacity: 0.3; }
+    .provider-item .name { flex: 1; }
+    .provider-item .tier {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .provider-item .tier.free { background: #22c55e20; color: var(--green); }
+    .provider-item .tier.cheap { background: #06b6d420; color: var(--accent3); }
+    .provider-item .tier.mid { background: #eab30820; color: var(--yellow); }
+    .provider-item .tier.premium { background: #7c3aed20; color: var(--accent1); }
+
+    /* ── Response ───────────────────────────────────── */
+    .response-area {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      display: none;
+    }
+    .response-area.visible { display: block; }
+
+    .response-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .routing-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+    }
+    .routing-badge .provider-label {
+      background: var(--surface2);
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .routing-badge .mode-label {
+      background: #4f46e520;
+      padding: 4px 10px;
+      border-radius: 6px;
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    .routing-stats {
+      display: flex;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--text2);
+    }
+    .routing-stats span { white-space: nowrap; }
+
+    .response-content {
+      font-size: 15px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .response-content code {
+      background: var(--surface2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    .response-content pre {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      overflow-x: auto;
+      margin: 12px 0;
+      font-size: 14px;
+    }
+
+    /* ── Analysis Panel ─────────────────────────────── */
+    .analysis-panel {
+      background: var(--surface2);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      margin-top: 16px;
+      font-size: 13px;
+    }
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .analysis-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+    .analysis-item .label { color: var(--text2); }
+    .analysis-item .value { font-weight: 600; }
+    .analysis-item .value.yes { color: var(--green); }
+    .analysis-item .value.no { color: var(--red); }
+
+    .confidence-bar {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      margin: 8px 0;
+      overflow: hidden;
+    }
+    .confidence-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: var(--gradient);
+      transition: width 0.5s ease;
+    }
+
+    /* ── Ensemble Mode ──────────────────────────────── */
+    .ensemble-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .ensemble-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+    .ensemble-card h4 {
+      font-size: 13px;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    .ensemble-card .card-content {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .ensemble-card .card-stats {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text2);
+    }
+
+    /* ── Loading ────────────────────────────────────── */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 32px;
+    }
+    .loading.visible { display: block; }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent1);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Footer ─────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: var(--text2);
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+    }
+    footer a {
+      color: var(--accent1);
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ─────────────────────────────────── */
+    @media (max-width: 640px) {
+      main { padding: 16px; }
+      .prompt-row { flex-direction: column; }
+      .controls { flex-direction: column; align-items: stretch; }
+      .provider-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+      .ensemble-results { grid-template-columns: 1fr; }
+      .response-header { flex-direction: column; align-items: stretch; }
+      .routing-stats { flex-wrap: wrap; }
+    }
+
+    /* ── Scrollbar ──────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ────────────────────────────────────── -->
+  <header>
+    <div class="header-inner">
+      <div>
+        <span class="logo">A3M</span>
+        <span class="logo-sub">Router</span>
+      </div>
+      <span class="badge demo" id="status-badge">Demo Mode</span>
+    </div>
+  </header>
+
+  <!-- ── Main ──────────────────────────────────────── -->
+  <main>
+
+    <!-- Input -->
+    <section>
+      <div class="input-area">
+        <div class="prompt-row">
+          <textarea id="prompt" placeholder="Enter your prompt here..." rows="3">Write a haiku about Kubernetes</textarea>
+        </div>
+        <div class="controls">
+          <select id="mode" class="mode-select">
+            <option value="single">Single Provider</option>
+            <option value="ensemble">Ensemble (Parallel)</option>
+          </select>
+          <button class="btn" id="run-btn" onclick="runQuery()">Run</button>
+          <button class="btn-clear" onclick="clearAll()">Clear</button>
+        </div>
+        <div class="preset-chips">
+          <span class="chip" onclick="setPreset('Write a haiku about Kubernetes')">Haiku</span>
+          <span class="chip" onclick="setPreset('Explain quantum computing to a 5-year-old')">Quantum</span>
+          <span class="chip" onclick="setPreset('Write a React component for a search bar')">React</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p style="color: var(--text2); font-size: 14px;" id="loading-text">Routing query...</p>
+    </div>
+
+    <!-- Response -->
+    <section>
+      <div class="response-area" id="response">
+        <div class="response-header">
+          <div class="routing-badge">
+            <span class="provider-label" id="routed-provider">groq/llama-3.3-70b</span>
+            <span class="mode-label" id="routed-mode">Single</span>
+          </div>
+          <div class="routing-stats">
+            <span id="stat-latency">0ms</span>
+            <span id="stat-cost">$0</span>
+            <span id="stat-mock" style="display:none;">Simulated</span>
+          </div>
+        </div>
+        <div class="response-content" id="response-content"></div>
+
+        <!-- Analysis panel -->
+        <div class="analysis-panel" id="analysis-panel" style="display:none;">
+          <h3 style="margin-bottom:4px;">Routing Analysis</h3>
+          <div class="confidence-bar">
+            <div class="confidence-fill" id="confidence-fill" style="width:0%"></div>
+          </div>
+          <p style="font-size:12px;color:var(--text2);margin-bottom:8px;" id="confidence-text">Confidence: 0%</p>
+          <p style="font-size:13px;color:var(--text2);margin-bottom:8px;" id="routing-reasoning"></p>
+          <div class="analysis-grid" id="analysis-grid"></div>
+        </div>
+
+        <!-- Ensemble results -->
+        <div class="ensemble-results" id="ensemble-results"></div>
+      </div>
+    </section>
+
+    <!-- Provider Status -->
+    <section>
+      <h2>Available Providers</h2>
+      <div class="provider-bar">
+        <p id="provider-count">Loading providers...</p>
+        <div class="provider-grid" id="provider-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ── Footer ────────────────────────────────────── -->
+  <footer>
+    <p>
+      <a href="https://github.com/Das-rebel/a3m-router" target="_blank" rel="noopener">A3M Router</a>
+      &mdash; Parallel multi-LLM execution with intelligent routing.
+      <br/>
+      No data tracked. All processing happens client-side via the A3M Router API.
+    </p>
+  </footer>
+
+  <script>
+    // ============================================================
+    // Load providers on page load
+    // ============================================================
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const resp = await fetch('/api/providers');
+        const data = await resp.json();
+
+        const badge = document.getElementById('status-badge');
+        if (data.hasApiKeys) {
+          badge.textContent = 'Live Mode';
+          badge.className = 'badge live';
+        } else {
+          badge.textContent = 'Demo Mode';
+          badge.className = 'badge demo';
+        }
+
+        document.getElementById('provider-count').textContent =
+          data.count > 0
+            ? `${data.count} providers configured (${data.note})`
+            : `No providers configured — showing simulated responses`;
+
+        const grid = document.getElementById('provider-grid');
+        grid.innerHTML = '';
+
+        if (data.providers.length === 0) {
+          // Show default providers even when unconfigured
+          const defaults = [
+            { name: 'Groq', tier: 'cheap' },
+            { name: 'OpenAI', tier: 'premium' },
+            { name: 'Anthropic', tier: 'premium' },
+            { name: 'Mistral', tier: 'mid' },
+            { name: 'DeepSeek', tier: 'mid' },
+            { name: 'Google', tier: 'free' },
+          ];
+          defaults.forEach(p => {
+            const div = document.createElement('div');
+            div.className = 'provider-item';
+            div.innerHTML = \`
+              <span class="dot unconfigured"></span>
+              <span class="name">\${p.name}</span>
+              <span class="tier \${p.tier}">\${p.tier}</span>
+            \`;
+            grid.appendChild(div);
+          });
+          return;
+        }
+
+        data.providers.forEach(p => {
+          const div = document.createElement('div');
+          div.className = 'provider-item';
+          const configured = p.type !== 'api' || true; // always show as configured for display
+          div.innerHTML = \`
+            <span class="dot \${configured ? 'configured' : 'unconfigured'}"></span>
+            <span class="name">\${p.name}</span>
+            <span class="tier \${p.tier}">\${p.tier}</span>
+          \`;
+          grid.appendChild(div);
+        });
+      } catch (e) {
+        document.getElementById('provider-count').textContent = 'Failed to load providers';
+      }
+    });
+
+    // ============================================================
+    // Set preset prompt
+    // ============================================================
+    function setPreset(text) {
+      document.getElementById('prompt').value = text;
+    }
+
+    // ============================================================
+    // Clear all
+    // ============================================================
+    function clearAll() {
+      document.getElementById('prompt').value = '';
+      document.getElementById('response').className = 'response-area';
+      document.getElementById('response-content').textContent = '';
+      document.getElementById('ensemble-results').innerHTML = '';
+      document.getElementById('analysis-panel').style.display = 'none';
+    }
+
+    // ============================================================
+    // Run query
+    // ============================================================
+    async function runQuery() {
+      const prompt = document.getElementById('prompt').value.trim();
+      if (!prompt) return;
+
+      const mode = document.getElementById('mode').value;
+      const btn = document.getElementById('run-btn');
+      const loading = document.getElementById('loading');
+      const response = document.getElementById('response');
+
+      btn.disabled = true;
+      loading.className = 'loading visible';
+      response.className = 'response-area';
+
+      document.getElementById('loading-text').textContent =
+        mode === 'ensemble' ? 'Running parallel ensemble...' : 'Routing query...';
+
+      try {
+        const resp = await fetch('/api/route', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt, mode }),
+        });
+        const data = await resp.json();
+
+        loading.className = 'loading';
+        response.className = 'response-area visible';
+
+        // Route info
+        document.getElementById('routed-provider').textContent =
+          data.provider + '/' + (data.model || 'auto');
+        document.getElementById('routed-mode').textContent =
+          data.mode === 'ensemble' ? 'Ensemble' : 'Single';
+        document.getElementById('stat-latency').textContent = data.latency + 'ms';
+        document.getElementById('stat-cost').textContent = '$' + data.cost;
+
+        const mockEl = document.getElementById('stat-mock');
+        if (data.usedMock) {
+          mockEl.style.display = 'inline';
+        } else {
+          mockEl.style.display = 'none';
+        }
+
+        // Content
+        document.getElementById('response-content').textContent = data.result;
+
+        // Analysis
+        if (data.features || data.routing) {
+          const panel = document.getElementById('analysis-panel');
+          panel.style.display = 'block';
+
+          const features = data.features || {};
+          const routing = data.routing || {};
+          const confidence = routing.confidence || 0.5;
+
+          document.getElementById('confidence-fill').style.width = (confidence * 100) + '%';
+          document.getElementById('confidence-text').textContent =
+            'Confidence: ' + Math.round(confidence * 100) + '%';
+          document.getElementById('routing-reasoning').textContent =
+            routing.reasoning || 'Intelligent routing based on query analysis';
+
+          const grid = document.getElementById('analysis-grid');
+          grid.innerHTML = '';
+
+          const items = [
+            { label: 'Complexity', value: (features.complexity || 0).toFixed(2) },
+            { label: 'Length', value: features.length + ' words' },
+            { label: 'Has Code', value: features.has_code },
+            { label: 'Has Math', value: features.has_math },
+            { label: 'Reasoning', value: features.requires_reasoning },
+            { label: 'Creative', value: features.is_creative },
+            { label: 'Domain', value: features.detected_domain || 'general' },
+          ];
+
+          items.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'analysis-item';
+            const isBool = typeof item.value === 'boolean';
+            div.innerHTML = \`
+              <span class="label">\${item.label}</span>
+              <span class="value \${isBool ? (item.value ? 'yes' : 'no') : ''}">
+                \${isBool ? (item.value ? 'Yes' : 'No') : item.value}
+              </span>
+            \`;
+            grid.appendChild(div);
+          });
+        }
+
+        // Ensemble results
+        const ensembleEl = document.getElementById('ensemble-results');
+        if (data.responses && data.responses.length > 0) {
+          ensembleEl.innerHTML = '';
+          data.responses.forEach(r => {
+            const card = document.createElement('div');
+            card.className = 'ensemble-card';
+            card.innerHTML = \`
+              <h4>\${r.provider} — \${r.model}</h4>
+              <div class="card-content">\${r.content}</div>
+              <div class="card-stats">
+                <span>\${r.latency}ms</span>
+                <span>\$\${r.cost}</span>
+              </div>
+            \`;
+            ensembleEl.appendChild(card);
+          });
+        } else {
+          ensembleEl.innerHTML = '';
+        }
+      } catch (e) {
+        loading.className = 'loading';
+        response.className = 'response-area visible';
+        document.getElementById('response-content').textContent =
+          'Error: ' + e.message + '\n\nPlease check that the server is running.';
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    // Allow Ctrl+Enter to submit
+    document.getElementById('prompt').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        runQuery();
+      }
+    });
+  </script>
+</body>
+</html>
