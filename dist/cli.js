@@ -154,6 +154,10 @@ async function callProvider(providerId, model, prompt, maxTokens) {
 // ============================================================
 
 async function main() {
+  // Show banner
+  const banner = require('./scripts/banner.js');
+  process.stdout.write(banner);
+
   const router = createA3MRouter({ memory: { maxSize: 1000 } });
 
   switch (command) {

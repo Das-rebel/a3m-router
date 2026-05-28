@@ -3,6 +3,19 @@
  * A3M Router — Overlay Box TUI (Sakura Light Theme)
  */
 
+// ── Banner ──
+console.log(`
+╔══════════════════════════════════════════════════════════╗
+║                     ╔═╗╔═╗╔╗╔╔═╗                        ║
+║                     ╠═╣║ ║║║║║ ║                        ║
+║                     ╩ ╩╚═╝╝╚╝╚═╝                        ║
+║                                                          ║
+║            Parallel Multi-LLM Execution Engine           ║
+║                                                          ║
+║  47+ Providers  ·  Ensemble Voting  ·  62% Cost Savings  ║
+╚══════════════════════════════════════════════════════════╝
+`);
+
 import * as blessed from 'blessed';
 
 // ── State ──
