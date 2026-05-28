@@ -37,6 +37,18 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+// ── Banner ──
+console.log(`
+╔══════════════════════════════════════════════════════════╗
+║                     ╔═╗╔═╗╔╗╔╔═╗                        ║
+║                     ╠═╣║ ║║║║║ ║                        ║
+║                     ╩ ╩╚═╝╝╚╝╚═╝                        ║
+║                                                          ║
+║            Parallel Multi-LLM Execution Engine           ║
+║                                                          ║
+║  47+ Providers  ·  Ensemble Voting  ·  62% Cost Savings  ║
+╚══════════════════════════════════════════════════════════╝
+`);
 const blessed = __importStar(require("blessed"));
 // ── State ──
 let activeModel = 'nvidia/llama-3.1-8b';
