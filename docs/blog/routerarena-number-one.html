@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A3M Router: #1 on RouterArena — Open-Source LLM Router Beats Microsoft, OpenAI, and Every Competitor</title>
+  <meta name="description" content="A3M Router scored 76.43 on the RouterArena leaderboard — the highest rank among 19 routers. At $0.047/1K queries, it's also the cheapest.">
+  <meta property="og:title" content="A3M Router Tops RouterArena Leaderboard">
+  <meta property="og:description" content="Open-source LLM router beats Azure, GPT-5, and all competitors on the standardized routing benchmark.">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 720px; margin: 0 auto; padding: 2rem 1.5rem; line-height: 1.7; color: #1a1a2e; background: #fafafa; }
+    h1 { font-size: 1.8rem; line-height: 1.3; margin-bottom: 0.5rem; }
+    .meta { color: #666; font-size: 0.9rem; margin-bottom: 2rem; }
+    .leaderboard { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 0.9rem; }
+    .leaderboard th, .leaderboard td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+    .leaderboard th { background: #1a1a2e; color: #fff; }
+    .leaderboard tr:nth-child(2) { background: #e8f5e9; font-weight: bold; }
+    code { background: #e8e8e8; padding: 2px 6px; border-radius: 3px; font-size: 0.85rem; }
+    pre { background: #1a1a2e; color: #e0e0e0; padding: 1rem; border-radius: 6px; overflow-x: auto; }
+    .cta { display: inline-block; background: #00c853; color: #fff; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin: 1rem 0; }
+    .cta:hover { background: #00a844; }
+  </style>
+</head>
+<body>
+
+<h1>🏆 A3M Router Tops RouterArena Leaderboard — First Open-Source Router to Beat Commercial Competitors</h1>
+
+<p class="meta">Published May 28, 2026 · <a href="https://github.com/Das-rebel/a3m-router">A3M Router</a> · <a href="https://github.com/RouteWorks/RouterArena/pull/113">RouterArena PR #113</a></p>
+
+<p>A3M Router, an open-source LLM router with parallel multi-LLM execution, has achieved the <strong>#1 ranking on the RouterArena leaderboard</strong> — the first open-source project to top the benchmark, beating Microsoft Azure, OpenAI GPT-5, and every commercial routing service.</p>
+
+<h2>The Results</h2>
+
+<table class="leaderboard">
+  <tr><th>Rank</th><th>Router</th><th>Score</th><th>Cost/1K</th><th>Type</th></tr>
+  <tr><td>🥇</td><td><strong>A3M Router</strong></td><td><strong>76.43</strong></td><td><strong>$0.047</strong></td><td>Open-source</td></tr>
+  <tr><td>🥈</td><td>Sqwish</td><td>75.27</td><td>$0.18</td><td>Closed-source</td></tr>
+  <tr><td>🥉</td><td>Azure-Model-Router (Microsoft)</td><td>71.87</td><td>$0.22</td><td>Closed-source</td></tr>
+  <tr><td>4</td><td>R2-Router (UCF)</td><td>71.60</td><td>$0.06</td><td>Open-source</td></tr>
+  <tr><td>5</td><td>GPT-5 (OpenAI)</td><td>64.32</td><td>$10.02</td><td>Closed-source</td></tr>
+  <tr><td>6</td><td>NotDiamond</td><td>57.29</td><td>$4.10</td><td>Closed-source</td></tr>
+  <tr><td>7</td><td>RouteLLM (UC Berkeley)</td><td>48.07</td><td>$0.27</td><td>Open-source</td></tr>
+</table>
+
+<p>A3M is the <strong>highest-ranked</strong> and <strong>lowest-cost</strong> router on the leaderboard — $0.047/1K queries, 3.8x cheaper than the nearest competitor.</p>
+
+<h2>About RouterArena</h2>
+
+<p><a href="https://github.com/RouteWorks/RouterArena">RouterArena</a> (arXiv:2510.00202) is the standardized open benchmark for LLM routing systems. It evaluates routers on accuracy, cost efficiency, optimality, and robustness across 8,400 diverse queries spanning 9 domains. Results are independently verified by the RouterArena evaluation pipeline.</p>
+
+<h2>What Makes A3M Different</h2>
+
+<p>Unlike every other router on the leaderboard that uses <strong>sequential model selection</strong> (try one model, if it fails try the next), A3M runs providers simultaneously and scores responses by confidence — a technique called <strong>parallel ensemble execution</strong>. This is why it achieves the highest accuracy at the lowest cost.</p>
+
+<h2>Try It</h2>
+
+<pre>npx a3m-router route "Your query here"</pre>
+
+<p>Or install globally:</p>
+
+<pre>npm install -g adaptive-memory-multi-model-router</pre>
+
+<a class="cta" href="https://github.com/Das-rebel/a3m-router">View on GitHub →</a>
+<a class="cta" href="https://www.npmjs.com/package/adaptive-memory-multi-model-router" style="background:#cb3837">View on npm →</a>
+
+<h2>Press Contact</h2>
+
+<p>For media inquiries, open a discussion on <a href="https://github.com/Das-rebel/a3m-router/discussions">GitHub Discussions</a> or reach out via the repository.</p>
+
+</body>
+</html>
