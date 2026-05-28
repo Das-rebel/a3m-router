@@ -1,0 +1,33 @@
+# =============================================================================
+# A3M Router — OpenAI-Compatible Proxy
+# Standalone proxy service for OpenAI-compatible API routing via A3M
+# =============================================================================
+
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Create non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Copy proxy package manifests for layer caching
+COPY proxy/package*.json ./
+
+# Install production dependencies only
+RUN npm ci --production
+
+# Copy proxy source code
+COPY proxy/ ./
+
+# OpenAI-compatible proxy default port
+EXPOSE 8787
+
+# Switch to non-root user
+USER appuser
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:8787/health || exit 1
+
+# Start proxy server
+CMD ["node", "server.js"]

@@ -1,0 +1,56 @@
+# Stale Issue and PR Management
+# Marks issues and PRs as stale after 60 days of inactivity,
+# then closes them 7 days later if no further activity.
+#
+# https://github.com/actions/stale
+
+name: "Stale Issue & PR"
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Every Monday at 6:00 UTC
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          # -- General Configuration --
+          days-before-stale: 60
+          days-before-close: 7
+          operations-per-run: 100
+
+          # -- Messaging --
+          stale-issue-message: >
+            This issue has been automatically marked as stale because it has been
+            inactive for 60 days. If this is still relevant, please leave a comment
+            to keep it open. Otherwise, it will be closed in 7 days.
+          close-issue-message: >
+            This issue has been automatically closed due to inactivity.
+            Feel free to reopen if the issue persists or is still relevant.
+          stale-pr-message: >
+            This pull request has been automatically marked as stale because it has
+            been inactive for 60 days. Please update or comment to keep it active.
+            It will be closed in 7 days.
+          close-pr-message: >
+            This pull request has been automatically closed due to inactivity.
+            Feel free to reopen with updates when you're ready to continue.
+
+          # -- Labels --
+          stale-issue-label: stale
+          stale-pr-label: stale
+          exempt-issue-labels: "pinned,security,blocked,awaiting-review"
+          exempt-pr-labels: "pinned,security,blocked,awaiting-review"
+          exempt-all-milestones: true
+
+          # -- Exempt from stale --
+          # Never mark these as stale
+          exempt-issue-labels: "pinned,security,blocked,awaiting-review,help-wanted,good-first-issue"
+          exempt-pr-labels: "pinned,security,blocked,awaiting-review,WIP"
+
+          # -- Delete stale branches on close --
+          delete-branch: false

@@ -1,0 +1,74 @@
+# =============================================================================
+# A3M Router — Docker Compose
+# Runs the main router service + OpenAI-compatible proxy side-by-side
+# =============================================================================
+
+version: "3.9"
+
+services:
+
+  # ---------------------------------------------------------------------------
+  # A3M Router — Main API & health endpoint
+  # ---------------------------------------------------------------------------
+  a3m-router:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: a3m-router
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      # Pass through any .env variables needed at runtime
+      - NVIDIA_API_KEY=${NVIDIA_API_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - CEREBRAS_API_KEY=${CEREBRAS_API_KEY}
+      # Add additional provider keys as needed
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ---------------------------------------------------------------------------
+  # A3M Proxy — OpenAI-compatible proxy server (port 8787)
+  # ---------------------------------------------------------------------------
+  a3m-proxy:
+    build:
+      context: .
+      dockerfile: Dockerfile.proxy
+    container_name: a3m-proxy
+    restart: unless-stopped
+    ports:
+      - "8787:8787"
+    environment:
+      - NODE_ENV=production
+      - PORT=8787
+      - ROUTER_BASE_URL=http://a3m-router:3000
+    depends_on:
+      a3m-router:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8787/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 10s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

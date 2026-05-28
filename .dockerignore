@@ -1,0 +1,82 @@
+# =============================================================================
+# A3M Router — .dockerignore
+# Excludes unnecessary files from Docker build context for smaller images
+# =============================================================================
+
+# Dependencies (installed inside container)
+node_modules/
+
+# Git
+.git/
+.gitattributes
+.gitignore
+.github/
+
+# Build output (built inside container)
+dist/
+
+# Documentation (not needed at runtime)
+docs/
+docs-site/
+_*.md
+CONTRIBUTING.md
+CHANGELOG.md
+CODE_OF_CONDUCT.md
+SECURITY.md
+LAUNCH*.md
+MANIFESTO.md
+LANDING.md
+POPULARITY_BOOSTERS.md
+SUBMISSIONS.md
+
+# Research / articles
+articles/
+awesome-ai-gateways/
+Awesome-LLM/
+awesome-selfhosted/
+qna/
+llms-full.txt
+llms.txt
+
+# Demos / playground
+demo/
+playground/
+demo*.tape
+demo*.sh
+demo.html
+index.html
+
+# Tests
+test/
+test*
+pytest.ini
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Scripts / tooling
+scripts/
+eval/
+integrations/
+mcp-server/
+tmlpd-pi-extension/
+openclaw-alexa-bridge/
+python/
+skill/
+hf-space/
+
+# Config & secrets (use container env vars)
+.env
+.env.example
+tsconfig.json
+tsconfig.build.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs / temp
+*.log
+*.tsbuildinfo
+*.bak
+coverage/

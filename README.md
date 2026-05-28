@@ -1076,6 +1076,13 @@ These features are on our roadmap based on user feedback:
 - [Discussions](https://github.com/Das-rebel/a3m-router/discussions)
 - [Contributing](CONTRIBUTING.md) · [Good first issues](https://github.com/Das-rebel/a3m-router/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
 
+### Community & Support
+
+- [🐛 Report a Bug](https://github.com/Das-rebel/a3m-router/issues/new?template=bug_report.md) — File a detailed bug report
+- [✨ Request a Feature](https://github.com/Das-rebel/a3m-router/issues/new?template=feature_request.md) — Suggest an enhancement
+- [📥 Pull Request Template](https://github.com/Das-rebel/a3m-router/blob/main/.github/PULL_REQUEST_TEMPLATE.md) — Use this format for all PRs
+- [📋 All Issue Templates](https://github.com/Das-rebel/a3m-router/issues/new/choose) — Choose the right template for your submission
+
 MIT License. No vendor lock-in. No account required. `npm install` and go.
 
 
