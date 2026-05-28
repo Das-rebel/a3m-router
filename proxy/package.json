@@ -1,0 +1,17 @@
+{
+  "name": "a3m-proxy",
+  "version": "1.0.0",
+  "description": "OpenAI-compatible proxy for A3M Router — intelligent multi-LLM routing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT"
+}
