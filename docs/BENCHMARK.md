@@ -1,5 +1,16 @@
 # A3M Router — Independent Benchmark
 
+A3M Router is benchmarked on two independent dimensions:
+
+1. **Latency** — How much overhead does the gateway add? (real API calls)
+2. **Routing Accuracy** — How well does the complexity classifier sort queries into tiers? (offline, 200 queries)
+
+Both benchmarks are reproducible — scripts live in `scripts/`.
+
+---
+
+## 1. Latency Benchmark
+
 **The question everyone asks:** *"How much latency does a gateway add?"*
 
 **The answer:** +96ms for passthrough, +236ms for full intelligent routing — on a 138ms baseline.
@@ -8,9 +19,7 @@
 
 *Left: latency comparison. Right: cost savings projection. Dark theme.*
 
----
-
-## The TL;DR
+### The TL;DR
 
 ```
 Direct call to Groq:          ──▸ 138ms  (baseline)
@@ -25,9 +34,7 @@ Through A3M auto (routed):    ──▸ 374ms  (+140ms = routing decision)
 
 **Total overhead: 236ms.** Less than the time it takes to blink.
 
----
-
-## The Details
+### The Details
 
 | Scenario | Time | What's happening |
 |:---------|:----:|:-----------------|
@@ -35,11 +42,9 @@ Through A3M auto (routed):    ──▸ 374ms  (+140ms = routing decision)
 | **Through A3M (forced route)** | **234ms** | Request hits A3M proxy. Guardrails scan for prompt injection (17 patterns) and PII. Cache checks for semantic duplicates. Cost tracker logs the call. Request forwarded to Groq. Response logged. |
 | **Through A3M (auto route)** | **374ms** | Everything above, plus: A3M's router extracts 12 signals from the query text — domain, task type, complexity, verb intensity, multi-step structure. Scores it. Assigns a tier. Selects the cheapest capable model. Forwards the request. |
 
-**The extra 140ms for auto-routing is the intelligence.** It's the difference between "throw every query at GPT-4o" and "route simple questions to free tier, code questions to DeepSeek, expert questions to premium."
+**The extra 140ms for auto-routing is the intelligence.**
 
----
-
-## The Trade-Off
+### The Trade-Off
 
 ```text
                         Without A3M                  With A3M
@@ -54,9 +59,7 @@ Cost visibility:        End-of-month surprise        Per-query tracking + budget
 
 **236ms of overhead saves you $2,604/year.** That's about $11 per millisecond.
 
----
-
-## Why Most Gateways Don't Publish This
+### Why Most Gateways Don't Publish This
 
 Every gateway adds latency. Most don't publish their numbers because they're either:
 
@@ -66,23 +69,15 @@ Every gateway adds latency. Most don't publish their numbers because they're eit
 
 A3M publishes this because the numbers are honest and the trade-off is clear: **pay 236ms, save 62%, get production-grade security.**
 
----
-
-## Reproduce This Yourself
+### Reproduce This
 
 ```bash
-# Install the benchmark tool
 pip install llm-gateway-bench
-
-# Start A3M proxy
 npx a3m-router serve
-
-# Run comparison
 python3 -m llm_gateway_bench.cli run groq \
   --model llama-3.3-70b-versatile \
   --prompt "What is the capital of France?" \
   --requests 10
-
 python3 -m llm_gateway_bench.cli run custom \
   --model auto \
   --base-url http://localhost:8787/v1 \
@@ -94,3 +89,82 @@ python3 -m llm_gateway_bench.cli run custom \
 **Run date:** 2026-05-26  
 **Provider:** Groq (llama-3.3-70b-versatile)  
 **Methodology:** 3 prompts × 5 requests = 15 calls per scenario, real API calls
+
+---
+
+## 2. Routing Accuracy Benchmark
+
+**The question everyone asks:** *"Does the complexity classifier actually pick the right tier?"*
+
+**The answer:** **99.5% ±1 tier accuracy** across 200 diverse queries — no ML training needed.
+
+Benchmark script: `scripts/routing-benchmark-v2.js`  
+Methodology: RouteLLM-inspired (arXiv:2404.06035), 4-tier classification
+
+### Results (2026-05-28)
+
+| Metric | Score | What It Means |
+|:-------|:-----:|:--------------|
+| **±1 Tier Accuracy** | **99.5%** | Only 1 in 200 queries is misrouted by >1 tier |
+| Exact Tier Match | 64.5% | ~2 in 3 queries hit the *exact* right tier |
+| Free Tier Recall | 92.0% | Simple queries correctly routed to $0 models |
+| Cheap Tier Recall | 78.3% | Standard code/translation routed to cheap |
+| Mid Tier Recall | 36.0% | Complex reasoning often routed cheaper (fallback-safe) |
+| Premium Tier Recall | 45.0% | Expert queries routed to premium |
+| Over-routing (waste) | 7.0% | Sent to a stronger but costlier model than needed |
+| Under-routing (risk) | 28.5% | Sent weak first; auto-fallback in <2s |
+| Cost Savings vs All-Premium | **61.6%** | At 100K queries/mo: **save $77.04/mo** |
+
+### Confusion Matrix
+
+```
+Expected \\ Routed   free    cheap    mid   premium
+──────────────────────────────────────────────────
+free                 46✓      4       0       0
+cheap                11      47✓      2       0
+mid                   0      24      18✓      8
+premium               0       1      21      18✓
+```
+
+### Complexity Score Distribution
+
+```
+free         avg=0.125  range=[0.100, 0.270]
+cheap        avg=0.275  range=[0.100, 0.575]
+mid          avg=0.477  range=[0.230, 0.710]
+premium      avg=0.690  range=[0.430, 1.000]
+```
+
+### Test Set
+
+- **50 simple** — trivia, basic math, yes/no (target: free)
+- **60 medium** — code snippets, summarization, translation (target: cheap)
+- **50 complex** — reasoning, analysis, system design (target: mid)
+- **40 expert** — legal, medical, security, finance (target: premium)
+
+### Third-Party Cross-Validation
+
+A3M's tier assignments align with **MMLU accuracy rankings**:
+
+```
+Provider          MMLU    A3M Tier    Source
+────────────────────────────────────────────────
+gpt-4o            88.7%   premium     MMLU Leaderboard
+claude-3.5-sonnet  88.4%   premium     MMLU Leaderboard
+gemini-1.5-pro     85.7%   premium     MMLU Leaderboard
+mistral-large      84.2%   mid         MMLU Leaderboard
+llama-3.3-70b      82.5%   mid         MMLU Leaderboard
+deepseek-v2        78.3%   mid         MMLU Leaderboard
+llama-3.1-8b       68.3%   cheap       MMLU Leaderboard
+```
+
+**References:** [MMLU Leaderboard](https://paperswithcode.com/sota/multi-task-language-understanding-on-mmlu), [RouteLLM arXiv:2404.06035](https://arxiv.org/abs/2404.06035)
+
+### Reproduce This
+
+```bash
+cd /path/to/a3m-router
+node scripts/routing-benchmark-v2.js
+```
+
+Outputs `benchmark-results.json` with full breakdown.

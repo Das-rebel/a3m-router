@@ -1,54 +1,35 @@
 {
-  "timestamp": "2026-05-26T20:21:58.203Z",
-  "version": "2.13.3",
+  "timestamp": "2026-05-28T04:05:27.384Z",
+  "version": "2.13.18",
   "queries": 200,
-  "exact_accuracy": 64.5,
-  "adjacent_accuracy": 99.5,
-  "over_routed": 14,
-  "under_routed": 57,
-  "cost_savings_vs_premium": 61.6,
-  "by_tier": {
-    "free": {
-      "correct": 46,
-      "total": 50
-    },
-    "cheap": {
-      "correct": 47,
-      "total": 60
-    },
-    "mid": {
-      "correct": 18,
-      "total": 50
-    },
-    "premium": {
-      "correct": 18,
-      "total": 40
-    }
+  "routing_accuracy": 25,
+  "cost_savings_vs_premium": 100,
+  "tier_distribution": {
+    "free": 200,
+    "cheap": 0,
+    "mid": 0,
+    "premium": 0
   },
-  "confusion": {
-    "free": {
-      "free": 46,
-      "cheap": 4,
-      "mid": 0,
-      "premium": 0
+  "by_difficulty": {
+    "simple": {
+      "total": 50,
+      "correct": 50,
+      "accuracy": 100
     },
-    "cheap": {
-      "free": 11,
-      "cheap": 47,
-      "mid": 2,
-      "premium": 0
+    "medium": {
+      "total": 60,
+      "correct": 0,
+      "accuracy": 0
     },
-    "mid": {
-      "free": 0,
-      "cheap": 24,
-      "mid": 18,
-      "premium": 8
+    "complex": {
+      "total": 42,
+      "correct": 0,
+      "accuracy": 0
     },
-    "premium": {
-      "free": 0,
-      "cheap": 1,
-      "mid": 21,
-      "premium": 18
+    "expert": {
+      "total": 48,
+      "correct": 0,
+      "accuracy": 0
     }
   }
 }
