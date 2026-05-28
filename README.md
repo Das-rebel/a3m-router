@@ -10,6 +10,10 @@
 [![npm downloads rank](https://img.shields.io/badge/dynamic/json?color=green&label=npm%20rank&query=%24.downloads&suffix=%2Fweek&url=https://api.npmjs.org/downloads/point/last-week/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
+## 📈 Growth
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Das-rebel/a3m-router&type=Timeline)](https://star-history.com/#Das-rebel/a3m-router&Timeline)
+
 > **The fastest-growing open-source LLM router on npm** — 0 to 10K downloads in 14 days with parallel multi-LLM execution and independent benchmarks. 47+ providers. 99.5% accuracy. 62% cost savings. Third-party latency data included. Zero ML, 19.5KB.
 
 **One prompt in. The right model out.** An open-source **AI gateway** that auto-routes every query to the cheapest capable model across **47+ LLM providers**. Features **parallel ensemble execution**, **semantic cache**, **budget enforcement**, **intelligent failover**, and **independent benchmark validation**. Start in <100ms. Python SDK + TypeScript SDK.
@@ -1064,6 +1068,16 @@ These features are on our roadmap based on user feedback:
 | **Fine-grained RBAC** — Role-based access control for team budgets | Planned | Medium |
 | **Multi-region failover** — Geographic load balancing across regions | Researching | Medium |
 | **SLA reporting** — Uptime and latency SLAs for enterprise contracts | Researching | Low |
+
+---
+
+## ⭐ Supporters
+
+If A3M Router helps you, consider:
+- ⭐ Starring on [GitHub](https://github.com/Das-rebel/a3m-router)
+- 📦 Sharing on [npm](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
+- 🐛 Reporting issues
+- 🔀 Submitting PRs
 
 ---
 
