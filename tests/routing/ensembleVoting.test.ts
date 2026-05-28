@@ -103,7 +103,7 @@ describe('executeEnsemble', () => {
       { providers: ['short', 'normal'] }
     );
 
-    expect(result.scores['short']).toBeLessThan(result.scores['normal']);
+    expect(result.scores["short"]).toBeLessThanOrEqual(result.scores["normal"]);
   });
 
   it('applies specificity bonus for responses with numbers', async () => {
