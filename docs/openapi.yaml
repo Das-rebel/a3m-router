@@ -1,0 +1,1318 @@
+openapi: 3.0.3
+info:
+  title: A3M Router API
+  description: |
+    Open-source AI gateway that routes queries across 47+ LLM providers
+    with intelligent model selection. Unique differentiator: parallel
+    multi-LLM execution with ensemble voting (no competitor does this —
+    everyone does sequential fallback).
+
+    Key features:
+    - OpenAI-compatible proxy server (drop-in for any OpenAI SDK)
+    - Intelligent routing by query complexity, domain, cost constraints
+    - Parallel ensemble execution across multiple providers
+    - 47+ baked-in provider definitions (free, cheap, mid, premium, enterprise)
+    - Semantic caching, guardrails, cost tracking, observability
+    - TUI dashboard, CLI, MCP server, LangChain adapter
+
+    Version 2.14.0 — 19.5 KB, zero ML dependencies.
+  version: 2.14.0
+  contact:
+    name: GitHub
+    url: https://github.com/Das-rebel/a3m-router
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:8787
+    description: Local proxy server (default port, can be overridden via PORT env)
+  - url: https://api.a3m-router.dev
+    description: Production deployment (self-hosted)
+
+paths:
+  # ============================================================
+  # CHAT COMPLETIONS
+  # ============================================================
+  /v1/chat/completions:
+    post:
+      summary: Create a routed chat completion
+      description: |
+        OpenAI-compatible chat completions endpoint. Accepts standard OpenAI
+        request format. Set model="auto" for intelligent routing, or use
+        "provider/model" format (e.g., "groq/llama-3.3-70b-versatile") to
+        pin a specific provider.
+
+        Supports both streaming (SSE) and non-streaming responses. When the
+        primary provider fails, automatically falls back through alternative
+        configured providers.
+      operationId: createChatCompletion
+      tags:
+        - Completions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - messages
+              properties:
+                model:
+                  type: string
+                  default: auto
+                  description: |
+                    Model or routing mode to use.
+
+                    Special routing values:
+                    - "auto" — Route based on query complexity (recommended)
+                    - "free" — Route to free tier only
+                    - "cheap" — Route to cheap tier only
+
+                    Specific model formats:
+                    - "provider/model" (e.g., "groq/llama-3.3-70b-versatile")
+                    - Standard model names map to configured providers
+                      (e.g., "gpt-4o", "claude-sonnet")
+                  example: auto
+                messages:
+                  type: array
+                  description: Array of message objects in OpenAI format
+                  minItems: 1
+                  items:
+                    type: object
+                    required:
+                      - role
+                      - content
+                    properties:
+                      role:
+                        type: string
+                        enum:
+                          - system
+                          - user
+                          - assistant
+                          - tool
+                        description: Message role
+                      content:
+                        type: string
+                        description: Message content
+                temperature:
+                  type: number
+                  default: null
+                  description: Sampling temperature (0–2). Provider default if unset.
+                  minimum: 0
+                  maximum: 2
+                max_tokens:
+                  type: integer
+                  default: 1024
+                  description: Maximum tokens to generate
+                  minimum: 1
+                stream:
+                  type: boolean
+                  default: false
+                  description: |
+                    If true, send SSE stream of partial completions. Token-by-token
+                    deltas in OpenAI chat.completion.chunk format.
+                top_p:
+                  type: number
+                  description: Nucleus sampling parameter
+                  minimum: 0
+                  maximum: 1
+                frequency_penalty:
+                  type: number
+                  description: Frequency penalty (-2 to 2)
+                  minimum: -2
+                  maximum: 2
+                presence_penalty:
+                  type: number
+                  description: Presence penalty (-2 to 2)
+                  minimum: -2
+                  maximum: 2
+                stop:
+                  oneOf:
+                    - type: string
+                    - type: array
+                      items:
+                        type: string
+                  description: Stop sequence(s)
+                n:
+                  type: integer
+                  default: 1
+                  description: Number of completions to generate
+            example:
+              model: auto
+              messages:
+                - role: system
+                  content: You are a helpful assistant.
+                - role: user
+                  content: Write a haiku about Kubernetes
+              temperature: 0.7
+              max_tokens: 256
+              stream: false
+      responses:
+        "200":
+          description: Successful completion (non-streaming)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Unique completion ID
+                    example: chatcmpl-a1b2c3d4
+                  object:
+                    type: string
+                    default: chat.completion
+                  created:
+                    type: integer
+                    description: Unix timestamp
+                  model:
+                    type: string
+                    description: Actual model used (resolved via routing)
+                    example: llama-3.3-70b-versatile
+                  choices:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        index:
+                          type: integer
+                        message:
+                          type: object
+                          properties:
+                            role:
+                              type: string
+                              example: assistant
+                            content:
+                              type: string
+                              example: "Pods drift through the cloud\nOrchestrator hums softly\nContainers at rest"
+                        finish_reason:
+                          type: string
+                          example: stop
+                  usage:
+                    type: object
+                    properties:
+                      prompt_tokens:
+                        type: integer
+                      completion_tokens:
+                        type: integer
+                      total_tokens:
+                        type: integer
+              example:
+                id: chatcmpl-a1b2c3d4e5f
+                object: chat.completion
+                created: 1716000000
+                model: llama-3.3-70b-versatile
+                choices:
+                  - index: 0
+                    message:
+                      role: assistant
+                      content: "Pods drift through the cloud\nOrchestrator hums softly\nContainers at rest"
+                    finish_reason: stop
+                usage:
+                  prompt_tokens: 24
+                  completion_tokens: 15
+                  total_tokens: 39
+        "400":
+          description: Invalid request (malformed JSON or missing fields)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "502":
+          description: Upstream provider error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "503":
+          description: No providers available (no API keys configured)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ============================================================
+  # TEXT COMPLETIONS
+  # ============================================================
+  /v1/completions:
+    post:
+      summary: Create a text completion
+      description: |
+        OpenAI-compatible text completions endpoint. Converts prompts to
+        chat messages internally and routes through A3M.
+
+        Supports streaming and non-streaming modes.
+      operationId: createCompletion
+      tags:
+        - Completions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - prompt
+              properties:
+                model:
+                  type: string
+                  default: auto
+                  description: Model or routing mode (same semantics as /v1/chat/completions)
+                prompt:
+                  oneOf:
+                    - type: string
+                    - type: array
+                      items:
+                        type: string
+                  description: Text prompt(s) to complete
+                stream:
+                  type: boolean
+                  default: false
+                  description: Enable SSE streaming
+                temperature:
+                  type: number
+                  minimum: 0
+                  maximum: 2
+                max_tokens:
+                  type: integer
+                  default: 1024
+                top_p:
+                  type: number
+                echo:
+                  type: boolean
+                  default: false
+                  description: Echo the prompt in the response
+                stop:
+                  oneOf:
+                    - type: string
+                    - type: array
+                      items:
+                        type: string
+            example:
+              model: auto
+              prompt: "The capital of France is"
+              max_tokens: 50
+      responses:
+        "200":
+          description: Successful completion
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  object:
+                    type: string
+                    default: text_completion
+                  created:
+                    type: integer
+                  model:
+                    type: string
+                  choices:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        text:
+                          type: string
+                        index:
+                          type: integer
+                        finish_reason:
+                          type: string
+                  usage:
+                    type: object
+                    properties:
+                      prompt_tokens:
+                        type: integer
+                      completion_tokens:
+                        type: integer
+                      total_tokens:
+                        type: integer
+              example:
+                id: chatcmpl-abc123
+                object: text_completion
+                created: 1716000000
+                model: llama-3.3-70b-versatile
+                choices:
+                  - text: " Paris."
+                    index: 0
+                    finish_reason: stop
+                usage:
+                  prompt_tokens: 5
+                  completion_tokens: 2
+                  total_tokens: 7
+        "400":
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "502":
+          description: Upstream provider error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  # ============================================================
+  # ROUTE (QUERY ANALYSIS)
+  # ============================================================
+  /v1/route:
+    post:
+      summary: Route a query without executing it
+      description: |
+        Analyze a query and return the optimal routing decision —
+        model selection, tier, cost estimate, complexity score, and
+        fallback alternatives — without calling any LLM provider.
+      operationId: routeQuery
+      tags:
+        - Routing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - query
+              properties:
+                query:
+                  type: string
+                  description: The query to route
+                  example: Write a Python function to sort an array
+                max_cost:
+                  type: number
+                  description: Maximum acceptable cost in USD
+                  example: 0.001
+                preferred_tier:
+                  type: string
+                  enum:
+                    - free
+                    - cheap
+                    - mid
+                    - premium
+                  description: Constrain routing to a specific cost tier
+            example:
+              query: Write a Python function to sort an array
+      responses:
+        "200":
+          description: Routing decision
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  primary_model:
+                    type: string
+                    description: Selected model identifier
+                    example: groq/llama-3.3-70b-versatile
+                  fallback_models:
+                    type: array
+                    items:
+                      type: string
+                    description: Alternative models in priority order
+                    example:
+                      - cerebras/llama-3.3-70b
+                      - mistral/mistral-small
+                  confidence:
+                    type: number
+                    description: Routing confidence score (0–1)
+                    example: 0.82
+                  reasoning:
+                    type: string
+                    description: Human-readable explanation of the routing decision
+                    example: Selected Groq for code detected, fast tier
+                  estimated_cost:
+                    type: number
+                    description: Estimated cost in USD
+                    example: 0.00035
+                  estimated_latency_ms:
+                    type: integer
+                    description: Estimated time to first token in ms
+                    example: 800
+                  features:
+                    type: object
+                    description: Query feature breakdown used for routing
+                    properties:
+                      complexity:
+                        type: number
+                        description: Query complexity score (0.0–1.0)
+                        example: 0.35
+                      has_code:
+                        type: boolean
+                        description: Code-related keywords detected
+                      has_math:
+                        type: boolean
+                        description: Mathematical expression detected
+                      is_multilingual:
+                        type: boolean
+                        description: Non-ASCII characters detected
+                      is_translation:
+                        type: boolean
+                        description: Translation request detected
+                      is_creative:
+                        type: boolean
+                        description: Creative writing request
+                      requires_reasoning:
+                        type: boolean
+                        description: Analytical/reasoning verbs detected
+                      is_security:
+                        type: boolean
+                        description: Security domain keywords
+                      is_devops:
+                        type: boolean
+                        description: DevOps/infrastructure keywords
+                      is_data:
+                        type: boolean
+                        description: Data/ML keywords
+                      detected_domain:
+                        type: string
+                        description: Best matching domain
+                        enum:
+                          - legal
+                          - medical
+                          - finance
+                          - security
+                          - architecture
+                          - ml_research
+                          - devops
+                          - data
+                        example: ""
+                      domain_score:
+                        type: number
+                        description: Domain match confidence (0.0–1.0)
+                  tier:
+                    type: string
+                    enum:
+                      - free
+                      - cheap
+                      - mid
+                      - premium
+                    description: Selected cost tier
+              example:
+                primary_model: groq/llama-3.3-70b-versatile
+                fallback_models:
+                  - cerebras/llama-3.3-70b
+                  - mistral/mistral-small
+                confidence: 0.82
+                reasoning: Selected Groq for code detected, fast tier
+                estimated_cost: 0.00035
+                estimated_latency_ms: 800
+                features:
+                  complexity: 0.35
+                  has_code: true
+                  has_math: false
+                  requires_reasoning: false
+                  detected_domain: ""
+                tier: cheap
+
+  # ============================================================
+  # LIST MODELS
+  # ============================================================
+  /v1/models:
+    get:
+      summary: List available models
+      description: |
+        Returns all available models across all configured providers,
+        organized as an OpenAI-compatible model list.
+      operationId: listModels
+      tags:
+        - Models
+      responses:
+        "200":
+          description: List of available models
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  object:
+                    type: string
+                    default: list
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Model identifier (provider/model format)
+                          example: groq/llama-3.3-70b-versatile
+                        object:
+                          type: string
+                          default: model
+                        owned_by:
+                          type: string
+                          description: Provider name
+                          example: groq
+              example:
+                object: list
+                data:
+                  - id: groq/llama-3.3-70b-versatile
+                    object: model
+                    owned_by: groq
+                  - id: groq/llama-3.1-8b-instant
+                    object: model
+                    owned_by: groq
+                  - id: cerebras/llama-3.3-70b
+                    object: model
+                    owned_by: cerebras
+                  - id: openai/gpt-4o-mini
+                    object: model
+                    owned_by: openai
+
+  # ============================================================
+  # HEALTH
+  # ============================================================
+  /health:
+    get:
+      summary: Health check
+      description: |
+        Returns server health status, configured provider details,
+        cost summary, and recent request log.
+      operationId: healthCheck
+      tags:
+        - Monitoring
+      responses:
+        "200":
+          description: Service health information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ok
+                  version:
+                    type: string
+                    description: A3M Router version
+                    example: 2.14.0
+                  providers:
+                    type: object
+                    properties:
+                      total:
+                        type: integer
+                        description: Total configured providers
+                      healthy:
+                        type: integer
+                        description: Providers with API keys available
+                      details:
+                        type: object
+                        description: Per-provider status map
+                        additionalProperties:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                            type:
+                              type: string
+                              enum:
+                                - api
+                                - cli
+                                - local
+                            models:
+                              type: integer
+                            available:
+                              type: boolean
+                  cost:
+                    type: object
+                    properties:
+                      total:
+                        type: number
+                        description: Total cost tracked in USD
+                      requests:
+                        type: integer
+                        description: Total requests tracked
+                  uptime:
+                    type: number
+                    description: Server uptime in seconds
+                  recentRequests:
+                    type: array
+                    description: Last 20 request logs
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        model:
+                          type: string
+                        resolvedProvider:
+                          type: string
+                        resolvedModel:
+                          type: string
+                        latencyMs:
+                          type: integer
+                        tokensIn:
+                          type: integer
+                        tokensOut:
+                          type: integer
+                        cost:
+                          type: number
+                        status:
+                          type: string
+                          enum:
+                            - success
+                            - error
+                        error:
+                          type: string
+                        timestamp:
+                          type: integer
+              example:
+                status: ok
+                version: 2.14.0
+                providers:
+                  total: 12
+                  healthy: 8
+                  details:
+                    groq:
+                      name: Groq
+                      type: api
+                      models: 3
+                      available: true
+                    openai:
+                      name: OpenAI
+                      type: api
+                      models: 2
+                      available: false
+                cost:
+                  total: 0.0042
+                  requests: 127
+                uptime: 86400.5
+                recentRequests: []
+
+  # ============================================================
+  # DASHBOARD (HTML)
+  # ============================================================
+  /dashboard:
+    get:
+      summary: Interactive web dashboard
+      description: |
+        Returns the A3M Router dashboard HTML page — a full monitoring
+        UI with dark hacker aesthetic. Shows live provider status,
+        request logs, cost breakdown, and latency metrics. Auto-refreshes
+        every 5 seconds. The root path (GET /) also serves this page.
+      operationId: getDashboard
+      tags:
+        - Monitoring
+      responses:
+        "200":
+          description: Dashboard HTML page
+          content:
+            text/html:
+              schema:
+                type: string
+                description: Inline HTML/CSS/JS dashboard
+
+  # ============================================================
+  # DASHBOARD API: Stats
+  # ============================================================
+  /api/stats:
+    get:
+      summary: Dashboard statistics
+      description: |
+        Returns real-time aggregated statistics for the dashboard: total
+        requests, costs, latency averages, provider status, and recent
+        request history.
+      operationId: getDashboardStats
+      tags:
+        - Monitoring
+      responses:
+        "200":
+          description: Dashboard stats snapshot
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalRequestsToday:
+                    type: integer
+                    description: Total requests since midnight
+                  totalCostToday:
+                    type: number
+                    description: Total cost since midnight in USD
+                  avgLatency:
+                    type: number
+                    description: Average latency across all providers in ms
+                  activeProviders:
+                    type: integer
+                    description: Number of providers with online status
+                  totalProviders:
+                    type: integer
+                    description: Total configured providers
+                  providers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        status:
+                          type: string
+                          enum:
+                            - online
+                            - offline
+                        requestsToday:
+                          type: integer
+                        costToday:
+                          type: number
+                        avgLatency:
+                          type: number
+                        lastError:
+                          type: string
+                          nullable: true
+                        lastErrorTime:
+                          type: integer
+                          nullable: true
+                  recentRequests:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        timestamp:
+                          type: integer
+                        query:
+                          type: string
+                        provider:
+                          type: string
+                        model:
+                          type: string
+                        latency:
+                          type: integer
+                        cost:
+                          type: number
+                        status:
+                          type: string
+                          enum:
+                            - success
+                            - error
+                        error:
+                          type: string
+                        tokens:
+                          type: object
+                          properties:
+                            input:
+                              type: integer
+                            output:
+                              type: integer
+                  costByProvider:
+                    type: object
+                    description: Per-provider cost breakdown
+                    additionalProperties:
+                      type: number
+                  uptime:
+                    type: number
+                    description: Server uptime in ms
+
+  # ============================================================
+  # DASHBOARD API: Providers
+  # ============================================================
+  /api/providers:
+    get:
+      summary: Provider status list
+      description: |
+        Returns per-provider statistics for the dashboard: request counts,
+        costs, latency, and error status.
+      operationId: getDashboardProviders
+      tags:
+        - Monitoring
+      responses:
+        "200":
+          description: Provider stats array
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    status:
+                      type: string
+                      enum:
+                        - online
+                        - offline
+                    requestsToday:
+                      type: integer
+                    costToday:
+                      type: number
+                    avgLatency:
+                      type: number
+                    lastError:
+                      type: string
+                      nullable: true
+                    lastErrorTime:
+                      type: integer
+                      nullable: true
+
+  # ============================================================
+  # DASHBOARD API: Requests
+  # ============================================================
+  /api/requests:
+    get:
+      summary: Recent request log
+      description: |
+        Returns the recent requests log for the dashboard.
+      operationId: getDashboardRequests
+      tags:
+        - Monitoring
+      responses:
+        "200":
+          description: Recent request entries
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    timestamp:
+                      type: integer
+                    query:
+                      type: string
+                    provider:
+                      type: string
+                    model:
+                      type: string
+                    latency:
+                      type: integer
+                    cost:
+                      type: number
+                    status:
+                      type: string
+                      enum:
+                        - success
+                        - error
+                    error:
+                      type: string
+                    tokens:
+                      type: object
+                      properties:
+                        input:
+                          type: integer
+                        output:
+                          type: integer
+
+  # ============================================================
+  # DASHBOARD API: Clear
+  # ============================================================
+  /api/clear:
+    post:
+      summary: Clear dashboard logs
+      description: |
+        Clears all dashboard statistics and recent request logs.
+        Resets per-provider request counts and cost totals.
+      operationId: clearDashboard
+      tags:
+        - Monitoring
+      responses:
+        "200":
+          description: Dashboard cleared
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok:
+                    type: boolean
+                    default: true
+                  message:
+                    type: string
+                    example: Dashboard cleared
+
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      description: Standard error response (OpenAI-compatible format)
+      properties:
+        error:
+          type: object
+          properties:
+            message:
+              type: string
+              description: Human-readable error description
+            type:
+              type: string
+              description: Error type identifier
+              enum:
+                - invalid_request_error
+                - not_found
+                - upstream_error
+                - server_error
+            code:
+              type: integer
+              description: HTTP status code
+          required:
+            - message
+            - type
+            - code
+
+    RoutingResult:
+      type: object
+      description: Result of a query routing decision
+      properties:
+        model:
+          type: string
+          description: Selected model identifier (provider/model format)
+          example: groq/llama-3.3-70b-versatile
+        tier:
+          type: string
+          enum:
+            - free
+            - cheap
+            - mid
+            - premium
+          description: Selected cost tier
+        cost:
+          type: number
+          description: Estimated cost in USD
+          example: 0.00035
+        complexity:
+          type: number
+          description: Query complexity score (0.0–1.0)
+        reasoning:
+          type: string
+          description: Human-readable explanation
+        fallbackModels:
+          type: array
+          items:
+            type: string
+          description: Alternative models in priority order
+        isFree:
+          type: boolean
+          description: Whether the selected model is free
+        isExpert:
+          type: boolean
+          description: Whether this is an expert-level query
+
+    QueryFeatures:
+      type: object
+      description: Query feature breakdown used for routing classification
+      properties:
+        complexity:
+          type: number
+          description: Overall complexity score (0.0–1.0)
+        length:
+          type: integer
+          description: Word count
+        has_code:
+          type: boolean
+          description: Code-related keywords detected
+        has_math:
+          type: boolean
+          description: Math-related keywords detected
+        is_multilingual:
+          type: boolean
+          description: Non-ASCII characters detected
+        is_translation:
+          type: boolean
+          description: Translation request detected
+        is_creative:
+          type: boolean
+          description: Creative writing request
+        requires_reasoning:
+          type: boolean
+          description: Analytical/reasoning verbs detected
+        is_security:
+          type: boolean
+          description: Security domain keywords
+        is_devops:
+          type: boolean
+          description: DevOps/infrastructure keywords
+        is_data:
+          type: boolean
+          description: Data/ML keywords
+        detected_domain:
+          type: string
+          description: Best matching domain
+          enum:
+            - legal
+            - medical
+            - finance
+            - security
+            - architecture
+            - ml_research
+            - devops
+            - data
+        domain_score:
+          type: number
+          description: Domain match confidence (0.0–1.0)
+
+    ChatCompletionRequest:
+      type: object
+      required:
+        - messages
+      properties:
+        model:
+          type: string
+          default: auto
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatMessage"
+        temperature:
+          type: number
+        max_tokens:
+          type: integer
+          default: 1024
+        stream:
+          type: boolean
+          default: false
+        top_p:
+          type: number
+        frequency_penalty:
+          type: number
+        presence_penalty:
+          type: number
+        stop:
+          oneOf:
+            - type: string
+            - type: array
+              items:
+                type: string
+
+    ChatMessage:
+      type: object
+      required:
+        - role
+        - content
+      properties:
+        role:
+          type: string
+          enum:
+            - system
+            - user
+            - assistant
+            - tool
+        content:
+          type: string
+
+    ChatCompletionResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          default: chat.completion
+        created:
+          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              message:
+                type: object
+                properties:
+                  role:
+                    type: string
+                  content:
+                    type: string
+              finish_reason:
+                type: string
+        usage:
+          type: object
+          properties:
+            prompt_tokens:
+              type: integer
+            completion_tokens:
+              type: integer
+            total_tokens:
+              type: integer
+
+    StreamingChunk:
+      type: object
+      description: SSE streaming chunk (chat.completion.chunk format)
+      properties:
+        id:
+          type: string
+        object:
+          type: string
+          default: chat.completion.chunk
+        created:
+          type: integer
+        model:
+          type: string
+        choices:
+          type: array
+          items:
+            type: object
+            properties:
+              index:
+                type: integer
+              delta:
+                type: object
+                properties:
+                  content:
+                    type: string
+                  role:
+                    type: string
+              finish_reason:
+                type: string
+                nullable: true
+
+    DashboardStats:
+      type: object
+      properties:
+        totalRequestsToday:
+          type: integer
+        totalCostToday:
+          type: number
+        avgLatency:
+          type: number
+        activeProviders:
+          type: integer
+        totalProviders:
+          type: integer
+        providers:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProviderStat"
+        recentRequests:
+          type: array
+          items:
+            $ref: "#/components/schemas/RequestEntry"
+        costByProvider:
+          type: object
+          additionalProperties:
+            type: number
+        uptime:
+          type: number
+
+    ProviderStat:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        status:
+          type: string
+          enum:
+            - online
+            - offline
+        requestsToday:
+          type: integer
+        costToday:
+          type: number
+        avgLatency:
+          type: number
+        lastError:
+          type: string
+          nullable: true
+        lastErrorTime:
+          type: integer
+          nullable: true
+
+    RequestEntry:
+      type: object
+      properties:
+        timestamp:
+          type: integer
+        query:
+          type: string
+        provider:
+          type: string
+        model:
+          type: string
+        latency:
+          type: integer
+        cost:
+          type: number
+        status:
+          type: string
+          enum:
+            - success
+            - error
+        error:
+          type: string
+        tokens:
+          type: object
+          properties:
+            input:
+              type: integer
+            output:
+              type: integer
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+        version:
+          type: string
+        providers:
+          type: object
+          properties:
+            total:
+              type: integer
+            healthy:
+              type: integer
+            details:
+              type: object
+              additionalProperties:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  type:
+                    type: string
+                  models:
+                    type: integer
+                  available:
+                    type: boolean
+        cost:
+          type: object
+          properties:
+            total:
+              type: number
+            requests:
+              type: integer
+        uptime:
+          type: number
+        recentRequests:
+          type: array
+          items:
+            $ref: "#/components/schemas/RequestLogEntry"
+
+    RequestLogEntry:
+      type: object
+      properties:
+        id:
+          type: string
+        model:
+          type: string
+        resolvedProvider:
+          type: string
+        resolvedModel:
+          type: string
+        latencyMs:
+          type: integer
+        tokensIn:
+          type: integer
+        tokensOut:
+          type: integer
+        cost:
+          type: number
+        status:
+          type: string
+          enum:
+            - success
+            - error
+        error:
+          type: string
+        timestamp:
+          type: integer
