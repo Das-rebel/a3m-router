@@ -182,3 +182,27 @@ npx adaptive-memory-multi-model-router
 # Quick start: docs/QUICK_START.md
 # Benchmarks: docs/BENCHMARK.md
 ```
+
+## Additional Resources
+
+### Docs
+- [BENCHMARK.md](./docs/BENCHMARK.md) — Independent benchmark data
+- [API.md](./docs/API.md) — API reference
+- [CORE_VISION_PRD.md](./docs/CORE_VISION_PRD.md) — Product requirements
+- [CONFIGURATION.md](./docs/CONFIGURATION.md) — Configuration reference
+- [ENGINEERING_SPEC.md](./docs/ENGINEERING_SPEC.md) — Engineering specification
+- [INTEGRATIONS.md](./docs/INTEGRATIONS.md) — Integration guide
+- [QUICK_START.md](./docs/QUICK_START.md) — Quick start guide
+- [ARCHITECTURAL-IMPROVEMENTS.md](./docs/ARCHITECTURAL-IMPROVEMENTS-2025.md) — Architecture docs
+
+### Integrations
+- [LangChain](./integrations/langchain/) — LangChain integration adapter
+- [Vercel AI SDK](./integrations/vercel-ai-sdk/) — Vercel AI SDK integration (use with @ai-sdk packages)
+
+### Servers & Tools
+- [MCP Server](./mcp-server/) — Model Context Protocol server
+- [Demo](./demo/) — Interactive demo application
+- [Proxy](./proxy/) — OpenAI-compatible proxy server
+
+### Community
+- [GitHub Discussions](https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions) — Community Q&A, ideas, and show-and-tell

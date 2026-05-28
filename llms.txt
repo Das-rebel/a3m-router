@@ -52,3 +52,12 @@ Parallel ensemble execution: runs N providers simultaneously, scores results on 
 - 10,024 npm downloads in 14 days
 - 72 versions published
 - Zero marketing budget
+
+## Links
+- Docs: `docs/` ([BENCHMARK.md](./docs/BENCHMARK.md), [API.md](./docs/API.md), [ARCHITECTURAL-IMPROVEMENTS.md](./docs/ARCHITECTURAL-IMPROVEMENTS-2025.md), [CORE_VISION_PRD.md](./docs/CORE_VISION_PRD.md), [CONFIGURATION.md](./docs/CONFIGURATION.md), [ENGINEERING_SPEC.md](./docs/ENGINEERING_SPEC.md), [INTEGRATIONS.md](./docs/INTEGRATIONS.md), [QUICK_START.md](./docs/QUICK_START.md))
+- Integration: LangChain (`integrations/langchain/`)
+- Integration: Vercel AI SDK (`integrations/vercel-ai-sdk/`)
+- MCP Server: `mcp-server/`
+- Demo: `demo/`
+- Proxy: `proxy/`
+- Community: [GitHub Discussions](https://github.com/Das-rebel/adaptive-memory-multi-model-router/discussions)
