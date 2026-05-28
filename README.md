@@ -4,6 +4,7 @@
 
 [![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?color=blue&label=weekly%20downloads)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
+[![Types](https://img.shields.io/npm/types/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![GitHub stars](https://img.shields.io/github/stars/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router)
 [![Build](https://github.com/Das-rebel/a3m-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Das-rebel/a3m-router/actions)
 [![npm downloads rank](https://img.shields.io/badge/dynamic/json?color=green&label=npm%20rank&query=%24.downloads&suffix=%2Fweek&url=https://api.npmjs.org/downloads/point/last-week/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
