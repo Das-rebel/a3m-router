@@ -3,7 +3,7 @@
   "version": "2.13.18",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
-  "description": "🔥 Fastest-growing npm LLM router — 0 to 10K downloads in 14 days. Parallel multi-LLM execution with independent benchmark validation (138ms baseline, +96ms proxy overhead), 47+ providers, 99.5% routing accuracy, 62% cost savings. Open-source AI gateway with ensemble voting, semantic cache, budget enforcement. 19.5 KB, zero ML.",
+  "description": "\ud83d\udd25 Fastest-growing npm LLM router \u2014 0 to 10K downloads in 14 days. Parallel multi-LLM execution with independent benchmark validation (138ms baseline, +96ms proxy overhead), 47+ providers, 99.5% routing accuracy, 62% cost savings. Open-source AI gateway with ensemble voting, semantic cache, budget enforcement. 19.5 KB, zero ML.",
   "main": "dist/index.js",
   "bin": {
     "a3m-router": "dist/cli.js",
@@ -119,7 +119,7 @@
   "bugs": {
     "url": "https://github.com/Das-rebel/a3m-router/issues"
   },
-  "homepage": "https://github.com/Das-rebel/a3m-router",
+  "homepage": "https://das-rebel.github.io/A3M-Router-Parallel-multi-LLM-Gateway/",
   "scripts": {
     "test": "node test.js && node test/provider-test.js",
     "test:py": "python3 -m pytest -q",
