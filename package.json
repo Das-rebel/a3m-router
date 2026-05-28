@@ -119,7 +119,7 @@
   "bugs": {
     "url": "https://github.com/Das-rebel/a3m-router/issues"
   },
-  "homepage": "https://das-rebel.github.io/A3M-Router-Parallel-multi-LLM-Gateway/",
+  "homepage": "https://das-rebel.github.io/a3m-router/",
   "scripts": {
     "test": "node test.js && node test/provider-test.js",
     "test:py": "python3 -m pytest -q",

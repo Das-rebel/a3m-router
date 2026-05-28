@@ -34,4 +34,4 @@ User-agent: Applebot-Extended
 Allow: /
 
 # Sitemap
-Sitemap: https://das-rebel.github.io/A3M-Router-Parallel-multi-LLM-Gateway/sitemap.xml
+Sitemap: https://das-rebel.github.io/a3m-router/sitemap.xml
