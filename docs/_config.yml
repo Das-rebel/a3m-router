@@ -2,12 +2,12 @@
 # https://das-rebel.github.io/a3m-router/
 
 title: A3M Router
-tagline: Open-Source LLM Router & AI Gateway — 47+ providers, 99.5% routing accuracy, 62% cost savings
+tagline: #1 LLM Routing Benchmark & Cheapest Router with Memory — 47+ providers, RouterArena 76.43, $0.047/1K queries
 description: >-
-  A3M Router is an open-source AI gateway that auto-routes every query to the
-  cheapest capable model across 47+ LLM providers. Features parallel ensemble
-  execution, semantic cache, budget enforcement, intelligent failover, and
-  independent benchmark validation. Start in <100ms. Zero ML, 19.5KB.
+  #1 LLM routing benchmark & cheapest router with memory. A3M Router scores 76.43
+  on RouterArena, costs $0.047/1K queries, and runs 47+ providers in parallel
+  with ensemble voting. Semantic cache, budget enforcement, circuit breaker.
+  Start in <100ms. Zero ML, 19.5KB.
 url: "https://das-rebel.github.io"
 baseurl: "/a3m-router"
 

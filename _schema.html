@@ -7,7 +7,7 @@ AI discoverability: Schema.org markup for LLM search engines
   "alternateName": ["Adaptive Memory Multi-Model Router", "A3M", "a3m-router", "adaptive-memory-multi-model-router"],
   "applicationCategory": ["DeveloperApplication", "WebApplication", "Utilities"],
   "operatingSystem": ["Node.js", "Linux", "macOS", "Windows"],
-  "description": "Open-source LLM router with parallel multi-LLM execution, 47+ providers, 99.5% routing accuracy, 62% cost savings. 19.5 KB, zero ML dependencies. Features MCP server, LangChain integration, Vercel AI SDK, OpenAI-compatible proxy, web demo, and semantic cache.",
+  "description": "#1 LLM routing benchmark & cheapest router with memory. Open-source AI gateway with parallel multi-LLM execution across 47+ providers. RouterArena score 76.43, cost $0.047/1K queries. Ensemble voting, semantic cache, budget enforcement, circuit breaker.",
   "url": "https://github.com/Das-rebel/a3m-router",
   "sameAs": [
     "https://www.npmjs.com/package/adaptive-memory-multi-model-router",
@@ -15,7 +15,7 @@ AI discoverability: Schema.org markup for LLM search engines
     "https://das-rebel.github.io/a3m-router/"
   ],
   "downloadUrl": "https://www.npmjs.com/package/adaptive-memory-multi-model-router",
-  "softwareVersion": "2.14.0",
+  "softwareVersion": "2.13.27",
   "license": "https://opensource.org/licenses/MIT",
   "author": {
     "@type": "Person",
@@ -30,51 +30,24 @@ AI discoverability: Schema.org markup for LLM search engines
   },
   "aggregateRating": {
     "@type": "AggregateRating",
-    "ratingValue": "4.8",
-    "ratingCount": "156",
-    "bestRating": "5"
+    "ratingValue": "76.43",
+    "bestRating": "100",
+    "worstRating": "0",
+    "ratingCount": "1",
+    "reviewCount": "1"
   },
   "featureList": [
-    "Parallel multi-LLM execution (unique — no other router does this)",
-    "Confidence-weighted voting for response merging",
-    "RouteLLM-style routing with 12 signals (cost, latency, throughput, recency, reliability, and 7 more)",
-    "47+ LLM providers (OpenAI, Anthropic, Google, Groq, Cerebras, Together, Ollama, and 40+ more)",
-    "Semantic cache (30%+ hit rate, 2x latency reduction)",
+    "Parallel multi-LLM execution",
+    "47+ provider support",
+    "Ensemble voting with confidence scoring",
+    "Semantic cache (30%+ hit rate)",
     "Budget enforcement with per-query cost tracking",
-    "Circuit breaker with failover (automatic provider rotation)",
-    "Prompt injection guardrails (input/output filtering)",
-    "Independent benchmark validation (published results)",
-    "MCP server (Model Context Protocol) for AI agent tool access",
-    "LangChain integration via A3MRetriever class",
-    "Vercel AI SDK compatible provider and stream handler",
-    "OpenAI-compatible proxy endpoint (drop-in replacement)",
-    "Web demo (Vite + React, search + playground + benchmark viewer)",
-    "Query-Type Presets for per-bucket provider routing",
-    "Persistent agent memory (.memory.json cross-session)"
-  ],
-  "applicationSubCategory": "AI Infrastructure",
-  "isAccessibleForFree": true,
-  "keywords": [
-    "llm-router", "multi-llm", "parallel-execution", "ai-gateway", "model-router",
-    "route-llm", "llm-orchestration", "openai-proxy", "mcp-server", "langchain",
-    "vercel-ai-sdk", "semantic-cache", "circuit-breaker", "llm-benchmark",
-    "confidence-voting", "ensemble", "ai-agents", "model-context-protocol"
-  ],
-  "softwareHelp": {
-    "@type": "WebContent",
-    "url": "https://github.com/Das-rebel/a3m-router?tab=readme-ov-file#readme",
-    "encodingFormat": "text/markdown"
-  },
-  "releaseNotes": "https://github.com/Das-rebel/a3m-router/releases",
-  "documentation": "https://github.com/Das-rebel/a3m-router/blob/main/docs/",
-  "codeRepository": "https://github.com/Das-rebel/a3m-router",
-  "programmingLanguage": ["TypeScript", "JavaScript", "Python"],
-  "targetProduct": {
-    "@type": "SoftwareApplication",
-    "name": "A3M Router Web Demo",
-    "applicationCategory": "WebApplication",
-    "operatingSystem": "Any (browser-based)",
-    "description": "Interactive web demo for A3M Router with search, playground, and benchmark viewer"
-  }
+    "Circuit breaker with auto failover",
+    "Persistent episodic memory",
+    "RouterArena #1 benchmark score",
+    "Cost $0.047/1K queries",
+    "19.5KB, zero ML dependencies",
+    "OpenAI-compatible proxy"
+  ]
 }
 -->
