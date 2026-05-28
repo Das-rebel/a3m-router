@@ -1,8 +1,8 @@
 [🇨🇳 中文](./README_zh.md) · [🇯🇵 日本語](./README_ja.md) · [English](./README.md)
 
-# A3M Router 🔀 — #1 LLM Routing Benchmark # A3M Router 🔀 — 🥇 #1 on RouterArena · Cheapest at $0.047/1K Queries Cheapest Router with Memory
+# A3M Router 🔀 — #1 LLM Routing Benchmark & Cheapest Router with Memory
 
-**#1 on the LLM routing benchmark The highest-ranked and lowest-cost LLM router on the [RouterArena leaderboard](https://github.com/RouteWorks/RouterArena/pull/113). cheapest router with memory. Parallel multi-LLM execution across 47+ providers.**
+**#1 on the LLM routing benchmark & cheapest router with memory.** Parallel multi-LLM execution across 47+ providers.
 
 [![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?color=blue&label=weekly%20downloads)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
@@ -16,7 +16,7 @@
 
 [![npm Downloads Chart](./docs/npm-downloads-chart.svg)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 
-> **#1 on LLM routing benchmark > **The highest-ranked and lowest-cost LLM router on the RouterArena leaderboard** — #1 (76.43), cheapest at $0.047/1K queries. Parallel multi-LLM execution across 47+ providers. Open-source, 19.5KB, zero ML dependencies. cheapest router with memory** — RouterArena score 76.43, cost $0.047/1K queries. 47+ providers, 19.5KB, zero ML deps.
+> **#1 LLM routing benchmark & cheapest router with memory** — RouterArena score 76.43, cost $0.047/1K queries. 47+ providers, 19.5KB, zero ML dependencies.
 
 **One prompt in. The right model out.** An open-source **AI gateway** that auto-routes every query to the cheapest capable model across **47+ LLM providers**. Features **parallel ensemble execution**, **semantic cache**, **budget enforcement**, **intelligent failover**, and **independent benchmark validation**. Start in <100ms. Python SDK + TypeScript SDK.
 
