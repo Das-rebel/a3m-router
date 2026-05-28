@@ -127,7 +127,26 @@ graph LR
 ---
 
 
-## Benchmark Results (Real API Calls)
+## 🏆 Benchmarks
+
+### RouterArena Leaderboard — 🥇 #1 Overall (May 2026)
+
+A3M Router achieved the **highest RouterArena Score (0.7643)** among 17 submitted routers, evaluated on 8,400 queries across 5 model providers.
+
+| Metric | A3M Router | Previous #1 |
+|--------|-----------|-------------|
+| **RouterArena Score** | **0.7643** 🥇 | 0.7527 |
+| Accuracy | 76.28% | 76.40% |
+| Cost per 1K Queries | **$0.05** | $0.18 |
+| Optimal Selection | **0.6339** | 0.0741 |
+| Optimal Cost | **0.5683** | 0.2510 |
+| Optimal Accuracy | **0.9127** | 0.9047 |
+
+> 3.6x cheaper than the previous leader with 8.5x better optimal model selection. [View full evaluation →](https://github.com/RouteWorks/RouterArena/pull/113)
+
+---
+
+### Routing Accuracy (200 queries, May 2026)
 
 Independent benchmarks confirm A3M Router achieves **99.5% ±1 tier routing accuracy** with **62% cost savings** vs all-premium routing.
 
