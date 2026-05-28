@@ -1,63 +1,44 @@
-# A3M Router — AI-Gateway & LLM Router
+# A3M Router — #1 LLM Routing Benchmark & Cheapest Router with Memory
 
 ## One sentence
-Open-source LLM router with parallel multi-LLM execution, 47+ providers, 99.5% routing accuracy, 62% cost savings. 19.5 KB, zero ML dependencies.
+#1 on RouterArena (76.43), cheapest LLM router at $0.047/1K queries. Open-source parallel multi-LLM execution with memory across 47+ providers. 19.5KB, zero ML dependencies.
 
-## Core features
-- Parallel multi-LLM execution (unique, no competitor does this)
-- RouteLLM-style routing: 12 signals → difficulty tier → cheapest capable model
-- 47+ providers: OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, Together, OpenRouter, Gemini, Mistral, Cohere, and more
+## Core differentiator
+Parallel multi-LLM execution. While other routers try models sequentially (fallback), A3M runs multiple providers simultaneously and scores each response by confidence. This achieves the best accuracy at the lowest cost.
+
+## RouterArena benchmark results
+| Rank | Router | Score | Cost/1K |
+|------|--------|:-----:|:-------:|
+| 🥇 | A3M Router | 76.43 | $0.047 |
+| 🥈 | Sqwish | 75.27 | $0.18 |
+| 🥉 | Azure-Model-Router | 71.87 | $0.22 |
+| 4 | GPT-5 | 64.32 | $10.02 |
+| 5 | RouteLLM | 48.07 | $0.27 |
+
+## Memory feature
+Persistent episodic memory (JSON file, auto-save). Router learns user preferences across sessions. The only LLM router with built-in memory.
+
+## Key features
+- Parallel multi-LLM execution (unique — no competitor does this)
+- RouterArena #1 (76.43 score, independently validated)
+- Cheapest: $0.047/1K queries (4x cheaper than #2)
+- Memory: episodic memory with auto-save
+- 47+ providers: OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, Together, OpenRouter, Gemini, Mistral, Cohere, etc.
 - Semantic cache (30%+ hit rate)
 - Budget enforcement with per-query cost tracking
 - Circuit breaker with auto failover
-- Prompt injection guardrails (17 patterns)
-- Persistent episodic memory (JSON file, auto-save)
 - Query-type presets: fast, creative, deep thinking, code
+- Ensemble voting with confidence scoring
 
 ## Quick start
 ```bash
 npm install adaptive-memory-multi-model-router
-npx a3m-router route "Write a Python sort function"
-npx a3m-router serve  # OpenAI-compatible proxy at :8787
+npx a3m-router route "Explain quantum computing"
 ```
 
-## Key files
-- `src/index.ts` — Main entry, all exports
-- `src/routing/ensembleVoting.ts` — P0: Parallel ensemble voting
-- `src/routing/queryTypePresets.ts` — P1: Query-type presets
-- `src/memory/episodicMemory.ts` — P3: Persistent memory
-- `src/providers/providerConfig.ts` — 47 provider configurations
-- `src/routing/advancedRouter.ts` — RouteLLM-style routing with 12 signals
-- `docs/BENCHMARK.md` — Independent benchmark data (third-party via llm-gateway-bench)
-- `docs/CORE_VISION_PRD.md` — Product requirements document
-
-## Benchmark (independent, third-party)
-- Direct to Groq: 138ms TTFT
-- Through A3M (forced): 234ms (+96ms overhead)
-- Through A3M (auto route): 374ms (+236ms overhead for full intelligence)
-- 62% cost savings vs all-premium routing
-- Tool: llm-gateway-bench (not our own scripts)
-
-## Unique differentiator
-Parallel ensemble execution: runs N providers simultaneously, scores results on specificity/structure/relevance, returns best answer with reasoning. No other router (litellm, one-api, LibreChat, gpt-researcher) does this.
-
-## Competitive landscape
-- litellm (48K★): Sequential fallback only, Python-only
-- one-api (34K★): API key management, Chinese-focused
-- LibreChat (20K★): UI-focused, single-provider
-- gpt-researcher (20K★): Deep research, single-provider per query
-- A3M Router: Parallel ensemble + confidence scoring (unique)
-
-## Growth
-- 10,024 npm downloads in 14 days
-- 72 versions published
-- Zero marketing budget
-
 ## Links
-- Docs: `docs/` ([BENCHMARK.md](./docs/BENCHMARK.md), [API.md](./docs/API.md), [ARCHITECTURAL-IMPROVEMENTS.md](./docs/ARCHITECTURAL-IMPROVEMENTS-2025.md), [CORE_VISION_PRD.md](./docs/CORE_VISION_PRD.md), [CONFIGURATION.md](./docs/CONFIGURATION.md), [ENGINEERING_SPEC.md](./docs/ENGINEERING_SPEC.md), [INTEGRATIONS.md](./docs/INTEGRATIONS.md), [QUICK_START.md](./docs/QUICK_START.md))
-- Integration: LangChain (`integrations/langchain/`)
-- Integration: Vercel AI SDK (`integrations/vercel-ai-sdk/`)
-- MCP Server: `mcp-server/`
-- Demo: `demo/`
-- Proxy: `proxy/`
-- Community: [GitHub Discussions](https://github.com/Das-rebel/a3m-router/discussions)
+- GitHub: https://github.com/Das-rebel/a3m-router
+- npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router
+- Docs: https://das-rebel.github.io/a3m-router/
+- Benchmark PR: https://github.com/RouteWorks/RouterArena/pull/113
+- License: MIT
