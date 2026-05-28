@@ -694,7 +694,7 @@ function printEnsembleResults(ensembleResult) {
     var r = results[ri];
     var pColor = colorize(r.provider, r.provider);
 
-    console.log('  ' + c(C.dim, '── ') + c(C.bold, '[' + String(ri + 1) + '] ') + pColor + c(C.dim, '  (') + r.model + ', ' + r.latency + 'ms, ' + (r.cost > 0 ? '$' + r.cost.toFixed(6) : 'free') + ')'));
+    console.log('  ' + c(C.dim, '── ') + c(C.bold, '[' + String(ri + 1) + '] ') + pColor + c(C.dim, '  (') + r.model + ', ' + r.latency + 'ms, ' + (r.cost > 0 ? '$' + r.cost.toFixed(6) : 'free') + ')');
     console.log('');
 
     var lines2 = (r.content || '').substring(0, 1000).split('\n');
