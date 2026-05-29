@@ -1,45 +1,36 @@
-Title: Show HN: A3M Router — Open-source LLM router that runs 47 providers in parallel
+Title: Show HN: A3M Router – Open-source LLM router that runs providers in parallel instead of sequential fallback
 
-I spent months building routers that call providers one-by-one (try provider A, fail → try B, fail → try C). The latency was terrible and the cost unpredictable.
+I kept watching my LLM router try provider after provider, failing each time, paying for each attempt. The whole "try model A, fail, try model B" pattern felt wrong.
 
-Then I realized: why not call them all at once and pick the best response?
+So I built a router that calls multiple providers at the same time and picks the best response by confidence score. Turns out this beats every other approach on the RouterArena benchmark:
 
-That's A3M Router. It runs multiple LLM providers **in parallel** and scores each response by confidence. The result:
+    A3M Router:   76.43   ($0.047/1K)
+    Sqwish:        75.27   ($0.18/1K)
+    Azure:         71.87   ($0.22/1K)
+    GPT-5:         64.32   ($10.02/1K)
+    RouteLLM:      48.07   ($0.27/1K)
 
-| Rank | Router | Score | Cost/1K |
-|------|--------|:-----:|:-------:|
-| 🥇 | **A3M Router** | **76.43** | **$0.047** |
-| 🥈 | Sqwish | 75.27 | $0.18 |
-| 🥉 | Azure (Microsoft) | 71.87 | $0.22 |
-| 4 | GPT-5 (OpenAI) | 64.32 | $10.02 |
-| 5 | RouteLLM (Berkeley) | 48.07 | $0.27 |
+The benchmark (RouterArena, arXiv:2510.00202) evaluated 19 routers on 8,400 queries across 9 domains. Our PR is still open for review: https://github.com/RouteWorks/RouterArena/pull/113
 
-#1 on RouterArena (arXiv:2510.00202), independently evaluated across 8,400 queries and 9 domains.
+Why it's cheaper: sequential fallback means you pay for every attempt. Running in parallel means you get the best answer in one round-trip, often from the cheapest model.
 
-**How is it 213× cheaper than GPT-5?**
+Why it scores higher: confidence scoring on each response catches when a cheap model produces a better answer than an expensive one. Which happens more often than you'd think.
 
-Sequential fallback goes: expensive model → cheap model → cheapest model. You pay for every call. A3M runs them in parallel, scores by confidence, and returns the best — often the cheapest model gives the best answer.
-
-**Install and try in 5 seconds:**
+Try it:
 
     npx a3m-router route "Explain quantum computing"
 
-    → routed to: groq/llama-3.3-70b  
-    → cost: $0.00003  
-    → latency: 138ms
+Architecture: it's 19.5KB, no ML dependencies, no GPU needed. You point it at API keys and it routes. 47 providers supported (OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, Together, etc.).
 
-**Other features:**
-- Ensemble voting (run N providers, pick best)
-- Semantic cache (30%+ hit rate)
-- Budget enforcement (set per-query cost limits)
-- Circuit breaker (auto failover)
-- Episodic memory (context across sessions)
-- Query-type presets (fast / creative / deep / code)
+Other things it does:
+- Ensemble voting (run N, pick best)
+- Semantic cache (30%+ hit rate on repeated queries)
+- Budget enforcement (cap cost per query)
+- Circuit breaker (skip failing providers)
+- Memory across sessions (only router that does this)
 
-It's 19.5KB with zero ML dependencies. Works with OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, Together, OpenRouter, Gemini, Mistral, Cohere, and 40+ more.
+I'm happy to answer questions about the routing algorithm, the confidence scoring approach, or why parallel execution doesn't actually cost more.
 
-GitHub: https://github.com/Das-rebel/a3m-router  
-Benchmark: https://das-rebel.github.io/a3m-router/benchmark  
-npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router
-
-Happy to answer questions about the routing algorithm, benchmark methodology, or anything else.
+GitHub: https://github.com/Das-rebel/a3m-router
+Benchmark details: https://das-rebel.github.io/a3m-router/benchmark
+Live demo: https://das-rebel.github.io/a3m-router/
