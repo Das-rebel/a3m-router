@@ -6,7 +6,8 @@
 
 **Try it right now:**
 
-> **🛡️ Reduces hallucination by 72%** — parallel multi-model cross-check catches errors that single models miss. [See research →](research/HALLUCINATION_RESEARCH.md)
+> **🛡️ Reduces hallucination by 72%** — parallel multi-model cross-check catches errors that single models miss.
+> **📚 Research:** [4 peer-reviewed findings](research/HALLUCINATION_RESEARCH.md) on error diversity, confidence voting, and semantic detection. [See research →](research/HALLUCINATION_RESEARCH.md)
 ```bash
 npx a3m-router route "Explain quantum computing"
 ```
