@@ -35,7 +35,7 @@ Section: LLM Tools / Routing
 ---
 
 ## Quick Stats for Outreach
-- Stars: 3 (ask users to star!)
+- Stars: 3 (organic only — never ask for stars on HN)
 - Monthly downloads: 6,103
 - npm keywords: 643
 - Package size: 19.5KB

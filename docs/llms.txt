@@ -20,7 +20,7 @@ Persistent episodic memory (JSON file, auto-save). Router learns user preference
 
 ## Key features
 - Parallel multi-LLM execution (unique — no competitor does this)
-- RouterArena #1 (76.43 score, independently validated)
+- RouterArena #1 (76.43 score, evaluated on the RouterArena benchmark (arXiv:2510.00202))
 - Cheapest: $0.047/1K queries (4x cheaper than #2)
 - Memory: episodic memory with auto-save
 - 47+ providers: OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, Together, OpenRouter, Gemini, Mistral, Cohere, etc.

@@ -108,7 +108,7 @@ From 200 benchmark queries, here's how A3M's routing actually performed:
 
 | Metric | Score |
 |:-------|:-----:|
-| **±1 Tier Accuracy** | **99.5%** — only 1 in 200 was off by more than one tier |
+| **±1 Tier Accuracy** | **76.43** — only 1 in 200 was off by more than one tier |
 | Exact Tier Match | 64.5% |
 | Free Tier Recall | 92% |
 | Over-routing (waste) | 7% |

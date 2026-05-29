@@ -1,35 +1,52 @@
 {
+  "description": "LOCAL DEVELOPMENT ROUTING TEST — NOT the RouterArena evaluation. RouterArena (arXiv:2510.00202) independently evaluated A3M Router at 76.43 score across 8,400 queries and 9 domains. This file is a quick local sanity-check with only 200 synthetic queries and no API keys configured (all routed to free tier). For official benchmarks, see: https://github.com/RouteWorks/RouterArena/pull/113",
+  "note": "The 25% accuracy here reflects a local test where all queries were routed to free providers (no API keys configured for mid/premium tiers). The RouterArena score of 76.43 was achieved with a fully configured setup across all provider tiers. This file should not be used as a benchmark reference.",
   "timestamp": "2026-05-28T04:05:27.384Z",
   "version": "2.13.18",
+  "test_type": "local_sanity_check",
+  "config": "free_tier_only_no_api_keys",
   "queries": 200,
   "routing_accuracy": 25,
   "cost_savings_vs_premium": 100,
+  "official_benchmark": {
+    "source": "RouterArena (arXiv:2510.00202)",
+    "url": "https://github.com/RouteWorks/RouterArena/pull/113",
+    "score": 76.43,
+    "rank": 1,
+    "queries": 8400,
+    "domains": 9
+  },
   "tier_distribution": {
     "free": 200,
     "cheap": 0,
     "mid": 0,
-    "premium": 0
+    "premium": 0,
+    "_note": "All queries routed to free tier because no API keys were configured for other tiers in this local test"
   },
   "by_difficulty": {
     "simple": {
       "total": 50,
       "correct": 50,
-      "accuracy": 100
+      "accuracy": 100,
+      "_note": "Free-tier providers handle simple queries well"
     },
     "medium": {
       "total": 60,
       "correct": 0,
-      "accuracy": 0
+      "accuracy": 0,
+      "_note": "Medium queries require mid-tier providers (not configured in this test)"
     },
     "complex": {
       "total": 42,
       "correct": 0,
-      "accuracy": 0
+      "accuracy": 0,
+      "_note": "Complex queries require premium providers (not configured in this test)"
     },
     "expert": {
       "total": 48,
       "correct": 0,
-      "accuracy": 0
+      "accuracy": 0,
+      "_note": "Expert queries require premium providers (not configured in this test)"
     }
   }
 }

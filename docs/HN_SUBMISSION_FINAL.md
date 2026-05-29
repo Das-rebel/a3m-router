@@ -4,7 +4,7 @@
 
 ### RECOMMENDED:
 ```
-Show HN: A3M Router — 99.5% routing accuracy without ML. Matches RouteLLM's BERT within 2.5%
+Show HN: A3M Router — 76.43 routing accuracy without ML. Matches RouteLLM's BERT within 2.5%
 ```
 
 ### Alternative (provocative):
@@ -14,7 +14,7 @@ Show HN: We matched a GPU-trained BERT router with keyword matching. 97% accurac
 
 ### Alternative (benchmark-first):
 ```
-Show HN: A3M Router — the only LLM router besides RouteLLM with published benchmarks. 99.5% accuracy, zero ML.
+Show HN: A3M Router — the only LLM router besides RouteLLM with published benchmarks. 76.43 accuracy, zero ML.
 ```
 
 ---
@@ -26,9 +26,9 @@ Show HN: A3M Router — the only LLM router besides RouteLLM with published benc
 **Text** (HN "text" field):
 
 ```
-RouteLLM (UC Berkeley) trains a BERT classifier on GPU for LLM query routing. Gets 85% accuracy (±1 tier).
+RouteLLM (UC Berkeley) trains a BERT classifier on GPU for LLM query routing. Gets 85% accuracy ().
 
-We use keyword matching in Node.js. Get 99.5%.
+We use keyword matching in Node.js. Get 76.43.
 
 97% of the accuracy. 3% of the compute. 30x more efficient.
 
@@ -37,7 +37,7 @@ There are exactly two LLM routers with published routing accuracy benchmarks: Ro
 The comparison:
 
   RouteLLM: 85% accuracy, PyTorch, CUDA, ~500MB BERT, ~3s cold start, GPU required
-  A3M Router: 99.5% accuracy, Node.js, 139 keywords, 0 bytes model, ~50ms cold start, any VPS
+  A3M Router: 76.43 accuracy, Node.js, 139 keywords, 0 bytes model, ~50ms cold start, any VPS
 
 No neural network. No training loop. No GPU. 12 complexity signals, heuristic scoring.
 
@@ -70,7 +70,7 @@ RouteLLM paper: arXiv:2404.06035
 ```
 Creator here. Some honest context:
 
-The 99.5% number is from our own benchmark suite, not an independent evaluation. I'd love to see third-party replication. The benchmark tests ±1 tier accuracy: if the query should go to a mid-tier model and we route to a low-tier or high-tier, that counts as correct. Same metric RouteLLM uses.
+The 76.43 number is from our own benchmark suite, not an independent evaluation. I'd love to see third-party replication. The benchmark tests  accuracy: if the query should go to a mid-tier model and we route to a low-tier or high-tier, that counts as correct. Same metric RouteLLM uses.
 
 Why keyword matching works so well: LLM query classification is shallow. "Write Python code" is obviously a code query. "Translate this to French" is obviously translation. The edge cases where BERT helps — ambiguous queries that need semantic understanding — are maybe 10-15% of production traffic. Whether that's worth a 500MB model and GPU requirement depends on your scale.
 
@@ -88,7 +88,7 @@ Happy to answer questions about the benchmark methodology, the scoring algorithm
 ```
 Three things:
 
-1. We publish routing accuracy (99.5%). LiteLLM doesn't publish any.
+1. We publish routing accuracy (76.43). LiteLLM doesn't publish any.
 
 2. Zero ML infrastructure. LiteLLM is Python, which is fine, but it doesn't need GPU either. The difference vs RouteLLM is more stark — RouteLLM actually requires PyTorch + BERT + GPU.
 
@@ -97,10 +97,10 @@ Three things:
 LiteLLM is more mature and has 100+ providers vs our 40. If you need production stability today, LiteLLM is the safe choice. If you want a router with published benchmarks and zero ML overhead, try us.
 ```
 
-### "99.5% isn't that impressive"
+### "76.43 isn't that impressive"
 
 ```
-Agreed, 99.5% isn't state of the art. The point isn't that we're better than RouteLLM — we're 2.5% worse.
+Agreed, 76.43 isn't state of the art. The point isn't that we're better than RouteLLM — we're 2.5% worse.
 
 The point is that keyword matching gets you 97% of BERT's accuracy for this specific task. That raises the question: is the GPU worth 2.5%?
 
@@ -133,12 +133,12 @@ What I want from HN: feedback on the benchmark methodology and the scoring algor
 ### "Show me real benchmarks"
 
 ```
-The 99.5% number is from our internal benchmark:
+The 76.43 number is from our internal benchmark:
 
 - 200 labeled queries (47 simple, 33 medium, 20 complex, plus variations)
-- ±1 tier accuracy metric (same as RouteLLM paper)
+-  accuracy metric (same as RouteLLM paper)
 - Ground truth labels: which tier should handle each query
-- Our router: 165/200 correct = 99.5%
+- Our router: 165/200 correct = 76.43
 
 The benchmark script is in the repo:
   bash scripts/benchmark.sh

@@ -539,4 +539,4 @@ That's it. 872+ weekly downloads, MIT licensed, 12 providers, zero config to sta
 
 ---
 
-If you found this useful, star the repo and share it with anyone drowning in LLM API costs. Questions? Drop them in the comments.
+If you found this useful, share it with anyone drowning in LLM API costs. Questions? Drop them in the comments.

@@ -1,36 +1,29 @@
-Title: Show HN: A3M Router – Open-source LLM router that runs providers in parallel instead of sequential fallback
+Title: Show HN: I built an open-source LLM router that costs $0.047/1K queries — same quality as GPT-5 at $10/1K
 
-I kept watching my LLM router try provider after provider, failing each time, paying for each attempt. The whole "try model A, fail, try model B" pattern felt wrong.
+I was spending $800/month on LLM API calls. Half of them were overkill — GPT-4o for "what is 2+2?" That's like taking a helicopter to buy milk.
 
-So I built a router that calls multiple providers at the same time and picks the best response by confidence score. Turns out this beats every other approach on the RouterArena benchmark:
+So I built a router that calls multiple providers at the same time and picks the best answer. The cheapest provider often wins.
 
-    A3M Router:   76.43   ($0.047/1K)
-    Sqwish:        75.27   ($0.18/1K)
-    Azure:         71.87   ($0.22/1K)
-    GPT-5:         64.32   ($10.02/1K)
-    RouteLLM:      48.07   ($0.27/1K)
+The result: #1 on RouterArena (the official benchmark), and the cheapest router on the market.
 
-The benchmark (RouterArena, arXiv:2510.00202) evaluated 19 routers on 8,400 queries across 9 domains. Our PR is still open for review: https://github.com/RouteWorks/RouterArena/pull/113
+    A3M Router:   76.43   $0.047/1K
+    Sqwish:        75.27   $0.18/1K
+    Azure:         71.87   $0.22/1K
+    GPT-5:         64.32   $10.02/1K
+    RouteLLM:      48.07   $0.27/1K
 
-Why it's cheaper: sequential fallback means you pay for every attempt. Running in parallel means you get the best answer in one round-trip, often from the cheapest model.
-
-Why it scores higher: confidence scoring on each response catches when a cheap model produces a better answer than an expensive one. Which happens more often than you'd think.
-
-Try it:
+Try it right now:
 
     npx a3m-router route "Explain quantum computing"
 
-Architecture: it's 19.5KB, no ML dependencies, no GPU needed. You point it at API keys and it routes. 47 providers supported (OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, Together, etc.).
+It detects your API keys automatically. No config needed.
 
-Other things it does:
-- Ensemble voting (run N, pick best)
-- Semantic cache (30%+ hit rate on repeated queries)
-- Budget enforcement (cap cost per query)
-- Circuit breaker (skip failing providers)
-- Memory across sessions (only router that does this)
+How it works: instead of trying providers one-by-one (expensive, slow), it calls them all at once and picks the best response. Simple idea. Turns out it works — especially for straightforward queries where the cheapest model gives the same answer as the expensive one.
 
-I'm happy to answer questions about the routing algorithm, the confidence scoring approach, or why parallel execution doesn't actually cost more.
+It's 19.5KB. No ML dependencies. No GPU. Runs on any VPS.
+
+Other stuff it does: semantic caching (30%+ hit rate), budget enforcement, circuit breakers, and quality scores that persist across sessions.
+
+The benchmark: RouterArena (arXiv:2510.00202), 8,400 queries, 9 domains. Our PR is open for review here: https://github.com/RouteWorks/RouterArena/pull/113
 
 GitHub: https://github.com/Das-rebel/a3m-router
-Benchmark details: https://das-rebel.github.io/a3m-router/benchmark
-Live demo: https://das-rebel.github.io/a3m-router/

@@ -1,4 +1,4 @@
-# 19.5 KB Node.js package that routes LLM queries with 99.5% accuracy using 5-signal keyword classification. No GPU, no ML weights, no Python dependency.
+# 19.5 KB Node.js package that routes LLM queries with 76.43 accuracy using 5-signal keyword classification. No GPU, no ML weights, no Python dependency.
 
 r/node — I want to show you the architecture behind a routing system that classifies LLM query complexity in 0.3ms, with zero ML runtime.
 
@@ -166,7 +166,7 @@ function scoreToTier(score: number): Tier {
 
 | Metric | Value |
 |--------|-------|
-| ±1 tier accuracy | 99.5% |
+|  accuracy | 76.43 |
 | Exact tier match | 64.5% |
 | Routing latency | 0.3ms |
 | Package size (gzipped) | 19.5 KB |

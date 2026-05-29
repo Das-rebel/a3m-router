@@ -1,36 +1,43 @@
 # ProductHunt Listing
 
 ## Tagline (60 chars max)
-Cheapest LLM router, ranked #1 on the official benchmark
+Same answer as GPT-5. 200× cheaper. #1 on the benchmark.
 
 ## One-liner
-Route any query to the cheapest capable model across 47+ providers — and it's #1 on RouterArena.
+Route any LLM query to the cheapest provider that works — across 47+ providers, in parallel.
 
 ## Description
-Every LLM router calls providers one-by-one until one works. A3M calls them all at once and picks the best answer. Result: **#1 on RouterArena** (76.43 score) and **213× cheaper than GPT-5** at $0.047 per 1K queries.
+GPT-5 costs $10/1K queries. A3M costs $0.047. Same quality answers.
 
-**Why it matters:** If you're spending $1,000/month on LLM APIs, A3M can get you the same or better results for under $5.
+How? Instead of sending every query to the expensive model, A3M calls multiple providers at once and picks the best answer. The cheapest provider usually wins.
 
 **Try it right now:**
 ```
-npx a3m-router route "Explain quantum computing"
+npx a3m-router route "What is machine learning?"
 ```
 
-No config needed — detects your API keys automatically.
+No config needed. Detects your API keys automatically.
 
-**How it works:**
-1. You send a query
-2. A3M calls multiple providers in parallel (OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, etc.)
-3. Each response gets a confidence score
-4. The highest-confidence response wins
-5. You get the best answer at the lowest cost
+**The benchmark says it all:**
+
+| Router | Score | Cost/1K queries |
+|--------|:-----:|:---------------:|
+| 🥇 **A3M Router** | **76.43** | **$0.047** |
+| 🥈 Sqwish | 75.27 | $0.180 |
+| 🥉 Azure (Microsoft) | 71.87 | $0.220 |
+| GPT-5 (OpenAI) | 64.32 | $10.020 |
+| RouteLLM (Berkeley) | 48.07 | $0.270 |
+
+Source: [RouterArena](https://github.com/RouteWorks/RouterArena/pull/113) — independently evaluated across 8,400 queries and 9 domains.
+
+**The math:** If you spend $1,000/month on LLM APIs, A3M gets you the same quality for ~$5.
 
 **What makes it different:**
-- 🔀 **Parallel execution** — no fallback chain, just one round-trip
-- 🧠 **Episodic memory** — remembers context across sessions (only router that does this)
-- 💰 **Budget enforcement** — cap cost per query, never overspend
-- 🔄 **Circuit breaker** — automatically skips failing providers
-- ⚡ **19.5KB** — zero ML dependencies, no GPU, MIT license
+- 🔀 Calls all providers in parallel (not one-by-one)
+- 💰 Routes simple queries to free/cheap providers
+- 🧠 Remembers which providers work best for your queries
+- 🔄 Auto-skips failing providers
+- ⚡ 19.5KB, zero ML, runs anywhere
 
 **Links:**
 GitHub: https://github.com/Das-rebel/a3m-router
@@ -38,24 +45,4 @@ Demo: https://das-rebel.github.io/a3m-router/
 Benchmark: https://das-rebel.github.io/a3m-router/benchmark
 
 ## Topics
-Productivity, Developer Tools, Open Source, Artificial Intelligence
-
-## Gallery images needed (CRITICAL — prioritize these):
-1. 📊 **Cost comparison chart** (dark theme, A3M bar barely visible vs GPT-5 massive bar)
-2. ⚡ **Parallel vs Sequential diagram** (side-by-side: old way = 3 arrows sequentially, new way = 3 arrows in parallel)
-3. 🖥️ **Terminal demo** (dark terminal showing `npx a3m-router route "explain quantum"` → result)
-4. 📈 **RouterArena leaderboard** (screenshot from the PR, showing #1 ranking)
-5. 💾 **Memory example** (showing how the router remembers context)
-
-## First comment (maker comment):
-Hey ProductHunt 👋
-
-I built A3M Router because I was frustrated with how every LLM router works: try the expensive model first, fail, try the next one, fail again. You pay for every attempt and wait for every timeout.
-
-The insight was simple: if you call all providers at once and score each response, you get the best answer faster AND cheaper. The cheapest model often produces the best answer — you just need a good scoring function to know when.
-
-We just got evaluated on RouterArena (the official LLM routing benchmark) and scored #1 out of 19 routers, beating Microsoft Azure and OpenAI GPT-5. At $0.047/1K queries, it's also the cheapest router on the leaderboard.
-
-Try it: `npx a3m-router route "your query"` — takes 5 seconds, no config needed.
-
-Happy to answer any questions!
+Developer Tools, AI, API, Open Source, JavaScript

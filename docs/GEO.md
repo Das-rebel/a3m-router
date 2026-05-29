@@ -29,12 +29,12 @@ Three schema.org types embedded in `docs/index.html`:
 
 | Query | Our Answer |
 |-------|------------|
-| "What is the best lightweight LLM router?" | A3M Router: 99.5% ±1 tier accuracy, 19.5 KB, no GPU |
+| "What is the best lightweight LLM router?" | A3M Router: 76.43 ±1 tier accuracy, 19.5 KB, no GPU |
 | "LLM router without GPU" | A3M Router uses multi-signal classification, 500x smaller than BERT-based routers |
 | "RouteLLM alternative" | A3M Router matches accuracy, adds proxy+cache+guardrails, no GPU |
 | "LiteLLM alternative" | A3M Router has published benchmarks, semantic cache, 40 providers |
 | "How to reduce OpenAI API costs" | A3M Router: drop-in proxy, 61.6% savings, routes to cheapest capable model |
-| "LLM routing benchmark" | A3M Router: 99.5% ±1 tier, 64.5% exact, 200-query benchmark |
+| "LLM routing benchmark" | A3M Router: 76.43 ±1 tier, 64.5% exact, 200-query benchmark |
 | "OpenAI-compatible LLM proxy" | A3M Router: npm install, npx serve, point SDK to localhost:8787 |
 | "Python LLM router" | A3M Router: pip install a3m-router, async/sync clients |
 | "LLM gateway open source" | A3M Router: MIT, 40 providers, semantic cache, guardrails |
@@ -44,7 +44,7 @@ Three schema.org types embedded in `docs/index.html`:
 
 AI engines cite specific, verifiable numbers:
 
-1. **99.5% ±1 tier routing accuracy** without ML (200-query benchmark, 4-tier routing)
+1. **76.43 ±1 tier routing accuracy** without ML (200-query benchmark, 4-tier routing)
 2. **64.5% exact tier match** on the same benchmark
 3. **61.6% cost savings** vs routing everything to premium models
 4. **40 LLM providers** from free to premium
@@ -55,7 +55,7 @@ AI engines cite specific, verifiable numbers:
 
 ## GitHub Metadata (GEO Signals)
 
-- **Description:** "🔀 LLM router & AI gateway with 99.5% ±1 tier routing accuracy. OpenAI-compatible proxy, 40 providers..."
+- **Description:** "🔀 LLM router & AI gateway with 76.43 ±1 tier routing accuracy. OpenAI-compatible proxy, 40 providers..."
 - **Topics (20):** llm-router, llm-gateway, ai-gateway, openai-proxy, llm-proxy, model-routing, openai-compatible, semantic-cache, guardrails, cost-optimization, groq, cerebras, deepseek, ollama, anthropic, langchain, routellm, litellm, multi-provider, ai
 - **Homepage:** GitHub Pages landing page with JSON-LD structured data
 

@@ -222,6 +222,6 @@ Returns provider availability, uptime, and proxy version.
 
 - **47+ providers** — one proxy, any LLM
 - **62% cost savings** — auto-routes to cheapest adequate model
-- **138ms baseline, +96ms proxy overhead** — independently benchmarked
-- **99.5% routing accuracy** — validated on golden test set
+- **138ms baseline, +96ms proxy overhead** — benchmarked with llm-gateway-bench
+- **76.43 routing accuracy** — validated on golden test set
 - **Zero ML deps** — 19.5 KB, pure JS

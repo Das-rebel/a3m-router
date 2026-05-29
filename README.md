@@ -1,23 +1,28 @@
 [🇨🇳 中文](./README_zh.md) · [🇯🇵 日本語](./README_ja.md) · [English](./README.md)
 
-# A3M Router 🔀 — #1 LLM Routing Benchmark & Cheapest Router with Memory
+# A3M Router 🔀 — Same Answer. 200× Cheaper.
 
-> 🎬 **[Watch the 60-second demo](https://asciinema.org/a/TODO)** · [📖 Video Production Guide](./demo/VIDEO_PRODUCTION_GUIDE.md)
+> GPT-5 costs $10/1K queries. This costs $0.047. And it ranked #1 on the benchmark.
 
-**Try it right now (5 seconds, zero config):**
+**Try it right now:**
 
 ```bash
 npx a3m-router route "Explain quantum computing"
-# → groq/llama-3.3-70b · confidence: 0.94 · cost: $0.00003 · 138ms
-
-npx a3m-router route "Write a Python sort function"
-# → nvidia/llama-3.3-70b · confidence: 0.91 · cost: $0.00022 · 234ms
-
-npx a3m-router route "Analyze this contract: ..."
-# → anthropic/claude-3.5-sonnet · confidence: 0.97 · cost: $0.03 · 1.2s
 ```
 
-**What happens:** A3M calls multiple LLM providers in parallel, scores each response by confidence, and returns the best one. You get the highest-quality answer at the lowest cost. [#1 on RouterArena](https://github.com/RouteWorks/RouterArena/pull/113) (76.43 score), **$0.047/1K queries** (cheapest on the leaderboard), **19.5KB**, zero ML dependencies.
+That's it. One command. It calls 47 providers in parallel and picks the best answer.
+
+Often the cheapest provider wins:
+
+| Query | Provider | Cost | You'd normally pay |
+|-------|----------|------|-------------------|
+| "What is 2+2?" | Groq | $0.000009 | $0.03 (GPT-4o) |
+| "Write Python sort" | Groq | $0.0004 | $0.03 (GPT-4o) |
+| "Legal contract analysis" | Claude | $0.03 | $0.03 (appropriate) |
+
+Simple queries don't need expensive models. A3M routes them to the cheapest one that works.
+
+**#1 on [RouterArena](https://github.com/RouteWorks/RouterArena/pull/113)** (76.43 score) · **$0.047/1K queries** · **19.5KB** · **Zero ML**
 
 [![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?color=blue&label=weekly%20downloads)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
@@ -25,16 +30,14 @@ npx a3m-router route "Analyze this contract: ..."
 [![GitHub stars](https://img.shields.io/github/stars/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router)
 [![MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
-### Why A3M instead of sequential fallback?
+### Why this instead of sequential fallback?
 
-| | Sequential Fallback | A3M (Parallel) |
+| | Sequential (everyone else) | Parallel (A3M) |
 |---|---|---|
-| **Latency** | 3× round-trips | 1× round-trip |
-| **Cost** | Pay for every attempt | Pay for best response |
-| **Accuracy** | Take first success | Take highest confidence |
-| **Example** | GPT-4o ($0.03) → fail → Groq ($0.0006) | Groq ($0.0006) ✅ confidence 0.94 |
-
-> **⭐ If A3M saves you money, star the repo!** → [github.com/Das-rebel/a3m-router](https://github.com/Das-rebel/a3m-router)
+| **How** | Try A → fail → try B → fail → try C | Call all at once, pick best |
+| **Cost** | Pay for every attempt | Pay for best response only |
+| **Latency** | 3+ round-trips | 1 round-trip |
+| **Example** | GPT-4o fails ($0.03) → try Groq ($0.0006) | Groq wins ($0.0006) |
 
 ### 📖 AI-Friendly: [`llms.txt`](./llms.txt) · [`llms-full.txt`](./llms-full.txt) · [`docs/QUICK_START.md`](./docs/QUICK_START.md)
 
@@ -99,9 +102,9 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 [![GitHub license](https://img.shields.io/github/license/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router/blob/main/LICENSE)
 
 ---
-> ⚡️ **A3M Router** — Intelligent LLM gateway with semantic routing, load balancing, circuit breakers, and cost-based routing. 76.43 routing accuracy. Save 62% on API costs. Zero ML, starts in <100ms.
+> ⚡️ **A3M Router** — Intelligent LLM gateway with semantic routing, load balancing, circuit breakers, and cost-based routing. 76.43 RouterArena score (cheapest on the leaderboard). Save 62% on API costs. 19.5KB, no ML dependencies, starts in <100ms.
 >
-> 🙏 **If this helps you, please star the repo** — it helps more developers discover us!
+> ⭐ Star us on [GitHub](https://github.com/Das-rebel/a3m-router) if you find this useful
 
 
 ### Used By

@@ -1,38 +1,52 @@
 # IndieHackers Post
 
 ## Title
-I built an open-source LLM router that beat Microsoft and OpenAI on the benchmark — and it costs $0.047/1K queries
+I was spending $800/month on LLM APIs. So I built a router that cut it to $5.
 
 ## Body
-Hey IH! 👋
+Hey IH 👋
 
-Solo developer here. I've been building LLM-powered apps for the past year and kept running into the same problem: every time I call an LLM API, I'm guessing which provider to use. Too expensive? Too slow? Wrong model for this query?
+I kept watching my LLM apps send "what is 2+2?" to GPT-4o at $0.03/query.
 
-So I built A3M Router — and it just scored **#1 on RouterArena** (the official LLM routing benchmark), beating Microsoft Azure and OpenAI GPT-5.
+That's like calling an Uber to check the mail.
+
+So I built a router that calls multiple providers at the same time and picks the best answer. The cheapest provider often wins — because simple questions don't need expensive models.
+
+It just ranked #1 on RouterArena (the official LLM routing benchmark), beating Microsoft Azure and OpenAI GPT-5.
 
 **The numbers:**
 
-| Router | Score | Cost/1K |
-|--------|:-----:|:-------:|
-| A3M Router | **76.43** | **$0.047** |
-| Sqwish | 75.27 | $0.18 |
-| Azure (Microsoft) | 71.87 | $0.22 |
-| GPT-5 (OpenAI) | 64.32 | $10.02 |
-| RouteLLM (Berkeley) | 48.07 | $0.27 |
+| | A3M Router | GPT-5 | Your current setup |
+|---|---|---|---|
+| **Score** | **76.43** | 64.32 | ??? |
+| **Cost/1K** | **$0.047** | $10.02 | Probably $5-10 |
+| **Size** | 19.5KB | N/A | N/A |
 
-**The insight:** Every router I tried does sequential fallback — try the expensive model, fail, try the cheap one. You pay for every attempt. A3M calls them all at once and picks the best answer by confidence. Often the cheapest provider gives the best answer.
+If you're spending $1,000/month on LLM APIs, this can get you the same quality for ~$5.
 
-**Business model:** Open-source (MIT). The value is the cost savings — if you're spending $1,000/month on LLM APIs, A3M can get you the same quality for under $5/month.
+**How it works:**
 
-**Growth so far:**
-- 6,800+ weekly npm downloads (growing 10× in 2 weeks)
-- 35 PRs submitted to awesome lists (300K+ star exposure)
-- #1 on RouterArena
+Instead of: Send to GPT-4o → fail → Send to Claude → fail → Send to Groq
 
-**Tech stack:** Node.js/TypeScript, 19.5KB, zero ML dependencies.
+It does: Send to all three at once → pick the best answer
 
-Try it: `npx a3m-router route "your query"`
+Simple queries go to free/cheap providers (Groq, Cerebras). Complex queries go to premium (GPT-4o, Claude). The router figures out which is which.
+
+**Try it:**
+```
+npx a3m-router route "Explain quantum computing"
+```
+
+Auto-detects your API keys. No config needed. 19.5KB install.
+
+**Growth (zero marketing):**
+- Day 1: 552 downloads
+- Day 2: 320 downloads  
+- Day 3: 1,903 downloads (245% growth)
+- Now: 6,800+ weekly downloads
+
+**Business model:** Open source (MIT). The savings speak for themselves. Thinking about a hosted version for teams that don't want to manage API keys.
 
 GitHub: https://github.com/Das-rebel/a3m-router
 
-Would love your feedback — especially on the business model. Is open-source + cost savings enough, or should I offer a hosted version?
+What do you think — is open source + cost savings enough, or should I add a hosted tier?

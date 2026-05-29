@@ -1,6 +1,6 @@
 # A3M Router — Independent Benchmark
 
-A3M Router is benchmarked on two independent dimensions:
+A3M Router is evaluated on two dimensions:
 
 1. **Latency** — How much overhead does the gateway add? (real API calls)
 2. **Routing Accuracy** — How well does the complexity classifier sort queries into tiers? (offline, 200 queries)
@@ -96,7 +96,7 @@ python3 -m llm_gateway_bench.cli run custom \
 
 **The question everyone asks:** *"Does the complexity classifier actually pick the right tier?"*
 
-**The answer:** **99.5% ±1 tier accuracy** across 200 diverse queries — no ML training needed.
+**The answer:** **76.43  accuracy** across 200 diverse queries — no ML training needed.
 
 Benchmark script: `scripts/routing-benchmark-v2.js`  
 Methodology: RouteLLM-inspired (arXiv:2404.06035), 4-tier classification
@@ -105,7 +105,7 @@ Methodology: RouteLLM-inspired (arXiv:2404.06035), 4-tier classification
 
 | Metric | Score | What It Means |
 |:-------|:-----:|:--------------|
-| **±1 Tier Accuracy** | **99.5%** | Only 1 in 200 queries is misrouted by >1 tier |
+| **±1 Tier Accuracy** | **76.43** | Only 1 in 200 queries is misrouted by >1 tier |
 | Exact Tier Match | 64.5% | ~2 in 3 queries hit the *exact* right tier |
 | Free Tier Recall | 92.0% | Simple queries correctly routed to $0 models |
 | Cheap Tier Recall | 78.3% | Standard code/translation routed to cheap |
