@@ -16,7 +16,7 @@ litellm (48K★) is the most popular LLM gateway. Here's why A3M exists alongsid
 | **Startup** | ~3s | <100ms |
 | **GPU required** | Yes (for some models) | No |
 | **Benchmark data** | Not published | [RouterArena #1](https://github.com/RouteWorks/RouterArena/pull/113) |
-| **Routing accuracy** | Claims "100%" (no data) | 76.43 (independently validated) |
+| **Routing accuracy** | Claims "100%" (no data) | 76.43 (evaluated on RouterArena benchmark) |
 | **Cheapest cost** | Not published | $0.047/1K (#1 on leaderboard) |
 
 ## The Core Difference

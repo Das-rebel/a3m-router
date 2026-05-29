@@ -28,7 +28,7 @@ No config needed. Detects your API keys automatically.
 | GPT-5 (OpenAI) | 64.32 | $10.020 |
 | RouteLLM (Berkeley) | 48.07 | $0.270 |
 
-Source: [RouterArena](https://github.com/RouteWorks/RouterArena/pull/113) — independently evaluated across 8,400 queries and 9 domains.
+Source: [RouterArena](https://github.com/RouteWorks/RouterArena/pull/113) — evaluated across 8,400 queries and 9 domains (RouterArena arXiv:2510.00202, our submission pending review).
 
 **The math:** If you spend $1,000/month on LLM APIs, A3M gets you the same quality for ~$5.
 

@@ -6,13 +6,11 @@
 
 **Try it right now:**
 
-> **🛡️ Reduces hallucination by 72%** — parallel multi-model cross-check catches errors that single models miss.
-> **📚 Research:** [4 peer-reviewed findings](research/HALLUCINATION_RESEARCH.md) on error diversity, confidence voting, and semantic detection. [See research →](research/HALLUCINATION_RESEARCH.md)
 ```bash
 npx a3m-router route "Explain quantum computing"
 ```
 
-That's it. One command. It calls 47 providers in parallel and picks the best answer.
+One command. It calls 47 providers in parallel and picks the best answer.
 
 Often the cheapest provider wins:
 
@@ -23,6 +21,8 @@ Often the cheapest provider wins:
 | "Legal contract analysis" | Claude | $0.03 | $0.03 (appropriate) |
 
 Simple queries don't need expensive models. A3M routes them to the cheapest one that works.
+
+> **🛡️ Also reduces hallucinations by 72%** — when 3+ models agree on an answer, it's probably right. [4 peer-reviewed findings →](research/HALLUCINATION_RESEARCH.md)
 
 **#1 on [RouterArena](https://github.com/RouteWorks/RouterArena/pull/113)** (76.43 score) · **$0.047/1K queries** · **19.5KB** · **Zero ML**
 
