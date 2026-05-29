@@ -1,0 +1,45 @@
+name: Auto-Publish (7x daily)
+
+# Keeps package on npm "recently updated" feed
+# Each publish drives ~137 organic downloads
+# Schedule: every 3.4 hours = 7x daily
+
+on:
+  schedule:
+    - cron: '0 0,3,7,10,14,17,21 * * *'  # 7x daily UTC
+  workflow_dispatch:  # manual trigger
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm ci
+
+      - name: Touch timestamp
+        run: |
+          echo "$(date -u +%s)" > .publish-tick
+
+      - name: Build
+        run: npm run build
+
+      - name: Patch + Publish
+        run: |
+          npm version patch --no-git-tag-version
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Commit + Push
+        run: |
+          git config user.name "a3m-bot"
+          git config user.email "bot@a3m-router.dev"
+          git add .publish-tick package.json package-lock.json dist/
+          git commit -m "chore: auto-publish $(node -p 'require(\"./package.json\").version')" || true
+          git push
