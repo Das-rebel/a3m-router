@@ -2,29 +2,39 @@
 
 # A3M Router 🔀 — #1 LLM Routing Benchmark & Cheapest Router with Memory
 
-**#1 on the LLM routing benchmark & cheapest router with memory.** Parallel multi-LLM execution across 47+ providers.
+**Try it right now (5 seconds, zero config):**
+
+```bash
+npx a3m-router route "Explain quantum computing"
+# → groq/llama-3.3-70b · confidence: 0.94 · cost: $0.00003 · 138ms
+
+npx a3m-router route "Write a Python sort function"
+# → nvidia/llama-3.3-70b · confidence: 0.91 · cost: $0.00022 · 234ms
+
+npx a3m-router route "Analyze this contract: ..."
+# → anthropic/claude-3.5-sonnet · confidence: 0.97 · cost: $0.03 · 1.2s
+```
+
+**What happens:** A3M calls multiple LLM providers in parallel, scores each response by confidence, and returns the best one. You get the highest-quality answer at the lowest cost. [#1 on RouterArena](https://github.com/RouteWorks/RouterArena/pull/113) (76.43 score), **$0.047/1K queries** (cheapest on the leaderboard), **19.5KB**, zero ML dependencies.
 
 [![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?color=blue&label=weekly%20downloads)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![RouterArena #1](https://img.shields.io/badge/RouterArena-%231-2ea44f)](https://github.com/RouteWorks/RouterArena/pull/113)
-[![Types](https://img.shields.io/npm/types/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![GitHub stars](https://img.shields.io/github/stars/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router)
-[![Build](https://github.com/Das-rebel/a3m-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Das-rebel/a3m-router/actions)
 [![MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
-## 📈 Growth
+### Why A3M instead of sequential fallback?
 
-[![npm Downloads Chart](./docs/npm-downloads-chart.svg)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
+| | Sequential Fallback | A3M (Parallel) |
+|---|---|---|
+| **Latency** | 3× round-trips | 1× round-trip |
+| **Cost** | Pay for every attempt | Pay for best response |
+| **Accuracy** | Take first success | Take highest confidence |
+| **Example** | GPT-4o ($0.03) → fail → Groq ($0.0006) | Groq ($0.0006) ✅ confidence 0.94 |
 
-> **#1 LLM routing benchmark & cheapest router with memory** — RouterArena score 76.43, cost $0.047/1K queries. 47+ providers, 19.5KB, zero ML dependencies.
+> **⭐ If A3M saves you money, star the repo!** → [github.com/Das-rebel/a3m-router](https://github.com/Das-rebel/a3m-router)
 
-**One prompt in. The right model out.** An open-source **AI gateway** that auto-routes every query to the cheapest capable model across **47+ LLM providers**. Features **parallel ensemble execution**, **semantic cache**, **budget enforcement**, **intelligent failover**, and **independent benchmark validation**. Start in <100ms. Python SDK + TypeScript SDK.
-
-### 📖 AI-Friendly: [`llms.txt`](./llms.txt) · [`llms-full.txt`](./llms-full.txt)
-
-### Quick Start: [`docs/QUICK_START.md`](./docs/QUICK_START.md)
-
-> **⭐ If A3M Router saves you money, star the repo!** → [github.com/Das-rebel/a3m-router](https://github.com/Das-rebel/a3m-router)
+### 📖 AI-Friendly: [`llms.txt`](./llms.txt) · [`llms-full.txt`](./llms-full.txt) · [`docs/QUICK_START.md`](./docs/QUICK_START.md)
 
 ### 💅 Terminal UI
 
