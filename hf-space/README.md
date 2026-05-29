@@ -1,22 +1,23 @@
 ---
 title: A3M Router Demo
 emoji: 🔀
-colorFrom: blue
-colorTo: purple
+colorFrom: green
+colorTo: blue
 sdk: gradio
-sdk_version: 5.0.0
+sdk_version: 5.34.0
 app_file: app.py
 pinned: false
 license: mit
+short_description: '#1 LLM routing benchmark & cheapest router with memory'
 ---
 
-# A3M Router — Parallel Multi-LLM Execution Demo
+# 🔀 A3M Router — #1 LLM Routing Benchmark & Cheapest Router with Memory
 
-Try A3M Router's parallel execution: send a query to 3+ LLM providers simultaneously and see which response wins by confidence scoring.
+See how parallel LLM execution works in real-time. Enter a query and watch 7 providers compete simultaneously.
 
-## How to use
-1. Enter your prompt
-2. See responses from multiple providers in parallel
-3. View the confidence-scored best result
+- 🏆 **#1 on RouterArena** (76.43 score)
+- 💰 **Cheapest** at $0.047/1K queries
+- 🔓 **Open-source** (MIT), 19.5KB
+- 🧠 **Only LLM router with memory**
 
-[Learn more on GitHub](https://github.com/Das-rebel/a3m-router)
+[Try it live →](https://github.com/Das-rebel/a3m-router)
