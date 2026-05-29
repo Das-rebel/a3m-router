@@ -26,6 +26,22 @@ jobs:
         run: |
           echo "$(date -u +%s)" > .publish-tick
 
+      - name: Generate finding snippet
+        run: |
+          FINDING=$(ls research/FINDING_*.md 2>/dev/null | tail -1)
+          if [ -n "$FINDING" ]; then
+            # Extract first metric line from finding
+            METRIC=$(grep -m1 "|" "$FINDING" | head -1 || echo "Research-backed improvement")
+            echo "Research note: $METRIC"
+          fi
+
+      - name: Add research insight
+        run: |
+          # Update the auto-publish log with latest finding
+          echo "## $(date -u +%Y-%m-%dT%H:%MZ)" >> research/PUBLISH_LOG.md
+          echo "Published v$(node -p 'require(\"./package.json\").version')" >> research/PUBLISH_LOG.md
+          echo "" >> research/PUBLISH_LOG.md
+
       - name: Build
         run: npm run build
 

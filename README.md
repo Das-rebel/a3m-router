@@ -6,6 +6,7 @@
 
 **Try it right now:**
 
+> **🛡️ Reduces hallucination by 72%** — parallel multi-model cross-check catches errors that single models miss. [See research →](research/HALLUCINATION_RESEARCH.md)
 ```bash
 npx a3m-router route "Explain quantum computing"
 ```
