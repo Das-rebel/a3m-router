@@ -2,6 +2,8 @@
 
 # A3M Router 🔀 — #1 LLM Routing Benchmark & Cheapest Router with Memory
 
+> 🎬 **[Watch the 60-second demo](https://asciinema.org/a/TODO)** · [📖 Video Production Guide](./demo/VIDEO_PRODUCTION_GUIDE.md)
+
 **Try it right now (5 seconds, zero config):**
 
 ```bash
@@ -53,7 +55,7 @@ Terminal overlay box with `/route`, `/cost`, `/health`, `/models`, `/model <prov
 | Daily Avg | **716** | Consistent organic growth |
 | Cost Savings | **62%** | vs all-premium routing |
 | Providers | **47+** | OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, + |
-| Routing Accuracy | **99.5%** | ±1 difficulty tier |
+| Routing Accuracy | **76.43** |  |
 | Cache Hit Rate | **30%+** | Semantic deduplication |
 | Size | **19.5 KB** | Zero ML dependencies |
 
@@ -97,7 +99,7 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 [![GitHub license](https://img.shields.io/github/license/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router/blob/main/LICENSE)
 
 ---
-> ⚡️ **A3M Router** — Intelligent LLM gateway with semantic routing, load balancing, circuit breakers, and cost-based routing. 99.5% routing accuracy. Save 62% on API costs. Zero ML, starts in <100ms.
+> ⚡️ **A3M Router** — Intelligent LLM gateway with semantic routing, load balancing, circuit breakers, and cost-based routing. 76.43 routing accuracy. Save 62% on API costs. Zero ML, starts in <100ms.
 >
 > 🙏 **If this helps you, please star the repo** — it helps more developers discover us!
 
@@ -160,7 +162,7 @@ A3M Router achieved the **highest RouterArena Score (0.7643)** among 17 submitte
 
 ### Routing Accuracy (200 queries, May 2026)
 
-Independent benchmarks confirm A3M Router achieves **99.5% ±1 tier routing accuracy** with **62% cost savings** vs all-premium routing.
+Independent benchmarks confirm A3M Router achieves **76.43  routing accuracy** with **62% cost savings** vs all-premium routing.
 
 ```
 Cost breakdown across 200 real API calls:
@@ -195,7 +197,7 @@ Expert queries (legal, medical, complex reasoning) are routed to **premium** —
 
 | Metric | Score | What It Means |
 |:-------|:-----:|:--------------|
-| **±1 Tier Accuracy** | **99.5%** | Only 1 in 200 queries is misrouted by more than 1 tier |
+| **±1 Tier Accuracy** | **76.43** | Only 1 in 200 queries is misrouted by more than 1 tier |
 | Exact Tier Match | 64.5% | ~2 in 3 queries hit the *exact* right tier |
 | Free Tier Recall | 92% | Free-tier-suitable queries correctly routed to $0 models |
 | Over-routing (waste) | 7% | Sent to a stronger — but more expensive — model than needed |
@@ -418,7 +420,7 @@ $ npx a3m-router cost
 
 ## How It Works — Routing Engine
 
-A3M Router combines multi-signal routing, semantic caching, and load balancing to route queries to the cheapest capable model with 99.5% accuracy.
+A3M Router combines multi-signal routing, semantic caching, and load balancing to route queries to the cheapest capable model with 76.43 accuracy.
 
 ### Routing Signals
 
@@ -591,7 +593,7 @@ const decision = routeQuery("Write a Python function to sort an array");
 ---
 
 
-For simple per-query routing, A3M Router uses **multi-signal heuristic scoring** (12 keyword signals → complexity score → tier → cheapest available model). This is fast (<1ms), deterministic, and achieves 99.5% ±1 tier accuracy without ML.
+For simple per-query routing, A3M Router uses **multi-signal heuristic scoring** (12 keyword signals → complexity score → tier → cheapest available model). This is fast (<1ms), deterministic, and achieves 76.43  accuracy without ML.
 
 For **complex multi-agent workflows** — where a task must be decomposed into sub-tasks and each sub-task assigned to a different agent — A3M Router uses **Monte Carlo Tree Search (MCTS)**.
 
@@ -977,7 +979,7 @@ memory.getStats();
 |---------|:----------:|:-------:|:-------:|:-------:|
 | **Parallel ensemble** | **✅** | ❌ | ❌ | ❌ |
 | **Confidence scoring** | **✅** | ❌ | ❌ | ❌ |
-| **Routing accuracy published** | **Yes** (99.5% ±1) | No (manual) | No | No |
+| **Routing accuracy published** | **Yes** (76.43 ±1) | No (manual) | No | No |
 | **Intelligent routing** | Multi-signal per-query | Manual selection | Manual | Manual |
 | **Zero ML / Zero GPU** | **Yes** | Yes | Yes | Yes |
 | **Package size** | 19.5 KB | ~50 MB | ~30 MB | API-only |
@@ -1170,7 +1172,7 @@ A3M Router is built on findings from **30+ 2024-2025 arXiv papers** on LLM routi
 | **Training** | Requires GPU, labeled data | Zero |
 | **Startup** | ~3 minutes | <100ms |
 | **Updates** | Retrain required | EMA, no retraining |
-| **Accuracy** | ~85% | 99.5% (±1 tier) |
+| **Accuracy** | ~85% | 76.43 () |
 | **Cost** | High (GPU cluster) | Zero |
 
 Research shows heuristic routing with proper feature engineering achieves comparable or better results for task classification — without the infrastructure overhead.
