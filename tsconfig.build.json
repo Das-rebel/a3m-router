@@ -13,7 +13,8 @@
     "sourceMap": true,
     "types": ["node"],
     "resolveJsonModule": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "src/skills/__tests__"]

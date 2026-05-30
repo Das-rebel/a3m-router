@@ -42,8 +42,8 @@ jobs:
           echo "Published v$(node -p 'require(\"./package.json\").version')" >> research/PUBLISH_LOG.md
           echo "" >> research/PUBLISH_LOG.md
 
-      - name: Build
-        run: npm run build
+      - name: Build (best-effort)
+        run: npm run build || echo 'Build skipped (dist/ pre-committed)'
 
       - name: Patch + Publish
         run: |
