@@ -12,3 +12,7 @@ export interface FatigueResults {
 }
 export declare function checkProviderFatigue(): FatigueResults;
 export declare function formatFatigueReport(): string;
+<<<<<<< Updated upstream
+=======
+//# sourceMappingURL=fatigueDetector.d.ts.map
+>>>>>>> Stashed changes

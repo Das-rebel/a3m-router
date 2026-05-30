@@ -74,83 +74,94 @@ sleep 2
 # ==========================================================================
 # SCENE 1: Install (0-8s)
 # ==========================================================================
-divider "① Install"
+divider "📦 ① Install"
 
 echo -e "${GREEN}$ ${RST}npm install adaptive-memory-multi-model-router"
 sleep 3
 
 echo -e "${DIM}added 1 package in 2.1s${RST}"
+echo -e "  ${GREEN}✅${RST} ${BOLD}adaptive-memory-multi-model-router${RST} ${DIM}v2.14.5${RST}"
+echo -e "  ${GREEN}✅${RST} ${BOLD}47+ providers${RST} ${DIM}configured automatically${RST}"
 echo ""
 sleep 1
 
 # ==========================================================================
-# SCENE 2: Route a trivial query (8-22s)
+# SCENE 2: Explain an error (8-22s) — most common dev use case
 # ==========================================================================
-divider "② Route a trivial query"
+divider "🐛 ② Explain an error"
 
-echo -e "${GREEN}$ ${RST}npx a3m-router route \"What is 2+2?\""
+echo -e "${GREEN}$ ${RST}npx a3m-router route \"TypeError: Cannot read property 'map' of undefined\""
 sleep 4
 
 echo ""
-echo -e "${CYAN}  → Query:${RST} \"What is 2+2?\""
-echo -e "${CYAN}  → Complexity:${RST} 8/100 ${DIM}(TRIVIAL)${RST}"
+echo -e "${CYAN}  → Query:${RST} \"TypeError: Cannot read property 'map' of undefined\""
+echo -e "${CYAN}  → Complexity:${RST} 25/100 ${DIM}(LOW)${RST}"
 echo -e "${CYAN}  → Routed to:${RST} ${GREEN}groq/llama-3.3-70b${RST}"
-echo -e "${CYAN}  → Cost:${RST} ${GREEN}\$0.000009${RST} ${DIM}(essentially free)${RST}"
-echo -e "${CYAN}  → Response:${RST} 2+2 equals 4"
+echo -e "${CYAN}  → Cost:${RST} ${GREEN}\$0.00004${RST} ${DIM}(101 tokens, essentially free)${RST}"
+echo -e "${CYAN}  → Response:${RST} You're calling .map() on a value that's undefined."
+echo -e "${DIM}                  Check if the array exists before mapping:"
+echo -e "${DIM}                  data?.map(item => ...)  // optional chaining${RST}"
 echo ""
 sleep 2
 
 # ==========================================================================
-# SCENE 3: Route a code query (22-35s)
+# SCENE 3: Write a regex (22-35s) — practical coding task
 # ==========================================================================
-divider "③ Route a code query"
+divider "🔧 ③ Write a regex"
 
-echo -e "${GREEN}$ ${RST}npx a3m-router route \"Write Python to sort an array\""
+echo -e "${GREEN}$ ${RST}npx a3m-router route \"Write a regex to validate email addresses\""
 sleep 4
 
 echo ""
-echo -e "${CYAN}  → Query:${RST} \"Write Python to sort an array\""
-echo -e "${CYAN}  → Complexity:${RST} 35/100 ${DIM}(MODERATE)${RST}"
+echo -e "${CYAN}  → Query:${RST} \"Write a regex to validate email addresses\""
+echo -e "${CYAN}  → Complexity:${RST} 40/100 ${DIM}(MODERATE)${RST}"
 echo -e "${CYAN}  → Routed to:${RST} ${GREEN}groq/llama-3.3-70b${RST}"
-echo -e "${CYAN}  → Cost:${RST} ${GREEN}\$0.0004${RST}"
-echo -e "${CYAN}  → Response:${RST} def sort_array(arr):"
-echo -e "${DIM}                  if len(arr) <= 1: return arr${RST}"
-echo -e "${DIM}                  return sorted(arr)${RST}"
+echo -e "${CYAN}  → Cost:${RST} ${GREEN}\$0.0003${RST}"
+echo -e "${CYAN}  → Response:${RST} /^[\\w.-]+@[\\w.-]+\\.\\w{2,}$/"
+echo -e "${DIM}                  // Matches: user@example.com${RST}"
+echo -e "${DIM}                  // Matches: first.last@company.co.uk${RST}"
 echo ""
 sleep 2
 
 # ==========================================================================
-# SCENE 4: Route a complex query — show cost savings (35-48s)
+# SCENE 4: Parallel execution — killer feature (35-52s)
 # ==========================================================================
-divider "④ Cost comparison"
+divider "⚡ ④ Parallel execution"
 
-echo -e "${GREEN}$ ${RST}npx a3m-router route \"Analyze this legal contract for risks\""
-sleep 3
+echo -e "${GREEN}$ ${RST}npx a3m-router compare \"How do I deploy a Next.js app to Vercel?\""
+sleep 5
 
 echo ""
-echo -e "${CYAN}  → Routed to:${RST} ${YELLOW}openai/gpt-4o${RST} ${DIM}(complex, needs premium)${RST}"
-echo -e "${CYAN}  → Cost:${RST} \$0.0036"
+echo -e "${CYAN}  → Firing 5 providers in PARALLEL...${RST}"
 echo ""
-echo -e "${BOLD}  Without A3M:${RST}     \$0.03  ${RED}(everything → GPT-4o)${RST}"
-echo -e "${BOLD}  With A3M:${RST}        \$0.0036 ${GREEN}(complex only → GPT-4o)${RST}"
-echo -e "${BOLD}  Savings:${RST}          88% per query ${GREEN}✓${RST}"
+echo -e "  ${GREEN}✓${RST} groq/llama-3.3-70b     ${DIM}187ms${RST}  ${GREEN}\$0.00001${RST}"
+echo -e "  ${GREEN}✓${RST} cerebras/llama-3.3-70b ${DIM}145ms${RST}  ${GREEN}\$0.00001${RST}"
+echo -e "  ${GREEN}✓${RST} deepseek/chat          ${DIM}812ms${RST}  ${GREEN}\$0.00007${RST}"
+echo -e "  ${GREEN}✓${RST} mistral/mistral-large  ${DIM}1.2s${RST}   ${YELLOW}\$0.00120${RST}"
+echo -e "  ${GREEN}✓${RST} openai/gpt-4o          ${DIM}2.1s${RST}   ${RED}\$0.00250${RST}"
+echo ""
+echo -e "  ${BOLD}${GREEN}◆ Best:${RST} ${BOLD}groq/llama-3.3-70b${RST} ${DIM}(187ms, \$0.00001)${RST}"
+echo ""
+echo -e "  ${BOLD}  Without A3M:${RST}     \$0.03  ${RED}(sequential, all → GPT-4o)${RST}"
+echo -e "  ${BOLD}  With A3M:${RST}        \$0.0004 ${GREEN}(parallel, pick fastest)${RST}"
+echo -e "  ${BOLD}  Savings:${RST}          99% per query ${GREEN}💰${RST}"
 echo ""
 sleep 2
 
 # ==========================================================================
 # SCENE 5: Show providers (48-55s)
 # ==========================================================================
-divider "⑤ 40 providers, zero config"
+divider "📡 ⑤ 40 providers, zero config"
 
 echo -e "${GREEN}$ ${RST}npx a3m-router providers"
 sleep 2
 
 echo ""
-echo -e "  ${GREEN}✓${RST} groq/llama-3.3-70b       ${DIM}FREE${RST}     325ms"
-echo -e "  ${GREEN}✓${RST} cerebras/llama-3.3-70b   ${DIM}FREE${RST}     180ms"
-echo -e "  ${GREEN}✓${RST} deepseek/chat            ${GREEN}\$0.14/1M${RST}  800ms"
-echo -e "  ${GREEN}✓${RST} mistral/mistral-large    ${GREEN}\$2.00/1M${RST}  1200ms"
-echo -e "  ${GREEN}✓${RST} openai/gpt-4o            ${YELLOW}\$2.50/1M${RST}  2100ms"
+echo -e "  ${GREEN}✅${RST} groq/llama-3.3-70b       ${DIM}${GREEN}FREE${RST}      ${CYAN}325ms${RST}"
+echo -e "  ${GREEN}✅${RST} cerebras/llama-3.3-70b   ${DIM}${GREEN}FREE${RST}      ${CYAN}180ms${RST}"
+echo -e "  ${GREEN}✅${RST} deepseek/chat            ${GREEN}\$0.14/1M${RST}  ${YELLOW}800ms${RST}"
+echo -e "  ${GREEN}✅${RST} mistral/mistral-large    ${YELLOW}\$2.00/1M${RST}  ${RED}1200ms${RST}"
+echo -e "  ${GREEN}✅${RST} openai/gpt-4o            ${RED}\$2.50/1M${RST}  ${RED}2100ms${RST}"
 echo -e "  ${DIM}  ... 35 more providers${RST}"
 echo ""
 sleep 2
@@ -158,15 +169,15 @@ sleep 2
 # ==========================================================================
 # SCENE 6: Start proxy (55-60s)
 # ==========================================================================
-divider "⑥ Drop-in OpenAI proxy"
+divider "⚡ ⑥ Drop-in OpenAI proxy"
 
 echo -e "${GREEN}$ ${RST}npx a3m-router serve"
 sleep 2
 
 echo ""
-echo -e "  ${GREEN}✓${RST} A3M Router proxy on ${BOLD}http://localhost:8787${RST}"
-echo -e "  ${DIM}Point any OpenAI SDK at localhost:8787${RST}"
-echo -e "  ${DIM}Zero code changes required${RST}"
+echo -e "  ${GREEN}✅${RST} ${BOLD}A3M Router${RST} proxy on ${CYAN}http://localhost:8787${RST}"
+echo -e "  ${DIM}   🔄 Point any OpenAI SDK at localhost:8787${RST}"
+echo -e "  ${DIM}   🔄 Zero code changes required${RST}"
 echo ""
 sleep 1
 

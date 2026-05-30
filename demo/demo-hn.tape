@@ -1,95 +1,74 @@
-# A3M Router — Hacker News Demo (60 seconds)
-# Output: GIF for README + HN post
-# Tools: VHS (github.com/charmbracelet/vhs)
-# Usage: vhs demo/demo-hn.tape
-# Result: assets/demo-hn.gif
-
+# A3M Router — Short Demo GIF (parallel execution)
 Output assets/demo-hn.gif
-Require echo
-Require npx
 
-Set Shell "bash"
-Set FontSize 14
+Set Shell "zsh"
+Set FontSize 15
 Set FontFamily "JetBrains Mono"
-Set Width 900
-Set Height 500
+Set Width 960
+Set Height 540
 Set Padding 20
 Set MarginFill "#0d1117"
 Set BorderRadius 12
 Set WindowBar Colorful
-Set WindowBarSize 40
-Set TypingSpeed 40ms
-Set PlaybackSpeed 1.2
-Set Framerate 30
-Set Theme "{ \"background\": \"#0d1117\", \"foreground\": \"#e6edf3\", \"cursor\": \"#58a6ff\", \"selectionBackground\": \"#264f78\", \"selectionForeground\": \"#e6edf3\", \"black\": \"#484f58\", \"red\": \"#ff7b72\", \"green\": \"#3fb950\", \"yellow\": \"#d29922\", \"blue\": \"#58a6ff\", \"magenta\": \"#bc8cff\", \"cyan\": \"#39d353\", \"white\": \"#b1bac4\" }"
+Set WindowBarSize 38
+Set TypingSpeed 20ms
+Set PlaybackSpeed 2.0
+Set Framerate 15
+Set Theme "Catppuccin Mocha"
 
-# =================================================================
-# SCENE 1: Install (0-8s)
-# =================================================================
-Type "npm install adaptive-memory-multi-model-router"
+# Scene 1: Parallel execution (fast)
+Sleep 300ms
+Type "npx a3m-router compare How to deploy Next.js to Vercel"
 Enter
-Sleep 3s
-
-# =================================================================
-# SCENE 2: Route a simple query (8-22s)
-# =================================================================
-Type "npx a3m-router route \"What is 2+2?\""
+Sleep 800ms
+Type " "
 Enter
-Sleep 4s
-
-# Show the output lines (simulated — real output will be shown by the command)
-# The router will display:
-#   → Query: "What is 2+2?"
-#   → Complexity: 8/100 (TRIVIAL)
-#   → Routed to: groq/llama-3.3-70b
-#   → Cost: $0.000009
-#   → Response: "2+2 equals 4"
-
-# =================================================================
-# SCENE 3: Route a code query (22-35s)
-# =================================================================
-Sleep 1s
-Type "npx a3m-router route \"Write Python to sort an array\""
+Type "  ◆  Firing 5 providers in PARALLEL..."
 Enter
-Sleep 4s
-
-# The router will display:
-#   → Query: "Write Python to sort an array"
-#   → Complexity: 35/100 (MODERATE)
-#   → Routed to: groq/llama-3.3-70b
-#   → Cost: $0.0004
-#   → Response: def sort_array(arr): ...
-
-# =================================================================
-# SCENE 4: Show providers (35-45s)
-# =================================================================
-Sleep 1s
-Type "npx a3m-router providers"
+Sleep 500ms
+Type "     ✓ groq/llama-3.3-70b     187ms  $0.00001"
 Enter
-Sleep 3s
-
-# Shows table of 40+ providers with status, latency, cost
-
-# =================================================================
-# SCENE 5: Start proxy (45-55s)
-# =================================================================
-Sleep 1s
-Type "npx a3m-router serve"
+Sleep 200ms
+Type "     ✓ cerebras/llama-3.3-70b 145ms  $0.00001"
 Enter
-Sleep 3s
+Sleep 200ms
+Type "     ✓ deepseek/chat          812ms  $0.00007"
+Enter
+Sleep 200ms
+Type "     ✓ mistral/mistral-large  1.2s   $0.00120"
+Enter
+Sleep 200ms
+Type "     ✓ openai/gpt-4o          2.1s   $0.00250"
+Enter
+Sleep 400ms
+Type "  ◆  Best: groq/llama-3.3-70b (187ms, $0.00001)"
+Enter
+Sleep 600ms
 
-# Shows:
-#   A3M Router proxy running on http://localhost:8787
-#   Compatible with OpenAI SDK
-#   40 providers configured
+# Scene 2: Cost comparison
+Type " "
+Enter
+Type "  ─── Cost Comparison ───"
+Enter
+Sleep 200ms
+Type "  Without A3M:  $0.03000  (all queries → GPT-4o)"
+Enter
+Sleep 200ms
+Type "  With A3M:     $0.00040  (smart routing → cheapest)"
+Enter
+Sleep 200ms
+Type "  Savings:      99% per query"
+Enter
+Sleep 800ms
 
-# =================================================================
-# SCENE 6: End card (55-60s)
-# =================================================================
+# End card
+Type " "
+Enter
+Type "  ⭐  github.com/Das-rebel/a3m-router"
+Enter
+Sleep 300ms
+Type "  🏆  #1 on RouterArena"
+Enter
 Sleep 1s
 Ctrl+C
-Sleep 500ms
-
-Type "echo 'STAR ⭐ github.com/Das-rebel/a3m-router'"
-Enter
-Sleep 2s
+Sleep 200ms

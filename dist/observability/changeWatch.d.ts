@@ -13,3 +13,7 @@ export interface ImpactReview {
 export declare function logChange(summary: string, reviewWindowDays?: number): string;
 export declare function getPendingReviews(): ImpactReview[];
 export declare function formatPendingReviews(): string;
+<<<<<<< Updated upstream
+=======
+//# sourceMappingURL=changeWatch.d.ts.map
+>>>>>>> Stashed changes
