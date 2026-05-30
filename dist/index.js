@@ -28,9 +28,10 @@ Object.defineProperty(exports, "PROVIDER_CONTEXT_LIMITS", { enumerable: true, ge
 // ============================================================
 // PROVIDERS
 // ============================================================
-var providerConfig_1 = require("./providers/providerConfig");
-Object.defineProperty(exports, "DEFAULT_PROVIDERS", { enumerable: true, get: function () { return providerConfig_1.DEFAULT_PROVIDERS; } });
-Object.defineProperty(exports, "getAvailableProviders", { enumerable: true, get: function () { return providerConfig_1.getAvailableProviders; } });
+var providerConfig_1 = require('./providers/providerConfig');
+Object.defineProperty(exports, 'providerConfig', { enumerable: true, get: function () { return providerConfig_1; } });
+Object.defineProperty(exports, 'DEFAULT_PROVIDERS', { enumerable: true, get: function () { return providerConfig_1.DEFAULT_PROVIDERS; } });
+Object.defineProperty(exports, 'getAvailableProviders', { enumerable: true, get: function () { return providerConfig_1.getAvailableProviders; } });
 Object.defineProperty(exports, "registerProvider", { enumerable: true, get: function () { return providerConfig_1.registerProvider; } });
 Object.defineProperty(exports, "deregisterProvider", { enumerable: true, get: function () { return providerConfig_1.deregisterProvider; } });
 Object.defineProperty(exports, "updateProvider", { enumerable: true, get: function () { return providerConfig_1.updateProvider; } });

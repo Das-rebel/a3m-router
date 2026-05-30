@@ -79,7 +79,13 @@ function buildModelProfiles() {
   return profiles;
 }
 
-let MODEL_PROFILES = buildModelProfiles();
+var MODEL_PROFILES = {};
+try {
+  MODEL_PROFILES = buildModelProfiles();
+} catch (e) {
+  // Circular dependency at module load — will retry on first use
+  MODEL_PROFILES = {};
+}
 
 // Refresh profiles when providers change
 function refreshModelProfiles() {
@@ -88,6 +94,10 @@ function refreshModelProfiles() {
 
 exports.MODEL_PROFILES = MODEL_PROFILES;
 
+// Ensure exports stay in sync if profiles are rebuilt
+function updateExports() {
+  exports.MODEL_PROFILES = MODEL_PROFILES;
+}
 // ============================================================
 // FEATURE EXTRACTION (v3 — multi-signal complexity scorer)
 // ============================================================

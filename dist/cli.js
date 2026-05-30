@@ -216,7 +216,15 @@ async function main() {
     case 'compare': {
       const query = args.slice(1).join(' ');
       if (!query) {
-        console.error('Usage: npx a3m-router compare "your query here"');
+        console.error('');
+        console.error('  ⚠️  Compare needs a query');
+        console.error('  ─' + '─'.repeat(30));
+        console.error('  Usage: npx a3m-router compare "your question"');
+        console.error('');
+        console.error('  Routes your query through ALL providers side by side.');
+        console.error('');
+        console.error('  Example: npx a3m-router compare "What is 2+2?"');
+        console.error('');
         process.exit(1);
       }
       
@@ -247,36 +255,27 @@ async function main() {
       break;
     }
 
-    case 'benchmark': {
-      const queries = [
-        'What is 2+2?',
-        'Write a Python function to reverse a string.',
-        'Translate "Hello" to French.',
-        'Write a haiku about programming.',
-        'What is SQL injection?',
-      ];
-      
-      const providers = providerConfig.getAvailableProviders();
-      console.log('\n📊 A3M Router — Provider Benchmark');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
-      
-      for (const [id, provider] of Object.entries(providers)) {
-        const model = provider.models[0];
-        console.log('  ' + (provider.name || id).padEnd(15) + '(' + model + ')');
-        
-        let totalTime = 0;
-        let totalCost = 0;
-        
-        for (const q of queries) {
-          const r = await callProvider(id, model, q, 50);
-          if (r) {
-            totalTime += r.latency;
-            totalCost += r.cost;
-          }
+    case 'benchmark':
+    case 'bench': {
+      if (args.includes('--reproducible') || args.includes('-r')) {
+        try {
+          var res = require('child_process').execSync(
+            'node -e "var b=require(\'./benchmark/reproducible.js\');console.log(b.formatBenchmarkOutput(b.runReproducibleBenchmark(42,20)))"',
+            { cwd: __dirname, encoding: 'utf8', timeout: 60000 }
+          );
+          console.log(res.trim());
+        } catch(e) {
+          console.error('');
+          console.error('  \u26a0\ufe0f  Benchmark failed');
+          console.error('  Try directly: node dist/benchmark/reproducible.js');
+          console.error('');
         }
-        
-        console.log('    Total: ' + totalTime + 'ms, Cost: $' + totalCost.toFixed(6) + ', Avg: ' + (totalTime / queries.length).toFixed(0) + 'ms/query');
+        break;
       }
+      console.log('');
+      console.log('  Run: npx a3m-router benchmark --reproducible');
+      console.log('  20 fixed queries with deterministic seed. Everyone gets the same result.');
+      console.log('  > "Everything is open source. Run the exact benchmark."');
       console.log('');
       break;
     }
@@ -284,7 +283,15 @@ async function main() {
     case 'route': {
       const query = args.slice(1).join(' ');
       if (!query) {
-        console.error('Usage: npx a3m-router route "your query here"');
+        console.error('');
+        console.error('  ⚠️  You forgot the query');
+        console.error('  ─' + '─'.repeat(30));
+        console.error('  Usage: npx a3m-router route "your question here"');
+        console.error('');
+        console.error('  Examples:');
+        console.error('    npx a3m-router route "What is 2+2?"');
+        console.error('    npx a3m-router route "Write a Python sort function"');
+        console.error('');
         process.exit(1);
       }
       const result = router.route(query);
@@ -295,7 +302,13 @@ async function main() {
     case 'batch': {
       const queries = args.slice(1);
       if (queries.length === 0) {
-        console.error('Usage: npx a3m-router batch "query1" "query2" ...');
+        console.error('');
+        console.error('  ⚠️  Batch needs at least one query');
+        console.error('  ─' + '─'.repeat(35));
+        console.error('  Usage: npx a3m-router batch "query1" "query2" "query3"');
+        console.error('');
+        console.error('  Example: npx a3m-router batch "What is 2+2?" "Capital of France?"');
+        console.error('');
         process.exit(1);
       }
       const results = router.routeBatch(queries);
@@ -311,7 +324,16 @@ async function main() {
     case 'recommend': {
       const task = args.slice(1).join(' ');
       if (!task) {
-        console.error('Usage: npx a3m-router recommend "coding"');
+        console.error('');
+        console.error('  ⚠️  Need a task to recommend for');
+        console.error('  ─' + '─'.repeat(35));
+        console.error('  Usage: npx a3m-router recommend "<task>"');
+        console.error('');
+        console.error('  Examples:');
+        console.error('    npx a3m-router recommend "coding"');
+        console.error('    npx a3m-router recommend "writing"');
+        console.error('    npx a3m-router recommend "math"');
+        console.error('');
         process.exit(1);
       }
       const rec = router.recommend(task);
@@ -472,7 +494,13 @@ async function main() {
     case 'token': {
       const text = args.slice(1).join(' ');
       if (!text) {
-        console.error('Usage: npx a3m-router token "your text here"');
+        console.error('');
+        console.error('  ⚠️  Token counter needs input text');
+        console.error('  ─' + '─'.repeat(35));
+        console.error('  Usage: npx a3m-router token "text to count"');
+        console.error('');
+        console.error('  Example: npx a3m-router token "Hello, world!"');
+        console.error('');
         process.exit(1);
       }
       const tokens = countTokens(text);
@@ -593,6 +621,33 @@ async function main() {
 }
 
 main().catch(function(err) {
-  console.error('Error:', err.message);
+  console.error('');
+  console.error('  ⚠️  Something went wrong');
+  console.error('  ─' + '─'.repeat(40));
+  console.error('  ' + err.message);
+  console.error('  Stack: ' + (err.stack || '').split('\n').filter(function(l){return l.includes('/dist/')}).slice(0,3).join('\n         '));
+  console.error('  ' + (err.stack || '').split('\n').slice(1, 5).join('\n  '));
+  console.error('');
+  console.error('  Try these:');
+  
+  var msg = (err.message || '').toLowerCase();
+  if (msg.includes('api_key') || msg.includes('api key') || msg.includes('not configured')) {
+    console.error('    • Set your API key: export GROQ_API_KEY="gsk_..."');
+    console.error('    • Or run: npx a3m-router providers');
+  } else if (msg.includes('fetch') || msg.includes('network') || msg.includes('econnrefused')) {
+    console.error('    • Check your internet connection');
+    console.error('    • The provider API might be down — try: npx a3m-router providers');
+    console.error('    • If using local Ollama: ollama serve');
+  } else if (msg.includes('module') || msg.includes('cannot find')) {
+    console.error('    • Rebuild: npm run build');
+    console.error('    • Or reinstall: npm install -g a3m-router');
+  } else if (msg.includes('usage') || msg.includes('invalid') || msg.includes('unknown')) {
+    console.error('    • Run: npx a3m-router --help');
+    console.error('    • Try: npx a3m-router route "your question here"');
+  } else {
+    console.error('    • Check the docs: https://github.com/Das-rebel/a3m-router#readme');
+    console.error('    • Run: npx a3m-router --help');
+  }
+  console.error('');
   process.exit(1);
 });
