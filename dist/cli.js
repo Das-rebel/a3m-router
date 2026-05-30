@@ -21,6 +21,8 @@
  */
 
 const { execSync } = require('child_process');
+const { checkProviderFatigue, formatFatigueReport } = require('./observability/fatigueDetector.js');
+const { logChange, formatPendingReviews } = require('./observability/changeWatch.js');
 const {
   createA3MRouter, routeQuery, routeBatch, recommendForTask,
   countTokens, estimateCost, MODEL_COSTS, CostTracker, MemoryTree,
@@ -387,6 +389,38 @@ async function main() {
       line = '  Composit Score: ' + score + '/100 (' + grade + ')';
       console.log(line.padEnd(48));
       console.log('└─────────────────────────────────────────────┘');
+      
+      // --fatigue flag: provider fatigue detection
+      if (args.includes('--fatigue') || args.includes('-f')) {
+        try {
+          var fatigueReport = formatFatigueReport();
+          console.log('');
+          console.log('┌─────────────────────────────────────────────┐');
+          console.log('│   Provider Fatigue                        │');
+          console.log('├─────────────────────────────────────────────┤');
+          console.log(fatigueReport);
+          console.log('└─────────────────────────────────────────────┘');
+          logChange('Ran provider fatigue analysis', 14);
+        } catch(e) {
+          console.log('  Unable to check fatigue:', e.message);
+        }
+      }
+      
+      // --changes flag: pending change reviews
+      if (args.includes('--changes') || args.includes('-c')) {
+        try {
+          var changesReport = formatPendingReviews();
+          console.log('');
+          console.log('┌─────────────────────────────────────────────┐');
+          console.log('│   Change Review Queue                     │');
+          console.log('├─────────────────────────────────────────────┤');
+          console.log(changesReport);
+          console.log('└─────────────────────────────────────────────┘');
+        } catch(e) {
+          console.log('  No change log found. Run some routes first.');
+        }
+      }
+      
       console.log('');
       console.log('  Try: a3m-router metrics --full  (detailed rubric)');
       console.log('  Docs: docs/ROUTING_RUBRIC.md');

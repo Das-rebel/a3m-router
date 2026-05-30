@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+LOCAL_VERSION="${A3M_VERSION:-$(node -e "console.log(require('./package.json').version)" 2>/dev/null || echo 'unknown')}"
+CACHE_FILE="${HOME}/.a3m-router/.version-cache"
+CACHE_TTL=86400
+if [ -f "$CACHE_FILE" ]; then
+  CACHE_AGE=$(($(date +%s) - $(stat -f%m "$CACHE_FILE" 2>/dev/null || echo 0)))
+  if [ "$CACHE_AGE" -lt "$CACHE_TTL" ]; then
+    REMOTE_VERSION=$(cat "$CACHE_FILE" 2>/dev/null)
+    [ -n "$REMOTE_VERSION" ] && [ "$REMOTE_VERSION" != "$LOCAL_VERSION" ] && echo "UPGRADE_AVAILABLE ${LOCAL_VERSION} ${REMOTE_VERSION}"
+    exit 0
+  fi
+fi
+REMOTE_VERSION=$(npm view adaptive-memory-multi-model-router version 2>/dev/null || echo '')
+if [ -n "$REMOTE_VERSION" ]; then
+  echo "$REMOTE_VERSION" > "$CACHE_FILE"
+  [ "$REMOTE_VERSION" != "$LOCAL_VERSION" ] && echo "UPGRADE_AVAILABLE ${LOCAL_VERSION} ${REMOTE_VERSION}"
+fi
