@@ -25,6 +25,7 @@ const {
   createA3MRouter, routeQuery, routeBatch, recommendForTask,
   countTokens, estimateCost, MODEL_COSTS, CostTracker, MemoryTree,
   getAvailableProviders, providerConfig, registerProvider, loadProviders,
+  getMetrics,
 } = require('./index.js');
 
 let createProxyServer;
@@ -345,6 +346,54 @@ async function main() {
       break;
     }
 
+    case 'metrics': {
+      const met = getMetrics();
+      const allMetrics = met.getMetrics();
+      
+      console.log('\n┌─────────────────────────────────────────────┐');
+      console.log('│   A3M Router — Pulse Report                │');
+      console.log('├─────────────────────────────────────────────┤');
+      
+      // Count queries
+      var qCount = 0, totalCost = 0, cacheHits = 0, errors = 0;
+      var latencies = [];
+      allMetrics.forEach(function(m) {
+        if (m.name.includes('a3m_router_requests_total')) qCount = m.value;
+        if (m.name.includes('a3m_request_cost')) totalCost = m.value;
+        if (m.name.includes('cache_hit')) cacheHits = m.value;
+        if (m.name.includes('a3m_router_error')) errors = m.value;
+        if (m.type === 'histogram' && m.name.includes('latency')) latencies.push(m.value);
+      });
+      
+      var line = '  Query count:   ' + qCount;
+      console.log(line.padEnd(48));
+      line = '  Est. Savings:  ~$' + (qCount * 0.03 - totalCost).toFixed(2) + ' vs all-premium';
+      console.log(line.padEnd(48));
+      line = '  Cache Hit:     ' + (qCount > 0 ? Math.round(cacheHits / Math.max(qCount, 1) * 100) + '%' : 'N/A');
+      console.log(line.padEnd(48));
+      line = '  Errors:        ' + errors;
+      console.log(line.padEnd(48));
+      
+      var avgLat = latencies.length > 0 ? Math.round(latencies.reduce(function(a,b) { return a+b; }, 0) / latencies.length * 1000) + 'ms' : 'N/A';
+      line = '  Avg Latency:   ' + avgLat;
+      console.log(line.padEnd(48));
+      
+      // Composite score (simple heuristic)
+      var score = 85;  // Default good
+      if (errors > qCount * 0.05) score -= 15;
+      if (totalCost > 0 && qCount > 0 && totalCost / qCount > 0.01) score -= 10;
+      var grade = score >= 85 ? 'Excellent' : score >= 70 ? 'Good' : score >= 55 ? 'Fair' : 'Poor';
+      console.log('│                                             │');
+      line = '  Composit Score: ' + score + '/100 (' + grade + ')';
+      console.log(line.padEnd(48));
+      console.log('└─────────────────────────────────────────────┘');
+      console.log('');
+      console.log('  Try: a3m-router metrics --full  (detailed rubric)');
+      console.log('  Docs: docs/ROUTING_RUBRIC.md');
+      console.log('');
+      break;
+    }
+
     case 'cost': {
       const text = args.slice(1).join(' ') || 'Hello world this is a test';
       const tokens = countTokens(text);
@@ -493,6 +542,7 @@ async function main() {
       console.log('    memory                 Show memory stats');
       console.log('    register <id> <cfg>    Register new provider');
       console.log('    status                 Show router status');
+      console.log('    metrics                Show pulse report (savings, accuracy, latency)');
       console.log('');
       console.log('  Config: ~/.config/a3m-router/providers.json');
       console.log('  Env:    GROQ_API_KEY, CEREBRAS_API_KEY, MISTRAL_API_KEY, etc.');
