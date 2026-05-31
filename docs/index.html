@@ -82,6 +82,54 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is the best open-source LLM router?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A3M Router ranks #1 on RouterArena with a 76.43 score at $0.047 per 1K queries. It uses rule-based routing with no ML training required, making it ideal for cost-critical production environments."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is A3M different from RouteLLM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A3M is rule-based with zero ML training (19.5KB). RouteLLM uses BERT-based ML (~1.5GB). A3M scores 76.43 on RouterArena vs RouteLLM's 48.07, at 5.7x lower cost ($0.047 vs $0.27 per 1K)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does A3M save vs GPT-4?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A3M costs $0.047 per 1K queries vs GPT-4 at $10.02 per 1K — approximately 213x cheaper while achieving comparable quality through intelligent routing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does A3M require GPU or ML training?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. A3M is 19.5KB with zero ML dependencies. It uses 12 keyword signals for rule-based routing in under 1ms on any CPU. No GPU required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What providers does A3M support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A3M supports 47+ providers including OpenAI, Anthropic, Groq, Cerebras, DeepSeek, Mistral, NVIDIA, Together, OpenRouter, Gemini, and Cohere."
+      }
+    }
+  ]
+}
+</script>
   <script>
     function toggleNav() {
       document.querySelector('.nav-links').classList.toggle('open');
