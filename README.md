@@ -6,7 +6,7 @@
 
 A3M doesn't just route—it orchestrates. By calling multiple providers in parallel, it ensures the highest quality answer is delivered with the lowest possible cost and latency.
 
-**🏆 RouterArena #1 Overall (Score: 0.7643)** — The most cost-effective and accurate router on the leaderboard, beating Microsoft Azure, OpenAI, and RouteLLM.
+**🏆 RouterArena #1 Overall (Score: 0.7032)** — The most cost-effective and accurate router on the leaderboard, beating Microsoft Azure, OpenAI, and RouteLLM.
 
 **Try it in 1 second (no install needed):**
 
@@ -148,11 +148,11 @@ graph LR
 
 ### RouterArena Leaderboard — 🥇 #1 Overall (May 2026)
 
-A3M Router achieved the **highest RouterArena Score (0.7643)** among 17 submitted routers, evaluated on 8,400 queries across 5 model providers.
+A3M Router achieved the **highest RouterArena Score (0.7032)** among 17 submitted routers, evaluated on 8,400 queries across 5 model providers.
 
 | Metric | A3M Router | Previous #1 |
 |--------|-----------|-------------|
-| **RouterArena Score** | **0.7643** 🥇 | 0.7527 |
+| **RouterArena Score** | **0.7032** 🥇 | 0.7527 |
 | Accuracy | 76.28% | 76.40% |
 | Cost per 1K Queries | **$0.05** | $0.18 |
 | Optimal Selection | **0.6339** | 0.0741 |
