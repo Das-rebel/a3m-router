@@ -1,6 +1,6 @@
 # A3M Router — Launch Snapshot
 **Saved:** Sat May 31 18:00 IST 2026
-**Git:** f7559d9 — Add 10x better video: HYPE-first approach
+**Git:** 114dda2 — Update LAUNCH_SNAPSHOT with geo infrastructure
 **npm version:** 2.14.13
 **GitHub stars:** 7
 
@@ -43,7 +43,7 @@ Avg/day:      904 (on active days)
 
 ---
 
-## SEO Status ✅
+## SEO Status ✅ (GitHub Pages: https://das-rebel.github.io/a3m-router/)
 
 | Check | Status |
 |-------|--------|
@@ -53,6 +53,8 @@ Avg/day:      904 (on active days)
 | og:image | ✅ benchmark-chart.png |
 | Schema.org | ✅ SoftwareApplication JSON-LD |
 | canonical URL | ✅ https://das-rebel.github.io/a3m-router/ |
+| ai-plugin.json | ✅ ChatGPT Plugin manifest |
+| openapi.json | ✅ API specification |
 
 ---
 
@@ -82,108 +84,154 @@ Avg/day:      904 (on active days)
 
 ---
 
-# 🔍 GEO DATA INFRASTRUCTURE
+# 🌎 GEOGRAPHIC DATA — What's Available
 
-## What's Required
+## Problem: NPM does NOT provide geo data via public API
 
-NPM public API does NOT provide geo breakdown. To get geo data:
-
-### Option 1: npm Enterprise (Paid)
-- Provides: Country-level download stats
-- Cost: ~$500/year
-- Setup: enterprise.npmjs.com
-
-### Option 2: Packetbeat NPM (Self-hosted)
-- Open-source ClickHouse + Kibana setup
-- Provides: Real-time geo tracking
-- Repo: github.com/npm/packetbeat-npm
-
-### Option 3: Custom Tracking (Implemented Below)
-Add analytics to your website that tracks npm package downloads by geo.
+The npm public registry only provides aggregate download counts, NOT geographic breakdown.
 
 ---
 
-## Implementation: Geo Tracker
+## Option 1: npmjs.com Bundle (Easiest)
 
-### 1. Create geo tracking endpoint
+Already deployed at: https://www.npmjs.com/package/adaptive-memory-multi-model-router
+
+**Available data:**
+- Total downloads (by time range)
+- Version history
+- Dependent packages
+
+**NOT available:**
+- Country breakdown
+- Region breakdown
+
+---
+
+## Option 2: npm Trends (Free)
+
+Visit: https://www.npmtrends.com/adaptive-memory-multi-model-router
+
+**Shows:**
+- Download comparison with other packages
+- Historical trend charts
+
+**Blocked:** Cloudflare requires browser JS to show full data
+
+---
+
+## Option 3: Add Analytics to GitHub Pages (Recommended)
+
+Since the site is at `das-rebel.github.io/a3m-router/`, add analytics to track visitor geo:
+
+### Step 1: Add Plausible (Privacy-friendly, $6/mo)
+
+```html
+<!-- Add to docs/_schema.html before </head> -->
+<script defer data-domain="das-rebel.github.io/a3m-router" src="https://plausible.io/js/script.js"></script>
+```
+
+Get geo data:
+- Top countries visiting your site
+- Page views by country
+- Bounce rate by geo
+- Referral sources by geo
+
+### Step 2: Alternative - Vercel Analytics (Free)
+
+If you migrate to Vercel:
+```html
+<script src="https://vercel.com/analytics/script.js"></script>
+```
+
+### Step 3: Alternative - Cloudflare Analytics (Free, on your domain)
+
+If you add Cloudflare to das-rebel.github.io:
+- Country-level page views
+- Bandwidth by geo
+- Cache hit ratio by geo
+
+---
+
+## Option 4: Custom Serverless Tracker
 
 ```javascript
-// Add to your website or serverless function
-// Tracks: country, package, date, referrer
-
-app.post('/api/track-download', (req, res) => {
-  const { country, package, date, referrer } = req.body;
+// Create serverless function (Vercel/Netlify)
+export default async function handler(req, res) {
+  const { country, path, referrer } = req.body;
   
-  // Store in database or analytics service
-  // Example: Vercel Analytics, Plausible, Google Analytics
+  // Store in KV/database
+  await ANALYTICS.put(`${country}:${path}`, Date.now());
   
-  // Note: npm downloads are tracked by npmjs.com directly
-  // This is for your website/landing page geo data
-});
-```
-
-### 2. Use existing analytics
-
-Your GitHub Pages site can use:
-- **Plausible Analytics** (privacy-friendly, geo data)
-- **Vercel Analytics** (free, has geo)
-- **Cloudflare Analytics** (free, country-level)
-
-### 3. Add to site
-
-```html
-<!-- Add to _schema.html in docs/ -->
-<script defer src="https://plausible.io/js/script.outbound-links.js"></script>
+  res.json({ success: true });
+}
 ```
 
 ---
 
-## Quick Setup: Plausible for Geo
+## Option 5: GitHub Pages + Cloudflare (Zero Cost)
 
-```bash
-# 1. Go to plausible.io
-# 2. Create new site: a3m-router
-# 3. Add this to your _schema.html:
+1. Add Cloudflare to your GitHub Pages domain
+2. Enable Cloudflare Analytics
+3. Get: Country, city, device, browser, referrer
 
-<script defer data-domain="das-rebel.github.io/a3m-router" src="https://plausible.io/js/script.js"></script>
-
-# 4. Get geo data from dashboard:
-#    - Top countries
-#    - Page views by country
-#    - Bounce rate by geo
-```
+**Setup:**
+1. Go to cloudflare.com
+2. Add site: das-rebel.github.io
+3. Update nameservers
+4. Enable "Analytics" in dashboard
+5. Wait 24hrs for data
 
 ---
 
-## Alternative: Google Analytics 4
+## Quick Comparison
 
-```html
-<!-- Add to _schema.html -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-</script>
-
-<!-- Then in Geo reports you get: -->
-<!-- Reports → Acquisition → Geography -->
-```
+| Method | Geo Data | Cost | Setup Time |
+|--------|----------|------|------------|
+| npm public API | ❌ | Free | N/A |
+| npmjs.com | Partial | Free | 0 min |
+| Plausible | ✅ Full | $6/mo | 5 min |
+| Vercel Analytics | ✅ Full | Free | 5 min |
+| Cloudflare | ✅ Full | Free | 15 min |
+| npm Enterprise | ✅ Full | ~$500/yr | Complex |
 
 ---
 
-## Data Sources Summary
+## Recommended Setup
 
-| Source | Geo Data | Cost |
-|--------|----------|------|
-| NPM Public API | ❌ | Free |
-| npmtrends.com | ❌ (Cloudflare blocked) | Free |
-| libnpm/anvaka | ❌ | Free |
-| **Plausible Analytics** | ✅ | $6/mo |
-| **Vercel Analytics** | ✅ | Free |
-| **GA4** | ✅ | Free |
-| **npm Enterprise** | ✅ | ~$500/yr |
+**For zero cost + good data:**
+
+1. **Cloudflare** (15 min setup)
+   - Go to cloudflare.com
+   - Add das-rebel.github.io
+   - Update nameservers
+   - Enable Analytics
+
+2. **Plausible** (5 min setup, $6/mo)
+   - Sign up at plausible.io
+   - Add site: das-rebel.github.io/a3m-router
+   - Add script to docs/_schema.html
+
+---
+
+## What You'll Get
+
+With either analytics tool:
+
+```
+Country     Pageviews  Bounce Rate  Time on Site
+──────────────────────────────────────────────
+🇺🇸 USA         1,234       45%         2m 30s
+🇬🇧 UK           567        52%         1m 45s
+🇮🇳 India         423        38%         3m 15s
+🇩🇪 Germany       234        61%         1m 20s
+🇫🇷 France        189        55%         2m 00s
+```
+
+This tells you:
+- Where your users are coming from
+- Which content they prefer
+- Where to focus marketing ($)
+- Where to translate content
 
 ---
 
@@ -202,10 +250,10 @@ Your GitHub Pages site can use:
 
 ---
 
-# ⭕ MANUAL STEPS (do later)
+# ⭕ MANUAL STEPS
 
-1. **Deploy HF Space** (5 min) — Create HF token → push
-2. **Add analytics** (5 min) — Add Plausible or GA4 to _schema.html
+1. **Add geo tracking** (15 min) — Cloudflare or Plausible
+2. **Deploy HF Space** (5 min) — Create HF token → push
 3. **Post to HN** (2 min) — Tue-Thu 8:30-10am ET is optimal
 4. **Post to PH** (2 min) — Schedule for next week
 5. **Post to IH** (2 min)
