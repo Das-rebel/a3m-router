@@ -34,7 +34,7 @@ const response = await client.chat.completions.create({
 
 | Feature | A3M Router |
 |---------|-----------|
-| Routing Accuracy | 76.43 |
+| Routing Accuracy | 70.32 |
 | Cost Savings | 62% vs all-premium |
 | Providers | 47+ |
 | Semantic Cache | ✅ 30%+ hit rate |

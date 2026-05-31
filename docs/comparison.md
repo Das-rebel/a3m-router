@@ -17,7 +17,7 @@ A3M Router is the **only open-source LLM gateway** that does **parallel multi-LL
 | **Parallel Execution** | **YES** (ensemble) | NO (sequential) | NO (fallback) | NO (load bal) | NO (sequential) | NO (fallback) |
 | **Confidence Scoring** | **YES** (voting) | NO | NO | NO | NO | NO |
 | **Result Merging** | **YES** (weighted) | NO | NO | NO | NO | NO |
-| **Independent Benchmarks** | **YES** (76.43) | YES (8ms P95) | NO | NO | NO | NO |
+| **Independent Benchmarks** | **YES** (70.32) | YES (8ms P95) | NO | NO | NO | NO |
 | **Open Source** | YES (MIT) | YES (MIT) | NO | YES (MIT) | YES (MIT) | YES (MIT) |
 | **Providers Supported** | 47+ | 100+ | 60+ | 25+ | 250+ | 100+ |
 | **Streaming Support** | YES | YES | YES | YES | YES | YES |

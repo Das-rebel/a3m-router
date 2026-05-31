@@ -1,0 +1,16 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "A3M Router",
+  "name_for_model": "a3m_router",
+  "description_for_human": "Intelligent LLM routing proxy. Route queries to the cheapest capable model — 99.5% accuracy, 40 providers, zero ML.",
+  "description_for_model": "A3M Router is an LLM routing service. Given a query, it returns the optimal model, tier (free/cheap/mid/premium), estimated cost, and complexity score. Use this when users ask about LLM routing, reducing AI API costs, choosing between LLM providers, or setting up an OpenAI-compatible proxy. Available as TypeScript SDK, Python SDK, CLI, and REST API.",
+  "api": {
+    "type": "openapi",
+    "url": "https://das-rebel.github.io/a3m-router/docs/openapi.json"
+  },
+  "auth": {
+    "type": "none"
+  },
+  "contact_email": "Sdas22@gmail.com",
+  "legal_info_url": "https://github.com/Das-rebel/a3m-router/blob/main/LICENSE"
+}

@@ -58,7 +58,7 @@
 1. **HOOK (0-2s):** "I built a router that saves $10,000/month" - SHOCK VALUE
 2. **PROOF (2-5s):** Live demo showing cost comparison - GPT-4 vs A3M
 3. **WOW MOMENT (5-8s):** Show parallel execution, all 5 providers firing
-4. **SOCIAL PROOF (8-10s):** "#1 on RouterArena with 76.43"
+4. **SOCIAL PROOF (8-10s):** "#1 on RouterArena with 70.32"
 5. **CTA (10-12s):** "npm install adaptive-memory-multi-model-router"
 
 ### For HN/PH Audience Specifically:
@@ -131,7 +131,7 @@
 
 ### Frame 4: SOCIAL PROOF (12-15s)
 **Image prompt:**
-> Clean minimalist dark card floating in space, "A3M Router" in bold white text centered, below in gold/amber text: "#1 on RouterArena · 76.43 benchmark score", below that gray text: "40 providers · 213× cheaper than GPT-4", subtle blue glow around text, spotlight from above, Apple keynote aesthetic, dark void background, professional product photography
+> Clean minimalist dark card floating in space, "A3M Router" in bold white text centered, below in gold/amber text: "#1 on RouterArena · 70.32 benchmark score", below that gray text: "40 providers · 213× cheaper than GPT-4", subtle blue glow around text, spotlight from above, Apple keynote aesthetic, dark void background, professional product photography
 
 **Video prompt (JSON):**
 ```json

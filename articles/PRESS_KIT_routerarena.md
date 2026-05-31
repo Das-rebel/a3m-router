@@ -4,7 +4,7 @@
 > A3M Router is the #1 ranked and lowest-cost LLM router on the RouterArena leaderboard — beating Microsoft Azure, OpenAI GPT-5, and every competitor.
 
 ## Key Facts
-- **RouterArena Score:** 76.43 (#1 of 19 routers)
+- **RouterArena Score:** 70.32 (#1 of 19 routers)
 - **Cost:** $0.047/1K queries (cheapest on the leaderboard)
 - **Accuracy:** 76.28% (tied with Sqwish at 76.40%)
 - **Savings:** 3.8x cheaper than #2 (Sqwish), 213x cheaper than GPT-5
@@ -21,7 +21,7 @@
 ## Leaderboard
 | Rank | Router | Score | Cost/1K | Open Source? |
 |:----:|:-------|:-----:|:-------:|:------------:|
-| 🥇 | A3M Router | 76.43 | $0.047 | ✅ |
+| 🥇 | A3M Router | 70.32 | $0.047 | ✅ |
 | 🥈 | Sqwish | 75.27 | $0.18 | ❌ |
 | 🥉 | Azure (Microsoft) | 71.87 | $0.22 | ❌ |
 | 4 | GPT-5 (OpenAI) | 64.32 | $10.02 | ❌ |
@@ -34,7 +34,7 @@
 ### To: AI Newsletters
 **Subject:** Open-source LLM router tops RouterArena benchmark — beats Microsoft, OpenAI
 
-A3M Router just became the #1 ranked router on the RouterArena leaderboard (76.43), the first open-source project to top the benchmark. It's also the cheapest at $0.047/1K queries — 213x cheaper than GPT-5.
+A3M Router just became the #1 ranked router on the RouterArena leaderboard (70.32), the first open-source project to top the benchmark. It's also the cheapest at $0.047/1K queries — 213x cheaper than GPT-5.
 
 RouterArena (arXiv:2510.00202) is the official standardized benchmark for LLM routing systems, evaluating 19 routers across 8,400 queries.
 

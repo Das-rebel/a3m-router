@@ -1,6 +1,6 @@
 {
-  "description": "LOCAL DEVELOPMENT ROUTING TEST — NOT the RouterArena evaluation. RouterArena (arXiv:2510.00202) independently evaluated A3M Router at 76.43 score across 8,400 queries and 9 domains. This file is a quick local sanity-check with only 200 synthetic queries and no API keys configured (all routed to free tier). For official benchmarks, see: https://github.com/RouteWorks/RouterArena/pull/113",
-  "note": "The 25% accuracy here reflects a local test where all queries were routed to free providers (no API keys configured for mid/premium tiers). The RouterArena score of 76.43 was achieved with a fully configured setup across all provider tiers. This file should not be used as a benchmark reference.",
+  "description": "LOCAL DEVELOPMENT ROUTING TEST — NOT the RouterArena evaluation. RouterArena (arXiv:2510.00202) independently evaluated A3M Router at 70.32 score across 8,400 queries and 9 domains. This file is a quick local sanity-check with only 200 synthetic queries and no API keys configured (all routed to free tier). For official benchmarks, see: https://github.com/RouteWorks/RouterArena/pull/113",
+  "note": "The 25% accuracy here reflects a local test where all queries were routed to free providers (no API keys configured for mid/premium tiers). The RouterArena score of 70.32 was achieved with a fully configured setup across all provider tiers. This file should not be used as a benchmark reference.",
   "timestamp": "2026-05-28T04:05:27.384Z",
   "version": "2.13.18",
   "test_type": "local_sanity_check",
@@ -11,7 +11,7 @@
   "official_benchmark": {
     "source": "RouterArena (arXiv:2510.00202)",
     "url": "https://github.com/RouteWorks/RouterArena/pull/113",
-    "score": 76.43,
+    "score": 70.32,
     "rank": 1,
     "queries": 8400,
     "domains": 9

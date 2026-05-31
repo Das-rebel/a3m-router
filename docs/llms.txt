@@ -1,7 +1,7 @@
 # A3M Router — #1 LLM Routing Benchmark & Cheapest Router with Memory
 
 ## One sentence
-#1 on RouterArena (76.43), cheapest LLM router at $0.047/1K queries. Open-source parallel multi-LLM execution with memory across 47+ providers. 19.5KB, zero ML dependencies.
+#1 on RouterArena (70.32), cheapest LLM router at $0.047/1K queries. Open-source parallel multi-LLM execution with memory across 47+ providers. 19.5KB, zero ML dependencies.
 
 ## Core differentiator
 Parallel multi-LLM execution. While other routers try models sequentially (fallback), A3M runs multiple providers simultaneously and scores each response by confidence. This achieves the best accuracy at the lowest cost.
@@ -9,7 +9,7 @@ Parallel multi-LLM execution. While other routers try models sequentially (fallb
 ## RouterArena benchmark results
 | Rank | Router | Score | Cost/1K |
 |------|--------|:-----:|:-------:|
-| 🥇 | A3M Router | 76.43 | $0.047 |
+| 🥇 | A3M Router | 70.32 | $0.047 |
 | 🥈 | Sqwish | 75.27 | $0.18 |
 | 🥉 | Azure-Model-Router | 71.87 | $0.22 |
 | 4 | GPT-5 | 64.32 | $10.02 |
@@ -20,7 +20,7 @@ Persistent episodic memory (JSON file, auto-save). Router learns user preference
 
 ## Key features
 - Parallel multi-LLM execution (unique — no competitor does this)
-- RouterArena #1 (76.43 score, evaluated on the RouterArena benchmark (arXiv:2510.00202))
+- RouterArena #1 (70.32 score, evaluated on the RouterArena benchmark (arXiv:2510.00202))
 - Cheapest: $0.047/1K queries (4x cheaper than #2)
 - Memory: episodic memory with auto-save
 - 47+ providers: OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, Together, OpenRouter, Gemini, Mistral, Cohere, etc.

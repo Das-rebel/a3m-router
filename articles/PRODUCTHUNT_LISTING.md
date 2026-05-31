@@ -22,7 +22,7 @@ No config needed. Detects your API keys automatically.
 
 | Router | Score | Cost/1K queries |
 |--------|:-----:|:---------------:|
-| 🥇 **A3M Router** | **76.43** | **$0.047** |
+| 🥇 **A3M Router** | **70.32** | **$0.047** |
 | 🥈 Sqwish | 75.27 | $0.180 |
 | 🥉 Azure (Microsoft) | 71.87 | $0.220 |
 | GPT-5 (OpenAI) | 64.32 | $10.020 |

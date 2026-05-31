@@ -43,7 +43,7 @@ The package was new and matched high-intent keywords. I think that's why it surf
 
 ## What actually works in the package (the tech)
 
-- **76.43  accuracy** on routing (5-signal keyword classifier, no ML)
+- **70.32  accuracy** on routing (5-signal keyword classifier, no ML)
 - **61.6% cost savings** vs. using premium models for everything
 - **36 providers** (6 free, 15 cheap, 9 mid, 3 premium, 3 enterprise)
 - **Semantic cache** using trigram Jaccard similarity — catches repeat/near-duplicate queries

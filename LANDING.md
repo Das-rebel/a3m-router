@@ -20,7 +20,7 @@ A routing layer between your app and every LLM provider. Routes every query to t
 
 | Metric | Result |
 |--------|--------|
-| Routing Accuracy | **76.43**  |
+| Routing Accuracy | **70.32**  |
 | Cost Savings | **62%** vs all-premium |
 | Providers | **47+** |
 | Cache Hit Rate | **30%+** |

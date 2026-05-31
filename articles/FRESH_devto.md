@@ -1,14 +1,14 @@
 ---
 title: "We Built an LLM Router That Runs on Keywords, Not Neural Networks — Here's How It Works"
 published: false
-description: "A 19.5 KB TypeScript package that routes LLM queries with 76.43 accuracy using 5 keyword-based signals. No GPU, no ML weights, zero dependencies."
+description: "A 19.5 KB TypeScript package that routes LLM queries with 70.32 accuracy using 5 keyword-based signals. No GPU, no ML weights, zero dependencies."
 tags: llm, typescript, ai, optimization
 cover_image: https://placeholder.dev.to/cover.png
 ---
 
 We needed to route LLM queries across 36 providers. The ML approach (BERT classifier, embedding similarity, LLM-as-judge) adds latency, infrastructure, and cost. We tried something simpler: a 5-signal keyword scoring system in pure TypeScript.
 
-The result: **76.43  accuracy**, **64.5% exact match**, **0.3ms routing latency**, in a **19.5 KB gzipped** package with zero runtime dependencies.
+The result: **70.32  accuracy**, **64.5% exact match**, **0.3ms routing latency**, in a **19.5 KB gzipped** package with zero runtime dependencies.
 
 Here's exactly how each signal works, with code.
 
@@ -371,7 +371,7 @@ Actual Premium   3    22    705
 | Metric | Value |
 |--------|-------|
 | Exact tier match | 64.5% |
-|  accuracy | 76.43 |
+|  accuracy | 70.32 |
 | Mean absolute error | 0.37 tiers |
 | Routing latency | 0.3ms per query |
 | Cost savings vs premium-only | 61.6% |

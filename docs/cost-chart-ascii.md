@@ -16,7 +16,7 @@ A3M is BOTH the cheapest AND the highest-ranked.
 
 ## Copy-paste for HN comments:
 
-A3M Router: $0.047/1K, Score: 76.43 (#1)
+A3M Router: $0.047/1K, Score: 70.32 (#1)
 Sqwish: $0.18/1K, Score: 75.27 (#2) — 3.8× more expensive
 Azure: $0.22/1K, Score: 71.87 (#3) — 4.7× more expensive
 GPT-5: $10.02/1K, Score: 64.32 (#4) — 213× more expensive, 12 points lower

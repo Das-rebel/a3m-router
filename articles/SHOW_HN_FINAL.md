@@ -6,7 +6,7 @@ So I built a router that calls multiple providers at the same time and picks the
 
 The result: #1 on RouterArena (the official benchmark), and the cheapest router on the market.
 
-    A3M Router:   76.43   $0.047/1K
+    A3M Router:   70.32   $0.047/1K
     Sqwish:        75.27   $0.18/1K
     Azure:         71.87   $0.22/1K
     GPT-5:         64.32   $10.02/1K

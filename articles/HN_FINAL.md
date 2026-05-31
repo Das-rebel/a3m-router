@@ -1,12 +1,12 @@
 ---
-title: "Show HN: A3M Router — 76.43 routing accuracy without ML. Matches RouteLLM's BERT within 2.5%"
+title: "Show HN: A3M Router — 70.32 routing accuracy without ML. Matches RouteLLM's BERT within 2.5%"
 ---
 
-# Show HN: A3M Router — 76.43 routing accuracy without ML. Matches RouteLLM's BERT within 2.5%
+# Show HN: A3M Router — 70.32 routing accuracy without ML. Matches RouteLLM's BERT within 2.5%
 
 RouteLLM trains a BERT classifier on GPU. Gets 85% routing accuracy ().
 
-We use keyword matching in Node.js. Get 76.43.
+We use keyword matching in Node.js. Get 70.32.
 
 That's 97% of the accuracy. 3% of the compute. **30x more efficient.**
 
@@ -16,7 +16,7 @@ That's 97% of the accuracy. 3% of the compute. **30x more efficient.**
 
 | | RouteLLM (BERT) | A3M Router |
 |---|---|---|
-| Routing accuracy () | 85% | 76.43 |
+| Routing accuracy () | 85% | 70.32 |
 | ML dependencies | PyTorch, transformers, GPU | None |
 | Model size | ~500MB BERT | 0 bytes |
 | Runtime | Python + CUDA | Node.js |
@@ -109,7 +109,7 @@ Drop-in OpenAI proxy. Point any SDK at localhost:8787. Zero code changes.
 
 | | A3M Router | LiteLLM | RouteLLM |
 |---|---|---|---|
-| Published accuracy | 76.43 | None | 85% |
+| Published accuracy | 70.32 | None | 85% |
 | ML required | No | No | Yes (BERT) |
 | GPU required | No | No | Yes |
 | Provider count | 40 | 100+ | 11 |
@@ -143,6 +143,6 @@ npx a3m-router serve
 - **GitHub**: https://github.com/Das-rebel/a3m-router
 - **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
-**TL;DR**: 76.43 accuracy, zero ML, zero GPU. 97% of RouteLLM's BERT at 3% of the compute. 61.6% cost savings. 40 providers. 3MB install. That's the 30x efficiency story.
+**TL;DR**: 70.32 accuracy, zero ML, zero GPU. 97% of RouteLLM's BERT at 3% of the compute. 61.6% cost savings. 40 providers. 3MB install. That's the 30x efficiency story.
 
 Questions? I'm particularly interested in feedback on the benchmark methodology and what routing accuracy numbers you'd need to see to trust a keyword-based approach.

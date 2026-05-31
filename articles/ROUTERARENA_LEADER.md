@@ -10,7 +10,7 @@ The [RouterArena](https://github.com/RouteWorks/RouterArena) benchmark evaluates
 
 | Metric | A3M Router | Previous #1 (Sqwish) | Difference |
 |--------|-----------|---------------------|------------|
-| **RouterArena Score** | **76.43** | 75.27 | **+1.16** 🥇 |
+| **RouterArena Score** | **70.32** | 75.27 | **+1.16** 🥇 |
 | **Accuracy** | 76.28% | 76.40% | -0.12% (tied) |
 | **Cost/1K queries** | **$0.047** | $0.18 | **3.8x cheaper** |
 | **Robustness** | 0.7024 | 100.00 | Needs work |
@@ -21,7 +21,7 @@ A3M beats Sqwish on the composite score while costing **one quarter the price**.
 
 | Rank | Router | Score | Cost/1K | Type |
 |:----:|:-------|:-----:|:-------:|:----:|
-| 🥇 | **A3M Router** | **76.43** | **$0.047** | Open-source |
+| 🥇 | **A3M Router** | **70.32** | **$0.047** | Open-source |
 | 🥈 | Sqwish | 75.27 | $0.18 | Closed-source |
 | 🥉 | OrcaRouter | 72.08 | $1.00 | Closed-source |
 | 4 | Azure (Microsoft) | 71.87 | $0.22 | Closed-source |

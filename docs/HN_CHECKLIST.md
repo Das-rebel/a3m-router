@@ -14,7 +14,7 @@
 ## HN Launch Day (Wed May 28)
 - [ ] 8:00 AM EST — Open HN submit page
 - [ ] 8:20 AM EST — Fill form:
-- [ ]   Title: "Show HN: A3M Router — 76.43 routing accuracy without ML. 30x more efficient than BERT."
+- [ ]   Title: "Show HN: A3M Router — 70.32 routing accuracy without ML. 30x more efficient than BERT."
 - [ ]   URL: https://github.com/Das-rebel/a3m-router
 - [ ]   Text: (paste from /tmp/HN_SUBMISSION_FINAL_v3.md)
 - [ ] 8:30 AM EST — HIT SUBMIT

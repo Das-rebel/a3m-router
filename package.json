@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.14.13",
+  "version": "2.14.14",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "🏆 #1 LLM routing benchmark & Cheapest LLM router with memory · Open-source AI gateway with parallel multi-LLM execution across 47+ providers, ensemble voting, semantic cache, and budget enforcement",
@@ -108,7 +108,11 @@
     "terminal-ui",
     "third-party-validation",
     "tui",
-    "typescript"
+    "typescript",
+    "knowledge-gap",
+    "orthogonal-errors",
+    "complementary-models",
+    "ensemble-routing"
   ],
   "author": "Das-rebel <subho@example.com>",
   "license": "MIT",

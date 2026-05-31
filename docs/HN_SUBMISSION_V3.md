@@ -1,4 +1,4 @@
-# Show HN: A3M Router — 76.43 routing accuracy without ML. 30x more efficient than BERT.
+# Show HN: A3M Router — 70.32 routing accuracy without ML. 30x more efficient than BERT.
 
 **URL**: https://github.com/Das-rebel/a3m-router
 
@@ -6,7 +6,7 @@
 
 RouteLLM (UC Berkeley) trains a BERT classifier on GPU for LLM query routing. Gets 85% accuracy ().
 
-We use keyword matching in Node.js. Get 76.43.
+We use keyword matching in Node.js. Get 70.32.
 
 **97% of the accuracy. 3% of the compute. 30x more efficient.**
 
@@ -16,7 +16,7 @@ There are exactly two LLM routers with published accuracy benchmarks: RouteLLM a
 
 ```
                   RouteLLM         A3M Router
-Accuracy          85%      76.43 
+Accuracy          85%      70.32 
 Method            BERT (GPU)       keyword scoring
 Model size        ~500MB           0 bytes
 Cold start        ~3s              ~50ms

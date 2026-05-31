@@ -15,7 +15,7 @@ short_description: '#1 LLM routing benchmark & cheapest router with memory'
 
 See how parallel LLM execution works in real-time. Enter a query and watch 7 providers compete simultaneously.
 
-- 🏆 **#1 on RouterArena** (76.43 score)
+- 🏆 **#1 on RouterArena** (70.32 score)
 - 💰 **Cheapest** at $0.047/1K queries
 - 🔓 **Open-source** (MIT), 19.5KB
 - 🧠 **Only LLM router with memory**

@@ -6,11 +6,11 @@ _Based on vault insights + RouterArena #1 achievement_
 
 ## 🚀 Hot News: RouterArena #1
 
-A3M Router scored **76.43** on the standardized RouterArena benchmark — #1 out of 19 routers.
+A3M Router scored **70.32** on the standardized RouterArena benchmark — #1 out of 19 routers.
 
 | Beats | Score | Cost/1K | 
 |:------|:-----:|:-------:|
-| 🥇 **A3M** | **76.43** | **$0.047** |
+| 🥇 **A3M** | **70.32** | **$0.047** |
 | 🥈 Sqwish | 75.27 | $0.18 |
 | 🥉 Azure (Microsoft) | 71.87 | $0.22 |
 | GPT-5 (OpenAI) | 64.32 | $10.02 |

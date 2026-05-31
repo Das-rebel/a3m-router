@@ -115,7 +115,7 @@ result = router.route(
 
 ## The routing accuracy
 
-76.43  accuracy. Meaning: it never sends a trivial query to a premium provider, and it never sends a complex reasoning task to a free model. 64.5% exact tier match.
+70.32  accuracy. Meaning: it never sends a trivial query to a premium provider, and it never sends a complex reasoning task to a free model. 64.5% exact tier match.
 
 The whole routing classifier is ~200 lines of TypeScript, no ML weights, no GPU, runs in 0.3ms per query.
 

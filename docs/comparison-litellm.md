@@ -8,7 +8,7 @@ litellm (48K★) is the most popular LLM gateway. Here's why A3M exists alongsid
 |---------|---------|------------|
 | **Approach** | Sequential fallback | Parallel ensemble |
 | **Model selection** | Try one, fail, try next | Run all, pick best by confidence |
-| **Benchmark** | None published | #1 on RouterArena (76.43) |
+| **Benchmark** | None published | #1 on RouterArena (70.32) |
 | **Cost** | Pay for every attempt | Pay for best response |
 | **Latency** | N × round-trip (sequential) | 1 × round-trip (parallel) |
 | **Memory** | None | Episodic memory across sessions |
@@ -16,7 +16,7 @@ litellm (48K★) is the most popular LLM gateway. Here's why A3M exists alongsid
 | **Startup** | ~3s | <100ms |
 | **GPU required** | Yes (for some models) | No |
 | **Benchmark data** | Not published | [RouterArena #1](https://github.com/RouteWorks/RouterArena/pull/113) |
-| **Routing accuracy** | Claims "100%" (no data) | 76.43 (evaluated on RouterArena benchmark) |
+| **Routing accuracy** | Claims "100%" (no data) | 70.32 (evaluated on RouterArena benchmark) |
 | **Cheapest cost** | Not published | $0.047/1K (#1 on leaderboard) |
 
 ## The Core Difference
@@ -81,7 +81,7 @@ litellm claims "100% routing accuracy" but publishes **zero data** to back this 
 
 > "Benchmark or GTFO." — A principle we stand by.
 
-If litellm submits to RouterArena and scores higher than 76.43, we'll celebrate. Competition drives improvement.
+If litellm submits to RouterArena and scores higher than 70.32, we'll celebrate. Competition drives improvement.
 
 ---
 

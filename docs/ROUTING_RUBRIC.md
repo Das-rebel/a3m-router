@@ -39,7 +39,7 @@ composite_score = 0.30 × RoutingAccuracy
 
 - **RouteLLM comparison** — where RouteLLM routes vs A3M (reference benchmark)
 - **Tier confusion matrix** — which query types cause the most over/under-tiering
-- **RouterArena score** — the single-number benchmark (current: 76.43)
+- **RouterArena score** — the single-number benchmark (current: 70.32)
 - **Golden route deviation** — percentage of queries where A3M disagrees with golden route
 
 ### Common failure patterns

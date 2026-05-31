@@ -1,6 +1,6 @@
 # [D] We benchmarked keyword-based routing vs BERT for LLM provider selection. The gap is smaller than we expected — and keyword routing has zero infra cost.
 
-**TL;DR:** A 5-signal keyword classifier routes LLM queries across 36 providers with 76.43  accuracy and 64.5% exact tier match, in a 19.5 KB gzipped package with no ML weights. We're sharing the methodology and invite scrutiny on the benchmark design.
+**TL;DR:** A 5-signal keyword classifier routes LLM queries across 36 providers with 70.32  accuracy and 64.5% exact tier match, in a 19.5 KB gzipped package with no ML weights. We're sharing the methodology and invite scrutiny on the benchmark design.
 
 ---
 
@@ -47,11 +47,11 @@ Full 5-tier results:
 | Metric | Value |
 |--------|-------|
 | Exact tier match | 64.5% |
-|  accuracy | 76.43 |
+|  accuracy | 70.32 |
 | Mean absolute error | 0.37 tiers |
 | Routing latency | 0.3ms/query |
 
-** accuracy of 76.43** means the router is never sending a trivial "what's the weather" query to GPT-4, and it's never sending a "design a distributed consensus algorithm" query to a free tier.
+** accuracy of 70.32** means the router is never sending a trivial "what's the weather" query to GPT-4, and it's never sending a "design a distributed consensus algorithm" query to a free tier.
 
 ### Cost impact
 

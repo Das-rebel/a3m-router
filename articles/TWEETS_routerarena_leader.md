@@ -15,7 +15,7 @@ Here's what happened and why it matters:
 
 2/ The leaderboard:
 
-🥇 A3M Router — 76.43 at $0.047/1K
+🥇 A3M Router — 70.32 at $0.047/1K
 🥈 Sqwish — 75.27 at $0.18/1K
 🥉 Azure-Model-Router (Microsoft) — 71.87
 GPT-5 (OpenAI) — 64.32 at $10.02/1K

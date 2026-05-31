@@ -8,7 +8,7 @@ curl -X PATCH "https://api.github.com/repos/Das-rebel/a3m-router" \
   -H "Content-Type: application/json" \
   -d '{
     "topics": ["ai-agents", "ai-gateway", "ai-routing", "baichuan", "chinese-llm", "cost-optimization", "deepseek", "langchain", "llamaindex", "llm-gateway", "llm-router", "mcp", "minimax", "moonshot", "multi-llm", "openai-proxy", "proxy-server", "python", "qwen", "semantic-cache"],
-    "description": "🔀 Open-source LLM router with 76.43 routing accuracy — auto-routes to cheapest capable model (Groq, DeepSeek, Kimi, Qwen + 36+ providers). Semantic cache, guardrails, 62% cost savings. 19.5KB, zero ML. TypeScript + Python SDK. MIT license."
+    "description": "🔀 Open-source LLM router with 70.32 routing accuracy — auto-routes to cheapest capable model (Groq, DeepSeek, Kimi, Qwen + 36+ providers). Semantic cache, guardrails, 62% cost savings. 19.5KB, zero ML. TypeScript + Python SDK. MIT license."
   }'
 ```
 

@@ -114,7 +114,7 @@ RouterArena is one leaderboard. There are others:
 ## Honest Assessment
 
 A3M has:
-- ✅ Self-reported 76.43 score
+- ✅ Self-reported 70.32 score
 - ✅ Open PR at RouterArena
 - ❌ 72.8% evaluation failure rate
 - ❌ Not on official leaderboard

@@ -67,7 +67,7 @@ I learned a few things that aren't in the growth playbooks:
 
 **Open source IS distribution.** I didn't need to "market" anything. I needed to make something that solved a real pain point and put it where developers look for solutions — GitHub, npm, and Google. The README was my landing page. The install command was my CTA.
 
-**Benchmarks matter more than features.** The first week, I spent more time running benchmarks than writing code. The question every developer asks is "how fast is it?" and "how much will it save me?" I published real numbers from real API calls: 138ms baseline, 76.43 routing accuracy, 62% cost savings. Those numbers drove more downloads than any feature.
+**Benchmarks matter more than features.** The first week, I spent more time running benchmarks than writing code. The question every developer asks is "how fast is it?" and "how much will it save me?" I published real numbers from real API calls: 138ms baseline, 70.32 routing accuracy, 62% cost savings. Those numbers drove more downloads than any feature.
 
 **Ship every day.** A new version every 24 hours isn't noise — it's proof of life. It tells users "this project is active, bugs get fixed, new things get added." I published 14 versions in 14 days.
 
@@ -80,7 +80,7 @@ I learned a few things that aren't in the growth playbooks:
 | Daily average | 716 |
 | Cost savings | 62% vs all-premium |
 | Providers supported | 47+ |
-| Routing accuracy | 76.43 |
+| Routing accuracy | 70.32 |
 | Package size | 19.5 KB |
 
 ## What's Next

@@ -49,7 +49,7 @@ Avg/day:      904 (on active days)
 |-------|--------|
 | robots.txt | ✅ All AI bots allowed (GPTBot, ClaudeBot, PerplexityBot, etc.) |
 | sitemap.xml | ✅ 3 URLs indexed weekly |
-| meta description | ✅ "76.43 RouterArena, $0.047/1K" |
+| meta description | ✅ "70.32 RouterArena, $0.047/1K" |
 | og:image | ✅ benchmark-chart.png |
 | Schema.org | ✅ SoftwareApplication JSON-LD |
 | canonical URL | ✅ https://das-rebel.github.io/a3m-router/ |
