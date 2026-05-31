@@ -74,7 +74,6 @@ export type { MemoryChunk, TreeNode } from './memory/memoryTree';
 // UTILITIES
 // ============================================================
 export { countTokens, estimateTokens } from './utils/tokenUtils';
-export { MODEL_COSTS } from './utils/tokenUtils';
 
 // ============================================================
 // v2.0.0 FEATURES
@@ -101,12 +100,18 @@ export {
 export type { Span, Metric, RouteTrace, ObservabilityEvent } from './observability';
 
 // ============================================================
+// ENSEMBLE ORCHESTRATION
+// ============================================================
+export { EnsembleOrchestrator, EnsembleStrategy, EnsembleResponse } from './ensemble';
+
+// ============================================================
 // CONVENIENCE: Create a router instance
 // ============================================================
 import { routeQuery, routeBatch, recommendForTask } from './routing/advancedRouter';
 import { getAvailableProviders, healthCheck } from './providers/providerConfig';
 import { CostTracker } from './cost/costTracker';
 import { MemoryTree } from './memory/memoryTree';
+import { EnsembleOrchestrator } from './ensemble';
 
 export interface A3MRouterOptions {
   defaultProvider?: string;
@@ -118,8 +123,7 @@ export interface A3MRouterOptions {
 export function createA3MRouter(options?: A3MRouterOptions) {
   const costTracker = new CostTracker();
   const memoryTree = new MemoryTree();
-
-  return {
+  const router = {
     route: routeQuery,
     routeBatch,
     recommendForTask,
@@ -127,8 +131,14 @@ export function createA3MRouter(options?: A3MRouterOptions) {
     healthCheck,
     costTracker,
     memoryTree,
+    ensemble: new EnsembleOrchestrator(null as any), // Lazy initialization or pass router instance
     options: options || {},
   };
+
+  // Properly link the orchestrator back to the router methods
+  (router.ensemble as any).router = router;
+
+  return router;
 }
 
 // Default export

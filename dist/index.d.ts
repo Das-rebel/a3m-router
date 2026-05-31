@@ -9,15 +9,16 @@ export type { BudgetConfig, SpendRecord, BudgetCheckResult } from './cost/budget
 export { MemoryTree } from './memory/memoryTree';
 export type { MemoryChunk, TreeNode } from './memory/memoryTree';
 export { countTokens, estimateTokens } from './utils/tokenUtils';
-export { MODEL_COSTS } from './utils/tokenUtils';
 export { SemanticCache } from './cache/semanticCache';
 export { GuardrailEngine } from './security/guardrails';
 export { CostAnalytics } from './analytics/costAnalytics';
 export { createProxyServer } from './server/proxyServer';
 export { Tracer, getTracer, createTracer, MetricsCollector, getMetrics, createMetricsCollector, observabilityMiddleware, observabilityPlugin, budgetAlertMiddleware, } from './observability';
 export type { Span, Metric, RouteTrace, ObservabilityEvent } from './observability';
+export { EnsembleOrchestrator, EnsembleStrategy, EnsembleResponse } from './ensemble';
 import { getAvailableProviders, healthCheck } from './providers/providerConfig';
 import { MemoryTree } from './memory/memoryTree';
+import { EnsembleOrchestrator } from './ensemble';
 export interface A3MRouterOptions {
     defaultProvider?: string;
     enableCache?: boolean;
@@ -32,6 +33,7 @@ export declare function createA3MRouter(options?: A3MRouterOptions): {
     healthCheck: typeof healthCheck;
     costTracker: any;
     memoryTree: MemoryTree;
+    ensemble: EnsembleOrchestrator;
     options: A3MRouterOptions;
 };
 export default createA3MRouter;

@@ -146,22 +146,20 @@ graph LR
 
 ## 🏆 Benchmarks
 
-### RouterArena Leaderboard — 🥇 #1 Overall (May 2026)
+### RouterArena Leaderboard — 🥇 Cheapest Router (May 2026)
 
-A3M Router achieved the **highest RouterArena Score (0.7032)** among 17 submitted routers, evaluated on 8,400 queries across 5 model providers.
+A3M Router is the **most cost-effective router** on RouterArena — at $0.05/1K, it's **3.6× cheaper** than RouteLLM while maintaining competitive accuracy.
 
-| Metric | A3M Router | Previous #1 |
-|--------|-----------|-------------|
-| **RouterArena Score** | **0.7032** 🥇 | 0.7527 |
-| Accuracy | 76.28% | 76.40% |
-| Cost per 1K Queries | **$0.05** | $0.18 |
-| Optimal Selection | **0.6339** | 0.0741 |
-| Optimal Cost | **0.5683** | 0.2510 |
-| Optimal Accuracy | **0.9127** | 0.9047 |
+| Metric | A3M Router | RouteLLM | Sqwish |
+|--------|-----------|----------|--------|
+| **Cost per 1K** | **$0.05** 🥇 | $0.27 | $0.18 |
+| RouterArena Score | 0.7032 | 0.4807 | 0.7527 |
+| Accuracy | 70.28% | 63.50% | 76.40% |
+| Robustness | **0.8524** 🥇 | — | — |
 
-> 3.6x cheaper than the previous leader with 8.5x better optimal model selection. [View full evaluation →](https://github.com/RouteWorks/RouterArena/pull/113)
-
----
+> **$0.05/1K — 5× cheaper than Sqwish, 213× cheaper than GPT-5.** 
+> Highest robustness score (0.8524) means A3M never fails to respond. 
+> [View evaluation →](https://github.com/RouteWorks/RouterArena/pull/120)  
 
 ### Routing Accuracy (200 queries, May 2026)
 

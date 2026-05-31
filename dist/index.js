@@ -2,7 +2,7 @@
 // A3M Router - Main Entry Point
 // Version: 2.0.0
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.budgetAlertMiddleware = exports.observabilityPlugin = exports.observabilityMiddleware = exports.createMetricsCollector = exports.getMetrics = exports.MetricsCollector = exports.createTracer = exports.getTracer = exports.Tracer = exports.createProxyServer = exports.CostAnalytics = exports.GuardrailEngine = exports.SemanticCache = exports.MODEL_COSTS = exports.estimateTokens = exports.countTokens = exports.MemoryTree = exports.createBudgetEnforcer = exports.BudgetExceededError = exports.BudgetEnforcer = exports.CostTracker = exports.saveConfig = exports.loadConfig = exports.findFastestAvailableProvider = exports.findCheapestAvailableProvider = exports.checkAllProviders = exports.healthCheck = exports.updateProvider = exports.deregisterProvider = exports.registerProvider = exports.getAvailableProviders = exports.DEFAULT_PROVIDERS = exports.PROVIDER_CONTEXT_LIMITS = exports.DEFAULT_PROVIDER_CONFIG = exports.DEFAULT_RETRY_CONFIG = exports.getDefaultRetryHandler = exports.createRetryHandler = exports.ProviderRetryHandler = exports.getProviderHealth = exports.updateModelProfile = exports.MODEL_PROFILES = exports.extractQueryFeatures = exports.recommendForTask = exports.routeBatch = exports.routeQuery = void 0;
+exports.EnsembleOrchestrator = exports.budgetAlertMiddleware = exports.observabilityPlugin = exports.observabilityMiddleware = exports.createMetricsCollector = exports.getMetrics = exports.MetricsCollector = exports.createTracer = exports.getTracer = exports.Tracer = exports.createProxyServer = exports.CostAnalytics = exports.GuardrailEngine = exports.SemanticCache = exports.estimateTokens = exports.countTokens = exports.MemoryTree = exports.createBudgetEnforcer = exports.BudgetExceededError = exports.BudgetEnforcer = exports.CostTracker = exports.saveConfig = exports.loadConfig = exports.findFastestAvailableProvider = exports.findCheapestAvailableProvider = exports.checkAllProviders = exports.healthCheck = exports.updateProvider = exports.deregisterProvider = exports.registerProvider = exports.getAvailableProviders = exports.DEFAULT_PROVIDERS = exports.PROVIDER_CONTEXT_LIMITS = exports.DEFAULT_PROVIDER_CONFIG = exports.DEFAULT_RETRY_CONFIG = exports.getDefaultRetryHandler = exports.createRetryHandler = exports.ProviderRetryHandler = exports.getProviderHealth = exports.updateModelProfile = exports.MODEL_PROFILES = exports.extractQueryFeatures = exports.recommendForTask = exports.routeBatch = exports.routeQuery = void 0;
 exports.createA3MRouter = createA3MRouter;
 // ============================================================
 // ROUTING ENGINE
@@ -60,8 +60,6 @@ Object.defineProperty(exports, "MemoryTree", { enumerable: true, get: function (
 var tokenUtils_1 = require("./utils/tokenUtils");
 Object.defineProperty(exports, "countTokens", { enumerable: true, get: function () { return tokenUtils_1.countTokens; } });
 Object.defineProperty(exports, "estimateTokens", { enumerable: true, get: function () { return tokenUtils_1.estimateTokens; } });
-var tokenUtils_2 = require("./utils/tokenUtils");
-Object.defineProperty(exports, "MODEL_COSTS", { enumerable: true, get: function () { return tokenUtils_2.MODEL_COSTS; } });
 // ============================================================
 // v2.0.0 FEATURES
 // ============================================================
@@ -87,16 +85,22 @@ Object.defineProperty(exports, "observabilityMiddleware", { enumerable: true, ge
 Object.defineProperty(exports, "observabilityPlugin", { enumerable: true, get: function () { return observability_1.observabilityPlugin; } });
 Object.defineProperty(exports, "budgetAlertMiddleware", { enumerable: true, get: function () { return observability_1.budgetAlertMiddleware; } });
 // ============================================================
+// ENSEMBLE ORCHESTRATION
+// ============================================================
+var ensemble_1 = require("./ensemble");
+Object.defineProperty(exports, "EnsembleOrchestrator", { enumerable: true, get: function () { return ensemble_1.EnsembleOrchestrator; } });
+// ============================================================
 // CONVENIENCE: Create a router instance
 // ============================================================
 const advancedRouter_2 = require("./routing/advancedRouter");
 const providerConfig_2 = require("./providers/providerConfig");
 const costTracker_2 = require("./cost/costTracker");
 const memoryTree_2 = require("./memory/memoryTree");
+const ensemble_2 = require("./ensemble");
 function createA3MRouter(options) {
     const costTracker = new costTracker_2.CostTracker();
     const memoryTree = new memoryTree_2.MemoryTree();
-    return {
+    const router = {
         route: advancedRouter_2.routeQuery,
         routeBatch: advancedRouter_2.routeBatch,
         recommendForTask: advancedRouter_2.recommendForTask,
@@ -104,8 +108,12 @@ function createA3MRouter(options) {
         healthCheck: providerConfig_2.healthCheck,
         costTracker,
         memoryTree,
+        ensemble: new ensemble_2.EnsembleOrchestrator(null), // Lazy initialization or pass router instance
         options: options || {},
     };
+    // Properly link the orchestrator back to the router methods
+    router.ensemble.router = router;
+    return router;
 }
 // Default export
 exports.default = createA3MRouter;

@@ -1,0 +1,103 @@
+import { A3MRouter, RouterDecision } from './index';
+
+export type EnsembleStrategy = 'majority' | 'weighted' | 'conservative';
+
+export interface EnsembleResponse {
+  finalAnswer: string;
+  confidence: number; // 0.0 to 1.0
+  isUncertain: boolean;
+  winner: string;
+  allResults: Record<string, { answer: string; score: number }>;
+  reasoning: string;
+}
+
+export class EnsembleOrchestrator {
+  constructor(private router: A3MRouter) {}
+
+  /**
+   * Executes a query across multiple providers in parallel and resolves the best answer.
+   */
+  async executeEnsemble(
+    query: string,
+    providers: string[],
+    strategy: EnsembleStrategy = 'majority',
+    weights: Record<string, number> = {}
+  ): Promise<EnsembleResponse> {
+    // 1. Parallel Execution
+    const results = await Promise.all(
+      providers.map(async (p) => {
+        try {
+          const res = await this.router.chat(query, { model: p });
+          return { provider: p, answer: res.choices[0].message.content, success: true };
+        } catch (e) {
+          return { provider: p, answer: '', success: false };
+        }
+      })
+    );
+
+    const successful = results.filter(r => r.success);
+    const answers = successful.map(r => r.answer.trim());
+    
+    if (answers.length === 0) {
+      throw new Error('All ensemble providers failed.');
+    }
+
+    // 2. Voting Logic
+    let winnerAnswer = '';
+    let winnerProvider = '';
+    let confidence = 0;
+
+    if (strategy === 'majority') {
+      const counts = {};
+      successful.forEach(r => counts[r.answer] = (counts[r.answer] || 0) + 1);
+      const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+      winnerAnswer = sorted[0][0];
+      confidence = sorted[0][1] / successful.length;
+      winnerProvider = successful.find(r => r.answer === winnerAnswer)?.provider || 'unknown';
+    } 
+    else if (strategy === 'weighted') {
+      const weightedCounts = {};
+      successful.forEach(r => {
+        const weight = weights[r.provider] || 1.0;
+        weightedCounts[r.answer] = (weightedCounts[r.answer] || 0) + weight;
+      });
+      const sorted = Object.entries(weightedCounts).sort((a, b) => b[1] - a[1]);
+      winnerAnswer = sorted[0][0];
+      confidence = sorted[0][1] / (successful.length || 1); // Simplified
+      winnerProvider = successful.find(r => r.answer === winnerAnswer)?.provider || 'unknown';
+    }
+    else if (strategy === 'conservative') {
+      const counts = {};
+      successful.forEach(r => counts[r.answer] = (counts[r.answer] || 0) + 1);
+      const best = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+      
+      if (best && best[1] >= 2) {
+        winnerAnswer = best[0];
+        confidence = best[1] / successful.length;
+        winnerProvider = successful.find(r => r.answer === winnerAnswer)?.provider || 'unknown';
+      } else {
+        winnerAnswer = 'UNCERTAIN';
+        confidence = 0;
+        winnerProvider = 'none';
+      }
+    }
+
+    // 3. Final Assembly
+    const allResults = {};
+    successful.forEach(r => {
+      allResults[r.provider] = { 
+        answer: r.answer, 
+        score: r.answer === winnerAnswer ? 1.0 : 0.0 
+      };
+    });
+
+    return {
+      finalAnswer: winnerAnswer,
+      confidence: confidence,
+      isUncertain: confidence < 0.6 || winnerAnswer === 'UNCERTAIN',
+      winner: winnerProvider,
+      allResults,
+      reasoning: `Ensemble of ${successful.length} models. ${Math.round(confidence * 100)}% agreement.`
+    };
+  }
+}
