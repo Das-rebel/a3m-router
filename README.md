@@ -6,7 +6,7 @@
 
 A3M doesn't just route—it orchestrates. By calling multiple providers in parallel, it ensures the highest quality answer is delivered with the lowest possible cost and latency.
 
-**🥇 RouterArena Cheapest Router ($0.05/1K)** — 3.6× cheaper than RouteLLM with highest robustness score (0.8524). No training required, runs in <1ms.
+**🥇 RouterArena Cheapest Router ($0.05/1K) — 15K+ downloads in 2 weeks** — 3.6× cheaper than RouteLLM with highest robustness score (0.8524). No training required, runs in <1ms.
 
 **Try it in 1 second (no install needed):**
 
@@ -53,9 +53,9 @@ Terminal overlay box with `/route`, `/cost`, `/health`, `/models`, `/model <prov
 
 | Metric | Value | Context |
 |--------|-------|--------|
-| Weekly Downloads | **5,369** | Top 0.2% of npm |
-| Run Rate (14 days) | **10,024** | Fastest-growing npm LLM router |
-| Daily Avg | **716** | Consistent organic growth |
+| Weekly Downloads | **6,769** | Top 0.2% of npm |
+| Run Rate (17 days) | **15,237** | Fastest-growing npm LLM router |
+| Daily Avg | **~900** | Consistent organic growth |
 | Cost Savings | **62%** | vs all-premium routing |
 | Providers | **47+** | OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, + |
 | Routing Accuracy | **70.32** |  |
