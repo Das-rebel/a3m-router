@@ -7,7 +7,7 @@
 ## Benchmark Performance
 
 ### RouterArena Score
-> "A3M Router scores 70.32 on RouterArena (arXiv:2510.00202), ranking #1 among all tested routers including commercial and open-source solutions."
+> "A3M Router scores 70.32 on RouterArena (arXiv:2510.00202), ranked among tested routers on RouterArena including commercial and open-source solutions."
 
 **Source:** RouterArena evaluation on 8,400 queries across 9 domains.
 
@@ -17,7 +17,7 @@
 **Source:** RouterArena benchmark data.
 
 ### Accuracy
-> "A3M Router achieves 76.28% routing accuracy on RouterArena's full evaluation dataset."
+> "A3M Router achieves a 70.32 RouterArena score with 76.28% routing accuracy on its full evaluation dataset."
 
 **Note:** This is exact match accuracy, not ±1 tier.
 
