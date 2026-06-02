@@ -1,54 +1,54 @@
 {
-  "timestamp": "2026-06-02T22:33:13.154Z",
-  "version": "2.14.14",
+  "timestamp": "2026-06-02T23:58:56.042Z",
+  "version": "2.14.18",
   "queries": 200,
-  "exact_accuracy": 64.5,
-  "adjacent_accuracy": 99.5,
-  "over_routed": 14,
-  "under_routed": 57,
-  "cost_savings_vs_premium": 61.6,
+  "exact_accuracy": 43.5,
+  "adjacent_accuracy": 86.5,
+  "over_routed": 9,
+  "under_routed": 104,
+  "cost_savings_vs_premium": 77.9,
   "by_tier": {
     "free": {
-      "correct": 46,
+      "correct": 41,
       "total": 50
     },
     "cheap": {
-      "correct": 47,
+      "correct": 41,
       "total": 60
     },
     "mid": {
-      "correct": 18,
+      "correct": 5,
       "total": 50
     },
     "premium": {
-      "correct": 18,
+      "correct": 0,
       "total": 40
     }
   },
   "confusion": {
     "free": {
-      "free": 46,
-      "cheap": 4,
+      "free": 41,
+      "cheap": 9,
       "mid": 0,
       "premium": 0
     },
     "cheap": {
-      "free": 11,
-      "cheap": 47,
-      "mid": 2,
+      "free": 19,
+      "cheap": 41,
+      "mid": 0,
       "premium": 0
     },
     "mid": {
-      "free": 0,
-      "cheap": 24,
-      "mid": 18,
-      "premium": 8
+      "free": 6,
+      "cheap": 39,
+      "mid": 5,
+      "premium": 0
     },
     "premium": {
-      "free": 0,
-      "cheap": 1,
-      "mid": 21,
-      "premium": 18
+      "free": 4,
+      "cheap": 17,
+      "mid": 19,
+      "premium": 0
     }
   }
 }

@@ -21,6 +21,8 @@ exports.updateModelProfile = updateModelProfile;
 exports.getProviderHealth = getProviderHealth;
 const providerConfig_1 = require("../providers/providerConfig");
 const tokenUtils_1 = require("../utils/tokenUtils");
+const costUtils_1 = require("../utils/costUtils");
+const sorting_1 = require("../utils/sorting");
 let cachedProfiles = null;
 let cacheTimestamp = 0;
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
@@ -295,11 +297,14 @@ function scoreModelFit(model, features) {
     return Math.min(score, 1.0);
 }
 function costEfficiency(model, features) {
+    // Use log-scale cost score for better mid-range differentiation
+    // Lower cost → higher score (thanks to logScaleCostScore inverse mapping)
     const avg_cost = (model.cost_per_1k_input + model.cost_per_1k_output) / 2;
-    if (features.complexity < 0.5) {
-        return (1 - Math.min(avg_cost / 10, 1)) * 0.6;
-    }
-    return (1 - Math.min(avg_cost / 10, 1)) * 0.2;
+    const cost_score = (0, costUtils_1.logScaleCostScore)(avg_cost);
+    // Simple queries weigh cost more heavily (0.6)
+    // Complex queries weigh cost less (0.2) since quality matters more
+    const weight = features.complexity < 0.5 ? 0.6 : 0.2;
+    return cost_score * weight;
 }
 function routeQuery(prompt, available_models, budget_multiplier = 1.0) {
     // Use cached profiles instead of rebuilding every time (5-10ms savings)
@@ -333,13 +338,10 @@ function routeQuery(prompt, available_models, budget_multiplier = 1.0) {
     }
     // Sort by total score (quality vs cost tradeoff based on complexity)
     const complexity_bias = features.complexity > 0.6 ? 0.7 : 0.3;
-    candidates.sort((a, b) => {
-        const score_a = a.quality_score * complexity_bias + a.cost_score * (1 - complexity_bias);
-        const score_b = b.quality_score * complexity_bias + b.cost_score * (1 - complexity_bias);
-        return score_b - score_a;
-    });
-    const primary = candidates[0];
-    const secondary = candidates.slice(1, 3);
+    const scoreFn = (c) => c.quality_score * complexity_bias + c.cost_score * (1 - complexity_bias);
+    const topCandidates = (0, sorting_1.quickselectTopK)(candidates, 4, scoreFn);
+    const primary = topCandidates[0];
+    const secondary = topCandidates.slice(1, 3);
     // Calculate confidence based on score gap
     let confidence = 0.5;
     if (candidates.length > 1) {
