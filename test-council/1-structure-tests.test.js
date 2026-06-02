@@ -73,7 +73,7 @@ const {
   budgetAlertMiddleware,
   
   // Ensemble
-  EnsembleOrchestrator,
+  HALOOrchestrator,
   
   // Factory
   createA3MRouter,
