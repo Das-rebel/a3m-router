@@ -29,7 +29,7 @@ interface RequestLog {
     timestamp: number;
 }
 declare const requestLogs: RequestLog[];
-declare const costTracker: any;
+declare const costTracker: CostTracker;
 /**
  * Create and start the proxy server.
  *

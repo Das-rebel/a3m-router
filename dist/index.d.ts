@@ -18,6 +18,7 @@ export type { Span, Metric, RouteTrace, ObservabilityEvent } from './observabili
 export { EnsembleOrchestrator, EnsembleStrategy, EnsembleResponse } from './ensemble';
 import { routeQuery, routeBatch, recommendForTask } from './routing/advancedRouter';
 import { getAvailableProviders, healthCheck } from './providers/providerConfig';
+import { CostTracker } from './cost/costTracker';
 import { MemoryTree } from './memory/memoryTree';
 import { EnsembleOrchestrator } from './ensemble';
 export interface A3MRouterOptions {
@@ -32,7 +33,7 @@ export declare function createA3MRouter(options?: A3MRouterOptions): {
     recommendForTask: typeof recommendForTask;
     getAvailableProviders: typeof getAvailableProviders;
     healthCheck: typeof healthCheck;
-    costTracker: any;
+    costTracker: CostTracker;
     memoryTree: MemoryTree;
     ensemble: EnsembleOrchestrator;
     options: A3MRouterOptions;

@@ -1,5 +1,5 @@
 /**
- * A3M Router - Budget Enforcer
+ * A3M Router - Budget Enforcer + Cost Tracker
  *
  * Hard budget enforcement for API key spend management:
  * - Track spend per API key with monthly reset
@@ -7,12 +7,15 @@
  * - Emit alerts at configurable thresholds (50%, 80%, 100%)
  * - Support hard cap (reject requests) or soft cap (warn only)
  * - In-memory storage (Redis backup can be added later)
+ *
+ * Plus legacy CostTracker for backward compatibility.
  */
 import { EventEmitter } from 'events';
-export interface BudgetCheckResult {
-    allowed: boolean;
-    remaining: number;
-    reason?: string;
+export interface BudgetConfig {
+    apiKey: string;
+    monthlyLimit: number;
+    alertThresholds?: number[];
+    hardCap?: boolean;
 }
 export interface SpendRecord {
     apiKey: string;
@@ -22,11 +25,10 @@ export interface SpendRecord {
     resetDate: Date;
     alertEmitted: number[] | Set<number>;
 }
-export interface BudgetConfig {
-    apiKey: string;
-    monthlyLimit: number;
-    alertThresholds?: number[];
-    hardCap?: boolean;
+export interface BudgetCheckResult {
+    allowed: boolean;
+    reason?: string;
+    remaining: number;
 }
 export declare class BudgetEnforcer extends EventEmitter {
     budgets: Map<string, BudgetConfig>;
@@ -101,3 +103,58 @@ export declare class BudgetExceededError extends Error {
     remaining: number;
     constructor(apiKey: string, spent: number, budget: number);
 }
+interface CostSnapshot {
+    provider: string;
+    model: string;
+    input_tokens: number;
+    output_tokens: number;
+    input_cost: number;
+    output_cost: number;
+    total_cost: number;
+    timestamp: number;
+}
+interface CostSummary {
+    total_cost: number;
+    by_provider: Record<string, number>;
+    by_model: Record<string, number>;
+    daily_costs: Record<string, number>;
+    monthly_costs: Record<string, number>;
+    request_count: number;
+    token_count: {
+        input: number;
+        output: number;
+    };
+    average_cost_per_request: number;
+}
+export declare class CostTracker {
+    private history;
+    private budgets;
+    private alerts;
+    private alerts_callback;
+    private daily_reset;
+    private monthly_reset;
+    constructor(budgets?: {
+        daily_limit?: number;
+        monthly_limit?: number;
+        per_model_limits?: Record<string, number>;
+    });
+    calculateCost(model: string, input_tokens: number, output_tokens: number): {
+        input: number;
+        output: number;
+        total: number;
+    };
+    record(provider: string, model: string, input_tokens: number, output_tokens: number): CostSnapshot;
+    private checkBudgets;
+    private emitAlert;
+    onAlert(callback: (alert: any) => void): void;
+    getSummary(): CostSummary;
+    getRemainingBudget(): {
+        daily: number | null;
+        monthly: number | null;
+        per_model: Record<string, number>;
+    };
+    reset(): void;
+    export(): CostSnapshot[];
+    getStatus(): CostSummary;
+}
+export {};
