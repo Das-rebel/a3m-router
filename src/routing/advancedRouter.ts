@@ -13,6 +13,8 @@
 
 import { getAvailableProviders } from "../providers/providerConfig";
 import { estimateCost } from "../utils/tokenUtils";
+import { logScaleCostScore } from "../utils/costUtils";
+import { quickselectTopK, selectTop } from "../utils/sorting";
 
 // ============================================================
 // CACHE FOR MODEL PROFILES (avoids O(n*m) rebuild on every routeQuery)
@@ -347,11 +349,15 @@ function scoreModelFit(model: ModelProfile, features: QueryFeatures): number {
 }
 
 function costEfficiency(model: ModelProfile, features: QueryFeatures): number {
+  // Use log-scale cost score for better mid-range differentiation
+  // Lower cost → higher score (thanks to logScaleCostScore inverse mapping)
   const avg_cost = (model.cost_per_1k_input + model.cost_per_1k_output) / 2;
-  if (features.complexity < 0.5) {
-    return (1 - Math.min(avg_cost / 10, 1)) * 0.6;
-  }
-  return (1 - Math.min(avg_cost / 10, 1)) * 0.2;
+  const cost_score = logScaleCostScore(avg_cost);
+  
+  // Simple queries weigh cost more heavily (0.6)
+  // Complex queries weigh cost less (0.2) since quality matters more
+  const weight = features.complexity < 0.5 ? 0.6 : 0.2;
+  return cost_score * weight;
 }
 
 // ============================================================
@@ -405,14 +411,12 @@ export function routeQuery(prompt: string, available_models?: string[], budget_m
   
   // Sort by total score (quality vs cost tradeoff based on complexity)
   const complexity_bias = features.complexity > 0.6 ? 0.7 : 0.3;
-  candidates.sort((a, b) => {
-    const score_a = a.quality_score * complexity_bias + a.cost_score * (1 - complexity_bias);
-    const score_b = b.quality_score * complexity_bias + b.cost_score * (1 - complexity_bias);
-    return score_b - score_a;
-  });
+  const scoreFn = (c: typeof candidates[0]) => c.quality_score * complexity_bias + c.cost_score * (1 - complexity_bias);
   
-  const primary = candidates[0];
-  const secondary = candidates.slice(1, 3);
+  const topCandidates = quickselectTopK(candidates, 4, scoreFn);
+  
+  const primary = topCandidates[0];
+  const secondary = topCandidates.slice(1, 3);
   
   // Calculate confidence based on score gap
   let confidence = 0.5;

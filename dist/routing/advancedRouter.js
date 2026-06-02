@@ -13,6 +13,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MODEL_PROFILES = void 0;
+exports.extractQueryFeatures = extractQueryFeatures;
 exports.routeQuery = routeQuery;
 exports.routeBatch = routeBatch;
 exports.recommendForTask = recommendForTask;

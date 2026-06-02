@@ -36,6 +36,7 @@ export interface QueryFeatures {
     intent: string;
     detected_language: string | null;
 }
+export declare function extractQueryFeatures(prompt: string): QueryFeatures;
 export interface RouteDecision {
     primary_model: string | null;
     fallback_models: string[];
