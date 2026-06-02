@@ -137,7 +137,7 @@ export interface QueryFeatures {
   detected_language: string | null;
 }
 
-function extractQueryFeatures(prompt: string): QueryFeatures {
+export function extractQueryFeatures(prompt: string): QueryFeatures {
   const lower = prompt.toLowerCase();
   const words = prompt.split(/\s+/);
   const wordCount = words.length;

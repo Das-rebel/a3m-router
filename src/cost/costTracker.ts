@@ -171,10 +171,10 @@ export class BudgetEnforcer extends EventEmitter {
     const utilization = record.spent / record.budget;
     for (const threshold of config.alertThresholds ?? BudgetEnforcer.DEFAULT_THRESHOLDS) {
       const thresholdKey = Math.round(threshold * 1000);
-      if (!record.alertEmitted.has(thresholdKey)) {
+      if (!(record.alertEmitted as Set<number>).has(thresholdKey)) {
         const previousUtilization = previousSpent / record.budget;
         if (utilization >= threshold && previousUtilization < threshold) {
-          record.alertEmitted.add(thresholdKey);
+          (record.alertEmitted as Set<number>).add(thresholdKey);
           this.emit('budget:warning', {
             apiKey,
             threshold,
