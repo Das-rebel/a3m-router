@@ -16,6 +16,7 @@ export { createProxyServer } from './server/proxyServer';
 export { Tracer, getTracer, createTracer, MetricsCollector, getMetrics, createMetricsCollector, observabilityMiddleware, observabilityPlugin, budgetAlertMiddleware, } from './observability';
 export type { Span, Metric, RouteTrace, ObservabilityEvent } from './observability';
 export { EnsembleOrchestrator, EnsembleStrategy, EnsembleResponse } from './ensemble';
+import { routeQuery, routeBatch, recommendForTask } from './routing/advancedRouter';
 import { getAvailableProviders, healthCheck } from './providers/providerConfig';
 import { MemoryTree } from './memory/memoryTree';
 import { EnsembleOrchestrator } from './ensemble';
@@ -26,9 +27,9 @@ export interface A3MRouterOptions {
     costLimit?: number;
 }
 export declare function createA3MRouter(options?: A3MRouterOptions): {
-    route: any;
-    routeBatch: any;
-    recommendForTask: any;
+    route: typeof routeQuery;
+    routeBatch: typeof routeBatch;
+    recommendForTask: typeof recommendForTask;
     getAvailableProviders: typeof getAvailableProviders;
     healthCheck: typeof healthCheck;
     costTracker: any;

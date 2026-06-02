@@ -384,7 +384,7 @@ function routeBatch(prompts, options = {}) {
             d.fallback_models = decisions[0].fallback_models;
         });
     }
-    if (options.max_cost_per_prompt) {
+    if (options.max_cost_per_prompt !== undefined) {
         const profiles = getModelProfiles();
         decisions.forEach(d => {
             if (d.estimated_cost > options.max_cost_per_prompt) {
@@ -434,7 +434,7 @@ async function getProviderHealth() {
 // ============================================================
 // Default export
 // ============================================================
-exports.default = {
+module.exports = {
     extractQueryFeatures,
     routeQuery,
     routeBatch,
@@ -444,4 +444,4 @@ exports.default = {
     MODEL_PROFILES: exports.MODEL_PROFILES,
     invalidateProfileCache,
 };
-//# sourceMappingURL=advancedRouter.js.map
+module.exports.default = module.exports;

@@ -23,7 +23,6 @@ interface ModelProfile {
     type: string;
     priority: number;
 }
-declare function invalidateProfileCache(): void;
 export declare let MODEL_PROFILES: Record<string, ModelProfile>;
 export interface QueryFeatures {
     length: number;
@@ -37,7 +36,6 @@ export interface QueryFeatures {
     intent: string;
     detected_language: string | null;
 }
-declare function extractQueryFeatures(prompt: string): QueryFeatures;
 export interface RouteDecision {
     primary_model: string | null;
     fallback_models: string[];
@@ -54,21 +52,11 @@ export declare function routeBatch(prompts: string[], options?: {
     max_cost_per_prompt?: number;
 }): RouteDecision[];
 export declare function recommendForTask(task: string): {
-    primary: string;
+    primary: string | null;
     fallbacks: string[];
     reason: string;
     features: QueryFeatures;
 };
 export declare function updateModelProfile(model_name: string, actual_latency_ms: number, actual_cost: number, quality_rating: number): void;
 export declare function getProviderHealth(): Promise<any>;
-declare const _default: {
-    extractQueryFeatures: typeof extractQueryFeatures;
-    routeQuery: typeof routeQuery;
-    routeBatch: typeof routeBatch;
-    recommendForTask: typeof recommendForTask;
-    updateModelProfile: typeof updateModelProfile;
-    getProviderHealth: typeof getProviderHealth;
-    MODEL_PROFILES: Record<string, ModelProfile>;
-    invalidateProfileCache: typeof invalidateProfileCache;
-};
-export default _default;
+export {};
