@@ -1,0 +1,5 @@
+{"id":"q001","prompt":"What is 2+2?","expected":{"tier":"free","complexity":{"min":0.0,"max":0.2}}}
+{"id":"q002","prompt":"Write a Python function to reverse a linked list","expected":{"tier":"cheap","complexity":{"min":0.2,"max":0.4}}}
+{"id":"q003","prompt":"Translate 'hello' to Spanish","expected":{"tier":"cheap","complexity":{"min":0.15,"max":0.35}}}
+{"id":"q004","prompt":"Explain quantum entanglement in simple terms","expected":{"tier":"mid","complexity":{"min":0.4,"max":0.6}}}
+{"id":"q005","prompt":"Design a clinical trial for oncology","expected":{"tier":"premium","complexity":{"min":0.7,"max":1.0}}}

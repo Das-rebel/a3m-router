@@ -1,0 +1,21 @@
+
+A3M Routing Eval Summary
+------------------------
+{
+  "dataset_size": 16,
+  "checks_count": 34,
+  "complexity_accuracy": 0.4375,
+  "flag_accuracy": 0.5,
+  "domain_accuracy": 0,
+  "provider_type_accuracy": 0,
+  "overall_score": 0.2344
+}
+Results file: /Users/Subho/adaptive-memory-multi-model-router/eval/results/latest.json
+
+Eval gate FAILED:
+- complexity_accuracy 0.4375 < 0.85
+- flag_accuracy 0.5 < 0.8
+- domain_accuracy 0 < 0.8
+- provider_type_accuracy 0 < 0.75
+- overall_score 0.2344 < 0.85
+- overall_score regression 0.7656 > max_regression_delta 0.03

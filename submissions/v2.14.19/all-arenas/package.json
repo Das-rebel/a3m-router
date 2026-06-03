@@ -1,0 +1,13 @@
+{
+  "name": "a3m-router-benchmark",
+  "version": "2.14.19",
+  "description": "A3M Router benchmark package for RouterArena/LLMRouterBench",
+  "main": "index.js",
+  "scripts": {
+    "test": "node eval/run_eval.js",
+    "benchmark": "node scripts/routing-benchmark-v2.js"
+  },
+  "dependencies": {
+    "adaptive-memory-multi-model-router": "^2.14.19"
+  }
+}
