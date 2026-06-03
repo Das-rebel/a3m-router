@@ -17,5 +17,12 @@
     "ignoreDeprecations": "6.0"
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "src/skills/__tests__"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/skills/__tests__",
+    "src/cli/setupWizard.ts",
+    "src/integrations/langchainAdapter.ts",
+    "src/tui/index.ts"
+  ]
 }
