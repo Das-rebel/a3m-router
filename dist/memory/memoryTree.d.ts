@@ -74,3 +74,4 @@ export declare class MemoryTree {
     private getMaxDepth;
 }
 export default MemoryTree;
+//# sourceMappingURL=memoryTree.d.ts.map

@@ -19,3 +19,4 @@ export declare class EnsembleOrchestrator {
      */
     executeEnsemble(query: string, providers: string[], strategy?: EnsembleStrategy, weights?: Record<string, number>): Promise<EnsembleResponse>;
 }
+//# sourceMappingURL=ensemble.d.ts.map

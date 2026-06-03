@@ -152,3 +152,4 @@ export declare class ProviderHealthManager extends EventEmitter {
 }
 export { ProviderHealthManager };
 export default ProviderHealthManager;
+//# sourceMappingURL=providerHealth.d.ts.map

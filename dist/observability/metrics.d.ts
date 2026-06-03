@@ -33,3 +33,4 @@ declare class MetricsCollector {
 export declare function getMetrics(): MetricsCollector;
 export declare function createMetricsCollector(): MetricsCollector;
 export {};
+//# sourceMappingURL=metrics.d.ts.map

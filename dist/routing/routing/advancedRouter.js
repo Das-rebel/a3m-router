@@ -13,6 +13,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.MODEL_PROFILES = void 0;
+exports.extractQueryFeatures = extractQueryFeatures;
 exports.routeQuery = routeQuery;
 exports.routeBatch = routeBatch;
 exports.recommendForTask = recommendForTask;
@@ -20,6 +21,8 @@ exports.updateModelProfile = updateModelProfile;
 exports.getProviderHealth = getProviderHealth;
 const providerConfig_1 = require("../providers/providerConfig");
 const tokenUtils_1 = require("../utils/tokenUtils");
+const costUtils_1 = require("../utils/costUtils");
+const sorting_1 = require("../utils/sorting");
 let cachedProfiles = null;
 let cacheTimestamp = 0;
 const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
@@ -98,7 +101,7 @@ try {
     exports.MODEL_PROFILES = buildModelProfiles();
 }
 catch (e) {
-    // Circular dependency at module load — will retry on first use
+    // Circular dependency at module load - will retry on first use
     exports.MODEL_PROFILES = {};
 }
 function extractQueryFeatures(prompt) {
@@ -180,12 +183,19 @@ function extractQueryFeatures(prompt) {
     ];
     const hasCode = codeSignals.some(sig => lower.includes(sig));
     // === SIGNAL 3: Reasoning Detection ===
+    // === SIGNAL 3: Reasoning Detection ===
     const reasoningSignals = [
         'why', 'how', 'explain', 'analyze', 'compare', 'contrast', 'evaluate',
         'think about', 'reason', 'logic', 'proof', 'derive', '证明', '分析',
         'reasoning', 'step by step', 'thinking', 'thought process'
     ];
-    const requiresReasoning = reasoningSignals.some(sig => lower.includes(sig));
+    // Check if it's a simple factual "How" query (should NOT trigger reasoning boost)
+    const simpleHowPatterns = [
+        /^(what|how|who|which|when|where)\s+(is|are|was|were|do|does|did|can|has|have|named|called)/i,
+        /^how\s+(many|much|long|tall|old|far)/i,
+    ];
+    const isSimpleHowQuery = simpleHowPatterns.some(p => p.test(prompt.trim()));
+    const requiresReasoning = !isSimpleHowQuery && reasoningSignals.some(sig => lower.includes(sig));
     // === SIGNAL 4: Language Detection ===
     const languagePatterns = [
         [/[\u4e00-\u9fff]/, 'zh'],
@@ -226,15 +236,78 @@ function extractQueryFeatures(prompt) {
     // === COMPLEXITY SCORING ===
     // Base complexity from length
     let complexity = Math.min(wordCount / 100, 1.0);
-    // Domain加成
+    // === RESEARCH-BACKED COMPLEXITY SIGNALS (from accuracy gap analysis) ===
+    // SIGNAL: Jargon Density (+15%) - professional terminology ratio
+    const professionalTerms = [
+        'liability', 'contract', 'clause', 'statute', 'jurisdiction', 'litigation', 'plaintiff', 'defendant', 'testimony', 'deposition', 'injunction', 'precedent',
+        'oncology', 'diagnosis', 'prognosis', 'pathology', 'pharmacology', 'etiology', 'symptomology', 'clinical',
+        'portfolio', 'equity', 'derivative', 'arbitrage', 'liquidity', 'amortization', 'collateral', 'fiduciary',
+        'architecture', 'protocol', 'schema', 'interface', 'abstraction', 'implementation', 'optimization', 'scalability',
+        'hypothesis', 'methodology', 'correlation', 'regression', 'variance', 'covariance', 'multivariate',
+        'quantitative', 'qualitative', 'peer-reviewed', 'meta-analysis', 'systematic review', 'empirical',
+    ];
+    const jargonCount = professionalTerms.filter(t => lower.includes(t)).length;
+    const jargonScore = (jargonCount / Math.max(wordCount, 1)) * 0.35;
+    complexity += jargonScore;
+    // SIGNAL: Task Formality (+10%) - formal professional task markers
+    const formalTasks = ['protocol', 'audit', 'brief', 'filing', 'submission', 'application', 'complaint', 'petition', 'motion', 'agreement', 'negotiation', 'mediation', 'arbitration', 'compliance', 'regulatory', 'certification', 'accreditation', 'assessment', 'evaluation', 'appraisal', 'due diligence', 'impact assessment', 'risk assessment', 'investigation', 'inquiry', 'examination'];
+    const formalityMatches = formalTasks.filter(t => lower.includes(t)).length;
+    if (formalityMatches > 0)
+        complexity += 0.10 + (formalityMatches * 0.03);
+    // SIGNAL: Depth Markers (+8%) - comprehensive response requested
+    const depthTerms = ['comprehensive', 'detailed', 'thorough', 'in-depth', 'exhaustive', 'systematic', 'methodical', 'rigorous', 'extensive', 'elaborate', 'nuanced', 'multi-faceted', 'holistic', 'deep dive', 'full analysis', 'expert level', 'professional grade', 'end-to-end', 'literature review', 'research report', 'whitepaper', 'technical specification'];
+    const depthMatches = depthTerms.filter(t => lower.includes(t)).length;
+    if (depthMatches > 0)
+        complexity += 0.08 + (depthMatches * 0.03);
+    // SIGNAL: Stakes Language (+5%) - high-stakes domain language
+    const highStakes = ['safety-critical', 'liability', 'regulatory', 'compliance', 'legal', 'patent', 'copyright', 'litigation', 'lawsuit', 'penalty', 'fraud', 'malpractice', 'negligence', 'confidential', 'proprietary', 'trade secret', 'intellectual property', 'patient safety', 'clinical trial', 'financial risk', 'market risk', 'operational risk'];
+    const stakesMatches = highStakes.filter(s => lower.includes(s)).length;
+    if (stakesMatches > 0)
+        complexity += 0.08 + (stakesMatches * 0.02);
+    // SIGNAL: Multi-Step Structure (+5%) - sequential reasoning patterns
+    const multiStepPatterns = [/first\s+.+\s+then\s+.+\s+finally/i, /step\s+\d+\s*[,.:]\s*step\s+\d+/i, /phase\s*\d+\s*[-–]\s*phase\s*\d+/i, /stage\s*\d+\s*[-–]\s*stage\s*\d+/i, /before\s+.+\s+after\s+.+/i];
+    const multiStepMatches = multiStepPatterns.filter(p => p.test(prompt)).length;
+    if (multiStepMatches > 0)
+        complexity += 0.07 + (multiStepMatches * 0.02);
+    // === MID-TIER SPECIFIC SIGNALS ===
+    const midTierJargon = [
+        'auth system', 'multi-tenant', 'ci/cd', 'pipeline', 'fraud detection', 'privacy-preserving',
+        'netflix-scale', 'sensor fusion', 'autonomous', 'distributed', 'consensus',
+        'load balancing', 'rate limiting', 'caching', 'sharding', 'replication',
+        'authentication', 'authorization', 'encryption', 'compression', 'serialization',
+    ];
+    const midJargonMatches = midTierJargon.filter(t => lower.includes(t)).length;
+    if (midJargonMatches > 0)
+        complexity += 0.10 + (midJargonMatches * 0.02);
+    // Analysis/Design task boost
+    const analysisDesignPatterns = [
+        /analyze\s+.*\s+(impact|implications|consequences|effects)/i,
+        /compare\s+.*\s+and\s+.*\s+(vs|with|against)/i,
+        /design\s+(a|an)\s+(system|architecture|protocol|schema)/i,
+        /schema\s+for/i,
+        /pipeline\s+for/i,
+    ];
+    const analysisMatches = analysisDesignPatterns.filter(p => p.test(prompt)).length;
+    if (analysisMatches > 0)
+        complexity += 0.12 + (analysisMatches * 0.03);
+    // Complex system analysis patterns
+    const complexSystemPatterns = [
+        /explain\s+(the\s+)?(difference|relationship|correlation)/i,
+        /how\s+does\s+.*\s+affect\s+.*\s+in\s+.*/i,
+    ];
+    const complexMatches = complexSystemPatterns.filter(p => p.test(prompt)).length;
+    if (complexMatches > 0)
+        complexity += 0.08;
+    // === ORIGINAL SIGNALS (enhanced) ===
+    // Domain加成 (increased from 0.2 to 0.35)
     if (detectedDomain)
-        complexity += 0.2;
+        complexity += 0.35;
     // Code加成
     if (hasCode)
         complexity += 0.15;
-    // Reasoning加成
+    // Reasoning加成 (increased from 0.15 to 0.20)
     if (requiresReasoning)
-        complexity += 0.15;
+        complexity += 0.20;
     // Multilingual加成
     if (isMultilingual)
         complexity += 0.1;
@@ -294,11 +367,14 @@ function scoreModelFit(model, features) {
     return Math.min(score, 1.0);
 }
 function costEfficiency(model, features) {
+    // Use log-scale cost score for better mid-range differentiation
+    // Lower cost → higher score (thanks to logScaleCostScore inverse mapping)
     const avg_cost = (model.cost_per_1k_input + model.cost_per_1k_output) / 2;
-    if (features.complexity < 0.5) {
-        return (1 - Math.min(avg_cost / 10, 1)) * 0.6;
-    }
-    return (1 - Math.min(avg_cost / 10, 1)) * 0.2;
+    const cost_score = (0, costUtils_1.logScaleCostScore)(avg_cost);
+    // Simple queries weigh cost more heavily (0.6)
+    // Complex queries weigh cost less (0.2) since quality matters more
+    const weight = features.complexity < 0.5 ? 0.6 : 0.2;
+    return cost_score * weight;
 }
 function routeQuery(prompt, available_models, budget_multiplier = 1.0) {
     // Use cached profiles instead of rebuilding every time (5-10ms savings)
@@ -332,13 +408,10 @@ function routeQuery(prompt, available_models, budget_multiplier = 1.0) {
     }
     // Sort by total score (quality vs cost tradeoff based on complexity)
     const complexity_bias = features.complexity > 0.6 ? 0.7 : 0.3;
-    candidates.sort((a, b) => {
-        const score_a = a.quality_score * complexity_bias + a.cost_score * (1 - complexity_bias);
-        const score_b = b.quality_score * complexity_bias + b.cost_score * (1 - complexity_bias);
-        return score_b - score_a;
-    });
-    const primary = candidates[0];
-    const secondary = candidates.slice(1, 3);
+    const scoreFn = (c) => c.quality_score * complexity_bias + c.cost_score * (1 - complexity_bias);
+    const topCandidates = (0, sorting_1.quickselectTopK)(candidates, 4, scoreFn);
+    const primary = topCandidates[0];
+    const secondary = topCandidates.slice(1, 3);
     // Calculate confidence based on score gap
     let confidence = 0.5;
     if (candidates.length > 1) {

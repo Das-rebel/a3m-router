@@ -132,5 +132,10 @@ declare const PROVIDER_INFO: {
 };
 declare function createInterface(): any;
 declare function question(rl: any, text: any): Promise<unknown>;
-declare function detectApiKeys(): Promise<any[]>;
+declare function detectApiKeys(): Promise<{
+    envVar: string;
+    providerId: string;
+    info: any;
+}[]>;
 declare function runWizard(): Promise<void>;
+//# sourceMappingURL=setupWizard.d.ts.map
