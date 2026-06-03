@@ -6,7 +6,7 @@
 
 A3M doesn't just route—it orchestrates. By calling multiple providers in parallel, it ensures the highest quality answer is delivered with the lowest possible cost and latency.
 
-**🥇 RouterArena Cheapest Router ($0.05/1K) — 15K+ downloads in 2 weeks** — 3.6× cheaper than RouteLLM with highest robustness score (0.8524). No training required, runs in <1ms.
+**🥇 RouterArena Cheapest Router ($0.05/1K) — 16K+ downloads · 67% exact tier · 96% ±1 tier · highest robustness (0.8524)** — 3.6× cheaper than RouteLLM with parallel ensemble voting. No training required, <1ms routing.
 
 **Try it in 1 second (no install needed):**
 
