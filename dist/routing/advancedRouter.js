@@ -318,6 +318,7 @@ function extractQueryFeatures(prompt) {
         wordCount,
         complexity,
         has_code: hasCode,
+        has_math: intent === 'math', // Math detection
         requires_reasoning: requiresReasoning,
         is_multilingual: isMultilingual,
         is_translation: isTranslation,

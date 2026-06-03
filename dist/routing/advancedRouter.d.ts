@@ -29,6 +29,7 @@ export interface QueryFeatures {
     wordCount: number;
     complexity: number;
     has_code: boolean;
+    has_math: boolean;
     requires_reasoning: boolean;
     is_multilingual: boolean;
     is_translation: boolean;

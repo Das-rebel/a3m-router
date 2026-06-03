@@ -131,6 +131,7 @@ export interface QueryFeatures {
   wordCount: number;
   complexity: number;
   has_code: boolean;
+  has_math: boolean;  // Math detection (Calculate, integral, etc.)
   requires_reasoning: boolean;
   is_multilingual: boolean;
   is_translation: boolean;
@@ -364,6 +365,7 @@ export function extractQueryFeatures(prompt: string): QueryFeatures {
     wordCount,
     complexity,
     has_code: hasCode,
+    has_math: intent === 'math',  // Math detection
     requires_reasoning: requiresReasoning,
     is_multilingual: isMultilingual,
     is_translation: isTranslation,
