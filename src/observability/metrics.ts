@@ -20,7 +20,7 @@ function metricKey(name: string, labels?: Record<string, string>): string {
   return `${name}{${formatLabels(labels)}}`;
 }
 
-class MetricsCollector {
+export class MetricsCollector {
   private counters: Map<string, number> = new Map();
   private gauges: Map<string, number> = new Map();
   private histograms: Map<string, Map<string, HistogramBucket>> = new Map();

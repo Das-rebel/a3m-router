@@ -479,5 +479,4 @@ export class ProviderHealthManager extends EventEmitter {
 // Exports
 // ============================================================
 
-export { ProviderHealthManager };
 export default ProviderHealthManager;

@@ -1,4 +1,21 @@
-import { A3MRouter, RouterDecision } from './index';
+import { createA3MRouter } from './index';
+
+// RouterDecision type
+interface RouteDecision {
+  primary_model: string;
+  tier: 'free' | 'cheap' | 'mid' | 'premium';
+  estimated_cost: number;
+  complexity: number;
+  reasoning: string;
+}
+
+// Type alias for external consumers
+export type RouterDecision = RouteDecision;
+
+// Re-export A3MRouter as the factory for backward compatibility
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const A3MRouter = createA3MRouter as any;
+export { createA3MRouter };
 
 export type EnsembleStrategy = 'majority' | 'weighted' | 'conservative';
 
@@ -11,8 +28,13 @@ export interface EnsembleResponse {
   reasoning: string;
 }
 
+interface AnswerCount {
+  answer: string;
+  count: number;
+}
+
 export class EnsembleOrchestrator {
-  constructor(private router: A3MRouter) {}
+  constructor(private router: InstanceType<typeof A3MRouter>) {}
 
   /**
    * Executes a query across multiple providers in parallel and resolves the best answer.
@@ -37,7 +59,7 @@ export class EnsembleOrchestrator {
 
     const successful = results.filter(r => r.success);
     const answers = successful.map(r => r.answer.trim());
-    
+
     if (answers.length === 0) {
       throw new Error('All ensemble providers failed.');
     }
@@ -48,32 +70,32 @@ export class EnsembleOrchestrator {
     let confidence = 0;
 
     if (strategy === 'majority') {
-      const counts = {};
-      successful.forEach(r => counts[r.answer] = (counts[r.answer] || 0) + 1);
-      const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+      const counts: Record<string, number> = {};
+      successful.forEach(r => { counts[r.answer] = (counts[r.answer] || 0) + 1; });
+      const sorted: [string, number][] = Object.entries(counts).sort((a, b) => b[1] - a[1]);
       winnerAnswer = sorted[0][0];
-      confidence = sorted[0][1] / successful.length;
+      confidence = sorted[0][1] / (successful.length || 1);
       winnerProvider = successful.find(r => r.answer === winnerAnswer)?.provider || 'unknown';
-    } 
+    }
     else if (strategy === 'weighted') {
-      const weightedCounts = {};
+      const weightedCounts: Record<string, number> = {};
       successful.forEach(r => {
         const weight = weights[r.provider] || 1.0;
         weightedCounts[r.answer] = (weightedCounts[r.answer] || 0) + weight;
       });
-      const sorted = Object.entries(weightedCounts).sort((a, b) => b[1] - a[1]);
+      const sorted: [string, number][] = Object.entries(weightedCounts).sort((a, b) => b[1] - a[1]);
       winnerAnswer = sorted[0][0];
-      confidence = sorted[0][1] / (successful.length || 1); // Simplified
+      confidence = sorted[0][1] / (successful.length || 1);
       winnerProvider = successful.find(r => r.answer === winnerAnswer)?.provider || 'unknown';
     }
     else if (strategy === 'conservative') {
-      const counts = {};
-      successful.forEach(r => counts[r.answer] = (counts[r.answer] || 0) + 1);
-      const best = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
-      
+      const counts: Record<string, number> = {};
+      successful.forEach(r => { counts[r.answer] = (counts[r.answer] || 0) + 1; });
+      const best: [string, number] | undefined = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
+
       if (best && best[1] >= 2) {
         winnerAnswer = best[0];
-        confidence = best[1] / successful.length;
+        confidence = best[1] / (successful.length || 1);
         winnerProvider = successful.find(r => r.answer === winnerAnswer)?.provider || 'unknown';
       } else {
         winnerAnswer = 'UNCERTAIN';
@@ -83,11 +105,11 @@ export class EnsembleOrchestrator {
     }
 
     // 3. Final Assembly
-    const allResults = {};
+    const allResults: Record<string, { answer: string; score: number }> = {};
     successful.forEach(r => {
-      allResults[r.provider] = { 
-        answer: r.answer, 
-        score: r.answer === winnerAnswer ? 1.0 : 0.0 
+      allResults[r.provider] = {
+        answer: r.answer,
+        score: r.answer === winnerAnswer ? 1.0 : 0.0
       };
     });
 

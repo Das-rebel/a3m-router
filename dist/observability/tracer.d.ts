@@ -5,7 +5,7 @@ interface LangfuseConfig {
     secretKey?: string;
     baseUrl?: string;
 }
-declare class Tracer extends EventEmitter {
+export declare class Tracer extends EventEmitter {
     private traces;
     private routeTraces;
     private langfuseClient?;
@@ -55,4 +55,3 @@ declare class Tracer extends EventEmitter {
 export declare function getTracer(): Tracer;
 export declare function createTracer(): Tracer;
 export {};
-//# sourceMappingURL=tracer.d.ts.map

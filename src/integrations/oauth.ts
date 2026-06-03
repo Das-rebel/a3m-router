@@ -150,10 +150,10 @@ export class OAuthManager {
     
     // Store tokens with expiration
     const tokensWithExpiry: OAuthTokens = {
-      accessToken: tokens.access_token,
-      refreshToken: tokens.refresh_token,
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
       expiresAt: tokens.expires_in ? Date.now() + tokens.expires_in * 1000 : 0,
-      tokenType: tokens.token_type || 'Bearer'
+      tokenType: tokens.tokenType || 'Bearer'
     };
     
     this.tokens.set(provider, tokensWithExpiry);

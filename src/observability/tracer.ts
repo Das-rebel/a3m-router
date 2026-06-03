@@ -18,7 +18,7 @@ function generateId(): string {
          Math.random().toString(36).substring(2, 15);
 }
 
-class Tracer extends EventEmitter {
+export class Tracer extends EventEmitter {
   private traces: Map<string, Span> = new Map();
   private routeTraces: RouteTrace[] = [];
   private langfuseClient?: LangfuseClient;

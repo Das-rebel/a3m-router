@@ -540,7 +540,7 @@ export class ProviderRetryHandler {
   // ============================================================
 
   private createTimeoutError(timeoutMs: number): any {
-    const error = new Error(`Request timed out after ${timeoutMs}ms`);
+    const error = new Error(`Request timed out after ${timeoutMs}ms`) as any;
     error.code = 'ETIMEDOUT';
     error.status = 408;
     error.statusCode = 408;

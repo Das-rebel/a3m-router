@@ -1,5 +1,5 @@
 import { Metric } from './types';
-declare class MetricsCollector {
+export declare class MetricsCollector {
     private counters;
     private gauges;
     private histograms;
@@ -32,5 +32,3 @@ declare class MetricsCollector {
 }
 export declare function getMetrics(): MetricsCollector;
 export declare function createMetricsCollector(): MetricsCollector;
-export {};
-//# sourceMappingURL=metrics.d.ts.map

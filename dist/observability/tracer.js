@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Tracer = void 0;
 exports.getTracer = getTracer;
 exports.createTracer = createTracer;
 const events_1 = require("events");
@@ -177,6 +178,7 @@ class Tracer extends events_1.EventEmitter {
         this.routeTraces = [];
     }
 }
+exports.Tracer = Tracer;
 // Singleton instance
 let tracerInstance = null;
 function getTracer() {

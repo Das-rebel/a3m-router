@@ -1,6 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EnsembleOrchestrator = void 0;
+exports.EnsembleOrchestrator = exports.createA3MRouter = exports.A3MRouter = void 0;
+const index_1 = require("./index");
+Object.defineProperty(exports, "createA3MRouter", { enumerable: true, get: function () { return index_1.createA3MRouter; } });
+// Re-export A3MRouter as the factory for backward compatibility
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+exports.A3MRouter = index_1.createA3MRouter;
 class EnsembleOrchestrator {
     router;
     constructor(router) {
@@ -31,10 +36,10 @@ class EnsembleOrchestrator {
         let confidence = 0;
         if (strategy === 'majority') {
             const counts = {};
-            successful.forEach(r => counts[r.answer] = (counts[r.answer] || 0) + 1);
+            successful.forEach(r => { counts[r.answer] = (counts[r.answer] || 0) + 1; });
             const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
             winnerAnswer = sorted[0][0];
-            confidence = sorted[0][1] / successful.length;
+            confidence = sorted[0][1] / (successful.length || 1);
             winnerProvider = successful.find(r => r.answer === winnerAnswer)?.provider || 'unknown';
         }
         else if (strategy === 'weighted') {
@@ -45,16 +50,16 @@ class EnsembleOrchestrator {
             });
             const sorted = Object.entries(weightedCounts).sort((a, b) => b[1] - a[1]);
             winnerAnswer = sorted[0][0];
-            confidence = sorted[0][1] / (successful.length || 1); // Simplified
+            confidence = sorted[0][1] / (successful.length || 1);
             winnerProvider = successful.find(r => r.answer === winnerAnswer)?.provider || 'unknown';
         }
         else if (strategy === 'conservative') {
             const counts = {};
-            successful.forEach(r => counts[r.answer] = (counts[r.answer] || 0) + 1);
+            successful.forEach(r => { counts[r.answer] = (counts[r.answer] || 0) + 1; });
             const best = Object.entries(counts).sort((a, b) => b[1] - a[1])[0];
             if (best && best[1] >= 2) {
                 winnerAnswer = best[0];
-                confidence = best[1] / successful.length;
+                confidence = best[1] / (successful.length || 1);
                 winnerProvider = successful.find(r => r.answer === winnerAnswer)?.provider || 'unknown';
             }
             else {

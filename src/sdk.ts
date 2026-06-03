@@ -164,7 +164,7 @@ export class A3MRouter {
    * @param query - The user prompt to analyze
    * @returns Detailed feature breakdown
    */
-  analyze(query: string): QueryFeatures {
+  analyze(query: string): { complexity: number; length: number; has_code: boolean; requires_reasoning: boolean; is_multilingual: boolean; is_translation: boolean; domain: string | null; intent: string; detected_language: string | null; wordCount: number } {
     return extractQueryFeatures(query);
   }
 

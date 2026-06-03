@@ -47,4 +47,3 @@ export declare function checkAllProviders(): Promise<Record<string, any>>;
 export declare function findCheapestAvailableProvider(model?: string): ProviderDefinition | null;
 export declare function findFastestAvailableProvider(): ProviderDefinition | null;
 export declare function saveConfig(configPath?: string): string;
-//# sourceMappingURL=providerConfig.d.ts.map

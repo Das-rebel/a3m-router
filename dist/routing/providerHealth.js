@@ -367,5 +367,8 @@ class ProviderHealthManager extends events_1.EventEmitter {
     }
 }
 exports.ProviderHealthManager = ProviderHealthManager;
+// ============================================================
+// Exports
+// ============================================================
 exports.default = ProviderHealthManager;
 //# sourceMappingURL=providerHealth.js.map

@@ -144,4 +144,3 @@ export declare function createA3MChatModel(provider: string, options?: Omit<A3MC
  * Create an A3MChatModel with automatic routing
  */
 export declare function createAutoRoutingChatModel(options?: Omit<A3MChatModelOptions, 'modelName'>): A3MChatModel;
-//# sourceMappingURL=langchainAdapter.d.ts.map

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.MetricsCollector = void 0;
 exports.getMetrics = getMetrics;
 exports.createMetricsCollector = createMetricsCollector;
 function formatLabels(labels) {
@@ -166,6 +167,7 @@ class MetricsCollector {
         this.createdAt = Date.now();
     }
 }
+exports.MetricsCollector = MetricsCollector;
 // Singleton instance
 let metricsInstance = null;
 function getMetrics() {
