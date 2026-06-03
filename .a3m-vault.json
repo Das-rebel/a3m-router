@@ -1,23 +1,32 @@
 [
   {
-    "id": "bmmpvbaxaf",
+    "id": "bmmpyjmyfa",
     "query": "What is TCP fast retransmit?",
-    "response": "3 duplicate ACKs",
+    "response": "3 duplicate ACKs trigger fast retransmit",
     "model": "nvidia/llama-3.1-8b",
-    "timestamp": 1780324605447,
+    "timestamp": 1780520002246,
     "tags": [
-      "networking",
-      "tcp"
+      "networking"
     ]
   },
   {
-    "id": "bmmpvbaxag",
-    "query": "What is MTU?",
-    "response": "Maximum Transmission Unit",
-    "model": "nvidia/llama-3.1-8b",
-    "timestamp": 1780324605448,
+    "id": "bmmpyjmyfb",
+    "query": "What is the strongest leather for bookbinding?",
+    "response": "Roan leather - made from sheepskin with a grained finish",
+    "model": "deepseek-chat",
+    "timestamp": 1780520002247,
     "tags": [
-      "networking"
+      "library"
+    ]
+  },
+  {
+    "id": "bmmpyjmyfc",
+    "query": "How many volumes per thousand is reasonable loss?",
+    "response": "5 volumes per thousand",
+    "model": "mistralai",
+    "timestamp": 1780520002248,
+    "tags": [
+      "library"
     ]
   }
 ]
