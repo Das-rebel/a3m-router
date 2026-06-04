@@ -33,6 +33,10 @@ export interface QueryFeatures {
     requires_reasoning: boolean;
     is_multilingual: boolean;
     is_translation: boolean;
+    is_security: boolean;
+    is_creative: boolean;
+    is_devops: boolean;
+    is_multimodal: boolean;
     domain: string | null;
     intent: string;
     detected_language: string | null;

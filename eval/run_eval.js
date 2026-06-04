@@ -54,7 +54,7 @@ function evaluateCase(item) {
   }
 
   if (expected.domain) {
-    const actual = decision.features?.detected_domain || '';
+    const actual = decision.features?.domain || '';
     checks.push({ type: 'domain', ok: actual === expected.domain, actual, expected: expected.domain });
   }
 

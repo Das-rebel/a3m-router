@@ -135,6 +135,10 @@ export interface QueryFeatures {
   requires_reasoning: boolean;
   is_multilingual: boolean;
   is_translation: boolean;
+  is_security: boolean;  // Security/penetration testing queries
+  is_creative: boolean;  // Creative writing, translation
+  is_devops: boolean;    // Infrastructure, databases, DevOps
+  is_multimodal: boolean; // Multi-modal queries
   domain: string | null;
   intent: string;
   detected_language: string | null;
@@ -193,6 +197,13 @@ export function extractQueryFeatures(prompt: string): QueryFeatures {
                   'tensorflow', 'pytorch', 'regression', 'classification', 'clustering'],
       weight: 0.30
     },
+    ml_research: {
+      keywords: ['bert', 'gpt', 'super_glue', 'glue benchmark', 'benchmarks', 'performance comparison',
+                  'natural language processing', 'nlp', 'language model', 'transformer model',
+                  'fine.tuning', 'pre.training', 'few.shot', 'zero.shot', 'prompt engineering',
+                  'model comparison', 'accuracy', 'f1 score', 'bleu', 'rouge', 'perplexity'],
+      weight: 0.40
+    },
   };
 
   let detectedDomain: string | null = null;
@@ -212,12 +223,12 @@ export function extractQueryFeatures(prompt: string): QueryFeatures {
 
   // === SIGNAL 2: Code Detection ===
   const codeSignals = [
-    'function ', 'def ', 'class ', 'import ', 'from ', 'const ', 'let ', 'var ',
+    'function ', 'def ', 'class ', 'import ', 'const ', 'let ', 'var ',
     '=>', '->', 'async ', 'await ', 'return ', 'if (', 'for (', 'while (',
     'public ', 'private ', 'protected ', 'static ', 'void ', 'int ', 'string ',
     '#include', 'std::', 'cout', 'cin', 'printf(', 'println!',
     'fn ', 'impl ', 'pub ', 'mut ', 'struct ', 'enum ',
-    '```', 'code', 'python', 'javascript', 'typescript', 'java', 'cpp', 'ruby',
+    '```', 'python', 'javascript', 'typescript', 'java', 'cpp', 'ruby',
     'write a', 'create a', 'implement', 'algorithm'
   ];
   const hasCode = codeSignals.some(sig => lower.includes(sig));
@@ -266,14 +277,18 @@ export function extractQueryFeatures(prompt: string): QueryFeatures {
 
   // === SIGNAL 5: Intent Classification ===
   let intent = 'general';
-  if (hasCode) intent = 'code';
-  else if (isTranslation) intent = 'translation';
-  else if (lower.includes('write') || lower.includes('create') || lower.includes('generate')) {
+  // Math takes priority over code for math-heavy queries
+  if (lower.includes('calculate') || lower.includes('compute') || lower.includes('integral') ||
+      lower.includes('derivative') || lower.includes('equation') || lower.includes('formula')) {
+    intent = 'math';
+  } else if (hasCode) {
+    intent = 'code';
+  } else if (isTranslation) {
+    intent = 'translation';
+  } else if (lower.includes('write') || lower.includes('create') || lower.includes('generate')) {
     intent = 'creative';
   } else if (lower.includes('explain') || lower.includes('what is') || lower.includes('how does')) {
     intent = 'explanation';
-  } else if (lower.includes('calculate') || lower.includes('compute') || lower.includes('integral')) {
-    intent = 'math';
   }
 
   // === COMPLEXITY SCORING ===
@@ -357,6 +372,12 @@ export function extractQueryFeatures(prompt: string): QueryFeatures {
   // Multilingual加成
   if (isMultilingual) complexity += 0.1;
 
+  // Detect new feature flags
+  const isSecurity = /penetration testing|security audit|vulnerability|exploit|malware|ransomware|zero.trust|owasp|sql injection|xss|cross.site|csrf|brute.force|authentication bypass|cwe.\d+/i.test(lower);
+  const isCreative = /write a story|write a poem|creative|imagination|artistic/i.test(lower) || isTranslation;
+  const isDevops = /docker|kubernetes|terraform|ansible|ci.cd|pipeline|sql|nosql|database|sqlserver|mysql|postgres|deploy|container|orchestrat/i.test(lower);
+  const isMultimodal = /image|video|audio|generate.*picture|generate.*image|transcribe|voice/i.test(lower);
+
   // Cap at 1.0
   complexity = Math.min(complexity, 1.0);
 
@@ -369,6 +390,10 @@ export function extractQueryFeatures(prompt: string): QueryFeatures {
     requires_reasoning: requiresReasoning,
     is_multilingual: isMultilingual,
     is_translation: isTranslation,
+    is_security: isSecurity,
+    is_creative: isCreative,
+    is_devops: isDevops,
+    is_multimodal: isMultimodal,
     domain: detectedDomain,
     intent,
     detected_language: detectedLanguage,
