@@ -1,4 +1,4 @@
-# A3M Router — #1 LLM Routing Benchmark & Cheapest Router with Memory
+# A3M Router — Cheapest LLM Router on RouterArena
 
 ## One sentence
 RouterArena Score 69.64, cheapest LLM router at $0.0635/1K queries. Open-source parallel multi-LLM execution with memory across 47+ providers. 19.5KB, zero ML dependencies.
