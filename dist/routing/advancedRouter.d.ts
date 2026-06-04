@@ -11,6 +11,7 @@
  * Users can add/remove providers via environment variables or config files.
  */
 interface ModelProfile {
+    supports_multimodal: boolean;
     name: string;
     provider: string;
     providerName: string;

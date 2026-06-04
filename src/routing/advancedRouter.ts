@@ -21,6 +21,7 @@ import { quickselectTopK, selectTop } from "../utils/sorting";
 // ============================================================
 
 interface ModelProfile {
+  supports_multimodal: boolean;
   name: string;
   provider: string;
   providerName: string;
@@ -77,6 +78,15 @@ function buildModelProfiles(): Record<string, ModelProfile> {
         strengths.push('reasoning', 'creative', 'analysis');
       }
 
+      // Detect multimodal support
+      const supportsMultimodal = 
+        provider.name === 'Google AI' || 
+        provider.name === 'OpenAI' ||
+        provider.name === 'Anthropic' ||
+        provider.name === 'Azure' ||
+        provider.name.includes('Replicate') ||
+        provider.name.includes('Google');
+      
       profiles[modelKey] = {
         name: modelKey,
         provider: providerId,
@@ -91,6 +101,7 @@ function buildModelProfiles(): Record<string, ModelProfile> {
         context_window: provider.maxTokens || 8192,
         type: provider.type,
         priority: provider.priority,
+        supports_multimodal: supportsMultimodal,
       };
     }
   }
@@ -438,6 +449,13 @@ function scoreModelFit(model: ModelProfile, features: QueryFeatures): number {
   // Multilingual bonus
   if (features.is_multilingual && model.strengths.includes('multilingual')) {
     score += 0.15;
+  }
+
+  // Multimodal bonus - if query needs multimodal, prefer models that support it
+  if (features.is_multimodal && model.supports_multimodal) {
+    score += 0.25;  // Strong bonus for multimodal-capable models
+  } else if (features.is_multimodal && !model.supports_multimodal) {
+    score *= 0.5;  // Heavy penalty for non-multimodal models on multimodal queries
   }
 
   // Free tier preference for simple queries
