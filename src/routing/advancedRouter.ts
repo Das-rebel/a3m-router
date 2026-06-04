@@ -84,9 +84,9 @@ function buildModelProfiles(): Record<string, ModelProfile> {
         cost_per_1k_input: costPerKInput,
         cost_per_1k_output: costPerKOutput,
         latency_ms: provider.type === 'cli' ? 5000 : (provider.priority * 200 + 300),
-        quality_score: strengths.includes('premium') ? 0.95 :
-                       strengths.includes('reasoning') ? 0.90 :
-                       strengths.includes('fast') ? 0.82 : 0.80,
+        quality_score: (strengths.includes('premium') || strengths.includes('reasoning')) ? 0.94 :
+                       (strengths.includes('fast') && costPerKInput > 0.3) ? 0.85 :
+                       (strengths.includes('budget') || strengths.includes('free')) ? 0.72 : 0.80,
         strengths,
         context_window: provider.maxTokens || 8192,
         type: provider.type,
@@ -378,7 +378,9 @@ export function extractQueryFeatures(prompt: string): QueryFeatures {
 function scoreModelFit(model: ModelProfile, features: QueryFeatures): number {
   let score = model.quality_score * 0.6;
 
-  // Domain match
+  // Domain match (reduced for budget models)
+  // Premium models get +0.2 for domain match
+  // Budget/free models get only +0.05 (they lack capability for complex domains)
   if (features.domain) {
     const domainBonus: Record<string, string[]> = {
       code: ['code-aware', 'coding', 'fast'],
@@ -391,7 +393,15 @@ function scoreModelFit(model: ModelProfile, features: QueryFeatures): number {
     };
     const bonuses = domainBonus[features.domain] || [];
     if (bonuses.some(b => model.strengths.includes(b))) {
-      score += 0.2;
+      const is_budget = model.strengths.includes('budget') || model.strengths.includes('free');
+      score += is_budget ? 0.05 : 0.25;  // Budget gets minimal boost
+    }
+  }
+
+  // For complex queries (complexity > 0.5), budget/free models get penalty
+  if (features.complexity > 0.5) {
+    if (model.strengths.includes('budget') || model.strengths.includes('free')) {
+      score *= 0.7;  // 30% penalty for budget models on complex queries
     }
   }
 

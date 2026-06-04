@@ -50,27 +50,11 @@ console.log(`
 ╚══════════════════════════════════════════════════════════╝
 `);
 const blessed = __importStar(require("blessed"));
-const fs = __importStar(require("fs"));
-const path = __importStar(require("path"));
 // ── State ──
 let activeModel = 'nvidia/llama-3.1-8b';
 let totalCost = 0.000087;
 let reqCount = 4;
 const log = [];
-const VAULT_PATH = path.join(process.cwd(), '.a3m-vault.json');
-let vault = [];
-function loadVault() {
-    try {
-        if (fs.existsSync(VAULT_PATH)) {
-            vault = JSON.parse(fs.readFileSync(VAULT_PATH, 'utf-8'));
-        }
-    }
-    catch { /* ignore */ }
-}
-function saveVault() {
-    fs.writeFileSync(VAULT_PATH, JSON.stringify(vault, null, 2), 'utf-8');
-}
-loadVault();
 // ── Screen ──
 const screen = blessed.screen({
     smartCSR: true,
@@ -118,46 +102,13 @@ function render() {
     if (visible.length === 0) {
         out += `  ${D('Type a query — auto-routed to cheapest model.')}\n\n`;
         out += `  ${D('Commands:')}\n`;
-        out += `  {#2563eb-fg}/route{/} ${D('<query>')}       /vault             /cost\n`;
+        out += `  {#2563eb-fg}/route{/} ${D('<query>')}       /cost              /model nvidia\n`;
         out += `  {#2563eb-fg}/health{/}              /models            /clear\n`;
         out += `  {#2563eb-fg}/exit{/}                /help\n\n`;
         out += `  ${D('nvidia (free)  ·  groq (free)  ·  deepseek ($9.46)')}\n`;
     }
     box.setContent(out);
     screen.render();
-}
-function vaultList() {
-    if (vault.length === 0) {
-        log.push(`  {#be185d-fg}Vault{/}  ${D('empty — no bookmarks yet')}`);
-        return;
-    }
-    log.push(`  {#be185d-fg}Vault{/}  ${D(`${vault.length} bookmarks`)}`);
-    const show = vault.slice(-10).reverse();
-    for (const b of show) {
-        const date = new Date(b.timestamp).toLocaleDateString();
-        const snippet = b.query.length > 40 ? b.query.slice(0, 40) + '…' : b.query;
-        log.push(`  {#2563eb-fg}${b.id}{/}  ${D(snippet)}  {#059669-fg}${b.model}{/}  ${D(date)}`);
-    }
-}
-function vaultAdd(query, response = '', tags = []) {
-    const id = `bm${Date.now().toString(36)}`;
-    const bm = { id, query, response, model: activeModel, timestamp: Date.now(), tags };
-    vault.push(bm);
-    saveVault();
-    log.push(`  {#be185d-fg}Vault{/}  ${D(`saved: ${id}`)}`);
-}
-function vaultSearch(term) {
-    const q = term.toLowerCase();
-    const results = vault.filter(b => b.query.toLowerCase().includes(q) || b.response.toLowerCase().includes(q));
-    if (results.length === 0) {
-        log.push(`  {#be185d-fg}Vault{/}  ${D(`no results for "${term}"`)}`);
-        return;
-    }
-    log.push(`  {#be185d-fg}Vault{/}  ${D(`${results.length} results for "${term}"`)}`);
-    for (const b of results.slice(0, 5)) {
-        const snippet = b.query.length > 50 ? b.query.slice(0, 50) + '…' : b.query;
-        log.push(`  {#2563eb-fg}${b.id}{/}  ${D(snippet)}`);
-    }
 }
 function cmd(c) {
     if (!c)
@@ -168,24 +119,9 @@ function cmd(c) {
         process.exit(0);
     }
     else if (c === '/help')
-        log.push(`  ${D('/route /vault /cost /health /models /model <p> /clear /exit')}`);
+        log.push(`  ${D('/route /cost /health /models /model <p> /clear /exit')}`);
     else if (c === '/clear')
         log.length = 0;
-    else if (c === '/vault')
-        vaultList();
-    else if (c.startsWith('/vault list'))
-        vaultList();
-    else if (c.startsWith('/vault add ')) {
-        const query = c.replace('/vault add ', '').trim();
-        if (query)
-            vaultAdd(query);
-        else
-            log.push(`  ${D('Usage: /vault add <query>')}`);
-    }
-    else if (c.startsWith('/vault search ')) {
-        const term = c.replace('/vault search ', '').trim();
-        vaultSearch(term);
-    }
     else if (c === '/cost') {
         log.push(`  {#be185d-fg}A3M{/}  Cost:`);
         log.push(`  ${D('nvidia $0  |  deepseek $0.000009  |  groq $0  |  cerebras $0')}`);
