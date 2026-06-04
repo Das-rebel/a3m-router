@@ -29,6 +29,7 @@ export interface ProviderDefinition {
     maxTokens: number;
     cliCommand?: string;
     apiKey?: string | null;
+    supports_multimodal?: boolean;
 }
 export declare const DEFAULT_PROVIDERS: Record<string, ProviderDefinition>;
 export declare function loadConfig(configPath?: string): Record<string, ProviderDefinition>;

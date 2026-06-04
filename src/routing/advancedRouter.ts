@@ -79,13 +79,7 @@ function buildModelProfiles(): Record<string, ModelProfile> {
       }
 
       // Detect multimodal support
-      const supportsMultimodal = 
-        provider.name === 'Google AI' || 
-        provider.name === 'OpenAI' ||
-        provider.name === 'Anthropic' ||
-        provider.name === 'Azure' ||
-        provider.name.includes('Replicate') ||
-        provider.name.includes('Google');
+      const supportsMultimodal = provider.supports_multimodal === true;
       
       profiles[modelKey] = {
         name: modelKey,

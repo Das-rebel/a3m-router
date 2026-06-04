@@ -121,6 +121,7 @@ exports.DEFAULT_PROVIDERS = {
         type: 'api',
         priority: 4,
         maxTokens: 8192,
+        supports_multimodal: true, // Gemini supports vision, video, audio
     },
     // ========================================================================
     // TIER: CHEAP / FAST (inference-optimized)
