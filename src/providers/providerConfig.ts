@@ -19,6 +19,7 @@ import * as path from 'path';
 export type ProviderTier = 'free' | 'cheap' | 'mid' | 'premium' | 'enterprise';
 export type ProviderFormat = 'openai' | 'anthropic' | 'google' | 'cohere' | 'aws-bedrock' | 'google-vertex';
 export type ProviderType = 'api' | 'cli' | 'local';
+export type ProviderStrategy = 'aggressive' | 'balanced' | 'conservative';
 
 export interface ProviderCost {
   input: number;  // per 1M tokens
@@ -40,6 +41,7 @@ export interface ProviderDefinition {
   cliCommand?: string;
   apiKey?: string | null;
   supports_multimodal?: boolean;  // Supports image, video, audio processing
+  strategy?: ProviderStrategy;  // Game-theoretic strategy type
 }
 
 // ============================================================
@@ -62,6 +64,7 @@ export const DEFAULT_PROVIDERS: Record<string, ProviderDefinition> = {
     type: 'local',
     priority: 1,
     maxTokens: 8192,
+    strategy: 'aggressive',  // Free, fast, but higher variance
   },
 
   lmstudio: {
@@ -112,6 +115,7 @@ export const DEFAULT_PROVIDERS: Record<string, ProviderDefinition> = {
     priority: 4,
     maxTokens: 8192,
     supports_multimodal: true,  // Gemini supports vision, video, audio
+    strategy: 'balanced',  // Good quality, reasonable cost, multimodal
   },
 
   // ========================================================================
@@ -397,6 +401,7 @@ export const DEFAULT_PROVIDERS: Record<string, ProviderDefinition> = {
     type: 'api',
     priority: 19,
     maxTokens: 8192,
+    strategy: 'conservative',  // High cost, lowest variance
   },
 
   anthropic: {
@@ -416,6 +421,7 @@ export const DEFAULT_PROVIDERS: Record<string, ProviderDefinition> = {
     type: 'api',
     priority: 20,
     maxTokens: 8192,
+    strategy: 'conservative',  // Highest cost, minimal errors
   },
 
   xai: {

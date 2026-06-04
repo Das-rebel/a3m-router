@@ -11,6 +11,7 @@
 export type ProviderTier = 'free' | 'cheap' | 'mid' | 'premium' | 'enterprise';
 export type ProviderFormat = 'openai' | 'anthropic' | 'google' | 'cohere' | 'aws-bedrock' | 'google-vertex';
 export type ProviderType = 'api' | 'cli' | 'local';
+export type ProviderStrategy = 'aggressive' | 'balanced' | 'conservative';
 export interface ProviderCost {
     input: number;
     output: number;
@@ -30,6 +31,7 @@ export interface ProviderDefinition {
     cliCommand?: string;
     apiKey?: string | null;
     supports_multimodal?: boolean;
+    strategy?: ProviderStrategy;
 }
 export declare const DEFAULT_PROVIDERS: Record<string, ProviderDefinition>;
 export declare function loadConfig(configPath?: string): Record<string, ProviderDefinition>;

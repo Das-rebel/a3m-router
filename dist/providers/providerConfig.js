@@ -75,6 +75,7 @@ exports.DEFAULT_PROVIDERS = {
         type: 'local',
         priority: 1,
         maxTokens: 8192,
+        strategy: 'aggressive', // Free, fast, but higher variance
     },
     lmstudio: {
         id: 'lmstudio',
@@ -122,6 +123,7 @@ exports.DEFAULT_PROVIDERS = {
         priority: 4,
         maxTokens: 8192,
         supports_multimodal: true, // Gemini supports vision, video, audio
+        strategy: 'balanced', // Good quality, reasonable cost, multimodal
     },
     // ========================================================================
     // TIER: CHEAP / FAST (inference-optimized)
@@ -392,6 +394,7 @@ exports.DEFAULT_PROVIDERS = {
         type: 'api',
         priority: 19,
         maxTokens: 8192,
+        strategy: 'conservative', // High cost, lowest variance
     },
     anthropic: {
         id: 'anthropic',
@@ -410,6 +413,7 @@ exports.DEFAULT_PROVIDERS = {
         type: 'api',
         priority: 20,
         maxTokens: 8192,
+        strategy: 'conservative', // Highest cost, minimal errors
     },
     xai: {
         id: 'xai',
