@@ -81,6 +81,11 @@ function buildModelProfiles(): Record<string, ModelProfile> {
       // Detect multimodal support
       const supportsMultimodal = provider.supports_multimodal === true;
       
+      // Add strategy to strengths for game-theoretic routing
+      if (provider.strategy) {
+        strengths.push(provider.strategy);
+      }
+      
       profiles[modelKey] = {
         name: modelKey,
         provider: providerId,
@@ -147,6 +152,7 @@ export interface QueryFeatures {
   domain: string | null;
   intent: string;
   detected_language: string | null;
+  risk_profile: 'low' | 'medium' | 'high';  // Game-theoretic risk classification
 }
 
 export function extractQueryFeatures(prompt: string): QueryFeatures {
@@ -378,13 +384,36 @@ export function extractQueryFeatures(prompt: string): QueryFeatures {
   if (isMultilingual) complexity += 0.1;
 
   // Detect new feature flags
-  const isSecurity = /penetration testing|security audit|vulnerability|exploit|malware|ransomware|zero.trust|owasp|sql injection|xss|cross.site|csrf|brute.force|authentication bypass|cwe.\d+/i.test(lower);
+  const isSecurity = /penetration testing|security audit|vulnerability|exploit|malware|ransomware|zero.trust|owasp|sql injection|xss|cross.site|csrf|brute.force|authentication bypass|cwe.\d+|authentication|authorization|oauth|saml|jwt|secure.*protocol|cryptograph|ssl|tls|https.*cert|security.*system/i.test(lower);
   const isCreative = /write a story|write a poem|creative|imagination|artistic/i.test(lower) || isTranslation;
   const isDevops = /docker|kubernetes|terraform|ansible|ci.cd|pipeline|sql|nosql|database|sqlserver|mysql|postgres|deploy|container|orchestrat/i.test(lower);
   const isMultimodal = /image|video|audio|generate.*picture|generate.*image|transcribe|voice/i.test(lower);
 
   // Cap at 1.0
   complexity = Math.min(complexity, 1.0);
+
+  // === SIGNAL: Risk Profile (Game-Theoretic) ===
+  // High risk: Security, DevOps, high complexity, OR Creative with moderate complexity
+  // Medium risk: Code, Reasoning, Multilingual, Multimodal, Domain-specific, Creative with low complexity
+  // Low risk: Simple factual queries with low complexity
+  let risk_profile: 'low' | 'medium' | 'high' = 'low';
+  
+  // HIGH RISK conditions (any one is enough)
+  if (isSecurity || isDevops || complexity > 0.75) {
+    risk_profile = 'high';
+  }
+  // Creative content at moderate-high complexity is high risk
+  else if (isCreative && complexity > 0.4) {
+    risk_profile = 'high';
+  }
+  // MEDIUM RISK conditions
+  else if (hasCode || requiresReasoning || isMultilingual || isMultimodal || detectedDomain !== null) {
+    risk_profile = 'medium';
+  }
+  // Everything else is low risk
+  else {
+    risk_profile = 'low';
+  }
 
   return {
     length: prompt.length,
@@ -402,6 +431,7 @@ export function extractQueryFeatures(prompt: string): QueryFeatures {
     domain: detectedDomain,
     intent,
     detected_language: detectedLanguage,
+    risk_profile,
   };
 }
 
@@ -450,6 +480,21 @@ function scoreModelFit(model: ModelProfile, features: QueryFeatures): number {
     score += 0.25;  // Strong bonus for multimodal-capable models
   } else if (features.is_multimodal && !model.supports_multimodal) {
     score *= 0.5;  // Heavy penalty for non-multimodal models on multimodal queries
+  }
+
+  // === GAME-THEORETIC: Risk-Profile to Strategy Matching ===
+  // High risk queries → conservative (minimax) strategy
+  // Medium risk queries → balanced (Nash equilibrium) strategy
+  // Low risk queries → aggressive (maximin regret) strategy
+  const providerStrategies = model.strengths || [];
+  if (features.risk_profile === 'high' && providerStrategies.includes('conservative')) {
+    score += 0.30;  // Strong bonus for conservative providers on high-risk queries
+  } else if (features.risk_profile === 'high' && providerStrategies.includes('aggressive')) {
+    score *= 0.5;   // Heavy penalty for aggressive providers on high-risk queries
+  } else if (features.risk_profile === 'low' && providerStrategies.includes('aggressive')) {
+    score += 0.15;  // Bonus for aggressive providers on low-risk queries
+  } else if (features.risk_profile === 'low' && providerStrategies.includes('conservative')) {
+    score *= 0.8;   // Mild penalty for conservative providers on low-risk (cost waste)
   }
 
   // Free tier preference for simple queries

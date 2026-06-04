@@ -41,6 +41,7 @@ export interface QueryFeatures {
     domain: string | null;
     intent: string;
     detected_language: string | null;
+    risk_profile: 'low' | 'medium' | 'high';
 }
 export declare function extractQueryFeatures(prompt: string): QueryFeatures;
 export interface RouteDecision {
