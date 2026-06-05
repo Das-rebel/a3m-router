@@ -2,7 +2,8 @@
 // A3M Router - Main Entry Point
 // Version: 2.0.0
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EnsembleOrchestrator = exports.budgetAlertMiddleware = exports.observabilityPlugin = exports.observabilityMiddleware = exports.createMetricsCollector = exports.getMetrics = exports.MetricsCollector = exports.createTracer = exports.getTracer = exports.Tracer = exports.createProxyServer = exports.CostAnalytics = exports.GuardrailEngine = exports.SemanticCache = exports.estimateTokens = exports.countTokens = exports.MemoryTree = exports.createBudgetEnforcer = exports.BudgetExceededError = exports.BudgetEnforcer = exports.CostTracker = exports.saveConfig = exports.loadConfig = exports.findFastestAvailableProvider = exports.findCheapestAvailableProvider = exports.checkAllProviders = exports.healthCheck = exports.updateProvider = exports.deregisterProvider = exports.registerProvider = exports.getAvailableProviders = exports.DEFAULT_PROVIDERS = exports.PROVIDER_CONTEXT_LIMITS = exports.DEFAULT_PROVIDER_CONFIG = exports.DEFAULT_RETRY_CONFIG = exports.getDefaultRetryHandler = exports.createRetryHandler = exports.ProviderRetryHandler = exports.getProviderHealth = exports.updateModelProfile = exports.MODEL_PROFILES = exports.extractQueryFeatures = exports.recommendForTask = exports.routeBatch = exports.routeQuery = void 0;
+exports.applyCredit = exports.createAccuracyFn = exports.calculateEnhancedShapley = exports.HandicapCalculator = exports.LoyaltyMatrix = exports.EnsembleOrchestrator = exports.budgetAlertMiddleware = exports.observabilityPlugin = exports.observabilityMiddleware = exports.createMetricsCollector = exports.getMetrics = exports.MetricsCollector = exports.createTracer = exports.getTracer = exports.Tracer = exports.createProxyServer = exports.CostAnalytics = exports.GuardrailEngine = exports.SemanticCache = exports.estimateTokens = exports.countTokens = exports.MemoryTree = exports.createBudgetEnforcer = exports.BudgetExceededError = exports.BudgetEnforcer = exports.CostTracker = exports.saveConfig = exports.loadConfig = exports.findFastestAvailableProvider = exports.findCheapestAvailableProvider = exports.checkAllProviders = exports.healthCheck = exports.updateProvider = exports.deregisterProvider = exports.registerProvider = exports.getAvailableProviders = exports.DEFAULT_PROVIDERS = exports.PROVIDER_CONTEXT_LIMITS = exports.DEFAULT_PROVIDER_CONFIG = exports.DEFAULT_RETRY_CONFIG = exports.getDefaultRetryHandler = exports.createRetryHandler = exports.ProviderRetryHandler = exports.getProviderHealth = exports.updateModelProfile = exports.MODEL_PROFILES = exports.extractQueryFeatures = exports.recommendForTask = exports.routeBatch = exports.routeQuery = void 0;
+exports.RESEARCH_TEMPLATES = exports.scienceTools = exports.detectScienceDomain = exports.isScienceQuery = exports.routeScienceQuery = exports.executeScienceQuery = exports.dialogOptimizer = exports.MultiRoundDialogOptimizer = exports.summarize = void 0;
 exports.createA3MRouter = createA3MRouter;
 // ============================================================
 // ROUTING ENGINE
@@ -89,6 +90,32 @@ Object.defineProperty(exports, "budgetAlertMiddleware", { enumerable: true, get:
 // ============================================================
 var ensemble_1 = require("./ensemble");
 Object.defineProperty(exports, "EnsembleOrchestrator", { enumerable: true, get: function () { return ensemble_1.EnsembleOrchestrator; } });
+// ============================================================
+// ENHANCED SHAPLEY VALUE (Game Theory: Ethnocentrism + Handicap)
+// ============================================================
+var shapleyValue_1 = require("./ensemble/shapleyValue");
+Object.defineProperty(exports, "LoyaltyMatrix", { enumerable: true, get: function () { return shapleyValue_1.LoyaltyMatrix; } });
+Object.defineProperty(exports, "HandicapCalculator", { enumerable: true, get: function () { return shapleyValue_1.HandicapCalculator; } });
+Object.defineProperty(exports, "calculateEnhancedShapley", { enumerable: true, get: function () { return shapleyValue_1.calculateEnhancedShapley; } });
+Object.defineProperty(exports, "createAccuracyFn", { enumerable: true, get: function () { return shapleyValue_1.createAccuracyFn; } });
+Object.defineProperty(exports, "applyCredit", { enumerable: true, get: function () { return shapleyValue_1.applyCredit; } });
+Object.defineProperty(exports, "summarize", { enumerable: true, get: function () { return shapleyValue_1.summarize; } });
+// ============================================================
+// MULTI-ROUND DIALOG OPTIMIZATION
+// ============================================================
+var multiRoundDialog_1 = require("./ensemble/multiRoundDialog");
+Object.defineProperty(exports, "MultiRoundDialogOptimizer", { enumerable: true, get: function () { return multiRoundDialog_1.MultiRoundDialogOptimizer; } });
+Object.defineProperty(exports, "dialogOptimizer", { enumerable: true, get: function () { return multiRoundDialog_1.dialogOptimizer; } });
+// ============================================================
+// SCIENCE ADAPTER (Google DeepMind Skills)
+// ============================================================
+var scienceAdapter_1 = require("./integrations/scienceAdapter");
+Object.defineProperty(exports, "executeScienceQuery", { enumerable: true, get: function () { return scienceAdapter_1.executeScienceQuery; } });
+Object.defineProperty(exports, "routeScienceQuery", { enumerable: true, get: function () { return scienceAdapter_1.routeScienceQuery; } });
+Object.defineProperty(exports, "isScienceQuery", { enumerable: true, get: function () { return scienceAdapter_1.isScienceQuery; } });
+Object.defineProperty(exports, "detectScienceDomain", { enumerable: true, get: function () { return scienceAdapter_1.detectScienceDomain; } });
+Object.defineProperty(exports, "scienceTools", { enumerable: true, get: function () { return scienceAdapter_1.scienceTools; } });
+Object.defineProperty(exports, "RESEARCH_TEMPLATES", { enumerable: true, get: function () { return scienceAdapter_1.RESEARCH_TEMPLATES; } });
 // ============================================================
 // CONVENIENCE: Create a router instance
 // ============================================================

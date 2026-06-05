@@ -105,6 +105,44 @@ export type { Span, Metric, RouteTrace, ObservabilityEvent } from './observabili
 export { EnsembleOrchestrator, EnsembleStrategy, EnsembleResponse } from './ensemble';
 
 // ============================================================
+// ENHANCED SHAPLEY VALUE (Game Theory: Ethnocentrism + Handicap)
+// ============================================================
+export {
+  LoyaltyMatrix,
+  HandicapCalculator,
+  calculateEnhancedShapley,
+  createAccuracyFn,
+  applyCredit,
+  summarize,
+  type ShapleyConfig,
+  type ShapleySummary,
+} from './ensemble/shapleyValue';
+
+// ============================================================
+// MULTI-ROUND DIALOG OPTIMIZATION
+// ============================================================
+export {
+  MultiRoundDialogOptimizer,
+  dialogOptimizer,
+  type DialogTurn,
+  type DialogState,
+} from './ensemble/multiRoundDialog';
+
+// ============================================================
+// SCIENCE ADAPTER (Google DeepMind Skills)
+// ============================================================
+export {
+  executeScienceQuery,
+  routeScienceQuery,
+  isScienceQuery,
+  detectScienceDomain,
+  scienceTools,
+  RESEARCH_TEMPLATES,
+  type ScienceQuery,
+  type ScienceResult,
+} from './integrations/scienceAdapter';
+
+// ============================================================
 // CONVENIENCE: Create a router instance
 // ============================================================
 import { routeQuery, routeBatch, recommendForTask } from './routing/advancedRouter';

@@ -78,10 +78,11 @@ function render() {
   if (visible.length === 0) {
     out += `  ${D('Type a query — auto-routed to cheapest model.')}\n\n`;
     out += `  ${D('Commands:')}\n`;
-    out += `  {#2563eb-fg}/route{/} ${D('<query>')}       /cost              /model nvidia\n`;
+    out += `  {#2563eb-fg}/route{/} ${D('<query>')}       /science           /cost\n`;
     out += `  {#2563eb-fg}/health{/}              /models            /clear\n`;
     out += `  {#2563eb-fg}/exit{/}                /help\n\n`;
     out += `  ${D('nvidia (free)  ·  groq (free)  ·  deepseek ($9.46)')}\n`;
+    out += `  ${D('/science — Google DeepMind research tools')}\n`;
   }
 
   box.setContent(out);
@@ -111,6 +112,15 @@ function cmd(c: string) {
     const ok = ['nvidia','deepseek','groq','cerebras','mistral','openai','ollama'];
     if (ok.includes(w)) { activeModel = `${w}/auto`; log.push(`  ${D(`→ {#059669-fg}${activeModel}{/}`)}`); }
     else log.push(`  ${D(`Unknown: ${w}`)}`);
+  } else if (c === '/science') {
+    log.push(`  {#be185d-fg}Science{/}  Google DeepMind tools:`);
+    log.push(`  ${D('Genomics: alphagenome, ensembl, gnomad, dbsnp')}`);
+    log.push(`  ${D('Proteins: alphafold, uniprot, pdb, string')}`);
+    log.push(`  ${D('Chemistry: chembl, pubchem, openfda')}`);
+    log.push(`  ${D('Literature: pubmed, arxiv, biorxiv, openalex')}`);
+    log.push(`  ${D('Clinical: clinical_trials, clinvar')}`);
+    log.push(`  ${D('Expression: gtex, human_protein_atlas')}`);
+    log.push(`  ${D('Usage: /route What is the structure of p53?')}`);
   } else {
     const ms = Math.floor(Math.random() * 100) + 30;
     const cost = Math.random() * 0.00005;

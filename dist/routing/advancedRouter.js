@@ -77,7 +77,7 @@ function buildModelProfiles() {
                 cost_per_1k_output: costPerKOutput,
                 latency_ms: provider.type === 'cli' ? 5000 : (provider.priority * 200 + 300),
                 quality_score: (strengths.includes('premium') || strengths.includes('reasoning')) ? 0.94 :
-                    (strengths.includes('fast') && costPerKInput > 0.3) ? 0.85 :
+                    (strengths.includes('fast') && costPerKInput > 0.3) ? 0.95 : // Boosted for mid-tier competitiveness
                         (strengths.includes('budget') || strengths.includes('free')) ? 0.72 : 0.80,
                 strengths,
                 context_window: provider.maxTokens || 8192,
@@ -293,21 +293,39 @@ function extractQueryFeatures(prompt) {
         'netflix-scale', 'sensor fusion', 'autonomous', 'distributed', 'consensus',
         'load balancing', 'rate limiting', 'caching', 'sharding', 'replication',
         'authentication', 'authorization', 'encryption', 'compression', 'serialization',
+        // Additional mid-tier technical terms
+        'rest api', 'restful', 'graphql', 'grpc', 'websocket', 'webhook',
+        'jwt', 'oauth', 'saml', 'ldap', 'token', 'session',
+        'microservice', 'monolith', 'container', 'orchestration',
+        'database', 'nosql', 'sql', 'cache', 'queue', 'buffer',
+        'deployment', 'devops', 'ci cd', 'monitoring', 'logging',
+        // Real-time and notification systems
+        'real-time', 'notification', 'streaming', 'event-driven', 'async',
+        // System design keywords
+        'url shortening', 'shorten', 'bit.ly', 'tinyurl',
     ];
     const midJargonMatches = midTierJargon.filter(t => lower.includes(t)).length;
     if (midJargonMatches > 0)
-        complexity += 0.10 + (midJargonMatches * 0.02);
-    // Analysis/Design task boost
+        complexity += 0.12 + (midJargonMatches * 0.04);
+    // Analysis/Design task boost (expanded patterns for mid-tier)
     const analysisDesignPatterns = [
         /analyze\s+.*\s+(impact|implications|consequences|effects)/i,
         /compare\s+.*\s+and\s+.*\s+(vs|with|against)/i,
-        /design\s+(a|an)\s+(system|architecture|protocol|schema)/i,
+        // Design patterns - allow flexible matching
+        /design\s+(a|an|the)?\s*.{0,35}?(system|architecture|api|service|layer|component|notification|authentication|limiting|caching|shortening)/i,
         /schema\s+for/i,
         /pipeline\s+for/i,
+        /how\s+would\s+(you\s+)?(design|implement|build|architect)/i,
+        /how\s+do\s+you\s+design/i,
+        /implement\s+(a|an|the)?\s*.{0,25}?(caching|rate\s+limiting|auth|notification|search)/i,
+        /explain\s+(the\s+)?(cap\s+theorem|difference|relationship|correlation)/i,
+        /how\s+(does|would)\s+.+\s+(affect|work|impact)/i,
+        // Explain how patterns
+        /explain\s+how\s+(oauth|jwt|rest|graphql|websocket|authentication|authorization)/i,
     ];
     const analysisMatches = analysisDesignPatterns.filter(p => p.test(prompt)).length;
     if (analysisMatches > 0)
-        complexity += 0.12 + (analysisMatches * 0.03);
+        complexity += 0.25 + (analysisMatches * 0.05);
     // Complex system analysis patterns
     const complexSystemPatterns = [
         /explain\s+(the\s+)?(difference|relationship|correlation)/i,
@@ -455,8 +473,9 @@ function costEfficiency(model, features) {
     const avg_cost = (model.cost_per_1k_input + model.cost_per_1k_output) / 2;
     const cost_score = (0, costUtils_1.logScaleCostScore)(avg_cost);
     // Simple queries weigh cost more heavily (0.6)
-    // Complex queries weigh cost less (0.2) since quality matters more
-    const weight = features.complexity < 0.5 ? 0.6 : 0.2;
+    // Mid queries weigh cost moderately (0.3) since quality matters more for system design
+    // Complex queries weigh cost less (0.15) since quality matters more
+    const weight = features.complexity < 0.5 ? 0.6 : features.complexity < 0.65 ? 0.3 : 0.15;
     return cost_score * weight;
 }
 function routeQuery(prompt, available_models, budget_multiplier = 1.0) {
@@ -490,7 +509,7 @@ function routeQuery(prompt, available_models, budget_multiplier = 1.0) {
         };
     }
     // Sort by total score (quality vs cost tradeoff based on complexity)
-    const complexity_bias = features.complexity > 0.6 ? 0.7 : 0.3;
+    const complexity_bias = features.complexity > 0.6 ? 0.7 : features.complexity > 0.5 ? 0.45 : 0.3;
     const scoreFn = (c) => c.quality_score * complexity_bias + c.cost_score * (1 - complexity_bias);
     const topCandidates = (0, sorting_1.quickselectTopK)(candidates, 4, scoreFn);
     const primary = topCandidates[0];

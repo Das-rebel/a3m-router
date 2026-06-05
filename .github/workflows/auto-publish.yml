@@ -16,6 +16,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history for version tracking
 
       - uses: actions/setup-node@v4
         with:
@@ -24,18 +26,12 @@ jobs:
 
       - run: npm ci
 
-      - name: Touch timestamp
-        run: |
-          echo "$(date -u +%s)" > .publish-tick
+      - name: Build
+        run: npm run build
 
-      - name: Generate finding snippet
-        run: |
-          FINDING=$(ls research/FINDING_*.md 2>/dev/null | tail -1)
-          if [ -n "$FINDING" ]; then
-            # Extract first metric line from finding
-            METRIC=$(grep -m1 "|" "$FINDING" | head -1 || echo "Research-backed improvement")
-            echo "Research note: $METRIC"
-          fi
+      - name: Get current version
+        id: version
+        run: echo "VERSION=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
       - name: Add research insight
         run: |
@@ -44,21 +40,12 @@ jobs:
           echo "Published v$VER" >> research/PUBLISH_LOG.md
           echo "" >> research/PUBLISH_LOG.md
 
-      - name: Build (best-effort)
-        run: npm run build || echo 'Build skipped (dist/ pre-committed)'
-
-      - name: Patch + Publish
+      - name: Patch + Publish + Commit
         run: |
           npm version patch --no-git-tag-version
           npm publish
+          git add -A
+          git commit -m "chore: auto-publish v$(node -p "require('./package.json').version")" || echo "Nothing to commit"
+          git push || echo "Push failed (upstream may have changes)"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Commit + Push
-        run: |
-          git config user.name "a3m-bot"
-          git config user.email "bot@a3m-router.dev"
-          git add .publish-tick package.json package-lock.json dist/
-          VER=$(node -p "require('./package.json').version")
-          git commit -m "chore: auto-publish v$VER" || true
-          git push
