@@ -6,7 +6,7 @@
 
 A3M doesn't just route—it orchestrates. By calling multiple providers in parallel, it ensures the highest quality answer is delivered with the lowest possible cost and latency.
 
-**🥇 RouterArena Top-5 Router ($0.0635/1K) — 16K+ downloads · 67% exact tier · 96% ±1 tier · highest robustness (0.8524)** — 4.3× cheaper than RouteLLM with parallel ensemble voting. No training required, <1ms routing.
+**🥇 RouterArena Top-5 Router ($0.0635/1K) — 15.9K+ downloads · 67% exact tier · 96% ±1 tier · highest robustness (0.8524)** — 4.3× cheaper than RouteLLM with parallel ensemble voting. No training required, <1ms routing.
 
 **Try it in 1 second (no install needed):**
 
@@ -53,7 +53,7 @@ Terminal overlay box with `/route`, `/cost`, `/health`, `/models`, `/model <prov
 
 | Metric | Value | Context |
 |--------|-------|--------|
-| Weekly Downloads | **6,769** | Top 0.2% of npm |
+| Weekly Downloads | **5,933** | ~59% WoW growth | Top 0.2% of npm |
 | Run Rate (17 days) | **15,237** | Fastest-growing npm LLM router |
 | Daily Avg | **~900** | Consistent organic growth |
 | Cost Savings | **62%** | vs all-premium routing |
