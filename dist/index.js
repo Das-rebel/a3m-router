@@ -2,8 +2,8 @@
 // A3M Router - Main Entry Point
 // Version: 2.0.0
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.applyCredit = exports.createAccuracyFn = exports.calculateEnhancedShapley = exports.HandicapCalculator = exports.LoyaltyMatrix = exports.EnsembleOrchestrator = exports.budgetAlertMiddleware = exports.observabilityPlugin = exports.observabilityMiddleware = exports.createMetricsCollector = exports.getMetrics = exports.MetricsCollector = exports.createTracer = exports.getTracer = exports.Tracer = exports.createProxyServer = exports.CostAnalytics = exports.GuardrailEngine = exports.SemanticCache = exports.estimateTokens = exports.countTokens = exports.MemoryTree = exports.createBudgetEnforcer = exports.BudgetExceededError = exports.BudgetEnforcer = exports.CostTracker = exports.saveConfig = exports.loadConfig = exports.findFastestAvailableProvider = exports.findCheapestAvailableProvider = exports.checkAllProviders = exports.healthCheck = exports.updateProvider = exports.deregisterProvider = exports.registerProvider = exports.getAvailableProviders = exports.DEFAULT_PROVIDERS = exports.PROVIDER_CONTEXT_LIMITS = exports.DEFAULT_PROVIDER_CONFIG = exports.DEFAULT_RETRY_CONFIG = exports.getDefaultRetryHandler = exports.createRetryHandler = exports.ProviderRetryHandler = exports.getProviderHealth = exports.updateModelProfile = exports.MODEL_PROFILES = exports.extractQueryFeatures = exports.recommendForTask = exports.routeBatch = exports.routeQuery = void 0;
-exports.RESEARCH_TEMPLATES = exports.scienceTools = exports.detectScienceDomain = exports.isScienceQuery = exports.routeScienceQuery = exports.executeScienceQuery = exports.dialogOptimizer = exports.MultiRoundDialogOptimizer = exports.summarize = void 0;
+exports.calculateEnhancedShapley = exports.HandicapCalculator = exports.LoyaltyMatrix = exports.EnsembleOrchestrator = exports.budgetAlertMiddleware = exports.observabilityPlugin = exports.observabilityMiddleware = exports.createMetricsCollector = exports.getMetrics = exports.MetricsCollector = exports.createTracer = exports.getTracer = exports.Tracer = exports.createProxyServer = exports.CostAnalytics = exports.GuardrailEngine = exports.SemanticCache = exports.estimateTokens = exports.countTokens = exports.HybridMemory = exports.ReasoningBank = exports.MemoryTree = exports.createBudgetEnforcer = exports.BudgetExceededError = exports.BudgetEnforcer = exports.CostTracker = exports.saveConfig = exports.loadConfig = exports.findFastestAvailableProvider = exports.findCheapestAvailableProvider = exports.checkAllProviders = exports.healthCheck = exports.updateProvider = exports.deregisterProvider = exports.registerProvider = exports.getAvailableProviders = exports.DEFAULT_PROVIDERS = exports.PROVIDER_CONTEXT_LIMITS = exports.DEFAULT_PROVIDER_CONFIG = exports.DEFAULT_RETRY_CONFIG = exports.getDefaultRetryHandler = exports.createRetryHandler = exports.ProviderRetryHandler = exports.getProviderHealth = exports.updateModelProfile = exports.MODEL_PROFILES = exports.extractQueryFeatures = exports.recommendForTask = exports.routeBatch = exports.routeQuery = void 0;
+exports.RESEARCH_TEMPLATES = exports.scienceTools = exports.detectScienceDomain = exports.isScienceQuery = exports.routeScienceQuery = exports.executeScienceQuery = exports.dialogOptimizer = exports.MultiRoundDialogOptimizer = exports.summarize = exports.applyCredit = exports.createAccuracyFn = void 0;
 exports.createA3MRouter = createA3MRouter;
 // ============================================================
 // ROUTING ENGINE
@@ -55,6 +55,12 @@ Object.defineProperty(exports, "createBudgetEnforcer", { enumerable: true, get: 
 // ============================================================
 var memoryTree_1 = require("./memory/memoryTree");
 Object.defineProperty(exports, "MemoryTree", { enumerable: true, get: function () { return memoryTree_1.MemoryTree; } });
+// ReasoningBank — experience-based memory (semantic retrieval + learning)
+var reasoningBank_1 = require("./memory/reasoningBank");
+Object.defineProperty(exports, "ReasoningBank", { enumerable: true, get: function () { return reasoningBank_1.ReasoningBank; } });
+// Hybrid Memory — merges MemoryTree (keyword) + ReasoningBank (semantic)
+var hybridMemory_1 = require("./memory/hybridMemory");
+Object.defineProperty(exports, "HybridMemory", { enumerable: true, get: function () { return hybridMemory_1.HybridMemory; } });
 // ============================================================
 // UTILITIES
 // ============================================================

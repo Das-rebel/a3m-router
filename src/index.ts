@@ -68,6 +68,14 @@ export type { BudgetConfig, SpendRecord, BudgetCheckResult } from './cost/budget
 // MEMORY
 // ============================================================
 export { MemoryTree } from './memory/memoryTree';
+
+// ReasoningBank — experience-based memory (semantic retrieval + learning)
+export { ReasoningBank } from './memory/reasoningBank';
+export type { ReasoningMemory, ReasoningBankConfig } from './memory/reasoningBank';
+
+// Hybrid Memory — merges MemoryTree (keyword) + ReasoningBank (semantic)
+export { HybridMemory } from './memory/hybridMemory';
+export type { HybridMemoryConfig, HybridResult } from './memory/hybridMemory';
 export type { MemoryChunk, TreeNode } from './memory/memoryTree';
 
 // ============================================================
