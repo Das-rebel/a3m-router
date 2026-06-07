@@ -198,7 +198,8 @@
   },
   "devDependencies": {
     "@types/node": "^25.8.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.8"
   },
   "types": "dist/index.d.ts"
 }
