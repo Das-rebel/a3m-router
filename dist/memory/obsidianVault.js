@@ -111,10 +111,17 @@ ${decision.prompt}
      */
     escapeMarkdown(text) {
         return text
+            .replace(/\\/g, '\\\\')
             .replace(/\*/g, '\\*')
             .replace(/#/g, '\\#')
             .replace(/\|/g, '\\|')
-            .replace(/`/g, '\\`');
+            .replace(/`/g, '\\`')
+            .replace(/\[/g, '\\[')
+            .replace(/\]/g, '\\]')
+            .replace(/\(/g, '\\(')
+            .replace(/\)/g, '\\)')
+            .replace(/>/g, '\\>')
+            .replace(/_/g, '\\_');
     }
     /**
      * Update the vault index

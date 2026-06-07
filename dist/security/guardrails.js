@@ -99,10 +99,13 @@ const PII_REDACTION_RULES = [
 function detectPII(text) {
     const types = [];
     const matches = {};
+    // Limit input length to prevent ReDoS on unbounded input
+    const MAX_PII_INPUT_LENGTH = 500_000;
+    const safeText = text.length > MAX_PII_INPUT_LENGTH ? text.substring(0, MAX_PII_INPUT_LENGTH) : text;
     for (const rule of PII_REDACTION_RULES) {
         // Clone regex because .test() advances lastIndex on global regexes
         const re = new RegExp(rule.pattern.source, rule.pattern.flags);
-        const found = text.match(re);
+        const found = safeText.match(re);
         if (found && found.length > 0) {
             types.push(rule.type);
             matches[rule.type] = found.length;

@@ -74,6 +74,19 @@ function generateId(): string {
   return "chatcmpl-" + Math.random().toString(36).substring(2, 14) + Date.now().toString(36);
 }
 
+/**
+ * Validate that a URL is safe to fetch (http/https only).
+ * Prevents SSRF via file://, javascript:, data:, etc.
+ */
+function isValidUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    return ['http:', 'https:'].includes(parsed.protocol);
+  } catch {
+    return false;
+  }
+}
+
 function readBody(req: http.IncomingMessage): Promise<string> {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
@@ -155,6 +168,10 @@ async function callOpenAICompatibleProvider(
   options: { temperature?: number; max_tokens?: number; stream?: boolean; stop?: string | string[] }
 ): Promise<ProviderCallResult> {
   const { model, baseUrl, apiKey } = mapping;
+
+  if (!isValidUrl(baseUrl)) {
+    throw new Error('Invalid provider baseUrl: ' + baseUrl);
+  }
 
   const body: any = {
     model,
@@ -334,6 +351,9 @@ async function callLocalProvider(
   // Ollama uses /api/chat
   if (providerId === "ollama") {
     const ollamaUrl = (baseUrl || "http://127.0.0.1:11434/api/chat").replace("/api/generate", "/api/chat");
+    if (!isValidUrl(ollamaUrl) && !ollamaUrl.startsWith("http://127.0.0.1") && !ollamaUrl.startsWith("http://localhost")) {
+      throw new Error('Invalid Ollama URL: ' + ollamaUrl);
+    }
     const resp = await fetch(ollamaUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -461,6 +481,9 @@ async function streamProviderResponse(
   }
 
   try {
+    if (!isValidUrl(streamUrl) && !streamUrl.startsWith("http://127.0.0.1") && !streamUrl.startsWith("http://localhost")) {
+      throw new Error('Invalid stream URL: ' + streamUrl);
+    }
     const resp = await fetch(streamUrl, {
       method: "POST",
       headers,

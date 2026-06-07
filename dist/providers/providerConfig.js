@@ -809,7 +809,12 @@ async function healthCheck(providerId) {
     if (provider.type === 'cli') {
         const { execSync } = require('child_process');
         try {
-            execSync(`which ${provider.cliCommand || provider.id}`, { stdio: 'pipe' });
+            // Sanitize command to prevent shell injection
+            const cmd = (provider.cliCommand || provider.id).replace(/[^a-zA-Z0-9-]/g, '');
+            if (!cmd) {
+                return { healthy: false, error: 'Invalid CLI command for ' + provider.name };
+            }
+            execSync(`which ${cmd}`, { stdio: 'pipe' });
             return { healthy: true, latency: 0, type: 'cli' };
         }
         catch {

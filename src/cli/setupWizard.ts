@@ -92,7 +92,8 @@ async function runWizard() {
     try {
       existingConfig = JSON.parse(fs.readFileSync(CONFIG_FILE, 'utf8'));
       console.log('✓ Found existing config at', CONFIG_FILE);
-      console.log('  Providers:', Object.keys(existingConfig.providers || {}).join(', '));
+      const providerKeys = Object.keys(existingConfig.providers || {});
+      console.log('  Providers:', providerKeys.length > 0 ? providerKeys.join(', ') : '(none)');
       console.log('');
     } catch (e) {
       console.log('⚠ Could not read existing config, starting fresh\n');
@@ -100,16 +101,13 @@ async function runWizard() {
   }
   
   // Auto-detect API keys
-  console.log('🔍 Scanning for API keys in environment...');
+  console.log('Checking configuration...');
   const detected = await detectApiKeys();
-  
-  if (detected.length === 0) {
-    console.log('⚠ No API keys detected in environment.');
-    console.log('  Set any of: GROQ_API_KEY, OPENAI_API_KEY, DEEPSEEK_API_KEY, etc.\n');
-  } else {
-    console.log('✓ Found', detected.length, 'API key(s):');
+
+  if (detected.length > 0) {
+    console.log('✓ Found', detected.length, 'configured provider(s):');
     detected.forEach(({ envVar, providerId, info }) => {
-      console.log('  ✓', envVar, '→', info?.name || providerId);
+      console.log('  ✓', info?.name || providerId);
     });
     console.log('');
   }
