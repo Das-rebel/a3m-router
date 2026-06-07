@@ -46,21 +46,64 @@ function buildModelProfiles(): Record<string, ModelProfile> {
   for (const [providerId, provider] of Object.entries(available)) {
     for (const model of provider.models) {
       const modelKey = model.includes('/') ? model : providerId + '/' + model;
-      const costPerKInput = provider.costPerK ? provider.costPerK.input : 0;
-      const costPerKOutput = provider.costPerK ? provider.costPerK.output : 0;
+      let costPerKInput = provider.costPerK ? provider.costPerK.input : 0;
+      let costPerKOutput = provider.costPerK ? provider.costPerK.output : 0;
+
+      // OpenRouter: per-model cost overrides for paid models
+      if (provider.name === 'OpenRouter') {
+        const orCosts: Record<string, [number, number]> = {
+          'openai/gpt-4o': [2.5, 10],
+          'anthropic/claude-3.5-sonnet': [3, 15],
+          'google/gemini-pro-1.5': [1.25, 5],
+          'meta-llama/llama-3.1-70b-instruct': [0.18, 0.18],
+          'mistralai/mistral-large': [2, 6],
+        };
+        const orKey = model.includes('/') ? model : 'openrouter/' + model;
+        // Try matching by full key or by model name
+        for (const [pattern, cost] of Object.entries(orCosts)) {
+          if (orKey.includes(pattern) || model.includes(pattern.split('/')[1] || pattern)) {
+            costPerKInput = cost[0];
+            costPerKOutput = cost[1];
+            break;
+          }
+        }
+      }
 
       // Assign strengths based on model characteristics
       const strengths: string[] = [];
       if (provider.type === 'cli') {
         strengths.push('free', 'local');
       }
-      if (costPerKInput < 0.3) {
+      if (costPerKInput < 0.3 && provider.name !== 'OpenRouter') {
         strengths.push('budget', 'fast');
       } else if (costPerKInput > 2) {
         strengths.push('premium', 'reasoning');
       }
       if (provider.name === 'Mistral' || provider.name === 'Groq' || provider.name === 'Cerebras') {
         strengths.push('fast', 'coding');
+      }
+      // OpenRouter premium free models get quality boosts
+      if (provider.name === 'OpenRouter') {
+        const modelLower = modelKey.toLowerCase();
+        // Premium-tier free models (large, high-context)
+        if (modelLower.includes('kimi') || modelLower.includes('qwen3-coder') || 
+            modelLower.includes('nemotron-3-ultra') || modelLower.includes('nemotron-3-super') ||
+            modelLower.includes('hermes-3') || modelLower.includes('gemma-4')) {
+          strengths.push('reasoning', 'long-context', 'premium');
+        }
+        // Mid-tier free models (good quality, smaller)
+        else if (modelLower.includes('gpt-oss') || modelLower.includes('qwen3-next') ||
+                 modelLower.includes('gemma-4') || modelLower.includes('llama-3.3')) {
+          strengths.push('fast', 'reasoning');
+        }
+        // Budget free models
+        else {
+          strengths.push('fast');
+        }
+      }
+      // Minimax gets a quality boost (capable model, cheap pricing)
+      if (provider.name === 'MiniMax') {
+        strengths.push('fast', 'reasoning');
       }
       if (provider.name === 'CommandCode') {
         strengths.push('code-aware', 'context-rich');
@@ -407,6 +450,30 @@ export function extractQueryFeatures(prompt: string): QueryFeatures {
   const isDevops = /docker|kubernetes|terraform|ansible|ci.cd|pipeline|sql|nosql|database|sqlserver|mysql|postgres|deploy|container|orchestrat/i.test(lower);
   const isMultimodal = /image|video|audio|generate.*picture|generate.*image|transcribe|voice/i.test(lower);
 
+  // === ARCHITECTURAL COMPLEXITY SIGNALS ===
+  // Boost complexity for system design / architecture queries
+  // These indicate the query needs a capable model
+  const archPatterns = [
+    /architect\s+(a\s+)?(distributed|real-time|high-availability|fault-tolerant|scalable|multi-region|global)/i,
+    /design\s+(a\s+)?(distributed|real-time|high-availability|fault-tolerant|scalable|multi-region|global)\s+(system|architecture|platform|infrastructure)/i,
+    /design\s+a\s+system\s+that\s+handles/i,
+    /data\s+warehouse\s+architecture/i,
+    /security\s+architecture\s+for/i,
+    /multi-cloud\s+hybrid/i,
+    /disaster\s+recovery\s+strategy/i,
+    /zero-downtime\s+deployment/i,
+    /petabyte-scale/i,
+    /billion\s+events?/i,
+    /million\s+transactions?/i,
+    /sensor\s+fusion/i,
+    /autonomous\s+vehicle/i,
+    /fraud\s+detection\s+system/i,
+    /privacy-preserving\s+analytics/i,
+    /real-time\s+(anomaly|fraud|video)\s+detection/i,
+  ];
+  const archMatches = archPatterns.filter(p => p.test(prompt)).length;
+  if (archMatches > 0) complexity += 0.25 + (archMatches * 0.08);
+
   // Cap at 1.0
   complexity = Math.min(complexity, 1.0);
 
@@ -455,6 +522,50 @@ export function extractQueryFeatures(prompt: string): QueryFeatures {
 
 function scoreModelFit(model: ModelProfile, features: QueryFeatures): number {
   let score = model.quality_score * 0.6;
+
+  // === ADAPTIVE TIER DETECTION ===
+  // Uses cost percentiles computed from actually available providers.
+  // If user has only free models → everything is "free" tier.
+  // If user has free + groq + openai → quartiles split them naturally.
+  const modelCost = (model.cost_per_1k_input + model.cost_per_1k_output) / 2;
+  let tierFromModel: string;
+  if (model.strengths.includes('free') || modelCost === 0) {
+    tierFromModel = 'free';
+  } else if (modelCost <= _costPercentiles.p25) {
+    tierFromModel = 'cheap';
+  } else if (modelCost <= _costPercentiles.p75) {
+    tierFromModel = 'mid';
+  } else {
+    tierFromModel = 'premium';
+  }
+
+  // === ADAPTIVE TIER SCORING ===
+  // Boost/penalty scales with how well the model's tier matches the query complexity
+  // Simple queries (0-0.3): strongly prefer free/cheap
+  // Medium queries (0.3-0.5): prefer cheap/mid
+  // Complex queries (0.5-0.65): prefer mid
+  // Very complex (0.65+): prefer premium/mid
+  if (features.complexity < 0.3) {
+    if (tierFromModel === 'free') score += 0.20;
+    else if (tierFromModel === 'cheap') score += 0.10;
+    else if (tierFromModel === 'mid') score -= 0.05;
+    else if (tierFromModel === 'premium') score -= 0.15;
+  } else if (features.complexity < 0.5) {
+    if (tierFromModel === 'cheap') score += 0.20;
+    else if (tierFromModel === 'free') score += 0.10;
+    else if (tierFromModel === 'mid') score += 0.05;
+    else if (tierFromModel === 'premium') score -= 0.05;
+  } else if (features.complexity <= 0.65) {
+    if (tierFromModel === 'mid') score += 0.30;
+    else if (tierFromModel === 'cheap') score += 0.10;
+    else if (tierFromModel === 'premium') score += 0.10;
+    else if (tierFromModel === 'free') score -= 0.20;
+  } else {
+    if (tierFromModel === 'premium') score += 0.35;
+    else if (tierFromModel === 'mid') score += 0.15;
+    else if (tierFromModel === 'cheap') score -= 0.15;
+    else if (tierFromModel === 'free') score -= 0.30;
+  }
 
   // Domain match (reduced for budget models)
   // Premium models get +0.2 for domain match
@@ -561,9 +672,25 @@ export interface RouteDecision {
   provider_type?: string;
 }
 
+// Cost percentile cache for adaptive tier detection (updated on each routeQuery call)
+let _costPercentiles: { p25: number; p50: number; p75: number } = { p25: 0, p50: 0.5, p75: 1.0 };
+
+// ============================================================
+// ADAPTIVE SCORING CORE
+// ============================================================
+
 export function routeQuery(prompt: string, available_models?: string[], budget_multiplier: number = 1.0): RouteDecision {
   // Use cached profiles instead of rebuilding every time (5-10ms savings)
   const profiles = getModelProfiles();
+
+  // === ADAPTIVE: Compute cost percentiles from available providers ===
+  // This makes tier detection dynamic based on what the user has configured
+  const allCosts = Object.values(profiles).map(p => (p.cost_per_1k_input + p.cost_per_1k_output) / 2).sort((a, b) => a - b);
+  _costPercentiles = {
+    p25: allCosts[Math.floor(allCosts.length * 0.25)] || 0,
+    p50: allCosts[Math.floor(allCosts.length * 0.50)] || 0.5,
+    p75: allCosts[Math.floor(allCosts.length * 0.75)] || 1.0,
+  };
 
   const features = extractQueryFeatures(prompt);
   const candidate_names = available_models || Object.keys(profiles);
@@ -595,11 +722,59 @@ export function routeQuery(prompt: string, available_models?: string[], budget_m
     };
   }
 
-  // Sort by total score (quality vs cost tradeoff based on complexity)
-  const complexity_bias = features.complexity > 0.6 ? 0.7 : features.complexity > 0.5 ? 0.45 : 0.3;
+  // === ADAPTIVE SCORING: Dynamic tier boundaries based on available providers ===
+  // Instead of fixed complexity thresholds, we analyze the actual provider landscape
+  // and adjust scoring to make the best use of what's available.
+  
+  // Gather provider statistics for adaptive scoring
+  const allProfiles = Object.values(profiles);
+  const freeModels = allProfiles.filter(p => (p.cost_per_1k_input + p.cost_per_1k_output) === 0);
+  const paidModels = allProfiles.filter(p => (p.cost_per_1k_input + p.cost_per_1k_output) > 0);
+  const maxQuality = Math.max(...allProfiles.map(p => p.quality_score), 0.95);
+  const minQuality = Math.min(...allProfiles.map(p => p.quality_score), 0.72);
+  const qualityRange = maxQuality - minQuality;
+  
+  // Calculate the "value gap" — how much better paid models are than free ones
+  const avgFreeQuality = freeModels.length > 0 
+    ? freeModels.reduce((s, p) => s + p.quality_score, 0) / freeModels.length 
+    : 0.72;
+  const avgPaidQuality = paidModels.length > 0 
+    ? paidModels.reduce((s, p) => s + p.quality_score, 0) / paidModels.length 
+    : 0.85;
+  const qualityGap = avgPaidQuality - avgFreeQuality;
+  
+  // Adaptive complexity bias:
+  // - If quality gap is large (paid models are much better), weight quality more
+  // - If quality gap is small (free models are good enough), weight cost more
+  // - Scale by complexity: complex queries need quality, simple queries need cost savings
+  const baseComplexityBias = features.complexity < 0.3 ? 0.3 
+    : features.complexity <= 0.5 ? 0.5 
+    : features.complexity <= 0.65 ? 0.7 
+    : 0.85;
+  
+  // Adjust bias based on quality gap: bigger gap → more weight on quality
+  const gapAdjustment = Math.min(qualityGap * 0.5, 0.15); // max 0.15 adjustment
+  const complexity_bias = Math.min(baseComplexityBias + gapAdjustment, 0.9);
+  const cost_bias = 1 - complexity_bias;
+  
+  // Adaptive quality floor: scale with complexity and available quality
+  // For complex queries, require at least avgPaidQuality if paid models exist
+  const adaptiveQualityFloor = features.complexity > 0.5 
+    ? Math.max(avgPaidQuality - 0.1, 0.75) 
+    : 0;
+  
   const scoreFn = (c: typeof candidates[0]) => c.quality_score * complexity_bias + c.cost_score * (1 - complexity_bias);
 
-  const topCandidates = quickselectTopK(candidates, 4, scoreFn);
+  let topCandidates = quickselectTopK(candidates, 4, scoreFn);
+
+  // Adaptive quality floor: for complex queries, prefer models above the floor
+  if (adaptiveQualityFloor > 0) {
+    const qualified = topCandidates.filter(c => c.quality_score >= adaptiveQualityFloor);
+    if (qualified.length > 0) {
+      topCandidates = qualified;
+    }
+    // If no model meets the floor, keep original topCandidates (graceful degradation)
+  }
 
   const primary = topCandidates[0];
   const secondary = topCandidates.slice(1, 3);

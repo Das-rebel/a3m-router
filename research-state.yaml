@@ -1,0 +1,32 @@
+# Research State: Fix Routing Accuracy & Memory Search
+
+## Hypothesis H1: Routing accuracy can be fixed by adjusting complexity_bias and quality_score weights
+
+**Current state**: 25.9% exact tier accuracy (21/81)
+**Target**: 70%+ exact tier accuracy
+**Root cause**: Free models (ollama, commandcode) have cost_score=1.0 which overwhelms quality_score even for complex queries
+
+**Experiment plan**:
+1. Increase complexity_bias from 0.3 to 0.6 for mid-tier queries (complexity > 0.5)
+2. Add a quality floor: for complexity > 0.5, minimum quality_score threshold
+3. Test with 81 labeled queries
+4. Iterate until accuracy > 60%
+
+## Hypothesis H2: Memory search can be improved with TF-IDF scoring + fuzzy matching
+
+**Current state**: 50% memory test pass (basic store/recall works, multi-item search fails)
+**Target**: 100% memory test pass
+**Root cause**: MemoryTree.search() only does exact substring match on chunk.content. When text is chunked, individual chunks don't contain the original search terms.
+
+**Experiment plan**:
+1. Add TF-IDF based scoring to MemoryTree.search()
+2. Add fuzzy matching (Levenshtein distance) for partial matches
+3. Add tag-based boosting
+4. Return top-K results ranked by relevance score
+5. Test with the 4 memory benchmark tests
+
+## Success Criteria
+- Routing accuracy: > 60% exact tier match
+- Memory tests: 4/4 pass (100%)
+- All existing unit tests still pass (28/28)
+- npm build succeeds

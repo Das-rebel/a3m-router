@@ -1,0 +1,47 @@
+{
+  "timestamp": "2026-06-07T21:49:39.717Z",
+  "version": "2.14.44",
+  "routing": {
+    "total": 81,
+    "correct": 30,
+    "accuracy": 37,
+    "offByOne": 66,
+    "offByOneAccuracy": 81.5,
+    "totalCost": 54.5135,
+    "avgCost": 0.67301,
+    "perTier": {
+      "free": {
+        "total": 20,
+        "correct": 20
+      },
+      "cheap": {
+        "total": 21,
+        "correct": 0
+      },
+      "mid": {
+        "total": 20,
+        "correct": 10
+      },
+      "premium": {
+        "total": 20,
+        "correct": 0
+      }
+    }
+  },
+  "memory": {
+    "total": 4,
+    "passed": 4,
+    "accuracy": 100
+  },
+  "robustness": {
+    "total": 6,
+    "passed": 6,
+    "accuracy": 100
+  },
+  "cost": {
+    "avgSavingsPct": -6587,
+    "totalA3m": 4.34,
+    "totalPremium": 0.107
+  },
+  "overallScore": -1925
+}

@@ -51,9 +51,22 @@ export declare class MemoryTree {
     private updateSummaries;
     private summarizeNode;
     /**
-     * Search chunks by content
+     * Score a chunk by word-level overlap with the query (TF-IDF inspired).
+     * Returns a relevance score in [0, 1].
      */
-    search(query: string): MemoryChunk[];
+    private scoreChunkRelevance;
+    /**
+     * Simple word tokenizer — splits on whitespace and normalizes to lowercase.
+     */
+    private tokenize;
+    /**
+     * Search chunks by relevance scoring.
+     * - Word-level TF-IDF style overlap scoring
+     * - Fuzzy partial word matching
+     * - Returns top-K results sorted by relevance
+     * - Recency fallback: if no word matches, returns most recently added chunks
+     */
+    search(query: string, topK?: number): MemoryChunk[];
     /**
      * Get context for routing
      */

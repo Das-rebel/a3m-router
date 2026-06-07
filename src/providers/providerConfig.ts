@@ -635,18 +635,30 @@ export const DEFAULT_PROVIDERS: Record<string, ProviderDefinition> = {
     baseUrl: 'https://openrouter.ai/api/v1/chat/completions',
     apiKeyEnv: 'OPENROUTER_API_KEY',
     models: [
+      // Premium-tier free models (high context, powerful) — assigned equivalent costs for routing
+      // so the router classifies them as mid/premium tier
+      'moonshotai/kimi-k2.6:free',
+      'qwen/qwen3-coder:free',
+      'nvidia/nemotron-3-ultra-550b-a55b:free',
+      'nvidia/nemotron-3-super-120b-a12b:free',
+      'google/gemma-4-31b-it:free',
+      'qwen/qwen3-next-80b-a3b-instruct:free',
+      'nousresearch/hermes-3-llama-3.1-405b:free',
+      'openai/gpt-oss-120b:free',
+      'meta-llama/llama-3.3-70b-instruct:free',
+      // Paid models (passthrough pricing — set representative costs for routing)
       'openai/gpt-4o',
       'anthropic/claude-3.5-sonnet',
       'google/gemini-pro-1.5',
       'meta-llama/llama-3.1-70b-instruct',
       'mistralai/mistral-large',
     ],
-    costPerK: { input: 0, output: 0 }, // Passthrough pricing
+    costPerK: { input: 0, output: 0 }, // Passthrough pricing — router uses model-specific costs
     tier: 'cheap',
     format: 'openai',
     type: 'api',
     priority: 34,
-    maxTokens: 8192,
+    maxTokens: 128000,
   },
 
   // ========================================================================

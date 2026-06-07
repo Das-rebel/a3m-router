@@ -165,20 +165,90 @@ export class MemoryTree {
   }
 
   /**
-   * Search chunks by content
+   * Score a chunk by word-level overlap with the query (TF-IDF inspired).
+   * Returns a relevance score in [0, 1].
    */
-  search(query: string): MemoryChunk[] {
-    const results: MemoryChunk[] = [];
-    const queryLower = query.toLowerCase();
+  private scoreChunkRelevance(query: string, content: string): number {
+    const queryWords = this.tokenize(query);
+    const contentWords = this.tokenize(content);
 
-    for (const chunk of this.chunks.values()) {
-      if (chunk.content.toLowerCase().includes(queryLower)) {
-        chunk.accessCount++;
-        results.push(chunk);
+    if (queryWords.length === 0 || contentWords.length === 0) return 0;
+
+    const contentSet = new Set(contentWords);
+
+    // Exact word matches (case-insensitive)
+    const exactMatches = queryWords.filter(w => contentSet.has(w)).length;
+
+    // Partial/fuzzy matches: query word is substring of content word or vice versa
+    let partialMatches = 0;
+    for (const qw of queryWords) {
+      if (exactMatches > 0 && contentSet.has(qw)) continue; // already counted
+      for (const cw of contentSet) {
+        if (cw.includes(qw) || qw.includes(cw)) {
+          partialMatches++;
+          break;
+        }
       }
     }
 
-    return results.sort((a, b) => b.score - a.score);
+    // Weighted score: exact matches worth more than partial
+    const weightedMatch = exactMatches * 1.0 + partialMatches * 0.4;
+    const coverage = weightedMatch / queryWords.length;
+
+    // Normalize by length ratio to favor concise matches
+    const lengthRatio = Math.min(1, contentWords.length / Math.max(queryWords.length, 1));
+
+    return Math.min(1, coverage * (1 / lengthRatio) * 0.5 + coverage * 0.5);
+  }
+
+  /**
+   * Simple word tokenizer — splits on whitespace and normalizes to lowercase.
+   */
+  private tokenize(text: string): string[] {
+    return text
+      .toLowerCase()
+      .split(/\s+/)
+      .map(w => w.replace(/[^a-z0-9\u00C0-\u024F]/g, ''))
+      .filter(w => w.length > 1);
+  }
+
+  /**
+   * Search chunks by relevance scoring.
+   * - Word-level TF-IDF style overlap scoring
+   * - Fuzzy partial word matching
+   * - Returns top-K results sorted by relevance
+   * - Recency fallback: if no word matches, returns most recently added chunks
+   */
+  search(query: string, topK = 10): MemoryChunk[] {
+    const scored: { chunk: MemoryChunk; score: number }[] = [];
+    const queryWords = this.tokenize(query);
+
+    for (const chunk of this.chunks.values()) {
+      const relevance = this.scoreChunkRelevance(query, chunk.content);
+      if (relevance > 0) {
+        chunk.accessCount++;
+        scored.push({ chunk, score: relevance });
+      }
+    }
+
+    // Sort by score descending
+    scored.sort((a, b) => b.score - a.score);
+
+    // If we have results with relevance > 0, take topK
+    if (scored.length > 0) {
+      return scored.slice(0, topK).map(s => s.chunk);
+    }
+
+    // Recency fallback: return most recently added chunks
+    const fallback = Array.from(this.chunks.values())
+      .sort((a, b) => b.createdAt - a.createdAt)
+      .slice(0, topK);
+
+    for (const chunk of fallback) {
+      chunk.accessCount++;
+    }
+
+    return fallback;
   }
 
   /**
