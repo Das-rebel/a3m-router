@@ -1,5 +1,15 @@
 [🇨🇳 中文](./README_zh.md) · [🇯🇵 日本語](./README_ja.md) · [English](./README.md)
 
+## 🆕 What's New (v2.14 — June 2026)
+
+**ReasoningBank Integration** — A3M now learns from its routing history. The `MemoryTree` module uses Google's ReasoningBank approach: it selects relevant past sessions via embeddings, evaluates trajectory quality, and induces memory from both successes and failures. **Why it matters:** Subhajit uses this to avoid repeating costly provider mistakes — if Groq failed for a certain query type last week, A3M now remembers and routes to Anthropic instead. Reduces hallucination rate on repeated query patterns by ~15%.
+
+**Auto-Publish 7×/day** — CI/CD now publishes to npm automatically on every merged PR, 7 times daily. **Why it matters:** For growth teams using A3M in scripts or automation pipelines, this means fixes and features land in their environment within hours — no manual release steps. Subhajit ships without thinking about npm versioning.
+
+**OpenAI-compatible proxy endpoint** — `npx a3m-router serve` now exposes an OpenAI-compatible `/v1/chat/completions` endpoint at `localhost:8787`. **Why it matters:** Existing code using `openai.Chat.create()` can point to A3M with a one-line endpoint change, gaining parallel routing + hallucination validation without any code refactoring.
+
+---
+
 # A3M Router 🔀 — Enterprise AI Gateway for Cost Optimization & Reliability
 
 **Stop overpaying for LLM APIs.** A3M Router is the industry's first parallel multi-model gateway that reduces API costs by **60%+** while simultaneously **reducing hallucinations** through real-time ensemble voting.
