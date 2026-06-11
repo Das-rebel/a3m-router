@@ -693,7 +693,7 @@ export function routeQuery(prompt: string, available_models?: string[], budget_m
   };
 
   const features = extractQueryFeatures(prompt);
-  const candidate_names = available_models || Object.keys(profiles);
+  const candidate_names = (Array.isArray(available_models) && available_models.length > 0) ? available_models : Object.keys(profiles);
 
   // Filter to available models
   const candidates = candidate_names

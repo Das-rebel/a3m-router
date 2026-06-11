@@ -625,7 +625,7 @@ function routeQuery(prompt, available_models, budget_multiplier = 1.0) {
         p75: allCosts[Math.floor(allCosts.length * 0.75)] || 1.0,
     };
     const features = extractQueryFeatures(prompt);
-    const candidate_names = available_models || Object.keys(profiles);
+    const candidate_names = (Array.isArray(available_models) && available_models.length > 0) ? available_models : Object.keys(profiles);
     // Filter to available models
     const candidates = candidate_names
         .filter(name => profiles[name])
