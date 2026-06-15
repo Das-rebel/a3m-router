@@ -9,6 +9,8 @@ import {
   ShapleySummary 
 } from './ensemble/shapleyValue';
 import { dialogOptimizer, MultiRoundDialogOptimizer } from './ensemble/multiRoundDialog';
+import { ProviderRetryHandler, getDefaultRetryHandler } from './routing/providerRetry';
+import { getProviderHealth } from './providers/providerConfig';
 
 // RouterDecision type
 interface RouteDecision {
