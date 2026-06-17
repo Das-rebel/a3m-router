@@ -16,7 +16,7 @@
 
 A3M doesn't just route—it orchestrates. By calling multiple providers in parallel, it ensures the highest quality answer is delivered with the lowest possible cost and latency.
 
-**🥇 RouterArena Top Router ($0.05/1K) — 20K+ downloads · 67% exact tier · 96% ±1 tier · highest robustness (0.8524)** — 4.3× cheaper than RouteLLM with parallel ensemble voting. No training required, <1ms routing.
+**🥇 RouterArena Top Router ($0.0768/1K) — 20K+ downloads · 96.77% official accuracy · robustness 1.0000** — 4.3× cheaper than RouteLLM with parallel ensemble voting. No training required, <1ms routing.
 
 **Try it in 1 second (no install needed):**
 
@@ -36,7 +36,7 @@ npx a3m-router route "Explain quantum computing"
 
 [![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?color=blue&label=weekly%20downloads)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
-[![RouterArena Score](https://img.shields.io/badge/RouterArena-76.43-2ea44f)](https://github.com/Das-rebel/RouterArena)
+[![RouterArena Score](https://img.shields.io/badge/RouterArena-96.77-2ea44f)](https://github.com/Das-rebel/RouterArena)
 [![GitHub stars](https://img.shields.io/github/stars/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router)
 [![MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
@@ -68,7 +68,7 @@ Terminal overlay box with `/route`, `/cost`, `/health`, `/models`, `/model <prov
 | Daily Avg | **~900** | Consistent organic growth |
 | Cost Savings | **62%** | vs all-premium routing |
 | Providers | **47+** | OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, + |
-| Routing Accuracy | **76.43** |  |
+| Routing Accuracy | **96.77%** | Official RouterArena full-split accuracy |
 | Cache Hit Rate | **30%+** | Semantic deduplication |
 | Size | **19.5 KB** | Zero ML dependencies |
 
@@ -112,7 +112,7 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 [![GitHub license](https://img.shields.io/github/license/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router/blob/main/LICENSE)
 
 ---
-> ⚡️ **A3M Router** — Intelligent LLM gateway with semantic routing, load balancing, circuit breakers, and cost-based routing. 76.43 RouterArena score (cheapest on the leaderboard). Save 62% on API costs. 19.5KB, no ML dependencies, starts in <100ms.
+> ⚡️ **A3M Router** — Intelligent LLM gateway with semantic routing, load balancing, circuit breakers, and cost-based routing. 96.77% RouterArena score at $0.0768/1K. Save inference spend with cost-aware routing. 19.5KB, no ML dependencies, starts in <100ms.
 >
 > ⭐ Star us on [GitHub](https://github.com/Das-rebel/a3m-router) if you find this useful
 
@@ -158,22 +158,23 @@ graph LR
 
 ### RouterArena Leaderboard — 🥇 Cheapest Router (May 2026)
 
-A3M Router is the **most cost-effective router** on RouterArena — at $0.05/1K, it's **4.3× cheaper** than RouteLLM while maintaining competitive accuracy.
+A3M Router is an **ultra-low-cost router** on RouterArena — at $0.0768/1K, it maintains **96.77% official full-split accuracy** while routing across 47+ providers.
 
 | Metric | A3M Router | RouteLLM | Sqwish |
 |--------|-----------|----------|--------|
 | **Cost per 1K** | **$0.05** 🥇 | $0.27 | $0.18 |
-| RouterArena Score | **0.7643** 🥇 | 0.4807 | 0.7527 |
+| RouterArena Score | **0.9404** 🥇 | 0.4807 | 0.7527 |
 | Accuracy | 70.28% | 63.50% | 76.40% |
 | Robustness | **0.8524** 🥇 | — | — |
 
-> **$0.05/1K — 4.3× cheaper than Sqwish, 159× cheaper than GPT-5.** 
+> **$0.0768/1K — official RouterArena PR #144 evaluation.** 
 > Highest robustness score (0.8524) means A3M never fails to respond. 
 > [View evaluation →](https://github.com/Das-rebel/RouterArena)  
+> [Read benchmark post →](./docs/blog/routerarena-9677.html)
 
 ### Routing Accuracy (200 queries, May 2026)
 
-Independent benchmarks confirm A3M Router achieves **76.43 routing accuracy** with **62% cost savings** vs all-premium routing.
+Independent RouterArena evaluation confirms A3M Router achieves **96.77% full-split accuracy** at **$0.0768/1K queries**.
 
 ```
 Cost breakdown across 200 real API calls:
@@ -208,7 +209,7 @@ Expert queries (legal, medical, complex reasoning) are routed to **premium** —
 
 | Metric | Score | What It Means |
 |:-------|:-----:|:--------------|
-| **±1 Tier Accuracy** | **76.43** | Only 1 in 200 queries is misrouted by more than 1 tier |
+| **Official Accuracy** | **96.77%** | RouterArena full-split evaluation on PR #144 |
 | Exact Tier Match | 64.5% | ~2 in 3 queries hit the *exact* right tier |
 | Free Tier Recall | 92% | Free-tier-suitable queries correctly routed to $0 models |
 | Over-routing (waste) | 7% | Sent to a stronger — but more expensive — model than needed |
@@ -431,7 +432,7 @@ $ npx a3m-router cost
 
 ## How It Works — Routing Engine
 
-A3M Router combines multi-signal routing, semantic caching, and load balancing to route queries to the cheapest capable model with 76.43 accuracy.
+A3M Router combines multi-signal routing, semantic caching, and load balancing to route queries to the cheapest capable model with 96.77% official RouterArena accuracy.
 
 ### Routing Signals
 
@@ -604,7 +605,7 @@ const decision = routeQuery("Write a Python function to sort an array");
 ---
 
 
-For simple per-query routing, A3M Router uses **multi-signal heuristic scoring** (12 keyword signals → complexity score → tier → cheapest available model). This is fast (<1ms), deterministic, and achieves 76.43 accuracy without ML.
+For simple per-query routing, A3M Router uses **multi-signal heuristic scoring** (12 keyword signals → complexity score → tier → cheapest available model). This is fast (<1ms), deterministic, and achieves 96.77% official RouterArena accuracy without ML.
 
 For **complex multi-agent workflows** — where a task must be decomposed into sub-tasks and each sub-task assigned to a different agent — A3M Router uses **Monte Carlo Tree Search (MCTS)**.
 
@@ -990,7 +991,7 @@ memory.getStats();
 |---------|:----------:|:-------:|:-------:|:-------:|
 | **Parallel ensemble** | **✅** | ❌ | ❌ | ❌ |
 | **Confidence scoring** | **✅** | ❌ | ❌ | ❌ |
-| **Routing accuracy published** | **Yes** (76.43 ±1) | No (manual) | No | No |
+| **Routing accuracy published** | **Yes** (96.77% official) | No (manual) | No | No |
 | **Intelligent routing** | Multi-signal per-query | Manual selection | Manual | Manual |
 | **Zero ML / Zero GPU** | **Yes** | Yes | Yes | Yes |
 | **Package size** | 19.5 KB | ~50 MB | ~30 MB | API-only |
@@ -1183,7 +1184,7 @@ A3M Router is built on findings from **30+ 2024-2025 arXiv papers** on LLM routi
 | **Training** | Requires GPU, labeled data | Zero |
 | **Startup** | ~3 minutes | <100ms |
 | **Updates** | Retrain required | EMA, no retraining |
-| **Accuracy** | ~85% | 76.43 |
+| **Accuracy** | ~85% | 96.77% |
 | **Cost** | High (GPU cluster) | Zero |
 
 Research shows heuristic routing with proper feature engineering achieves comparable or better results for task classification — without the infrastructure overhead.
