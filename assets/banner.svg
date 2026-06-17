@@ -72,36 +72,36 @@
   <text x="600" y="210" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="url(#accentGradient)" text-anchor="middle">Adaptive Memory Multi-Model Router</text>
   
   <!-- Tagline -->
-  <text x="600" y="250" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#94a3b8" text-anchor="middle">Route LLM queries to optimal providers • Save 50-80% on API costs</text>
+  <text x="600" y="250" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#94a3b8" text-anchor="middle">No. 1 RouterArena accuracy, cost & robustness among known public baselines</text>
   
   <!-- Stats Bar -->
   <g transform="translate(600, 320)">
     <rect x="-350" y="0" width="700" height="50" rx="25" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
     
     <!-- Stat 1 -->
-    <text x="-280" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold" fill="#6366f1" text-anchor="middle">872+</text>
-    <text x="-280" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Weekly Downloads</text>
+    <text x="-280" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold" fill="#6366f1" text-anchor="middle">0.9404</text>
+    <text x="-280" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">RouterArena Score</text>
     
     <!-- Divider -->
     <line x1="-200" y1="10" x2="-200" y2="40" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
     
     <!-- Stat 2 -->
-    <text x="-100" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">12</text>
-    <text x="-100" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">LLM Providers</text>
+    <text x="-100" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold" fill="#10b981" text-anchor="middle">96.77%</text>
+    <text x="-100" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Accuracy</text>
     
     <!-- Divider -->
     <line x1="0" y1="10" x2="0" y2="40" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
     
     <!-- Stat 3 -->
-    <text x="100" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold" fill="#f59e0b" text-anchor="middle">116</text>
-    <text x="100" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Integrations</text>
+    <text x="100" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold" fill="#f59e0b" text-anchor="middle">$0.0768/1K</text>
+    <text x="100" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Cost</text>
     
     <!-- Divider -->
     <line x1="200" y1="10" x2="200" y2="40" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
     
     <!-- Stat 4 -->
-    <text x="280" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold" fill="#8b5cf6" text-anchor="middle">33</text>
-    <text x="280" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Tests Passing</text>
+    <text x="280" y="32" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="bold" fill="#8b5cf6" text-anchor="middle">1.0000</text>
+    <text x="280" y="48" font-family="system-ui, -apple-system, sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Robustness</text>
   </g>
   
   <!-- Bottom Gradient Line -->

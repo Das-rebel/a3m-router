@@ -79,7 +79,7 @@
 
   <!-- Subtitle -->
   <text x="120" y="170" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" fill="#8b949e" font-weight="400">
-    Drop-in OpenAI proxy · 39 providers · 245% growth in 3 days
+    Drop-in OpenAI proxy · 47+ providers · RouterArena PR #144
   </text>
 
   <!-- Stat cards row -->
@@ -88,13 +88,13 @@
     <rect x="120" y="210" width="320" height="160" rx="16" fill="#161b22" stroke="#238636" stroke-width="2" opacity="0.95"/>
     <rect x="120" y="210" width="320" height="4" rx="2" fill="url(#greenGrad)"/>
     <text x="280" y="268" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="52" font-weight="800" fill="#2ea043" text-anchor="middle">
-      2,775
+      0.9404
     </text>
     <text x="280" y="305" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" fill="#8b949e" text-anchor="middle" font-weight="500">
-      npm downloads
+      RouterArena score
     </text>
     <text x="280" y="340" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" fill="#484f58" text-anchor="middle">
-      in first 3 days
+      96.77% accuracy
     </text>
   </g>
 
@@ -103,10 +103,10 @@
     <rect x="480" y="210" width="320" height="160" rx="16" fill="#161b22" stroke="#1f6feb" stroke-width="2" opacity="0.95"/>
     <rect x="480" y="210" width="320" height="4" rx="2" fill="url(#blueGrad)"/>
     <text x="640" y="268" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="52" font-weight="800" fill="#58a6ff" text-anchor="middle">
-      245%
+      96.77%
     </text>
     <text x="640" y="305" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" fill="#8b949e" text-anchor="middle" font-weight="500">
-      day-over-day growth
+      RouterArena accuracy
     </text>
     <text x="640" y="340" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" fill="#484f58" text-anchor="middle">
       organic, no marketing
@@ -118,10 +118,10 @@
     <rect x="840" y="210" width="320" height="160" rx="16" fill="#161b22" stroke="#8b5cf6" stroke-width="2" opacity="0.95"/>
     <rect x="840" y="210" width="320" height="4" rx="2" fill="url(#purpleGrad)"/>
     <text x="1000" y="268" font-family="'SF Mono', 'Fira Code', 'Consolas', monospace" font-size="52" font-weight="800" fill="#a78bfa" text-anchor="middle">
-      $0
+      $0.0768/1K
     </text>
     <text x="1000" y="305" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" fill="#8b949e" text-anchor="middle" font-weight="500">
-      marketing budget
+      No. 1 cost
     </text>
     <text x="1000" y="340" font-family="'SF Pro Text', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" fill="#484f58" text-anchor="middle">
       100% community driven

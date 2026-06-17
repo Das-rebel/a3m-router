@@ -501,7 +501,7 @@ Documentation: https://github.com/Das-rebel/tmlpd-skill/blob/main/docs/TMLPD_V2.
 ### Template 3: Partner Integrations
 
 ```
-Subject: Integration Proposal: Bring 82% Cost Savings to [Platform] Users
+Subject: Integration Proposal: Bring RouterArena-Validated LLM Routing to [Platform] Users
 
 Hi [Contact Person],
 

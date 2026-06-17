@@ -59,11 +59,11 @@
 
 ## 2. Key Messages (use everywhere)
 
-1. **"82.5% routing accuracy without ML"** — Lead metric, differentiator
-2. **"Matches RouteLLM BERT within 2.5%"** — Competitive positioning
-3. **"30x more efficient than GPU-based routing"** — Efficiency story
-4. **"Only router besides RouteLLM with published benchmarks"** — Trust signal
-5. **"245% growth, 2,775 downloads in 3 days"** — Social proof
+1. **"No. 1 accuracy, cost & robustness among known public RouterArena baselines"** — Lead proof
+2. **"RouterArena PR #144: 0.9404 score, 96.77% accuracy"** — Trust signal
+3. **"$0.0768/1K with 1.0000 robustness"** — Cost and reliability proof
+4. **"47+ providers, zero ML dependencies"** — Product differentiator
+5. **"Parallel multi-LLM execution + semantic cache + provider health"** — Architecture story
 
 ---
 
@@ -76,7 +76,7 @@
 - We have a direct benchmark comparison (within 2.5%)
 - We offer features RouteLLM lacks (proxy, cache, guardrails)
 
-**Positioning:** "A3M Router matches RouteLLM BERT within 2.5% — without GPU. Plus proxy, cache, guardrails."
+**Positioning:** "A3M Router is No. 1 among known public RouterArena baselines: 0.9404 score, 96.77% accuracy, $0.0768/1K, and 1.0000 robustness. It also offers proxy, cache, guardrails, and 47+ providers."
 
 ### LiteLLM Alternative (HIGH VALUE)
 
@@ -85,7 +85,7 @@
 - Zero-config setup
 - Built-in semantic caching
 
-**Positioning:** "A3M Router is the only LiteLLM alternative with published routing benchmarks (82.5% accuracy)."
+**Positioning:** "A3M Router is the LiteLLM alternative with RouterArena PR #144 proof: 96.77% accuracy at $0.0768/1K across 8,400 queries."
 
 ### Competitive Table
 
@@ -94,7 +94,7 @@
 | litellm | ~80,000 | Published benchmarks, zero-config, semantic cache |
 | openrouter-sdk | ~5,000 | Self-hosted, no middleman fees, published accuracy |
 | portkey-ai | ~3,000 | Open-source, free, no signup, benchmarks |
-| routellm | ~1,000 | No GPU needed, proxy included, 39 providers |
+| routellm | ~1,000 | RouterArena PR #144 proof, proxy included, 47+ providers |
 
 ---
 
@@ -104,20 +104,20 @@
 
 | Element | Status | Target |
 |---------|--------|--------|
-| Title tag | UPDATED | "A3M Router — 82.5% Routing Accuracy Without ML \| Matches RouteLLM" |
-| Meta description | UPDATED | 30x efficiency story with accuracy metric |
-| Keywords meta | UPDATED | All 12 primary/long-tail keywords |
-| H1 tag | UPDATED | "LLM Routing That Matches GPU Models — Without GPU" |
-| Stats section | UPDATED | Leads with 82.5% accuracy, 2.5% gap, 30x efficiency |
-| FAQ schema | UPDATED | 8 questions targeting AI search queries |
-| OG tags | UPDATED | Benchmark-first messaging |
-| Twitter cards | UPDATED | Benchmark-first messaging |
+| Title tag | UPDATED | "A3M Router — No. 1 RouterArena Accuracy, Cost & Robustness" |
+| Meta description | UPDATED | RouterArena PR #144 proof with score, accuracy, cost, robustness, and 8,400-query context |
+| Keywords meta | UPDATED | RouterArena, LLM router, AI gateway, cost optimization, provider health, semantic cache, OpenAI proxy |
+| H1 tag | UPDATED | "No. 1 RouterArena Accuracy, Cost & Robustness" |
+| Stats section | UPDATED | Leads with 96.77% accuracy, $0.0768/1K cost, 1.0000 robustness, and 47+ providers |
+| FAQ schema | UPDATED | Questions targeting AI search for best LLM router, RouteLLM alternative, LiteLLM alternative, and RouterArena accuracy |
+| OG tags | UPDATED | RouterArena PR #144 proof |
+| Twitter cards | UPDATED | RouterArena PR #144 proof |
 
 ### Content Structure (H-tag hierarchy)
 
 ```
-H1: LLM Routing That Matches GPU Models — Without GPU
-H2: Intelligent LLM Routing (feature)
+H1: No. 1 RouterArena Accuracy, Cost & Robustness
+H2: Cost / Accuracy / Robustness (feature proof)
 H2: Cost Optimization (feature)
 H2: Smart Fallback & Retry (feature)
 H2: Real-time Analytics (feature)
@@ -127,11 +127,9 @@ H2: LLM Provider Pricing Tiers (section)
 H3: Free/Budget/Mid/Premium Tier
 H2: Quick Start: LLM Routing in 30 Seconds
 H2: Frequently Asked Questions
-H3: What is LLM routing accuracy?
-H3: How does keyword-based routing compare to ML routing?
-H3: What is the best lightweight LLM router?
-H3: How to reduce OpenAI API costs?
+H3: What is the best open-source LLM router?
 H3: How does A3M Router compare to RouteLLM?
+H3: How much does A3M save vs premium models?
 H3: How does A3M Router compare to LiteLLM?
 ```
 
@@ -151,7 +149,7 @@ H3: How does A3M Router compare to LiteLLM?
 - Priority weighting: homepage (1.0) > GitHub (0.9) > NPM (0.9) > docs (0.7-0.8)
 
 ### llms.txt (UPDATED)
-- Leads with benchmark story (82.5% accuracy)
+- Leads with RouterArena PR #144 proof (0.9404 score, 96.77% accuracy, $0.0768/1K, 1.0000 robustness)
 - Includes comparison table vs RouteLLM/LiteLLM
 - Structured data section for AI extraction
 - All 5 key messages included
