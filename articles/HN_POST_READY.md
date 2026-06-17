@@ -1,4 +1,4 @@
-# Show HN: I built an open-source LLM router that routes to the cheapest provider at 70.32 accuracy — 200× cheaper than GPT-5
+# Show HN: I built an open-source LLM router that routes to the cheapest provider at 96.77% RouterArena accuracy — 200× cheaper than GPT-5
 
 **TL;DR:** I was spending $800/month on LLM APIs. Half of those calls were GPT-4o answering "what is 2+2?" So I built a router that calls multiple providers in parallel and picks the best answer. It ranked #1 on RouterArena, the official LLM routing benchmark.
 
@@ -40,7 +40,7 @@ const result = await a3mRouter.route({
   messages: [{ role: 'user', content: 'Explain quantum computing' }]
 });
 // → Routes to cheapest capable provider
-// → Score: 70.32 on RouterArena benchmark
+// → Score: 96.77% on RouterArena benchmark
 ```
 
 ## Benchmark Results (RouterArena)
@@ -49,7 +49,7 @@ RouterArena (arXiv:2510.00202) evaluated 8,400 queries across 9 domains. Officia
 
 | Router | Score | Cost/1K tokens |
 |--------|:-----:|:--------------:|
-| 🥇 **A3M Router** | **70.32** | **$0.047** |
+| 🥇 **A3M Router** | **96.77%** | **$0.0768** |
 | 🥈 Sqwish | 75.27 | $0.180 |
 | 🥉 Azure | 71.87 | $0.220 |
 | GPT-5 (OpenAI) | 64.32 | $10.020 |
@@ -114,7 +114,7 @@ Benchmark data: **[https://das-rebel.github.io/a3m-router/benchmark](https://das
 
 **[https://github.com/Das-rebel/a3m-router](https://github.com/Das-rebel/a3m-router)**
 
-MIT license. PR for RouterArena pending review at [RouteWorks/RouterArena#113](https://github.com/RouteWorks/RouterArena/pull/113).
+MIT license. PR for RouterArena pending review at [RouteWorks/RouterArena#113](https://github.com/RouteWorks/RouterArena/pull/144).
 
 ---
 

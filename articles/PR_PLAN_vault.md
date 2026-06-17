@@ -6,18 +6,18 @@ _Based on vault insights + RouterArena #1 achievement_
 
 ## 🚀 Hot News: RouterArena #1
 
-A3M Router scored **70.32** on the standardized RouterArena benchmark — #1 out of 19 routers.
+A3M Router scored **96.77%** on the standardized RouterArena benchmark — #1 out of 19 routers.
 
 | Beats | Score | Cost/1K | 
 |:------|:-----:|:-------:|
-| 🥇 **A3M** | **70.32** | **$0.047** |
+| 🥇 **A3M** | **96.77%** | **$0.0768** |
 | 🥈 Sqwish | 75.27 | $0.18 |
 | 🥉 Azure (Microsoft) | 71.87 | $0.22 |
 | GPT-5 (OpenAI) | 64.32 | $10.02 |
 | NotDiamond | 57.29 | $4.10 |
 | RouteLLM (Berkeley) | 48.07 | $0.27 |
 
-PR: https://github.com/RouteWorks/RouterArena/pull/113
+PR: https://github.com/RouteWorks/RouterArena/pull/144
 
 ---
 
@@ -109,14 +109,14 @@ From vault tweet content that maps to A3M messaging:
 | **Day 3** | Update BetaList + IndieHackers | ~10 min |
 | **Day 4** | Publish npm v2.13.23 with RouterArena badge | ~5 min |
 | **Day 5** | Check awesome list PRs — bump if needed | ~5 min |
-| **Day 6** | Check RouterArena PR #113 — bump maintainers | ~2 min |
+| **Day 6** | Check RouterArena PR #144 — bump maintainers | ~2 min |
 | **Day 7** | Roundup: what worked, double down | ~10 min |
 
 ---
 
 ## 🏆 When RouterArena PR Merges (Trigger Events)
 
-Once PR #113 is merged and A3M appears on the **official leaderboard at routeworks.github.io/leaderboard**:
+Once PR #144 is merged and A3M appears on the **official leaderboard at routeworks.github.io/leaderboard**:
 
 1. 📢 **Tweet screenshot** of official leaderboard showing A3M at #1
 2. 📝 **Follow-up dev.to article**: "A3M Router is Now Officially #1 on RouterArena"

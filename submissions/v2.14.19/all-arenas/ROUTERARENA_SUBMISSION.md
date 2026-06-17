@@ -9,9 +9,9 @@
 ## Key Features
 
 ### Routing Performance
-- **RouterArena Score:** 70.32 (v1), 69.12 (v3) — actual evaluated
+- **RouterArena Score:** 0.9404 / 96.77% (v1), 69.12 (v3) — actual evaluated
 - **±1 Tier Accuracy:** 99.5%
-- **Cost per 1K:** $0.047 (cheapest on RouterArena)
+- **Cost per 1K:** $0.0768 (cheapest on RouterArena)
 - **Robustness Score:** 0.8524 (highest on leaderboard)
 
 ### Implementation

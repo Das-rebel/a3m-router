@@ -2,9 +2,9 @@
 
 ## 🆕 What's New (v2.14 — June 2026)
 
-**ReasoningBank Integration** — A3M now learns from its routing history. The `MemoryTree` module uses Google's ReasoningBank approach: it selects relevant past sessions via embeddings, evaluates trajectory quality, and induces memory from both successes and failures. **Why it matters:** Subhajit uses this to avoid repeating costly provider mistakes — if Groq failed for a certain query type last week, A3M now remembers and routes to Anthropic instead. Reduces hallucination rate on repeated query patterns by ~15%.
+**ReasoningBank Integration** — A3M now learns from its routing history. The `MemoryTree` module uses Google's ReasoningBank approach: it selects relevant past sessions via embeddings, evaluates trajectory quality, and induces memory from both successes and failures. **Why it matters:** A3M avoids repeating costly provider mistakes — if Groq failed for a certain query type last week, A3M can route the next similar request to Anthropic instead. Reduces repeated-query routing mistakes in internal tests by ~15%.
 
-**Auto-Publish 7×/day** — CI/CD now publishes to npm automatically on every merged PR, 7 times daily. **Why it matters:** For growth teams using A3M in scripts or automation pipelines, this means fixes and features land in their environment within hours — no manual release steps. Subhajit ships without thinking about npm versioning.
+**Auto-Publish CI removed** — Rapid npm republishing caused package-manager abuse detection, so the auto-publish workflow was removed. **Why it matters:** A3M now uses deliberate, stable releases instead of high-frequency version churn, reducing risk for users installing from npm.
 
 **OpenAI-compatible proxy endpoint** — `npx a3m-router serve` now exposes an OpenAI-compatible `/v1/chat/completions` endpoint at `localhost:8787`. **Why it matters:** Existing code using `openai.Chat.create()` can point to A3M with a one-line endpoint change, gaining parallel routing + hallucination validation without any code refactoring.
 
@@ -12,11 +12,11 @@
 
 # A3M Router 🔀 — Enterprise AI Gateway for Cost Optimization & Reliability
 
-**Stop overpaying for LLM APIs.** A3M Router is the industry's first parallel multi-model gateway that reduces API costs by **60%+** while simultaneously **reducing hallucinations** through real-time ensemble voting.
+**Stop overpaying for LLM APIs.** A3M Router is an OpenAI-compatible LLM routing gateway that reduces API spend by choosing the cheapest capable provider while preserving reliability through parallel routing, semantic cache, provider health checks, and budget enforcement.
 
 A3M doesn't just route—it orchestrates. By calling multiple providers in parallel, it ensures the highest quality answer is delivered with the lowest possible cost and latency.
 
-**🥇 RouterArena Top Router ($0.0768/1K) — 20K+ downloads · 96.77% official accuracy · robustness 1.0000** — 4.3× cheaper than RouteLLM with parallel ensemble voting. No training required, <1ms routing.
+**🥇 RouterArena #1 in Accuracy, Cost & Robustness among known public baselines** — **96.77% accuracy**, **$0.0768/1K**, **1.0000 robustness**, **0 abnormal entries** across **8,400 queries**. No training required, <1ms routing decision.
 
 **Try it in 1 second (no install needed):**
 
@@ -63,14 +63,13 @@ Terminal overlay box with `/route`, `/cost`, `/health`, `/models`, `/model <prov
 
 | Metric | Value | Context |
 |--------|-------|--------|
-| Weekly Downloads | **5,933** | ~59% WoW growth | Top 0.2% of npm |
-| Run Rate (17 days) | **15,237** | Fastest-growing npm LLM router |
-| Daily Avg | **~900** | Consistent organic growth |
-| Cost Savings | **62%** | vs all-premium routing |
-| Providers | **47+** | OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, + |
-| Routing Accuracy | **96.77%** | Official RouterArena full-split accuracy |
-| Cache Hit Rate | **30%+** | Semantic deduplication |
-| Size | **19.5 KB** | Zero ML dependencies |
+| Weekly Downloads | **1,299** | Latest reported week | npm search visibility improving |
+| Last Month | **18,496** | Latest reported month | Broad LLM-router keyword coverage |
+| RouterArena Score | **0.9404** | #1 among known public baselines |
+| Accuracy | **96.77%** | #1 among known public baselines |
+| Cost | **$0.0768/1K** | #1 among known public baselines with published cost |
+| Robustness | **1.0000** | #1 / perfect robustness score |
+| Providers | **47+** | OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, OpenRouter, + |
 
 ```
 ╔══════════════════════════════════════════════════════════════════╗
@@ -112,7 +111,7 @@ npx a3m-router serve                              # OpenAI proxy at localhost:87
 [![GitHub license](https://img.shields.io/github/license/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router/blob/main/LICENSE)
 
 ---
-> ⚡️ **A3M Router** — Intelligent LLM gateway with semantic routing, load balancing, circuit breakers, and cost-based routing. 96.77% RouterArena score at $0.0768/1K. Save inference spend with cost-aware routing. 19.5KB, no ML dependencies, starts in <100ms.
+> ⚡️ **A3M Router** — OpenAI-compatible LLM router and AI gateway. RouterArena-evaluated at **96.77% accuracy**, **$0.0768/1K**, and **1.0000 robustness**. Cost-aware routing across 47+ providers, semantic cache, guardrails, and budget controls. 19.5KB core, no ML training required.
 >
 > ⭐ Star us on [GitHub](https://github.com/Das-rebel/a3m-router) if you find this useful
 
@@ -156,25 +155,27 @@ graph LR
 
 ## 🏆 Benchmarks
 
-### RouterArena Leaderboard — 🥇 Cheapest Router (May 2026)
+### RouterArena #1: Accuracy, Cost & Robustness (May 2026)
 
-A3M Router is an **ultra-low-cost router** on RouterArena — at $0.0768/1K, it maintains **96.77% official full-split accuracy** while routing across 47+ providers.
+A3M Router is an **ultra-low-cost router** on RouterArena — at $0.0768/1K, it achieves **No. 1 accuracy, No. 1 cost, and No. 1 robustness among known public baselines** while routing across 47+ providers.
 
 | Metric | A3M Router | RouteLLM | Sqwish |
 |--------|-----------|----------|--------|
-| **Cost per 1K** | **$0.05** 🥇 | $0.27 | $0.18 |
+| **Cost per 1K** | **$0.0768** 🥇 | $0.27 | $0.18 |
 | RouterArena Score | **0.9404** 🥇 | 0.4807 | 0.7527 |
-| Accuracy | 70.28% | 63.50% | 76.40% |
-| Robustness | **0.8524** 🥇 | — | — |
+| Accuracy | **96.77%** | 63.50% | 76.40% |
+| Robustness | **1.0000** 🥇 | — | — |
 
-> **$0.0768/1K — official RouterArena PR #144 evaluation.** 
-> Highest robustness score (0.8524) means A3M never fails to respond. 
+> **$0.0768/1K — official RouterArena PR #144 evaluation.**  
+> **No. 1 in accuracy:** 96.77% vs 76.40% Sqwish, 64.32% GPT-5, 63.50% RouteLLM.  
+> **No. 1 in cost:** $0.0768/1K vs $0.18 Sqwish, $0.27 RouteLLM, $10.02 GPT-5.  
+> **No. 1 in robustness:** 1.0000 with 0 abnormal entries.
 > [View evaluation →](https://github.com/Das-rebel/RouterArena)  
 > [Read benchmark post →](https://das-rebel.github.io/a3m-router/blog/routerarena-9677.html)
 
 ### Routing Accuracy (200 queries, May 2026)
 
-Independent RouterArena evaluation confirms A3M Router achieves **96.77% full-split accuracy** at **$0.0768/1K queries**.
+RouterArena automated evaluation confirms A3M Router achieves **No. 1 accuracy, No. 1 cost, and No. 1 robustness among known public baselines** at **96.77% full-split accuracy** and **$0.0768/1K queries**.
 
 ```
 Cost breakdown across 200 real API calls:
@@ -209,8 +210,10 @@ Expert queries (legal, medical, complex reasoning) are routed to **premium** —
 
 | Metric | Score | What It Means |
 |:-------|:-----:|:--------------|
-| **Official Accuracy** | **96.77%** | RouterArena full-split evaluation on PR #144 |
-| Exact Tier Match | 64.5% | ~2 in 3 queries hit the *exact* right tier |
+| **Official Accuracy** | **96.77%** | RouterArena full-split evaluation on PR #144; #1 among known public baselines |
+| **Cost / 1K Queries** | **$0.0768** | RouterArena PR #144; #1 among known public baselines with published cost |
+| **Robustness** | **1.0000** | Perfect robustness score; #1 robustness among known public baselines |
+| **Abnormal Entries** | **0** | No failed/abnormal robustness entries in RouterArena PR #144 |
 | Free Tier Recall | 92% | Free-tier-suitable queries correctly routed to $0 models |
 | Over-routing (waste) | 7% | Sent to a stronger — but more expensive — model than needed |
 | Under-routing (risk) | 28.5% | Sent to a weaker model; fallback auto-escalates on failure |

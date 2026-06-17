@@ -1,4 +1,4 @@
-Title: Show HN: I built an open-source LLM router that costs $0.05/1K queries — same quality as GPT-5 at $10/1K
+Title: Show HN: I built an open-source LLM router that costs $0.0768/1K queries — same quality as GPT-5 at $10/1K
 
 I was spending $800/month on LLM API calls. Half of them were overkill — GPT-4o for "what is 2+2?" That's like taking a helicopter to buy milk.
 
@@ -6,7 +6,7 @@ So I built a router that calls multiple providers at the same time and picks the
 
 The result: #1 on RouterArena benchmark (arXiv:2510.00202), and the cheapest router on the market.
 
-    A3M Router:   76.43   $0.05/1K
+    A3M Router:   96.77%   $0.0768/1K
     Sqwish:        75.27   $0.18/1K
     Azure:         71.87   $0.22/1K
     GPT-5:         64.32   $10.02/1K

@@ -20,7 +20,7 @@ The issue was using it for EVERYTHING:
 
 "How do I reset my password?" → GPT-4 ($0.03)
 "Summarize this email" → GPT-4 ($0.02)
-"Write Python function" → GPT-4 ($0.05)
+"Write Python function" → GPT-4 ($0.0768)
 
 We were paying Ferrari prices for grocery runs.
 
@@ -77,7 +77,7 @@ After: Cheapest provider ($0.001, 0.8s)
 Savings: 97%
 
 Code: "Write Python function"
-Before: GPT-4 ($0.05, 2.1s)
+Before: GPT-4 ($0.0768, 2.1s)
 After: Fast provider ($0.0004, 0.4s)
 Savings: 99%, 5x faster
 

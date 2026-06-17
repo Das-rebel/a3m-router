@@ -47,7 +47,7 @@ npx a3m-router route "Your query"
 npx a3m-router benchmark
 ```
 
-40 providers. Semantic cache. Circuit breakers. Real-time cost dashboard. 3MB.
+47+ providers. Semantic cache. Circuit breakers. Real-time cost dashboard. 3MB.
 
 GitHub: https://github.com/Das-rebel/a3m-router
 

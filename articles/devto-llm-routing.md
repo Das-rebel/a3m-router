@@ -90,7 +90,7 @@ await router.route("Analyze this legal contract");
 - 3MB install vs 2GB+
 - 50ms cold start vs 3s
 - Runs on any VPS, no GPU needed
-- 40 providers vs 11
+- 47+ providers vs 11
 - Drop-in proxy mode
 
 ### What LiteLLM does better

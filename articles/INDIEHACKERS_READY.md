@@ -57,11 +57,11 @@ Same quality outputs. 62% less money.
 
 Then RouterArena published their benchmark (arXiv:2510.00202). I submitted A3M.
 
-**Result: #1 among cost-aware routers. 70.32 score. $0.047/1K tokens.**
+**Result: #1 among cost-aware routers. 0.9404 / 96.77%. $0.0768/1K tokens.**
 
 | Router | Score | Cost/1K |
 |--------|:-----:|:-------:|
-| A3M Router | 70.32 | $0.047 |
+| A3M Router | 96.77% | $0.0768 |
 | Sqwish | 75.27 | $0.180 |
 | Azure | 71.87 | $0.220 |
 | GPT-5 | 64.32 | $10.020 |

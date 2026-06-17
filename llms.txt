@@ -1,4 +1,4 @@
-# A3M Router — #1 LLM Routing Benchmark & Cheapest Router with Memory
+# A3M Router — #1 LLM Routing Benchmark & No. 1 in Cost with Memory
 
 ## One sentence
 Official RouterArena result: 0.9404 score, 96.77% accuracy, $0.0768/1K queries. Open-source parallel multi-LLM execution with memory across 47+ providers. 19.5KB, zero ML dependencies.

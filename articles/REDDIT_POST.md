@@ -8,7 +8,7 @@
 
 ## Post Title Options
 1. "I built an LLM router that beats GPT-5 at 1/213th the cost — #1 on RouterArena"
-2. "A3M Router: 70.32 score, $0.047/1K, open-source"
+2. "A3M Router: 0.9404 / 96.77%, $0.0768/1K, open-source"
 
 ## Post Body
 
@@ -16,10 +16,10 @@
 I built A3M Router — an open-source LLM routing proxy that ranks #1 on RouterArena (arXiv:2510.00202).
 
 **The Numbers:**
-- RouterArena Score: 70.32 (#1 of 19 routers)
-- Cost: $0.047 per 1K queries
-- vs GPT-5: 213x cheaper with better accuracy
-- vs RouteLLM: 59% higher score at 5.7x lower cost
+- RouterArena Score: 96.77% (#1 of 19 routers)
+- Cost: $0.0768 per 1K queries
+- vs GPT-5: 130x cheaper with better accuracy
+- vs RouteLLM: 122% higher score at 3.5x lower cost
 
 **How it works:**
 Instead of sending every query to expensive models, A3M routes queries to the cheapest capable provider using 12 keyword signals.

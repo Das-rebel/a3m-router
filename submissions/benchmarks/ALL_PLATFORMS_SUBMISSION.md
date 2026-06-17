@@ -24,7 +24,7 @@
 ## Benchmark Coverage
 
 ### 1. RouterArena
-- **Status:** PR #120 open, awaiting re-evaluation
+- **Status:** PR #144 open, awaiting re-evaluation
 - **Score:** 70.32 (v1), 69.12 (v3)
 - **Robustness:** 0.8524 (highest)
 - **Request:** Re-evaluation with v2.14.23

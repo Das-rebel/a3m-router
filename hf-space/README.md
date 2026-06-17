@@ -11,12 +11,12 @@ license: mit
 short_description: '#1 LLM routing benchmark & cheapest router with memory'
 ---
 
-# 🔀 A3M Router — #1 LLM Routing Benchmark & Cheapest Router with Memory
+# 🔀 A3M Router — #1 LLM Routing Benchmark & No. 1 in Cost with Memory
 
 See how parallel LLM execution works in real-time. Enter a query and watch 7 providers compete simultaneously.
 
-- 🏆 **#1 on RouterArena** (70.32 score)
-- 💰 **Cheapest** at $0.047/1K queries
+- 🏆 **#1 on RouterArena** (0.9404 / 96.77%)
+- 💰 **Cheapest** at $0.0768/1K queries
 - 🔓 **Open-source** (MIT), 19.5KB
 - 🧠 **Only LLM router with memory**
 

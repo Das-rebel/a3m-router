@@ -4,7 +4,7 @@ Hey r/SideProject — wanted to share something unexpected that happened with my
 
 ## The project
 
-I built **A3M Router** — a TypeScript package that routes LLM queries to the cheapest provider that can handle them. 36 providers, 5 complexity tiers, semantic caching, injection guardrails. The whole package is 19.5 KB gzipped. MIT license, no account needed, self-hosted.
+I built **A3M Router** — a TypeScript package that routes LLM queries to the cheapest provider that can handle them. 47+ providers, 5 complexity tiers, semantic caching, injection guardrails. The whole package is 19.5 KB gzipped. MIT license, no account needed, self-hosted.
 
 Repo: https://github.com/Das-rebel/a3m-router
 npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router
@@ -43,9 +43,9 @@ The package was new and matched high-intent keywords. I think that's why it surf
 
 ## What actually works in the package (the tech)
 
-- **70.32  accuracy** on routing (5-signal keyword classifier, no ML)
+- **96.77%  accuracy** on routing (5-signal keyword classifier, no ML)
 - **61.6% cost savings** vs. using premium models for everything
-- **36 providers** (6 free, 15 cheap, 9 mid, 3 premium, 3 enterprise)
+- **47+ providers** (6 free, 15 cheap, 9 mid, 3 premium, 3 enterprise)
 - **Semantic cache** using trigram Jaccard similarity — catches repeat/near-duplicate queries
 - **Guardrails**: 17-pattern prompt injection detection, PII redaction, hallucination checks
 - **19.5 KB gzipped** — no ML weights, no Python dependency, pure TypeScript

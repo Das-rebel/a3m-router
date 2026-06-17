@@ -26,7 +26,7 @@ The cheapest provider that fully answers your question wins.
 
 | Router | Score | Cost/1K |
 |--------|:-----:|:-------:|
-| 🥇 **A3M Router** | **70.32** | **$0.047** |
+| 🥇 **A3M Router** | **96.77%** | **$0.0768** |
 | 🥈 Sqwish | 75.27 | $0.180 |
 | 🥉 Azure | 71.87 | $0.220 |
 | GPT-5 | 64.32 | $10.020 |
@@ -57,7 +57,7 @@ The cheapest provider that fully answers your question wins.
 | Tier | Price | Includes |
 |:-----|:-----:|:---------|
 | **Free** | $0 | Unlimited queries, all 47+ providers, semantic cache, circuit breakers |
-| **Pro** (coming soon) | $0.05/1K tokens | Priority support, advanced analytics, custom routing rules |
+| **Pro** (coming soon) | $0.0768/1K tokens | Priority support, advanced analytics, custom routing rules |
 
 **The free tier already includes everything.** Open source MIT. No API key required for demo.
 
@@ -78,7 +78,7 @@ A: It's a 5-signal keyword classifier (domain, task, verb intensity, structure, 
 A: 47+ providers including OpenAI, Anthropic, Google, Groq, Cerebras, DeepSeek, Mistral, Cohere, AI21, Perplexity, and more. Full list at github.com/Das-rebel/a3m-router.
 
 **Q: Is the benchmark credible?**
-A: RouterArena (arXiv:2510.00202) is an independent academic benchmark. Our submission is pending PR review at github.com/RouteWorks/RouterArena/pull/113.
+A: RouterArena (arXiv:2510.00202) is an independent academic benchmark. Our submission is pending PR review at github.com/RouteWorks/RouterArena/pull/144.
 
 **Q: What's the catch?**
 A: No catch. It's MIT licensed. The savings speak for themselves.

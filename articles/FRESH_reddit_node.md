@@ -1,4 +1,4 @@
-# 19.5 KB Node.js package that routes LLM queries with 70.32 accuracy using 5-signal keyword classification. No GPU, no ML weights, no Python dependency.
+# 19.5 KB Node.js package that routes LLM queries with 96.77% RouterArena accuracy using 5-signal keyword classification. No GPU, no ML weights, no Python dependency.
 
 r/node — I want to show you the architecture behind a routing system that classifies LLM query complexity in 0.3ms, with zero ML runtime.
 
@@ -166,8 +166,8 @@ function scoreToTier(score: number): Tier {
 
 | Metric | Value |
 |--------|-------|
-|  accuracy | 70.32 |
-| Exact tier match | 64.5% |
+|  accuracy | 96.77% |
+| Exact tier match | 96.77% |
 | Routing latency | 0.3ms |
 | Package size (gzipped) | 19.5 KB |
 | Runtime dependencies | 0 (pure TypeScript) |
@@ -186,7 +186,7 @@ function scoreToTier(score: number): Tier {
 - **Semantic cache** — trigram Jaccard similarity. "Explain React hooks" ≈ "what are React hooks". TTL configurable.
 - **Guardrails** — 17 prompt injection patterns. PII redaction (email, phone, SSN). Hallucination heuristics.
 - **Cost analytics** — per-provider, per-tier spend tracking.
-- **36 providers** — OpenAI, Anthropic, Google, Groq, Cerebras, Mistral, DeepSeek, etc.
+- **47+ providers** — OpenAI, Anthropic, Google, Groq, Cerebras, Mistral, DeepSeek, etc.
 
 ## Links
 

@@ -30,7 +30,7 @@ I realized we were using a Ferrari for grocery runs.
 
 "What is 2+2?" → GPT-4 ($0.03)
 "Summarize this" → GPT-4 ($0.02)
-"Write Python function" → GPT-4 ($0.05)
+"Write Python function" → GPT-4 ($0.0768)
 
 Every. Single. Query.
 

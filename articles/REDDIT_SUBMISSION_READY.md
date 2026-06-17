@@ -258,8 +258,8 @@ The honest caveat: this is a young project (3 days since launch). The 82.5% numb
 A3M Router — an open-source LLM routing proxy that automatically sends your queries to the cheapest capable model.
 
 **The numbers:**
-- #1 on RouterArena (70.32 score, beating GPT-5 at 64.32)
-- $0.047 per 1K queries — 213x cheaper than GPT-5
+- #1 on RouterArena (0.9404 / 96.77%, beating GPT-5 at 64.32)
+- $0.0768 per 1K queries — 130x cheaper than GPT-5
 - 15,237 npm downloads (grew from 0 to 15K in ~3 weeks, zero marketing)
 - 271 tests passing
 - 47+ providers: OpenAI, Anthropic, Groq, Cerebras, DeepSeek, Gemini, Mistral...

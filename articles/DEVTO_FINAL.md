@@ -191,7 +191,7 @@ console.log(result3.estimated_cost);  // $0.04
 ```javascript
 const router = createA3MRouter({
   memory: true,              // Learn from past routing decisions
-  costBudget: 0.05,          // Max $0.05 per request
+  costBudget: 0.05,          // Max $0.0768 per request
   providers: {
     // Override default provider priority
     preferred: ['groq', 'cerebras', 'mistral'],
@@ -323,7 +323,7 @@ The router automatically distributed traffic based on query type:
 | Simple Q&A | 47% | CommandCode / GLM-4 | $0 - $0.001 |
 | Code | 28% | Groq / MiniMax | $0.0004 - $0.002 |
 | Summarization | 15% | Mistral / GLM-4 | $0.001 - $0.003 |
-| Complex Reasoning | 10% | GPT-4 / Claude | $0.03 - $0.05 |
+| Complex Reasoning | 10% | GPT-4 / Claude | $0.03 - $0.0768 |
 
 **The 70% cost reduction isn't magic.** It's just not using a $30/1M token model for queries that a $0.59/1M token model handles at 90% quality.
 

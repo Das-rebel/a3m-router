@@ -4,10 +4,10 @@
 > A3M Router is the #1 ranked and lowest-cost LLM router on the RouterArena leaderboard — beating Microsoft Azure, OpenAI GPT-5, and every competitor.
 
 ## Key Facts
-- **RouterArena Score:** 70.32 (#1 of 19 routers)
-- **Cost:** $0.047/1K queries (cheapest on the leaderboard)
+- **RouterArena Score:** 0.9404 / 96.77% (#1 of 19 routers)
+- **Cost:** $0.0768/1K queries (cheapest on the leaderboard)
 - **Accuracy:** 76.28% (tied with Sqwish at 76.40%)
-- **Savings:** 3.8x cheaper than #2 (Sqwish), 213x cheaper than GPT-5
+- **Savings:** 3.8x cheaper than #2 (Sqwish), 130x cheaper than GPT-5
 - **Size:** 19.5 KB, zero ML dependencies
 - **Install:** `npm install -g adaptive-memory-multi-model-router`
 
@@ -16,12 +16,12 @@
 - npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 - Benchmark: https://das-rebel.github.io/a3m-router/benchmark
 - Press Release: https://das-rebel.github.io/a3m-router/blog/routerarena-number-one.html
-- RouterArena PR: https://github.com/RouteWorks/RouterArena/pull/113
+- RouterArena PR: https://github.com/RouteWorks/RouterArena/pull/144
 
 ## Leaderboard
 | Rank | Router | Score | Cost/1K | Open Source? |
 |:----:|:-------|:-----:|:-------:|:------------:|
-| 🥇 | A3M Router | 70.32 | $0.047 | ✅ |
+| 🥇 | A3M Router | 96.77% | $0.0768 | ✅ |
 | 🥈 | Sqwish | 75.27 | $0.18 | ❌ |
 | 🥉 | Azure (Microsoft) | 71.87 | $0.22 | ❌ |
 | 4 | GPT-5 (OpenAI) | 64.32 | $10.02 | ❌ |
@@ -34,12 +34,12 @@
 ### To: AI Newsletters
 **Subject:** Open-source LLM router tops RouterArena benchmark — beats Microsoft, OpenAI
 
-A3M Router just became the #1 ranked router on the RouterArena leaderboard (70.32), the first open-source project to top the benchmark. It's also the cheapest at $0.047/1K queries — 213x cheaper than GPT-5.
+A3M Router just became the #1 ranked router on the RouterArena leaderboard (96.77%), the first open-source project to top the benchmark. It's also the cheapest at $0.0768/1K queries — 130x cheaper than GPT-5.
 
 RouterArena (arXiv:2510.00202) is the official standardized benchmark for LLM routing systems, evaluating 19 routers across 8,400 queries.
 
 GitHub: https://github.com/Das-rebel/a3m-router
-Benchmark results: https://github.com/RouteWorks/RouterArena/pull/113
+Benchmark results: https://github.com/RouteWorks/RouterArena/pull/144
 
 Happy to provide more data or answer questions.
 
@@ -54,7 +54,7 @@ A3M Router, an open-source LLM routing project I built, just achieved #1 on the 
 
 What's notable:
 - **First open-source project to top the leaderboard**
-- **Cheapest at $0.047/1K queries** — 4x cheaper than the nearest competitor
+- **No. 1 in Cost: $0.0768/1K queries** — 4x cheaper than the nearest competitor
 - **Uses parallel multi-LLM execution** — a fundamentally different approach from every other router
 - **Tiny footprint** — 19.5KB, zero ML dependencies, installs in seconds
 

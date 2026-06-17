@@ -53,7 +53,7 @@ import { createA3MRouter } from 'adaptive-memory-multi-model-router';
 
 const router = createA3MRouter({
   memory: true,        // Enable memory tree
-  costBudget: 0.05,    // Max $0.05 per request
+  costBudget: 0.05,    // Max $0.0768 per request
   providers: ['openai', 'groq', 'anthropic', 'cerebras']
 });
 

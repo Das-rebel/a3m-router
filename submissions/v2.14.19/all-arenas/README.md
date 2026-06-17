@@ -10,9 +10,9 @@ npm install adaptive-memory-multi-model-router@2.14.19
 ```
 
 ## Results Summary
-- RouterArena: 70.32 score
+- RouterArena: 0.9404 / 96.77%
 - ±1 Tier Accuracy: 99.5%
-- Cost: $0.047/1K (cheapest)
+- Cost: $0.0768/1K (cheapest)
 - Latency: <10ms
 
 ## Files

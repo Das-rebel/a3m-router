@@ -11,7 +11,7 @@ pinned: false
 
 # A3M Router Demo
 
-[A3M Router](https://github.com/Das-rebel/a3m-router) — #1 LLM routing benchmark at $0.047/1K queries.
+[A3M Router](https://github.com/Das-rebel/a3m-router) — #1 LLM routing benchmark at $0.0768/1K queries.
 
 This Space demonstrates intelligent LLM routing using 12 keyword signals.
 

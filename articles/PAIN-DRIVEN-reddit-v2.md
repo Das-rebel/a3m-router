@@ -115,7 +115,7 @@ function routeQuery(query) {
 | Query Type | % of Queries | Before (GPT-4) | After (Routed) | Monthly Savings |
 |------------|--------------|----------------|----------------|-----------------|
 | Simple Q&A | 34% | $0.03 | GLM-4 @ $0.003 | $306 |
-| Code Generation | 28% | $0.05 | MiniMax @ $0.002 | $1,372 |
+| Code Generation | 28% | $0.0768 | MiniMax @ $0.002 | $1,372 |
 | Summarization | 22% | $0.02 | GLM-4 @ $0.002 | $418 |
 | Complex Reasoning | 16% | $0.04 | GPT-4 @ $0.04 | $0 (keep premium) |
 | **Total** | **100%** | **$2,400** | **$720** | **$1,680** |

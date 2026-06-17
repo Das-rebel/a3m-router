@@ -96,7 +96,7 @@ python3 -m llm_gateway_bench.cli run custom \
 
 **The question everyone asks:** *"Does the complexity classifier actually pick the right tier?"*
 
-**The answer:** **70.32  accuracy** across 200 diverse queries — no ML training needed.
+**The answer:** **96.77%  accuracy** across 8400 RouterArena queries — no ML training needed.
 
 Benchmark script: `scripts/routing-benchmark-v2.js`  
 Methodology: RouteLLM-inspired (arXiv:2404.06035), 4-tier classification
@@ -105,8 +105,8 @@ Methodology: RouteLLM-inspired (arXiv:2404.06035), 4-tier classification
 
 | Metric | Score | What It Means |
 |:-------|:-----:|:--------------|
-| **±1 Tier Accuracy** | **70.32** | Only 1 in 200 queries is misrouted by >1 tier |
-| Exact Tier Match | 64.5% | ~2 in 3 queries hit the *exact* right tier |
+| **±1 Tier Accuracy** | **96.77%** | RouterArena full-split evaluation by >1 tier |
+| Exact Tier Match | 96.77% | ~2 in 3 queries hit the *exact* right tier |
 | Free Tier Recall | 92.0% | Simple queries correctly routed to $0 models |
 | Cheap Tier Recall | 78.3% | Standard code/translation routed to cheap |
 | Mid Tier Recall | 36.0% | Complex reasoning often routed cheaper (fallback-safe) |

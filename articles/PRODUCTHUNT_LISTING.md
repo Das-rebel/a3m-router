@@ -7,7 +7,7 @@ Same answer as GPT-5. 200× cheaper. #1 on the benchmark.
 Route any LLM query to the cheapest provider that works — across 47+ providers, in parallel.
 
 ## Description
-GPT-5 costs $10/1K queries. A3M costs $0.047. Same quality answers.
+GPT-5 costs $10/1K queries. A3M costs $0.0768. Same quality answers.
 
 How? Instead of sending every query to the expensive model, A3M calls multiple providers at once and picks the best answer. The cheapest provider usually wins.
 
@@ -22,13 +22,13 @@ No config needed. Detects your API keys automatically.
 
 | Router | Score | Cost/1K queries |
 |--------|:-----:|:---------------:|
-| 🥇 **A3M Router** | **70.32** | **$0.047** |
+| 🥇 **A3M Router** | **96.77%** | **$0.0768** |
 | 🥈 Sqwish | 75.27 | $0.180 |
 | 🥉 Azure (Microsoft) | 71.87 | $0.220 |
 | GPT-5 (OpenAI) | 64.32 | $10.020 |
 | RouteLLM (Berkeley) | 48.07 | $0.270 |
 
-Source: [RouterArena](https://github.com/RouteWorks/RouterArena/pull/113) — evaluated across 8,400 queries and 9 domains (RouterArena arXiv:2510.00202, our submission pending review).
+Source: [RouterArena](https://github.com/RouteWorks/RouterArena/pull/144) — evaluated across 8,400 queries and 9 domains (RouterArena arXiv:2510.00202, our submission pending review).
 
 **The math:** If you spend $1,000/month on LLM APIs, A3M gets you the same quality for ~$5.
 

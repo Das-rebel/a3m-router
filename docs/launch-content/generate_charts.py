@@ -76,19 +76,19 @@ def create_task_breakdown_chart():
 
     frameworks = ['Traditional\nRouting', 'TMLPD v2.1\nIntelligent Routing']
 
-    # Traditional: All tasks at $0.05 avg
-    traditional_costs = [5.00]  # 100 tasks × $0.05
+    # Traditional: All tasks at $0.0768 avg
+    traditional_costs = [5.00]  # 100 tasks × $0.0768
 
     # TMLPD: Breakdown by difficulty
     trivial_simple = 0.06  # 60 tasks × $0.001
     medium = 0.30          # 30 tasks × $0.01
-    complex_expert = 0.50  # 10 tasks × $0.05
+    complex_expert = 0.50  # 10 tasks × $0.0768
 
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 6))
 
     # Chart 1: Traditional
     ax1.bar(['Traditional'], [5.00], color='#FF6B6B', edgecolor='black', linewidth=2, alpha=0.8)
-    ax1.text(0, 2.5, '$5.00\n(100 tasks\n@ $0.05 avg)', ha='center', va='center',
+    ax1.text(0, 2.5, '$5.00\n(100 tasks\n@ $0.0768 avg)', ha='center', va='center',
              fontsize=13, fontweight='bold')
     ax1.set_ylabel('Cost (USD)', fontsize=12, fontweight='bold')
     ax1.set_title('Traditional Routing\n(Always Premium)', fontsize=14, fontweight='bold')
@@ -190,7 +190,7 @@ def create_cumulative_savings_chart():
 
     tasks = np.arange(0, 1001, 100)
 
-    # Traditional: $0.05 per task
+    # Traditional: $0.0768 per task
     traditional_cost = tasks * 0.05
 
     # TMLPD: Intelligent routing (82.8% savings)

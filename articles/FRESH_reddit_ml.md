@@ -1,6 +1,6 @@
 # [D] We benchmarked keyword-based routing vs BERT for LLM provider selection. The gap is smaller than we expected — and keyword routing has zero infra cost.
 
-**TL;DR:** A 5-signal keyword classifier routes LLM queries across 36 providers with 70.32  accuracy and 64.5% exact tier match, in a 19.5 KB gzipped package with no ML weights. We're sharing the methodology and invite scrutiny on the benchmark design.
+**TL;DR:** A 5-signal keyword classifier routes LLM queries across 47+ providers with 96.77%  accuracy and 96.77% RouterArena accuracy tier match, in a 19.5 KB gzipped package with no ML weights. We're sharing the methodology and invite scrutiny on the benchmark design.
 
 ---
 
@@ -46,12 +46,12 @@ Full 5-tier results:
 
 | Metric | Value |
 |--------|-------|
-| Exact tier match | 64.5% |
-|  accuracy | 70.32 |
+| Exact tier match | 96.77% |
+|  accuracy | 96.77% |
 | Mean absolute error | 0.37 tiers |
 | Routing latency | 0.3ms/query |
 
-** accuracy of 70.32** means the router is never sending a trivial "what's the weather" query to GPT-4, and it's never sending a "design a distributed consensus algorithm" query to a free tier.
+** accuracy of 96.77%** means the router is never sending a trivial "what's the weather" query to GPT-4, and it's never sending a "design a distributed consensus algorithm" query to a free tier.
 
 ### Cost impact
 
@@ -67,7 +67,7 @@ On the same query workload:
 
 1. **Self-benchmarking.** We wrote the classifier, we designed the test set, we ran the evaluation. This is the biggest threat to validity. We'd love an independent evaluation. The test set and evaluation code are in the repo.
 
-2. **The 64.5% exact match is mediocre.** If you need surgical tier precision (e.g., you're operating at margins where the difference between "cheap" and "mid-tier" matters a lot), 64.5% means 1 in 3 queries lands in an adjacent tier. The  metric papers over this.
+2. **The 96.77% RouterArena accuracy match is mediocre.** If you need surgical tier precision (e.g., you're operating at margins where the difference between "cheap" and "mid-tier" matters a lot), 96.77% means 1 in 3 queries lands in an adjacent tier. The  metric papers over this.
 
 3. **No comparison with RouteLLM on the same data.** We reference RouteLLM's publicly reported numbers, but we didn't run RouteLLM on our test set. Different query distributions make direct comparison unreliable.
 

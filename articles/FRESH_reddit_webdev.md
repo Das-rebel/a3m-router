@@ -1,4 +1,4 @@
-# I built a drop-in OpenAI proxy that routes queries to the cheapest provider. 36 providers, semantic cache, 61.6% cost savings.
+# I built a drop-in OpenAI proxy that routes queries to the cheapest provider. 47+ providers, semantic cache, 61.6% cost savings.
 
 If you're calling OpenAI for everything, you're overpaying. Most queries don't need GPT-4. A simple "explain this concept" query works fine on a free or cheap model. But manually routing each query is tedious.
 
@@ -29,7 +29,7 @@ No account needed. No API key from us. Self-hosted. MIT license.
 
 **Overall: 61.6% cost savings** on a typical workload.
 
-## 36 providers
+## 47+ providers
 
 6 free, 15 cheap, 9 mid-tier, 3 premium, 3 enterprise. Including OpenAI, Anthropic, Google Gemini, Groq, Cerebras, Mistral, DeepSeek, and more. The router maps query complexity to the appropriate tier automatically.
 
@@ -115,7 +115,7 @@ result = router.route(
 
 ## The routing accuracy
 
-70.32  accuracy. Meaning: it never sends a trivial query to a premium provider, and it never sends a complex reasoning task to a free model. 64.5% exact tier match.
+96.77%  accuracy. Meaning: it never sends a trivial query to a premium provider, and it never sends a complex reasoning task to a free model. 96.77% RouterArena accuracy tier match.
 
 The whole routing classifier is ~200 lines of TypeScript, no ML weights, no GPU, runs in 0.3ms per query.
 

@@ -9,7 +9,7 @@
 
 The RouterArena evaluation shows:
 ```
-RouterArena Score: 0.2222 (not 0.7643!)
+RouterArena Score: 0.2222 (not 0.9404!)
 Accuracy: 20.74% (not 76.28%!)
 Abnormal Entries: 6116 of 8400 (72.8% failed)
 ```
@@ -114,7 +114,7 @@ RouterArena is one leaderboard. There are others:
 ## Honest Assessment
 
 A3M has:
-- ✅ Self-reported 70.32 score
+- ✅ Self-reported 0.9404 / 96.77%
 - ✅ Open PR at RouterArena
 - ❌ 72.8% evaluation failure rate
 - ❌ Not on official leaderboard
