@@ -170,7 +170,7 @@ A3M Router is an **ultra-low-cost router** on RouterArena — at $0.0768/1K, it 
 > **$0.0768/1K — official RouterArena PR #144 evaluation.** 
 > Highest robustness score (0.8524) means A3M never fails to respond. 
 > [View evaluation →](https://github.com/Das-rebel/RouterArena)  
-> [Read benchmark post →](./docs/blog/routerarena-9677.html)
+> [Read benchmark post →](https://das-rebel.github.io/a3m-router/blog/routerarena-9677.html)
 
 ### Routing Accuracy (200 queries, May 2026)
 
