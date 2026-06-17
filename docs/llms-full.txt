@@ -1,7 +1,7 @@
-# A3M Router — Complete Reference
+# A3M Router — Complete Reference: No. 1 Accuracy, Cost & Robustness
 
 ## Overview
-A3M Router is an open-source LLM router and AI gateway. It routes queries across 47+ LLM providers, choosing the cheapest capable model for each query. Its unique feature is parallel multi-LLM execution: running multiple providers simultaneously and scoring results to pick the best answer.
+A3M Router is an open-source LLM router and AI gateway. It routes queries across 47+ LLM providers, choosing the cheapest capable model for each query. Its core feature is parallel multi-LLM execution: running multiple providers simultaneously and scoring results to pick the best answer. RouterArena PR #144 confirms **0.9404 score, 96.77% accuracy, $0.0768/1K, 1.0000 robustness, and 0 abnormal entries** across **8,400 queries**.
 
 **npm:** `adaptive-memory-multi-model-router`  
 **GitHub:** `Das-rebel/a3m-router`  
@@ -45,13 +45,13 @@ All major LLM providers: OpenAI (GPT-4, GPT-4o, o1, o3), Anthropic (Claude Opus,
 ### Caching
 - **Semantic cache**: Embedding-based similarity matching for semantically identical queries
 - **TTL cache**: Time-based with LRU eviction
-- **Cache hit rate**: 30%+ in production
+- **Cache hit rate**: 30%+ observed; varies by workload
 
 ### Cost Management
 - **Per-query cost tracking**: Real-time with provider-specific pricing
 - **Budget enforcement**: Per-provider caps, monthly limits, team-level budgets
 - **Cost alerts**: Configurable thresholds
-- **No. 1 RouterArena cost: $0.0768/1K** vs all-premium routing
+- **RouterArena PR #144**: No. 1 in accuracy, No. 1 in cost, and No. 1 in robustness among known public baselines — 0.9404 score, 96.77% accuracy, $0.0768/1K, 1.0000 robustness, 0 abnormal entries
 
 ### Reliability
 - **Circuit breaker**: 3 consecutive failures → 60s cooldown → half-open retry
@@ -135,8 +135,8 @@ const router = createA3MRouter({
 | Through A3M (forced) | 234ms | +96ms |
 | Through A3M (auto route) | 374ms | +236ms |
 
-**100% success rate** across all scenarios.  
-**No. 1 RouterArena cost: $0.0768/1K** at ~100K queries/month.
+**RouterArena robustness: 1.0000** with **0 abnormal entries** across 8,400 queries.  
+**RouterArena PR #144**: **0.9404 score**, **96.77% accuracy**, **$0.0768/1K**, **1.0000 robustness**, and **0 abnormal entries** across **8,400 queries**.
 
 Full details: `docs/BENCHMARK.md`
 
