@@ -1,3 +1,34 @@
+## ⚡ 30-second install
+
+A3M Router is an OpenAI-compatible LLM gateway. Install it, start the proxy, and point your existing OpenAI SDK to `http://localhost:8787/v1`.
+
+```bash
+npm install adaptive-memory-multi-model-router
+npx a3m-router serve
+```
+
+```python
+from openai import OpenAI
+
+client = OpenAI(base_url="http://localhost:8787/v1", api_key="not-needed")
+
+response = client.chat.completions.create(
+  model="auto",  # A3M routes to the cheapest capable provider
+  messages=[{"role": "user", "content": "Explain quantum computing in 3 bullets"}]
+)
+
+print(response.choices[0].message.content)
+```
+
+In 30 seconds you get:
+
+- OpenAI-compatible proxy at `http://localhost:8787/v1`
+- Auto-routing across **47+ providers**
+- Semantic cache, provider health, budget controls, and circuit breakers
+- RouterArena PR #144 proof: **0.9404 score**, **96.77% accuracy**, **$0.0768/1K**, **1.0000 robustness**, **0 abnormal entries** across **8,400 queries**
+
+No ML training. No GPU. Drop-in for existing LLM apps.
+
 [🇨🇳 中文](./README_zh.md) · [🇯🇵 日本語](./README_ja.md) · [English](./README.md)
 
 ## 🆕 What's New (v2.14 — June 2026)
