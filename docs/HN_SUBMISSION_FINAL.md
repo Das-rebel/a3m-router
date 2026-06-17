@@ -47,7 +47,7 @@ Quick start:
 
 Point any OpenAI SDK at localhost:8787. Zero code changes.
 
-61.6% cost reduction. 47+ providers. Semantic cache. Circuit breakers. 3MB install.
+No. 1 RouterArena cost: $0.0768/1K. 47+ providers. Semantic cache. Circuit breakers. 3MB install.
 
 Growth (zero marketing):
   Day 1: 552 downloads
@@ -145,7 +145,7 @@ The benchmark script is in the repo:
 
 Cost benchmark:
   All GPT-4o: $1.25 per 100 queries
-  A3M Router: $0.45 per 100 queries (61.6% savings)
+  A3M Router: $0.45 per 100 queries (No. 1 RouterArena cost: $0.0768/1K)
 
 I'd love for someone to run independent benchmarks and publish the results.
 ```

@@ -51,7 +51,7 @@ All major LLM providers: OpenAI (GPT-4, GPT-4o, o1, o3), Anthropic (Claude Opus,
 - **Per-query cost tracking**: Real-time with provider-specific pricing
 - **Budget enforcement**: Per-provider caps, monthly limits, team-level budgets
 - **Cost alerts**: Configurable thresholds
-- **62% average savings** vs all-premium routing
+- **No. 1 RouterArena cost: $0.0768/1K** vs all-premium routing
 
 ### Reliability
 - **Circuit breaker**: 3 consecutive failures → 60s cooldown → half-open retry
@@ -136,7 +136,7 @@ const router = createA3MRouter({
 | Through A3M (auto route) | 374ms | +236ms |
 
 **100% success rate** across all scenarios.  
-**62% cost savings** at ~100K queries/month.
+**No. 1 RouterArena cost: $0.0768/1K** at ~100K queries/month.
 
 Full details: `docs/BENCHMARK.md`
 

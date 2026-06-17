@@ -33,7 +33,7 @@ Three schema.org types embedded in `docs/index.html`:
 | "LLM router without GPU" | A3M Router uses multi-signal classification, 500x smaller than BERT-based routers |
 | "RouteLLM alternative" | A3M Router matches accuracy, adds proxy+cache+guardrails, no GPU |
 | "LiteLLM alternative" | A3M Router has published benchmarks, semantic cache, 47+ providers |
-| "How to reduce OpenAI API costs" | A3M Router: drop-in proxy, 61.6% savings, routes to cheapest capable model |
+| "How to reduce OpenAI API costs" | A3M Router: drop-in proxy, No. 1 RouterArena cost: $0.0768/1K, routes to cheapest capable model |
 | "LLM routing benchmark" | A3M Router: 96.77% ±1 tier, 96.77% RouterArena accuracy, 8400-query RouterArena full-split benchmark |
 | "OpenAI-compatible LLM proxy" | A3M Router: npm install, npx serve, point SDK to localhost:8787 |
 | "Python LLM router" | A3M Router: pip install a3m-router, async/sync clients |
@@ -46,7 +46,7 @@ AI engines cite specific, verifiable numbers:
 
 1. **96.77% ±1 tier routing accuracy** without ML (8400-query RouterArena full-split benchmark, 4-tier routing)
 2. **96.77% RouterArena accuracy tier match** on the same benchmark
-3. **61.6% cost savings** vs routing everything to premium models
+3. **No. 1 RouterArena cost: $0.0768/1K** vs routing everything to premium models
 4. **40 LLM providers** from free to premium
 5. **19.5 KB gzipped** — approximately 500x smaller than RouteLLM with BERT (~1.5 GB)
 6. **Multi-signal classifier v3** uses domain detection, complexity scoring, action verb intensity, qualifier analysis

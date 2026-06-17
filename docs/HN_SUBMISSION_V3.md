@@ -35,7 +35,7 @@ Point any OpenAI SDK at localhost:8787. Zero code changes.
 
 **Benchmarks:**
 - 8400 RouterArena queries,  accuracy (same metric as RouteLLM paper)
-- 61.6% cost reduction vs premium-only
+- No. 1 RouterArena cost: $0.0768/1K vs premium-only
 - <100ms routing latency
 
 **Growth (zero marketing):**

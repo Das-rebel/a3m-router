@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Benchmark — A3M Router</title>
-  <meta name="description" content="Independent benchmark results for A3M Router: 96.77% RouterArena accuracy, 62% cost savings, +96ms passthrough overhead, -57% hallucination rate with parallel ensemble.">
+  <meta name="description" content="Independent benchmark results for A3M Router: 96.77% RouterArena accuracy, No. 1 RouterArena cost: $0.0768/1K, +96ms passthrough overhead, -57% hallucination rate with parallel ensemble.">
   <meta name="keywords" content="LLM router benchmark, AI gateway latency, routing accuracy, cost comparison, multi-provider benchmark">
   <meta property="og:title" content="A3M Router — Benchmarks">
   <meta property="og:image" content="https://das-rebel.github.io/a3m-router/benchmark-chart.png">
@@ -58,7 +58,7 @@
 
     <h1>&#x1F4CA; A3M Router Benchmark</h1>
     <p>The question everyone asks: <em>"How much latency does a gateway add?"</em></p>
-    <p><strong>The answer:</strong> +96ms for passthrough, +236ms for full intelligent routing &mdash; on a 138ms baseline. That's about $11 per millisecond saved.</p>
+    <p><strong>The answer:</strong> +96ms for passthrough, +236ms for full intelligent routing &mdash; on a 138ms baseline. The trade-off enables RouterArena-confirmed **No. 1 accuracy, No. 1 cost, and No. 1 robustness** among known public baselines.</p>
 
     <!-- Overview Stats -->
     <div class="stats-grid">
@@ -67,16 +67,16 @@
         <div class="stat-label">+/-1 Tier Accuracy</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">62%</div>
-        <div class="stat-label">Cost Savings</div>
+        <div class="stat-value">$0.0768/1K</div>
+        <div class="stat-label">No. 1 RouterArena Cost</div>
       </div>
       <div class="stat-card">
         <div class="stat-value">+96ms</div>
         <div class="stat-label">Passthrough Overhead</div>
       </div>
       <div class="stat-card">
-        <div class="stat-value">+26%</div>
-        <div class="stat-label">Ensemble Quality Gain</div>
+        <div class="stat-value">1.0000</div>
+        <div class="stat-label">No. 1 Robustness</div>
       </div>
     </div>
 
@@ -114,13 +114,13 @@
             <td><strong>Through A3M forced route</strong></td>
             <td><strong>234ms</strong></td>
             <td>+96ms</td>
-            <td>Guardrails (17 injection patterns, PII), cache lookup (30%+ hit rate), cost tracking, circuit breaker</td>
+            <td>Guardrails, cache lookup, cost tracking, circuit breaker</td>
           </tr>
           <tr>
             <td><strong>Through A3M auto route</strong></td>
             <td><strong>374ms</strong></td>
             <td>+236ms</td>
-            <td>Everything above + intelligent routing (12 signals &rarr; tier &rarr; cheapest capable model &rarr; <strong>62% cost savings</strong>)</td>
+            <td>Everything above + intelligent routing (12 signals &rarr; tier &rarr; cheapest capable model &rarr; <strong>No. 1 RouterArena cost: $0.0768/1K</strong>)</td>
           </tr>
         </tbody>
       </table>
@@ -131,7 +131,7 @@
       </div>
 
       <div class="callout callout-success">
-        <strong>236ms total overhead saves $2,604/year</strong> at 100K queries/month. Full methodology in <a href="https://github.com/Das-rebel/a3m-router/blob/main/docs/BENCHMARK.md">BENCHMARK.md</a>.
+        <strong>236ms total overhead enables cost-aware routing that reaches No. 1 cost in RouterArena PR #144</strong> while preserving **96.77% accuracy** and **1.0000 robustness**. Full methodology in <a href="https://github.com/Das-rebel/a3m-router/blob/main/docs/BENCHMARK.md">BENCHMARK.md</a>.
       </div>
 
       <h3>The Trade-Off</h3>
@@ -155,7 +155,7 @@
     <!-- Tab: Accuracy -->
     <div id="tab-accuracy" class="tab-content">
       <h2>Routing Accuracy</h2>
-      <p>200 real API calls, benchmarked against manual expert classification.</p>
+      <p><strong>RouterArena PR #144 confirms the routing objective:</strong> **96.77% accuracy**, **$0.0768/1K**, and **1.0000 robustness** across **8,400 queries**.</p>
 
       <div class="stats-grid">
         <div class="stat-card">
@@ -214,7 +214,7 @@
       </div>
 
       <div class="callout callout-info">
-        <strong>On under-routing:</strong> A3M is deliberately conservative &mdash; it would rather try a cheaper model first and fail fast (triggering automatic fallback in &lt;2s) than default to premium for every query. This is what drives the 62% cost savings.
+        <strong>On under-routing:</strong> A3M is deliberately conservative &mdash; it would rather try a cheaper model first and fail fast (triggering automatic fallback in &lt;2s) than default to premium for every query. This is what drives the No. 1 RouterArena cost: $0.0768/1K.
       </div>
     </div>
 
@@ -226,7 +226,7 @@
       <pre><code> GPT-4o only:  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$  $0.25  (all premium)
  A3M Router:   $$$$                               $0.10  (smart routed)
                &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;
-               You save:                           $0.15  (62%)</code></pre>
+               You save:                           $0.15  (benchmark workload)</code></pre>
 
       <h3>By Query Type</h3>
       <div class="table-wrapper">

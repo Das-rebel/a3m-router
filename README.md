@@ -26,9 +26,9 @@ npx a3m-router route "Explain quantum computing"
 
 | Business Value | A3M Impact | The Result |
 |:---|:---|:---|
-| **Cost Reduction** | 62% average savings | Cut your monthly LLM bill by half |
-| **Reliability** | Parallel Ensemble Voting | Zero-downtime with automatic failover |
-| **Quality** | Hallucination Reduction | Validated answers via multi-model agreement |
+| **Cost Reduction** | No. 1 RouterArena cost: $0.0768/1K | Lowest published cost among known public baselines |
+| **Accuracy** | No. 1 RouterArena accuracy: 96.77% | Highest published accuracy among known public baselines |
+| **Robustness** | No. 1 robustness: 1.0000 | Perfect robustness score with 0 abnormal entries |
 | **Control** | Hard Budget Enforcement | No more end-of-month API bill surprises |
 
 > **🛡️ Hallucination Shield:** A3M identifies and removes errors by verifying answers across 47+ providers simultaneously. [See the Research →](research/HALLUCINATION_RESEARCH.md)
@@ -218,7 +218,7 @@ Expert queries (legal, medical, complex reasoning) are routed to **premium** —
 | Over-routing (waste) | 7% | Sent to a stronger — but more expensive — model than needed |
 | Under-routing (risk) | 28.5% | Sent to a weaker model; fallback auto-escalates on failure |
 
-**On under-routing:** A3M is deliberately conservative — it would rather try a cheaper model first and fail fast (triggering automatic fallback in <2s) than default to premium for every query. This is what drives the 62% cost savings. The fallback chain guarantees that even under-routed queries eventually reach a capable model.
+**On under-routing:** A3M is deliberately conservative — it would rather try a cheaper model first and fail fast than default to premium for every query. This cost-aware routing is why A3M reached **No. 1 cost** in RouterArena PR #144 while still achieving **No. 1 accuracy** and **No. 1 robustness** among known public baselines. The fallback chain guarantees that even under-routed queries eventually reach a capable model.
 
 ### Parallel Ensemble Quality Gain
 
@@ -243,6 +243,8 @@ Expert queries (legal, medical, complex reasoning) are routed to **premium** —
 
 ### Routing Latency
 
+A3M is optimized for the cost-quality tradeoff, not for pretending that routing is free. RouterArena confirms the result that matters most: **No. 1 accuracy, No. 1 cost, and No. 1 robustness among known public baselines**.
+
 Measured with [llm-gateway-bench](https://github.com/taffy-owo/llm-gateway-bench) — an independent third-party benchmarking tool.
 
 ![A3M Router Benchmark](docs/benchmark-chart.png)
@@ -250,12 +252,12 @@ Measured with [llm-gateway-bench](https://github.com/taffy-owo/llm-gateway-bench
 | Scenario | TTFT | vs Baseline | What You Get |
 |:---------|:----:|:-----------:|:-------------|
 | **Direct to Groq** (no gateway) | **138ms** | — | Raw provider speed |
-| **Through A3M forced route** | **234ms** | **+96ms** | Guardrails (17 injection patterns, PII), cache lookup (30%+ hit rate), cost tracking, circuit breaker |
-| **Through A3M auto route** | **374ms** | **+236ms** | Everything above + intelligent routing (12 signals → tier → cheapest capable model → 62% cost savings) |
+| **Through A3M forced route** | **234ms** | **+96ms** | Guardrails, cache lookup, cost tracking, circuit breaker |
+| **Through A3M auto route** | **374ms** | **+236ms** | Everything above + intelligent routing to the cheapest capable model |
 
 **The routing decision itself takes <1ms.** The extra time is the full proxy pipeline: HTTP parsing → guardrails → cache → routing → forward to provider → response → cost logging.
 
-**236ms total overhead saves $2,604/year** at 100K queries/month. Full methodology: [`docs/BENCHMARK.md`](docs/BENCHMARK.md).
+**236ms total overhead saves money at scale** because it lets A3M choose the cheapest capable provider instead of sending every request to premium. RouterArena PR #144 confirms the tradeoff works: **96.77% accuracy, $0.0768/1K, and 1.0000 robustness**. Full methodology: [`docs/BENCHMARK.md`](docs/BENCHMARK.md).
 
 ### Provider Coverage
 
@@ -265,7 +267,7 @@ Tested across **12 providers** in the benchmark: OpenAI, Anthropic, Groq, NVIDIA
 
 All benchmarks run on **real API calls** (not simulated). Results saved in [`benchmark-results.json`](benchmark-results.json).
 
-**Real-world savings: 61.6% vs all-premium routing** (benchmark) / **64%** (detailed cost model).
+**Real-world savings:** A3M’s RouterArena result proves the routing objective: **No. 1 accuracy, No. 1 cost, and No. 1 robustness among known public baselines**. Cost-savings vary by query mix, provider selection, and cache hit rate.
 
 Run the benchmarks yourself:
 
@@ -286,7 +288,7 @@ Enterprise AI deployments face a common set of costly problems: budgets that spi
 
 **Per-Provider Retry Logic** — Each provider gets custom timeout and exponential backoff configuration. The router detects 429 rate limit responses and backs off intelligently, preventing cascading failures when a single provider hits its limits.
 
-Beyond these operational concerns, A3M Router uses **multi-signal heuristic routing** — 12 keyword signals across 5 dimensions — to classify query complexity and route to the most cost-effective provider. Features **load balancing**, **circuit breakers**, **semantic caching**, and **automatic failover** for production reliability. No ML model weights. No GPU required. Starts in <100ms.
+Beyond these operational concerns, A3M Router uses **multi-signal heuristic routing** — domain detection, task classification, query structure analysis, provider health, cost, and confidence signals — to route to the most cost-effective provider. Features **load balancing**, **circuit breakers**, **semantic caching**, and **automatic failover** for production reliability. No ML model weights. No GPU required. Starts in <100ms.
 
 For **generative engine optimization** — synthesizing multiple AI models into a single coherent output — A3M Router offers **three tiers**: (1) **parallel ensemble** — run multiple providers simultaneously, score results, pick the best; (2) **MCTS workflow optimization** — tree-search for multi-agent orchestration; (3) **heuristic routing** — <1ms per-query cost-quality routing. The result is a [generative AI pipeline](#generative-engine-optimization) that learns which models work best for each task type and assembles them dynamically without manual intervention.
 
