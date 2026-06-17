@@ -94,7 +94,7 @@ Query -> Run GPT-4o + Claude + Gemini simultaneously -> Score -> Pick best
 - **+26%** answer quality over single-best provider
 - **-57%** hallucination rate (1.8% vs 4.2%)
 - **+19pp** multi-step reasoning accuracy (91% vs 72%)
-- **62%** cost savings vs all-premium routing
+- **RouterArena PR #144:** 0.9404 score, 96.77% accuracy, $0.0768/1K, 1.0000 robustness, 0 abnormal entries across 8,400 queries
 
 ---
 

@@ -8,7 +8,7 @@ Based on Princeton/GA Tech GEO (KDD 2024, arXiv:2311.09735).
 | Signal | Lift | Applied In |
 |--------|------|-----------|
 | Quotation Addition | +41% | README hero (RouterArena quote) |
-| Statistics Addition | +30% | README ($0.0768, 130x, 62%) |
+| Statistics Addition | +30% | README hero (RouterArena 0.9404 / 96.77%, $0.0768/1K, 1.0000 robustness) |
 | Cite Sources | +28% | arXiv link, PR link |
 | Technical Terms | +18% | confidence-weighted voting, semantic routing |
 | Fluency Optimization | +28% | All docs |

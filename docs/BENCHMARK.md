@@ -93,7 +93,7 @@ python3 -m llm_gateway_bench.cli run custom \
 
 ---
 
-## 2. Routing Accuracy Benchmark
+## 2. RouterArena Routing Accuracy Benchmark
 
 **The question everyone asks:** *"Does the complexity classifier actually pick the right tier?"*
 

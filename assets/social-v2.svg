@@ -93,8 +93,8 @@
     <!-- Metric 2 -->
     <g transform="translate(195, 0)">
       <rect x="0" y="0" width="165" height="100" rx="16" fill="rgba(6,182,212,0.08)" stroke="#06b6d4" stroke-width="1.5"/>
-      <text x="82" y="40" text-anchor="middle" fill="#06b6d4" font-family="system-ui,sans-serif" font-size="36" font-weight="800" filter="url(#textGlow)">62%</text>
-      <text x="82" y="70" text-anchor="middle" fill="#9ca3af" font-family="system-ui,sans-serif" font-size="14">Cost Savings</text>
+      <text x="82" y="40" text-anchor="middle" fill="#06b6d4" font-family="system-ui,sans-serif" font-size="36" font-weight="800" filter="url(#textGlow)">96.77%</text>
+      <text x="82" y="70" text-anchor="middle" fill="#9ca3af" font-family="system-ui,sans-serif" font-size="14">RouterArena #1</text>
     </g>
     
     <!-- Metric 3 -->

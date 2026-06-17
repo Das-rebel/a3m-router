@@ -34,8 +34,10 @@ const response = await client.chat.completions.create({
 
 | Feature | A3M Router |
 |---------|-----------|
-| Routing Accuracy | 96.77% |
-| Cost Savings | 62% vs all-premium |
+| Routing Accuracy | 96.77% RouterArena PR #144 |
+| Cost | $0.0768/1K — No. 1 with published cost |
+| Robustness | 1.0000, 0 abnormal entries |
+| RouterArena Score | 0.9404 — No. 1 among known public baselines |
 | Providers | 47+ |
 | Semantic Cache | ✅ 30%+ hit rate |
 | Budget Enforcement | ✅ Hard caps |

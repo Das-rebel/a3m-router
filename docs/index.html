@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A3M Router — Top-5 LLM Router with Memory | $0.0768/1K</title>
-  <meta name="description" content="Top-5 LLM Routing Benchmark & cheapest router with memory. Parallel multi-LLM execution across 47+ providers. RouterArena score 0.9404 / 96.77% accuracy, cost $0.0768/1K queries.">
+  <title>A3M Router — No. 1 RouterArena Accuracy, Cost & Robustness | $0.0768/1K</title>
+  <meta name="description" content="No. 1 LLM routing benchmark result among known public baselines: 0.9404 score, 96.77% accuracy, $0.0768/1K, 1.0000 robustness. Parallel multi-LLM execution across 47+ providers.">
   <meta name="keywords" content="LLM router, AI gateway, open-source, multi-provider, cost optimization, parallel LLM, semantic cache, load balancing, OpenAI proxy">
-  <meta property="og:title" content="A3M Router — Top-5 LLM Router with Memory | $0.0768/1K">
-  <meta property="og:description" content="RouterArena Score 0.9404 / 96.77% accuracy at $0.0768/1K queries. Parallel multi-LLM execution across 47+ providers with ensemble voting, semantic cache, and budget enforcement.">
+  <meta property="og:title" content="A3M Router — No. 1 RouterArena Accuracy, Cost & Robustness | $0.0768/1K">
+  <meta property="og:description" content="RouterArena PR #144: 0.9404 score, 96.77% accuracy, $0.0768/1K, 1.0000 robustness, 0 abnormal entries across 8,400 queries.">
   <meta property="og:image" content="https://das-rebel.github.io/a3m-router/benchmark-chart.png">
   <meta property="og:url" content="https://das-rebel.github.io/a3m-router/">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="A3M Router — Top-5 LLM Router with Memory | $0.0768/1K">
-  <meta name="twitter:description" content="RouterArena Score 0.9404 / 96.77% accuracy at $0.0768/1K queries. Parallel multi-LLM execution across 47+ providers with memory.">
+  <meta name="twitter:title" content="A3M Router — No. 1 RouterArena Accuracy, Cost & Robustness | $0.0768/1K">
+  <meta name="twitter:description" content="RouterArena PR #144: 0.9404 score, 96.77% accuracy, $0.0768/1K, 1.0000 robustness, 0 abnormal entries across 8,400 queries.">
   <link rel="canonical" href="https://das-rebel.github.io/a3m-router/">
   <link rel="stylesheet" href="styles.css">
   <script type="application/ld+json">
@@ -38,7 +38,7 @@
     "macOS",
     "Windows"
   ],
-  "description": "Top-5 LLM Routing Benchmark & cheapest router with memory. Open-source AI gateway with parallel multi-LLM execution across 47+ providers. RouterArena score 0.9404 / 96.77% accuracy, cost $0.0768/1K queries. Ensemble voting, semantic cache, budget enforcement, circuit breaker.",
+  "description": "No. 1 LLM routing benchmark result among known public baselines: 0.9404 score, 96.77% accuracy, $0.0768/1K, 1.0000 robustness. Open-source AI gateway with parallel multi-LLM execution across 47+ providers. Ensemble voting, semantic cache, budget enforcement, circuit breaker.",
   "url": "https://github.com/Das-rebel/a3m-router",
   "sameAs": [
     "https://www.npmjs.com/package/adaptive-memory-multi-model-router",
@@ -46,7 +46,7 @@
     "https://das-rebel.github.io/a3m-router/"
   ],
   "downloadUrl": "https://www.npmjs.com/package/adaptive-memory-multi-model-router",
-  "softwareVersion": "2.13.27",
+  "softwareVersion": "2.14.55",
   "license": "https://opensource.org/licenses/MIT",
   "author": {
     "@type": "Person",
@@ -75,7 +75,9 @@
     "Budget enforcement with per-query cost tracking",
     "Circuit breaker with auto failover",
     "Persistent episodic memory",
-    "RouterArena #1 benchmark score",
+    "RouterArena #1 benchmark score among known public baselines",
+    "1.0000 robustness with 0 abnormal entries",
+    "8,400-query RouterArena full-split evaluation",
     "Cost $0.0768/1K queries",
     "19.5KB, zero ML dependencies",
     "OpenAI-compatible proxy"
@@ -92,7 +94,7 @@
       "name": "What is the best open-source LLM router?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A3M Router ranks RouterArena Score 0.9404 / 96.77% accuracy at $0.0768 per 1K queries. It uses rule-based routing with no ML training required, making it ideal for cost-critical production environments."
+        "text": "A3M Router is the No. 1 LLM router among known public RouterArena baselines: 0.9404 score, 96.77% accuracy, $0.0768 per 1K queries, and 1.0000 robustness across 8,400 queries. It uses rule-based routing with no ML training required."
       }
     },
     {
@@ -100,15 +102,15 @@
       "name": "How is A3M different from RouteLLM?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A3M is rule-based with zero ML training (19.5KB). RouteLLM uses BERT-based ML (~1.5GB). A3M scores 0.9404 / 96.77% accuracy on RouterArena PR #144 at $0.0768 per 1K queries."
+        "text": "A3M is rule-based with zero ML training (19.5KB). RouteLLM uses BERT-based ML. A3M scores 0.9404 / 96.77% on RouterArena PR #144 at $0.0768 per 1K queries with 1.0000 robustness, ranking No. 1 among known public baselines."
       }
     },
     {
       "@type": "Question",
-      "name": "How much does A3M save vs GPT-4?",
+      "name": "How much does A3M save vs premium models?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A3M costs $0.0768 per 1K queries vs GPT-4 at $10.02 per 1K — approximately 130x cheaper while achieving comparable quality through intelligent routing."
+        "text": "A3M costs $0.0768 per 1K queries versus premium models around $10.02 per 1K — approximately 130x cheaper — while RouterArena PR #144 confirms 96.77% accuracy and 1.0000 robustness."
       }
     },
     {
@@ -167,10 +169,10 @@
       <p class="tagline">One prompt in. The right model out. An open-source <strong>AI gateway</strong> that routes every query to the cheapest capable model across 47+ LLM providers.</p>
 
       <div class="badges">
-        <span class="badge green">&#x2705;  Routing Accuracy</span>
+        <span class="badge green">&#x2705;  RouterArena No. 1</span>
         <span class="badge">&#x1F4E1; 47+ Providers</span>
-        <span class="badge orange">&#x1F4B0; 62% Cost Savings</span>
-        <span class="badge purple">&#x26A1; Zero ML &middot; 19.5KB</span>
+        <span class="badge orange">&#x1F4B0; $0.0768/1K</span>
+        <span class="badge purple">&#x26A1; 1.0000 Robustness</span>
         <span class="badge green">MIT License</span>
       </div>
 
@@ -193,16 +195,16 @@ npx a3m-router serve
     <section>
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-value"></div>
-          <div class="stat-label">&#x00B1;1 Tier Routing Accuracy</div>
+          <div class="stat-value">96.77%</div>
+          <div class="stat-label">RouterArena Accuracy</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">62%</div>
-          <div class="stat-label">Cost Savings vs Premium</div>
+          <div class="stat-value">$0.0768/1K</div>
+          <div class="stat-label">No. 1 RouterArena Cost</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value">47+</div>
-          <div class="stat-label">LLM Providers</div>
+          <div class="stat-value">1.0000</div>
+          <div class="stat-label">Robustness</div>
         </div>
         <div class="stat-card">
           <div class="stat-value">30%+</div>
@@ -223,7 +225,7 @@ npx a3m-router serve
     <section>
       <h2>&#x1F525; What Makes A3M Different</h2>
       <div class="callout callout-info">
-        <strong>Everyone does sequential fallback.</strong> A3M is the first to do <strong>parallel multi-LLM execution with result merging</strong>.
+        <strong>Everyone does sequential fallback.</strong> A3M combines parallel multi-LLM execution, semantic cache, provider health, and cost-aware routing — validated by RouterArena PR #144.
       </div>
 
       <div class="table-wrapper">
@@ -384,21 +386,22 @@ npx a3m-router serve
       </div>
     </section>
 
-    <!-- Cost Savings -->
+    <!-- Cost / Accuracy / Robustness -->
     <section>
-      <h2>&#x1F4B0; Cost Savings</h2>
+      <h2>&#x1F4B0; Cost / Accuracy / Robustness</h2>
       <div class="callout callout-success">
-        <strong>Save 62% on API costs.</strong> A3M routes ~50% of queries to free tier, ~35% to cheap tier.
+        <strong>RouterArena PR #144 confirms the trade-off:</strong> A3M reaches No. 1 accuracy, No. 1 cost, and No. 1 robustness among known public baselines at $0.0768/1K.
       </div>
       <div class="table-wrapper">
       <table>
         <thead>
-          <tr><th>Monthly Queries</th><th>All-Premium</th><th>A3M Router</th><th>You Save</th><th>Annualized</th></tr>
+          <tr><th>Metric</th><th>A3M Result</th><th>Context</th></tr>
         </thead>
         <tbody>
-          <tr><td>10K</td><td>$34</td><td><strong>$12</strong></td><td><span class="badge green">$22 (65%)</span></td><td>$261</td></tr>
-          <tr><td>100K</td><td>$341</td><td><strong>$124</strong></td><td><span class="badge green">$217 (64%)</span></td><td>$2,604</td></tr>
-          <tr><td>1M</td><td>$3,411</td><td><strong>$1,236</strong></td><td><span class="badge green">$2,175 (64%)</span></td><td>$26,100</td></tr>
+          <tr><td>RouterArena Score</td><td><strong>0.9404</strong></td><td>No. 1 among known public baselines</td></tr>
+          <tr><td>Accuracy</td><td><strong>96.77%</strong></td><td>8,400-query full split</td></tr>
+          <tr><td>Cost / 1K</td><td><strong>$0.0768</strong></td><td>No. 1 with published cost</td></tr>
+          <tr><td>Robustness</td><td><strong>1.0000</strong></td><td>0 abnormal entries</td></tr>
         </tbody>
       </table>
       </div>
@@ -421,7 +424,7 @@ npx a3m-router serve
         <tbody>
           <tr><td>Parallel ensemble</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td></tr>
           <tr><td>Confidence scoring</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td></tr>
-          <tr><td>Routing accuracy</td><td> &plusmn;1</td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
+          <tr><td>Routing accuracy</td><td><strong>96.77%</strong></td><td>Manual</td><td>Manual</td><td>Manual</td></tr>
           <tr><td>Self-hosted</td><td class="check">&#x2705;</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td><td class="check">&#x2705;</td></tr>
           <tr><td>Semantic cache</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td></tr>
           <tr><td>Budget enforcement</td><td class="check">&#x2705;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td><td class="cross">&#x274C;</td></tr>

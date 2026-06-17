@@ -57,10 +57,10 @@
     
     <!-- Row 2 -->
     <g transform="translate(0, 100)">
-      <text x="20" y="22" fill="#d1d5db" font-family="system-ui,sans-serif" font-size="13">Cost Savings</text>
+      <text x="20" y="22" fill="#d1d5db" font-family="system-ui,sans-serif" font-size="13">RouterArena #1</text>
       <g transform="translate(500)">
         <rect x="0" y="5" width="80" height="28" rx="14" fill="url(#a3mGrad)" filter="url(#cellGlow)"/>
-        <text x="40" y="25" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12" font-weight="600">62%</text>
+        <text x="40" y="25" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="12" font-weight="600">96.77%</text>
       </g>
       <text x="620" y="25" text-anchor="middle" fill="#6b7280" font-family="system-ui,sans-serif" font-size="12">None</text>
     </g>

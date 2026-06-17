@@ -80,8 +80,8 @@ Terminal overlay box with `/route`, `/cost`, `/health`, `/models`, `/model <prov
 ║                                                                   ║
 ║  ┌─────────────┐      ┌─────────────┐      ┌─────────────────┐  ║
 ║  │  Guardrails │ ──▶  │    Cache     │ ──▶  │   Router        │  ║
-║  │   🔒 17x     │      │   💾 30%+   │      │   🎯 MCTS       │  ║
-║  │  Injection   │      │    Hit      │      │  Multi-Signal   │  ║
+║  │   🔒 Prompt  │      │   💾 30%+   │      │   🏆 No. 1      │  ║
+║  │  Injection   │      │    Hit      │      │  Accuracy/Cost   │  ║
 ║  │  PII Detect  │      │  Semantic   │      │  12 Signals     │  ║
 ║  └─────────────┘      └─────────────┘      └────────┬────────┘  ║
 ║                                                      │           ║
@@ -89,10 +89,10 @@ Terminal overlay box with `/route`, `/cost`, `/health`, `/models`, `/model <prov
 ║        │                 │                                    │   ║
 ║        ▼                 ▼                                    ▼   ║
 ║  ┌─────────────┐  ┌─────────────┐                    ┌─────────────┐║
-║  │  MemoryTree  │  │  CostTrack  │                    │ Circuit     │║
-║  │    🧠        │  │    💰       │                    │ Breaker 🔄  │║
-║  │   EMA        │  │   Budget    │                    │ 3 Fails →   │║
-║  │   Learning   │  │   Alerts    │                    │ 60s Cooldown│║
+║  │  MemoryTree  │  │  CostTrack  │                    │ Robustness  │║
+║  │    🧠        │  │    💰       │                    │ 1.0000 ✅   │║
+║  │   EMA        │  │   Budget    │                    │ 0 Abnormal  │║
+║  │   Learning   │  │   Alerts    │                    │ 8,400 Query │║
 ║  └─────────────┘  └─────────────┘                    └─────────────┘║
 ║                                                                   ║
 ║  47+ Providers: Groq · DeepSeek · Kimi · Qwen · Zhipu · Yi · +  ║
@@ -185,7 +185,7 @@ Cost breakdown across 200 real API calls:
  GPT-4o only:  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$  $0.25  ████████████████
  A3M Router:   $$$$                               $0.10  ██████
                ────────────────────────────────────────────────
-               You save:                           $0.15  (62%)
+               You save:                           $0.15  (benchmark workload)
 ```
 
 ### Third-Party Validation
@@ -592,7 +592,7 @@ const decision = routeQuery("Write a Python function to sort an array");
 
 
 
-### Cost Savings by Query Type
+### Cost Efficiency by Query Type
 
 | Query Type | % Traffic | GPT-4o Only | A3M Routes To | A3M Cost | Savings |
 |------------|:---------:|:-----------:|:-------------:|:--------:|:-------:|
@@ -1171,17 +1171,25 @@ A3M Router is built on findings from **30+ 2024-2025 arXiv papers** on LLM routi
 
 ### Key Architecture Decisions (Research-Backed):
 
+```text
+Research Inputs                         A3M Implementation                  Validation
+─────────────────────────────────────────────────────────────────────────────────────
+SGLang / RadixAttention       →  Prefix-aware semantic cache           →  30%+ observed hit rate
+RouteLLM / Cost-quality       →  Heuristic cost-quality routing        →  RouterArena PR #144
+Difficulty-aware routing      →  Multi-signal tier classifier          →  96.77% accuracy
+A-Mem / MemoRAG               →  MemoryTree + EMA quality updates      →  no retraining required
+MCTS / UCB1                   →  Workflow optimizer prototype          →  0.9370 vs 0.9300 baseline
 ```
-┌────────────────────────────────────────────────────────────┐
-│                     Research Sources                        │
-├────────────────────────────────────────────────────────────┤
-│  SGLang/RadixAttention  →  Prefix caching (cache)          │
-│  Medusa/Speculative     →  Multi-token prediction         │
-│  AgentOrchestra/HALO     →  Hierarchical orchestration     │
-│  RouteLLM/LiteLLM       →  Cost-quality routing          │
-│  MemoRAG/A-Mem          →  MemoryTree (episodic+semantic)│
-│  MCTS/UCB1              →  Provider selection algorithm   │
-└────────────────────────────────────────────────────────────┘
+
+```text
+Current RouterArena Anchor
+─────────────────────────────────────────────────────────────────────────────
+RouterArena PR #144: 0.9404 score | 96.77% accuracy | $0.0768/1K
+1.0000 robustness | 0 abnormal entries | 8,400 queries
+
+Next Research Loop
+─────────────────────────────────────────────────────────────────────────────
+MCTS/RL-style routing → test cost-quality strategies → submit improved predictions → compare against 0.9404 / 96.77% anchor
 ```
 
 ### Why Not Use ML-Based Routing?
@@ -1192,7 +1200,7 @@ A3M Router is built on findings from **30+ 2024-2025 arXiv papers** on LLM routi
 | **Startup** | ~3 minutes | <100ms |
 | **Updates** | Retrain required | EMA, no retraining |
 | **Accuracy** | Varies | 96.77% RouterArena PR #144 |
-| **Cost** | High (GPU cluster) | Zero |
+| **Cost** | High (GPU cluster) | Zero routing training; RouterArena cost $0.0768/1K |
 
 RouterArena PR #144 shows A3M’s zero-training routing achieves **96.77% accuracy** and **$0.0768/1K** without ML training, outperforming known public baselines on accuracy, cost, and robustness.
 

@@ -143,7 +143,7 @@ with gr.Blocks(
                 summary = gr.Markdown(label="Best Result")
         
         with gr.Row():
-            cost_comparison = gr.Markdown(label="Cost Savings")
+            cost_comparison = gr.Markdown(label="RouterArena Proof")
         
         with gr.Accordion("Raw JSON Output", open=False):
             raw_output = gr.JSON()

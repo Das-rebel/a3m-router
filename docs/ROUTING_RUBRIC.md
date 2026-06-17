@@ -29,9 +29,9 @@ composite_score = 0.30 × RoutingAccuracy
 
 | Score | Criterion |
 |-------|-----------|
-| 90-100 | >95% within ±1 tier. RouterArena score above 70. Fewer than 1 in 20 queries misrouted by more than one tier. |
-| 75-89 | 85-95% within ±1 tier. RouterArena score 60-70. Occasional over-tiering on simple queries. |
-| 60-74 | 70-85% within ±1 tier. RouterArena score 50-60. Noticeable over-tiering on medium queries. |
+| 90-100 | >95% within ±1 tier. RouterArena score 0.90+. Fewer than 1 in 20 queries misrouted by more than one tier. |
+| 75-89 | 85-95% within ±1 tier. RouterArena score 0.75-0.90. Occasional over-tiering on simple queries. |
+| 60-74 | 70-85% within ±1 tier. RouterArena score 0.60-0.75. Noticeable over-tiering on medium queries. |
 | 45-59 | 50-70% within ±1 tier. Frequent misrouting on complex/expert queries. |
 | <45 | <50% within ±1 tier. Router is essentially random. Major overhaul needed. |
 
@@ -39,7 +39,7 @@ composite_score = 0.30 × RoutingAccuracy
 
 - **RouteLLM comparison** — where RouteLLM routes vs A3M (reference benchmark)
 - **Tier confusion matrix** — which query types cause the most over/under-tiering
-- **RouterArena score** — the single-number benchmark (current: 96.77%)
+- **RouterArena score** — current A3M anchor: **0.9404 / 96.77% accuracy** on PR #144
 - **Golden route deviation** — percentage of queries where A3M disagrees with golden route
 
 ### Common failure patterns

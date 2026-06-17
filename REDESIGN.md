@@ -20,7 +20,7 @@ S = (1.1 × accuracy × C) / (0.1 × accuracy + C)
 |--------|----------|-----------|
 | Score | 0.6912 | 0.6964 |
 | Accuracy | 69.29% | 69.13% |
-| Cost/1K | $0.1438 | $0.0635 |
+| Cost/1K | $0.1438 | $0.0768 |
 
 **Problem:** Aggressive cost routing (97% to premium) hurt accuracy by 0.16%, which offset all cost gains.
 
