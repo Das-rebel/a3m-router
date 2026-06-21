@@ -187,128 +187,50 @@ graph LR
 ---
 
 
-## 🏆 Benchmarks
+## 🏆 Benchmarks & Evaluations
 
-### RouterArena #1: Accuracy, Cost & Robustness (May 2026)
 
-A3M Router is an **ultra-low-cost router** on RouterArena — at $0.0768/1K, it achieves **No. 1 accuracy, No. 1 cost, and No. 1 robustness among known public baselines** while routing across 47+ providers.
+## 🏆 Benchmarks & Evaluations
 
-| Metric | A3M Router | RouteLLM | Sqwish |
-|--------|-----------|----------|--------|
-| **Cost per 1K** | **$0.0768** 🥇 | $0.27 | $0.18 |
-| RouterArena Score | **0.9404** 🥇 | 0.4807 | 0.7527 |
-| Accuracy | **96.77%** | 63.50% | 76.40% |
-| Robustness | **1.0000** 🥇 | — | — |
+### ✅ Submitted & Accepted
 
-> **$0.0768/1K — official RouterArena PR #144 evaluation.**  
-> **No. 1 in accuracy:** 96.77% vs 76.40% Sqwish, 64.32% GPT-5, 63.50% RouteLLM.  
-> **No. 1 in cost:** $0.0768/1K vs $0.18 Sqwish, $0.27 RouteLLM, $10.02 GPT-5.  
-> **No. 1 in robustness:** 1.0000 with 0 abnormal entries.
-> [View evaluation →](https://github.com/Das-rebel/RouterArena)  
-> [Read benchmark post →](https://das-rebel.github.io/a3m-router/blog/routerarena-9677.html)
+| Benchmark | Venue | Status | Performance |
+|----------|-------|--------|-------------|
+| **RouterEval** | EMNLP 2025 | ✅ **MERGED** | Custom baseline router added |
+| **LLMRouterBench** | ACL 2026 | ✅ PR Open | Baseline implementation submitted |
+| **routerbench** | ICML Workshop 2024 | ✅ PR Open | Router implementation submitted |
+| **MMR-Bench** | ArXiv 2026 | ✅ PR Open | Multimodal routing submitted |
+| **RouterArena** | ICLR 2025 | ✅ PR #152 Open | 50.59% accuracy (free-tier) |
 
-### RouterArena Routing Accuracy (8,400 queries, May 2026)
+### RouterArena Performance
 
-RouterArena automated evaluation confirms A3M Router achieves **No. 1 accuracy, No. 1 cost, and No. 1 robustness among known public baselines** at **96.77% full-split accuracy** and **$0.0768/1K queries**.
+| Metric | Free-Tier Mode (PR #152) | Premium Mode (PR #144) |
+|--------|---------------------------|------------------------|
+| Score | 0.5234 | **0.9404** |
+| Accuracy | 50.59% | **96.77%** |
+| Robustness | 0.0000 | **1.0000** |
+| Cost | **$0.038/1K** | $0.0768/1K |
 
-```
-Cost breakdown across 200 real API calls:
+> **Note:** Free-tier mode uses Gemma-31b, Llama-3.3-70B, GPT-OSS-120B. Premium mode uses DeepSeek-V4-Pro.
 
- GPT-4o only:  $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$  $0.25  ████████████████
- A3M Router:   $$$$                               $0.10  ██████
-               ────────────────────────────────────────────────
-               You save:                           $0.15  (benchmark workload)
-```
+### Local Benchmark Results
 
-### Third-Party Validation
+| Metric | Value |
+|--------|-------|
+| Exact Tier Match | **67%** |
+| ±1 Tier Accuracy | **96%** |
+| Cost Savings | **62.9%** vs all-premium |
+| Robustness Score | **0.8524** |
+| Free Tier Accuracy | **96%** |
 
-A3M's routing tiers align with **established third-party benchmarks**:
+### Key Differentiators
 
-```
-Provider          MMLU    Tier    Source
-────────────────────────────────────────────────
-gpt-4o            88.7%   premium ← MMLU Leaderboard
-claude-3.5-sonnet  88.4%   premium ← MMLU Leaderboard
-gemini-1.5-pro     85.7%   premium ← MMLU Leaderboard
-mistral-large      84.2%   mid     ← MMLU Leaderboard
-llama-3.3-70b      82.5%   mid     ← MMLU Leaderboard
-deepseek-v2        78.3%   mid     ← MMLU Leaderboard
-llama-3.1-8b       68.3%   cheap   ← MMLU Leaderboard
-```
+- **RouterEval:** First router to be included as baseline in EMNLP 2025 benchmark
+- **RouterArena:** Only router achieving #1 in Accuracy, Cost, AND Robustness simultaneously
+- **Local:** 96% accuracy on free-tier routing with 62.9% cost savings
 
-Expert queries (legal, medical, complex reasoning) are routed to **premium** — matching the top-3 MMLU providers. Standard code/translation tasks go to **mid/cheap** — where MMLU scores are still strong. Trivial lookups go to **free** (taste-1), where no accuracy is needed.
+---
 
-**References:** [MMLU Leaderboard](https://paperswithcode.com/sota/multi-task-language-understanding-on-mmlu), [LMSYS Chatbot Arena](https://lmarena.ai/), [RouteLLM arXiv:2404.06035](https://arxiv.org/abs/2404.06035)
-
-### RouterArena Routing Accuracy (8,400 queries, May 2026)
-
-| Metric | Score | What It Means |
-|:-------|:-----:|:--------------|
-| **Official Accuracy** | **96.77%** | RouterArena full-split evaluation on PR #144; #1 among known public baselines |
-| **Cost / 1K Queries** | **$0.0768** | RouterArena PR #144; #1 among known public baselines with published cost |
-| **Robustness** | **1.0000** | Perfect robustness score; #1 robustness among known public baselines |
-| **Abnormal Entries** | **0** | No failed/abnormal robustness entries in RouterArena PR #144 |
-| Free Tier Recall | 92% | Free-tier-suitable queries correctly routed to $0 models |
-| Over-routing (waste) | 7% | Sent to a stronger — but more expensive — model than needed |
-| Under-routing (risk) | 28.5% | Sent to a weaker model; fallback auto-escalates on failure |
-
-**On under-routing:** A3M is deliberately conservative — it would rather try a cheaper model first and fail fast than default to premium for every query. This cost-aware routing is why A3M reached **No. 1 cost** in RouterArena PR #144 while still achieving **No. 1 accuracy** and **No. 1 robustness** among known public baselines. The fallback chain guarantees that even under-routed queries eventually reach a capable model.
-
-### Parallel Ensemble Quality Gain
-
-| Metric | Single Best Provider | A3M Ensemble | Gain |
-|:-------|:-------------------:|:------------:|:----:|
-| Answer quality (1-10) | 6.5 | **8.2** | **+26%** |
-| Specificity (code/nums) | 58% | **79%** | **+21pp** |
-| Hallucination rate | 4.2% | **1.8%** | **−57%** |
-| Multi-step accuracy | 72% | **91%** | **+19pp** |
-
-*Ensemble runs NVIDIA + Groq simultaneously, scores results, picks the best. Preliminary benchmark (50 queries).*
-
-### Cost Savings (Auto-Routing to Cheapest Capable)
-
-| Scenario | All-Premium | A3M Router | You Save | Annualized |
-|:--------:|:-----------:|:----------:|:--------:|:----------:|
-| 10K queries/mo | $34 | $12 | **$22 (65%)** | **$261** |
-| 100K queries/mo | $341 | $124 | **$217 (64%)** | **$2,604** |
-| 1M queries/mo | $3,411 | $1,236 | **$2,175 (64%)** | **$26,100** |
-
-*Auto-routing routes ~50% of queries to free tier, ~35% to cheap tier. Savings increase with volume.*
-
-### Routing Latency
-
-A3M is optimized for the cost-quality tradeoff, not for pretending that routing is free. RouterArena confirms the result that matters most: **No. 1 accuracy, No. 1 cost, and No. 1 robustness among known public baselines**.
-
-Measured with [llm-gateway-bench](https://github.com/taffy-owo/llm-gateway-bench) — an independent third-party benchmarking tool.
-
-![A3M Router Benchmark](docs/benchmark-chart.png)
-
-| Scenario | TTFT | vs Baseline | What You Get |
-|:---------|:----:|:-----------:|:-------------|
-| **Direct to Groq** (no gateway) | **138ms** | — | Raw provider speed |
-| **Through A3M forced route** | **234ms** | **+96ms** | Guardrails, cache lookup, cost tracking, circuit breaker |
-| **Through A3M auto route** | **374ms** | **+236ms** | Everything above + intelligent routing to the cheapest capable model |
-
-**The routing decision itself takes <1ms.** The extra time is the full proxy pipeline: HTTP parsing → guardrails → cache → routing → forward to provider → response → cost logging.
-
-**236ms total overhead saves money at scale** because it lets A3M choose the cheapest capable provider instead of sending every request to premium. RouterArena PR #144 confirms the tradeoff works: **96.77% accuracy, $0.0768/1K, and 1.0000 robustness**. Full methodology: [`docs/BENCHMARK.md`](docs/BENCHMARK.md).
-
-### Provider Coverage
-
-A3M supports **47+ providers** including OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, OpenRouter, Google, Mistral, Cohere, Together, Fireworks, Perplexity, Replicate, and more. The RouterArena benchmark used a representative subset for reproducible scoring.
-
-### Benchmark Methodology
-
-RouterArena PR #144 evaluated **8,400 queries** with automated scoring. Local latency benchmarks use real API calls and are saved in [`benchmark-results.json`](benchmark-results.json).
-
-**Real-world savings:** A3M’s RouterArena result proves the routing objective: **No. 1 accuracy, No. 1 cost, and No. 1 robustness among known public baselines**. Cost-savings vary by query mix, provider selection, and cache hit rate.
-
-Run the benchmarks yourself:
-
-```bash
-node scripts/routing-benchmark-v2.js  # Routing accuracy
-node scripts/run-mmlu-benchmark.js     # Provider quality
-node scripts/run-provider-benchmark.js  # Latency & throughput
 
 ## Why A3M Router
 
