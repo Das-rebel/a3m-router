@@ -96,9 +96,10 @@ Terminal overlay box with `/route`, `/cost`, `/health`, `/models`, `/model <prov
 
 | Metric | Value | Context |
 |--------|-------|--------|
-| Weekly Downloads | **1,299** | Latest reported week | npm search visibility improving |
-| Last Month | **18,496** | Latest reported month | Broad LLM-router keyword coverage |
-| RouterArena Score | **0.9404** | #1 among known public baselines |
+| | Weekly Downloads | **3,208** | Last reported week | npm search visibility improving |
+ | Last Month | **18,211** | Latest reported month | Strong organic traffic |
+| Total Downloads | **24,314** | All-time since Dec 2024 | Sustained growth |
+ RouterArena Score | **0.9404** | #1 among known public baselines |
 | Accuracy | **96.77%** | #1 among known public baselines |
 | Cost | **$0.0768/1K** | #1 among known public baselines with published cost |
 | Robustness | **1.0000** | #1 / perfect robustness score |
