@@ -8,23 +8,44 @@
 
 ---
 
-## RouterArena (PR #152) ✅ OPEN
-- **Score:** 0.5234 (50.59% accuracy)
+## ✅ Submitted & Merged
+
+| Benchmark | Venue | Status | PR |
+|----------|-------|--------|-----|
+| **RouterEval** | EMNLP 2025 | ✅ **MERGED** | [#4](https://github.com/MilkThink-Lab/RouterEval/pull/4) |
+
+---
+
+## 📊 RouterArena Performance
+
+| Mode | Score | Accuracy | Robustness | Cost |
+|------|-------|----------|------------|------|
+| **Premium** (PR #144) | 0.9404 | 96.77% | 1.0000 | $0.0768/1K |
+| **Free-tier** (PR #152) | 0.5234 | 50.59% | 0.0000 | $0.038/1K |
+
+### PR #152 - OPEN
 - **Status:** Awaiting evaluation
+- **Comment:** Posted follow-up on PR asking about free-tier classification
 - **PR:** https://github.com/RouteWorks/RouterArena/pull/152
 
-## LLMRouterBench (ACL'26) (PR #3) ✅ OPEN
-- **Status:** Submitted
+---
+
+## 📊 LLMRouterBench (ACL 2026) - PR #3 - OPEN
+- **Status:** Comment posted on PR
 - **PR:** https://github.com/ynulihao/LLMRouterBench/pull/3
 - **Added:** baselines/A3MRouter/
 
-## routerbench (PR #14) ✅ OPEN
-- **Status:** Submitted
+---
+
+## 📊 routerbench (ICML Workshop) - PR #14 - OPEN
+- **Status:** Awaiting comment (auth issue)
 - **PR:** https://github.com/withmartian/routerbench/pull/14
 - **Added:** routers/a3m_router.py
 
-## MMR-Bench (PR #4) ✅ OPEN
-- **Status:** Submitted
+---
+
+## 📊 MMR-Bench (ArXiv 2026) - PR #4 - OPEN
+- **Status:** Awaiting review
 - **PR:** https://github.com/Hunter-Wrynn/MMR-Bench/pull/4
 - **Focus:** Multimodal LLM routing
 
@@ -34,10 +55,17 @@
 
 | Metric | Value |
 |--------|-------|
-| Exact Tier Match | 67% |
-| ±1 Tier Accuracy | 96% |
-| Cost Savings | 62.9% |
-| Robustness Score | 0.8524 |
+| Exact Tier Match | **67%** |
+| ±1 Tier Accuracy | **96%** |
+| Cost Savings | **62.9%** |
+| Robustness Score | **0.8524** |
+
+---
+
+## Documentation Created
+
+- `articles/SHOW_HN_V2.md` - HN/Reddit-ready blog post
+- `articles/BENCHMARK_MAINTAINER_OUTREACH.md` - Email templates for maintainers
 
 ---
 
