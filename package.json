@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.14.57",
+  "version": "2.14.59",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
   "description": "RouterArena #1 among known public baselines: 96.77% accuracy, $0.0768/1K, 1.0000 robustness. OpenAI-compatible LLM router across 47+ providers.",
