@@ -43,7 +43,17 @@ No ML training. No GPU. Drop-in for existing LLM apps.
 
 ---
 
-# A3M Router 🔀 — Enterprise AI Gateway for Cost Optimization & Reliability
+# A3M Router
+
+[![npm](https://img.shields.io/npm/dt/adaptive-memory-multi-model-router?label=npm+downloads)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
+[![GitHub stars](https://img.shields.io/github/stars/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![RouterEval](https://img.shields.io/badge/RouterEval-MERGED-brightgreen)](https://github.com/MilkThink-Lab/RouterEval/pull/4)
+[![RouterArena](https://img.shields.io/badge/RouterArena-PR%20%23152-blue)](https://github.com/RouteWorks/RouterArena/pull/152)
+[![LLMRouterBench](https://img.shields.io/badge/LLMRouterBench-PR%20%233-blue)](https://github.com/ynulihao/LLMRouterBench/pull/3)
+[![Benchmarks](https://img.shields.io/badge/Benchmarks-5_total-9627ff)](https://github.com/Das-rebel/a3m-router#-benchmarks--evaluations)
+
+ 🔀 — Enterprise AI Gateway for Cost Optimization & Reliability
 
 **Stop overpaying for LLM APIs.** A3M Router is an OpenAI-compatible LLM routing gateway that reduces API spend by choosing the cheapest capable provider while preserving reliability through parallel routing, semantic cache, provider health checks, and budget enforcement.
 
