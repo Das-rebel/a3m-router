@@ -51,7 +51,8 @@ No ML training. No GPU. Drop-in for existing LLM apps.
 [![RouterEval](https://img.shields.io/badge/RouterEval-MERGED-brightgreen)](https://github.com/MilkThink-Lab/RouterEval/pull/4)
 [![RouterArena](https://img.shields.io/badge/RouterArena-PR%20%23152-blue)](https://github.com/RouteWorks/RouterArena/pull/152)
 [![LLMRouterBench](https://img.shields.io/badge/LLMRouterBench-PR%20%233-blue)](https://github.com/ynulihao/LLMRouterBench/pull/3)
-[![Benchmarks](https://img.shields.io/badge/Benchmarks-5_total-9627ff)](https://github.com/Das-rebel/a3m-router#-benchmarks--evaluations)
+[![Benchmarks](https://img.shields.io/badge/Benchmarks-5_total-9627ff)]
+[![HuggingFace](https://img.shields.io/badge/HuggingFace-Space-blue)](https://huggingface.co/spaces/Hayasuki/a3m-router)(https://github.com/Das-rebel/a3m-router#-benchmarks--evaluations)
 
  🔀 — Enterprise AI Gateway for Cost Optimization & Reliability
 
