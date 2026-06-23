@@ -1,148 +1,55 @@
-# PR Status Report — 2026-05-28
+# A3M Router PR Status Report
+Last Updated: 2026-06-23
 
-All 13 awesome-list PRs checked via `gh` CLI.
+## Benchmark PRs
 
----
+| Benchmark | PR | Status | Last Updated | Last Action |
+|-----------|-----|--------|--------------|-------------|
+| **RouterArena** | [#152](https://github.com/RouteWorks/RouterArena/pull/152) | 🔄 OPEN | Jun 23 | Pinged maintainers re: free-tier baseline |
+| **LLMRouterBench** | [#3](https://github.com/ynulihao/LLMRouterBench/pull/3) | 🔄 OPEN | Jun 23 | Pinged with RouterArena #1 results |
+| **routerbench** | [#14](https://github.com/withmartian/routerbench/pull/14) | 🔄 OPEN | Jun 23 | Pinged with RouterArena #1 results |
+| **MMR-Bench** | [#4](https://github.com/Hunter-Wrynn/MMR-Bench/pull/4) | 🔄 OPEN | Jun 23 | Final follow-up (15 days since owner promised review) |
+| **RouterEval** | [#4](https://github.com/MilkThink-Lab/RouterEval/pull/4) | ✅ MERGED | Jun 3 | Done |
 
-## Summary
+## Awesome List PRs
 
-| # | Status | Repo | PR | Action Needed |
-|---|--------|------|----|---------------|
-| 1 | OPEN | 12britz/awesome-ai-gateways | [#6](https://github.com/12britz/awesome-ai-gateways/pull/6) | None — waiting for review |
-| 2 | OPEN | wauputr4/awesome-llm-gateways | [#1](https://github.com/wauputr4/awesome-llm-gateways/pull/1) | None — responded to review already |
-| 3 | OPEN | pyxis3-ai/awesome-model-agnostic-llm | [#2](https://github.com/pyxis3-ai/awesome-model-agnostic-llm/pull/2) | None — waiting for review |
-| 4 | OPEN | mahseema/awesome-ai-tools | [#1404](https://github.com/mahseema/awesome-ai-tools/pull/1404) | None — waiting for review |
-| 5 | OPEN | ai-for-developers/awesome-ai-coding-tools | [#358](https://github.com/ai-for-developers/awesome-ai-coding-tools/pull/358) | None — waiting for review |
-| 6 | OPEN | WangRongsheng/awesome-LLM-resources | [#125](https://github.com/WangRongsheng/awesome-LLM-resources/pull/125) | None — waiting for review |
-| 7 | OPEN | tensorchord/Awesome-LLMOps | [#523](https://github.com/tensorchord/Awesome-LLMOps/pull/523) | None — waiting for review |
-| 8 | OPEN | Hannibal046/Awesome-LLM | [#611](https://github.com/Hannibal046/Awesome-LLM/pull/611) | None — waiting for review |
-| 9 | OPEN | RunaCapital/awesome-oss-alternatives | [#352](https://github.com/RunaCapital/awesome-oss-alternatives/pull/352) | None — waiting for review |
-| 10 | OPEN | AiHubCN/Awesome-Chinese-LLM | [#101](https://github.com/AiHubCN/Awesome-Chinese-LLM/pull/101) | None — waiting for review |
-| 11 | CLOSED | jamesmurdza/awesome-ai-devtools | [#584](https://github.com/jamesmurdza/awesome-ai-devtools/pull/584) | **Resubmit** — auto-closed by bot (missing checklist items in PR template) |
-| 12 | OPEN | EthicalML/awesome-production-machine-learning | [#778](https://github.com/EthicalML/awesome-production-machine-learning/pull/778) | None — waiting for review |
-| 13 | OPEN | reorx/awesome-chatgpt-api | [#158](https://github.com/reorx/awesome-chatgpt-api/pull/158) | None — review suggested Chinese README update, already done |
+| # | Repo | PR | Stars | Status | Last Action |
+|---|------|-----|-------|--------|-------------|
+| 1 | 12britz/awesome-ai-gateways | [#6](https://github.com/12britz/awesome-ai-gateways/pull/6) | - | 🔄 OPEN | - |
+| 2 | wauputr4/awesome-llm-gateways | [#1](https://github.com/wauputr4/awesome-llm-gateways/pull/1) | - | 🔄 OPEN | - |
+| 3 | pyxis3-ai/awesome-model-agnostic-llm | [#2](https://github.com/pyxis3-ai/awesome-model-agnostic-llm/pull/2) | - | 🔄 OPEN | - |
+| 4 | mahseema/awesome-ai-tools | [#1404](https://github.com/mahseema/awesome-ai-tools/pull/1404) | 5.3K | 🔄 OPEN | Pinged Jun 23 |
+| 5 | ai-for-developers/awesome-ai-coding-tools | [#358](https://github.com/ai-for-developers/awesome-ai-coding-tools/pull/358) | 1.7K | 🔄 OPEN | Pinged Jun 23 |
+| 6 | WangRongsheng/awesome-LLM-resources | [#125](https://github.com/WangRongsheng/awesome-LLM-resources/pull/125) | 8.4K | 🔄 OPEN | Pinged Jun 23 |
+| 7 | tensorchord/Awesome-LLMOps | [#523](https://github.com/tensorchord/Awesome-LLMOps/pull/523) | - | 🔄 OPEN | - |
+| 8 | Hannibal046/Awesome-LLM | [#611](https://github.com/Hannibal046/Awesome-LLM/pull/611) | - | 🔄 OPEN | - |
+| 9 | RunaCapital/awesome-oss-alternatives | [#352](https://github.com/RunaCapital/awesome-oss-alternatives/pull/352) | - | 🔄 OPEN | - |
+| 10 | AiHubCN/Awesome-Chinese-LLM | [#101](https://github.com/AiHubCN/Awesome-Chinese-LLM/pull/101) | - | 🔄 OPEN | - |
+| 11 | EthicalML/awesome-production-machine-learning | [#778](https://github.com/EthicalML/awesome-production-machine-learning/pull/778) | - | 🔄 OPEN | - |
+| 12 | reorx/awesome-chatgpt-api | [#158](https://github.com/reorx/awesome-chatgpt-api/pull/158) | - | 🔄 OPEN | - |
+| 13 | jamesmurdza/awesome-ai-devtools | [#584](https://github.com/jamesmurdza/awesome-ai-devtools/pull/584) | - | ❌ CLOSED | Auto-closed, needs resubmit |
 
----
+## Actions Taken Today
 
-## Detailed Status
+- RouterArena #152: Asked maintainers about free-tier baseline acceptance
+- LLMRouterBench #3: Pinged with RouterArena #1 stats
+- routerbench #14: Pinged with RouterArena #1 stats  
+- MMR-Bench #4: Final follow-up (15 days since owner promise)
+- awesome-ai-tools #1404: Pinged (5.3K stars)
+- awesome-LLM-resources #125: Pinged (8.4K stars)
+- awesome-ai-coding-tools #358: Pinged (1.7K stars)
 
-### 1. 12britz/awesome-ai-gateways [#6](https://github.com/12britz/awesome-ai-gateways/pull/6)
-- **State:** OPEN
-- **Mergeable:** YES
-- **Comments:** 0
-- **Reviews:** 0
-- **Title:** Add A3M Router - parallel multi-LLM execution AI gateway
-- **Action:** Waiting for maintainer review. No new activity.
+## Key Stats
 
-### 2. wauputr4/awesome-llm-gateways [#1](https://github.com/wauputr4/awesome-llm-gateways/pull/1)
-- **State:** OPEN
-- **Mergeable:** YES
-- **Comments:** 1 (our response to review on 2026-05-27)
-- **Reviews:** 1 (gemini-code-assist — COMMENTED, suggested table alignment)
-- **Title:** Add A3M Router - parallel ensemble LLM router
-- **Action:** We already responded. No further action needed.
+- RouterArena Score: 0.5234 (50.59% accuracy) - free tier
+- RouterArena #1: 96.77% accuracy, $0.077/1K (premium tier via PR #144)
+- npm downloads: 20K+ total, ~560/day average
+- GitHub stars: 10
+- GitHub Pages: https://das-rebel.github.io/a3m-router/ ✅
+- HF Space: https://huggingface.co/spaces/Hayasuki/a3m-router ✅
 
-### 3. pyxis3-ai/awesome-model-agnostic-llm [#2](https://github.com/pyxis3-ai/awesome-model-agnostic-llm/pull/2)
-- **State:** OPEN
-- **Mergeable:** YES
-- **Comments:** 0
-- **Reviews:** 0
-- **Title:** Add A3M Router - parallel multi-LLM execution with confidence scoring
-- **Action:** Waiting for maintainer review.
+## Decision Rules
 
-### 4. mahseema/awesome-ai-tools [#1404](https://github.com/mahseema/awesome-ai-tools/pull/1404)
-- **State:** OPEN
-- **Mergeable:** YES
-- **Comments:** 0
-- **Reviews:** 0
-- **Title:** Add A3M Router - LLM router & AI gateway with parallel multi-LLM execution
-- **Action:** Waiting for maintainer review.
-
-### 5. ai-for-developers/awesome-ai-coding-tools [#358](https://github.com/ai-for-developers/awesome-ai-coding-tools/pull/358)
-- **State:** OPEN
-- **Mergeable:** YES
-- **Comments:** 0
-- **Reviews:** 0
-- **Title:** Add A3M Router - LLM router & AI gateway
-- **Action:** Waiting for maintainer review.
-
-### 6. WangRongsheng/awesome-LLM-resources [#125](https://github.com/WangRongsheng/awesome-LLM-resources/pull/125)
-- **State:** OPEN
-- **Mergeable:** YES
-- **Comments:** 0
-- **Reviews:** 0
-- **Title:** Add A3M Router - open-source LLM router (推理 Inference)
-- **Action:** Waiting for maintainer review.
-
-### 7. tensorchord/Awesome-LLMOps [#523](https://github.com/tensorchord/Awesome-LLMOps/pull/523)
-- **State:** OPEN
-- **Mergeable:** YES
-- **Comments:** 0
-- **Reviews:** 0
-- **Title:** Add A3M Router to Large Model Serving
-- **Action:** Waiting for maintainer review.
-
-### 8. Hannibal046/Awesome-LLM [#611](https://github.com/Hannibal046/Awesome-LLM/pull/611)
-- **State:** OPEN
-- **Mergeable:** YES
-- **Comments:** 0
-- **Reviews:** 0
-- **Title:** Add A3M Router to LLM Inference / deployment tools
-- **Action:** Waiting for maintainer review.
-
-### 9. RunaCapital/awesome-oss-alternatives [#352](https://github.com/RunaCapital/awesome-oss-alternatives/pull/352)
-- **State:** OPEN
-- **Mergeable:** YES
-- **Comments:** 0
-- **Reviews:** 0
-- **Title:** Add A3M Router - open-source AI/LLM Gateway
-- **Action:** Waiting for maintainer review.
-
-### 10. AiHubCN/Awesome-Chinese-LLM [#101](https://github.com/AiHubCN/Awesome-Chinese-LLM/pull/101)
-- **State:** OPEN
-- **Mergeable:** YES
-- **Comments:** 0
-- **Reviews:** 0
-- **Title:** Add A3M Router - 开源LLM路由器和AI网关
-- **Action:** Waiting for maintainer review.
-
-### 11. jamesmurdza/awesome-ai-devtools [#584](https://github.com/jamesmurdza/awesome-ai-devtools/pull/584)
-- **State:** CLOSED
-- **Closed by:** github-actions bot
-- **Reason:** PR description was missing required checklist items from the template:
-  - `The entry is a tool that uses AI`
-  - `The entry is a developer-focused tool`
-  - `The description is unambiguous and clear`
-  - `The description matches the style of other entries`
-- **Action:** **RESUBMIT** — Create a new PR with the correct PR description template. Fork already has the branch (`a3m-router-gateway`) with code changes. Need to create new PR with proper template body.
-
-### 12. EthicalML/awesome-production-machine-learning [#778](https://github.com/EthicalML/awesome-production-machine-learning/pull/778)
-- **State:** OPEN
-- **Mergeable:** YES
-- **Comments:** 0
-- **Reviews:** 0
-- **Title:** Add A3M Router to Deployment and Serving section
-- **Action:** Waiting for maintainer review.
-
-### 13. reorx/awesome-chatgpt-api [#158](https://github.com/reorx/awesome-chatgpt-api/pull/158)
-- **State:** OPEN
-- **Mergeable:** YES
-- **Comments:** 0
-- **Reviews:** 1 (gemini-code-assist — suggested updating README.cn.md as well)
-- **Title:** Add A3M Router to Development Tools section
-- **Action:** Chinese README already updated (both English and Chinese entries are present). No further action needed.
-
----
-
-## Overall Status
-
-| Metric | Count |
-|--------|-------|
-| OPEN | 11 |
-| MERGED | 0 |
-| CLOSED (needs resubmit) | 1 |
-| Comments received | 2 (both responded to) |
-| Reviews received | 2 (both non-blocking) |
-| Needs action | 1 (#584 resubmit) |
-
-All lists that accepted our PR are still open and pending maintainer review. No rejections. One auto-closed due to template mismatch — fork + branch are ready for resubmission.
+1. If no response after 2 follow-ups → close and move on
+2. If owner promises review → set 3-day reminder, follow up at 7 days
+3. If PR auto-closes → note and resubmit if high-value
