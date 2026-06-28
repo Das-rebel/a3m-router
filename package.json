@@ -179,7 +179,8 @@
     "test:providers": "node test/provider-test.js",
     "benchmark": "node test/benchmark.js",
     "benchmark:verbose": "node test/benchmark.js --verbose",
-    "build": "npx tsc -p tsconfig.build.json"
+    "build": "npx tsc -p tsconfig.build.json",
+    "postinstall": "node scripts/postinstall-nudge.js"
   },
   "engines": {
     "node": ">=18.0.0"

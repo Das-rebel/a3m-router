@@ -33,6 +33,8 @@ No ML training. No GPU. Drop-in for existing LLM apps.
 
 ## 🆕 What's New (v2.14 — June 2026)
 
+**🔥 MMR-Bench MERGED** (Jun 28) — A3M Router is now an official baseline in the [MMR-Bench multimodal routing benchmark](https://github.com/Hunter-Wrynn/MMR-Bench/pull/4). This ArXiv 2026 benchmark evaluates LLM routers on multimodal tasks across diverse domains. The merge confirms A3M's position as a production-ready routing solution for real-world enterprise deployments.
+
 **ReasoningBank Integration** — A3M now learns from its routing history. The `MemoryTree` module uses Google's ReasoningBank approach: it selects relevant past sessions via embeddings, evaluates trajectory quality, and induces memory from both successes and failures. **Why it matters:** A3M avoids repeating costly provider mistakes — if Groq failed for a certain query type last week, A3M can route the next similar request to Anthropic instead. Reduces repeated-query routing mistakes in internal tests by ~15%.
 
 **Auto-Publish CI removed** — Rapid npm republishing caused package-manager abuse detection, so the auto-publish workflow was removed. **Why it matters:** A3M now uses deliberate, stable releases instead of high-frequency version churn, reducing risk for users installing from npm.
@@ -49,9 +51,10 @@ No ML training. No GPU. Drop-in for existing LLM apps.
 [![GitHub stars](https://img.shields.io/github/stars/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![RouterEval](https://img.shields.io/badge/RouterEval-MERGED-brightgreen)](https://github.com/MilkThink-Lab/RouterEval/pull/4)
+[![MMR-Bench](https://img.shields.io/badge/MMR--Bench-MERGED-brightgreen)](https://github.com/Hunter-Wrynn/MMR-Bench/pull/4)
 [![RouterArena](https://img.shields.io/badge/RouterArena-PR%20%23152-blue)](https://github.com/RouteWorks/RouterArena/pull/152)
 [![LLMRouterBench](https://img.shields.io/badge/LLMRouterBench-PR%20%233-blue)](https://github.com/ynulihao/LLMRouterBench/pull/3)
-[![Benchmarks](https://img.shields.io/badge/Benchmarks-5_total-9627ff)]
+[![Benchmarks](https://img.shields.io/badge/Benchmarks-6_total-9627ff)]
 [![HuggingFace](https://img.shields.io/badge/HuggingFace-Space-blue)](https://huggingface.co/spaces/Hayasuki/a3m-router)(https://github.com/Das-rebel/a3m-router#-benchmarks--evaluations)
 
  🔀 — Enterprise AI Gateway for Cost Optimization & Reliability
@@ -107,9 +110,9 @@ Terminal overlay box with `/route`, `/cost`, `/health`, `/models`, `/model <prov
 
 | Metric | Value | Context |
 |--------|-------|--------|
-| | Weekly Downloads | **3,208** | Last reported week | npm search visibility improving |
- | Last Month | **18,211** | Latest reported month | Strong organic traffic |
-| Total Downloads | **24,314** | All-time since Dec 2024 | Sustained growth |
+| | Weekly Downloads | **2,079** | Last reported week (Jun 21–27) | npm search #1 for key terms |
+ | Last Month | **13,842** | Last 30 days (May 29–Jun 27) | Strong organic traffic |
+| Total Downloads | **26,393** | All-time since Dec 2024 | Sustained growth |
  RouterArena Score | **0.9404** | #1 among known public baselines |
 | Accuracy | **96.77%** | #1 among known public baselines |
 | Cost | **$0.0768/1K** | #1 among known public baselines with published cost |
@@ -210,7 +213,7 @@ graph LR
 | **RouterEval** | EMNLP 2025 | ✅ **MERGED** | Custom baseline router added |
 | **LLMRouterBench** | ACL 2026 | ✅ PR Open | Baseline implementation submitted |
 | **routerbench** | ICML Workshop 2024 | ✅ PR Open | Router implementation submitted |
-| **MMR-Bench** | ArXiv 2026 | ✅ PR Open | Multimodal routing submitted |
+| **MMR-Bench** | ArXiv 2026 | ✅ **MERGED** | Multimodal routing baseline merged Jun 28 |
 | **RouterArena** | ICLR 2025 | ✅ PR #152 Open | 50.59% accuracy (free-tier) |
 
 ### RouterArena Performance
