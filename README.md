@@ -31,6 +31,10 @@ RouterArena evaluates LLM routers on query-level routing decisions against groun
 | MMR-Bench (ArXiv 2026) | Baseline merged | Hunter-Wrynn/MMR-Bench#4 |
 | LLMRouterBench (ACL 2026) | Baseline submitted | ynulihao/LLMRouterBench#3 |
 
+### RouterArena Leaderboard
+
+![RouterArena Leaderboard](assets/chart-routerena-leaderboard.svg)
+
 ---
 
 ## Architecture
@@ -185,13 +189,21 @@ npx a3m-router benchmark                            # run local accuracy test
 npx a3m-router health                              # provider health status
 ```
 
-### Local Benchmark (no API key required)
+### Local Benchmark (n=200, no API key required)
 
 | Metric | Value |
 |--------|-------|
 | Exact tier match | 67% |
 | Within 1 tier | 96% |
 | Cost savings vs all-premium | 62.9% |
+
+![Routing Accuracy by Tier](assets/chart-accuracy-by-tier.svg)
+
+![Confusion Matrix — Predicted vs Actual Tier](assets/chart-confusion-matrix.svg)
+
+![Cost Comparison](assets/chart-cost-comparison.svg)
+
+![Latency Overhead](assets/chart-latency-overhead.svg)
 
 ---
 

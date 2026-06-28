@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" width="480" height="300">
+  <defs>
+    <linearGradient id="costBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="480" height="300" fill="url(#costBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="240" y="28" text-anchor="middle" fill="#f1f5f9" font-family="system-ui,sans-serif" font-size="14" font-weight="600">Cost per 1K Tokens — RouterArena Benchmarks</text>
+  <text x="240" y="44" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="10">Lower is better</text>
+
+  <!-- Chart area: 60,60 to 460,250 -->
+  <!-- $0 baseline, $11 max -->
+  <!-- A3M: $0.0768 | RouteLLM: $0.27 | GPT-5: $10.02 | All-premium avg ~$5 -->
+  <!-- Scale: 0-11 = 190px, so 1$ = 17.3px -->
+  <!-- A3M bar: 0.0768 * 17.3 = 1.3px -> barely visible -->
+  <!-- Let's use log scale: 0.05 to 12 -->
+
+  <g transform="translate(60,60)">
+    <!-- Y-axis -->
+    <line x1="40" y1="0" x2="40" y2="190" stroke="#334155" stroke-width="1.5"/>
+    <line x1="40" y1="190" x2="400" y2="190" stroke="#334155" stroke-width="1.5"/>
+
+    <!-- Grid lines -->
+    <g stroke="#1e293b" stroke-width="1">
+      <line x1="40" y1="0" x2="400" y2="0"/>
+      <line x1="40" y1="38" x2="400" y2="38"/>
+      <line x1="40" y1="76" x2="400" y2="76"/>
+      <line x1="40" y1="114" x2="400" y2="114"/>
+      <line x1="40" y1="152" x2="400" y2="152"/>
+    </g>
+
+    <!-- Y labels -->
+    <g fill="#64748b" font-family="system-ui,sans-serif" font-size="10" text-anchor="end">
+      <text x="35" y="4">$12</text>
+      <text x="35" y="42">$9</text>
+      <text x="35" y="80">$6</text>
+      <text x="35" y="118">$3</text>
+      <text x="35" y="156">$0</text>
+    </g>
+
+    <!-- Bar spacing: 4 bars, 90px each -->
+    <!-- GPT-5: $10.02 = 159px from bottom -->
+    <rect x="60" y="31" width="70" height="159" fill="#ef4444" rx="3" opacity="0.85"/>
+    <text x="95" y="24" text-anchor="middle" fill="#f87171" font-family="system-ui,sans-serif" font-size="11" font-weight="600">$10.02</text>
+    <text x="95" y="205" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="10">GPT-5</text>
+
+    <!-- All-premium: $5.00 avg = 79px -->
+    <rect x="160" y="111" width="70" height="79" fill="#f97316" rx="3" opacity="0.85"/>
+    <text x="195" y="104" text-anchor="middle" fill="#fb923c" font-family="system-ui,sans-serif" font-size="11" font-weight="600">$5.00</text>
+    <text x="195" y="205" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="10">All-Premium</text>
+
+    <!-- RouteLLM: $0.27 = 4.3px (tiny bar) -->
+    <rect x="260" y="183" width="70" height="7" fill="#eab308" rx="3"/>
+    <text x="295" y="178" text-anchor="middle" fill="#facc15" font-family="system-ui,sans-serif" font-size="11" font-weight="600">$0.27</text>
+    <text x="295" y="205" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="10">RouteLLM</text>
+
+    <!-- A3M Router: $0.0768 = 1.2px (micro bar) -->
+    <rect x="360" y="188" width="70" height="2" fill="#22c55e" rx="1"/>
+    <text x="395" y="183" text-anchor="middle" fill="#4ade80" font-family="system-ui,sans-serif" font-size="11" font-weight="600">$0.077</text>
+    <text x="395" y="205" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="10">A3M Router</text>
+
+    <!-- Highlight A3M -->
+    <rect x="355" y="175" width="80" height="40" fill="none" stroke="#22c55e" stroke-width="1.5" rx="4" stroke-dasharray="3,2"/>
+  </g>
+
+  <!-- Legend -->
+  <text x="240" y="282" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="9">A3M is 130x cheaper than GPT-5, 3.5x cheaper than RouteLLM</text>
+</svg>
