@@ -10,7 +10,7 @@
 
   <!-- Title -->
   <text x="240" y="26" text-anchor="middle" fill="#111" font-family="system-ui,sans-serif" font-size="14" font-weight="600">Latency Breakdown — Routing Overhead</text>
-  <text x="240" y="42" text-anchor="middle" fill="#666" font-family="system-ui,sans-serif" font-size="10">Groq baseline: 138ms | All numbers from independent benchmark (May 2026)</text>
+  <text x="240" y="42" text-anchor="middle" fill="#666" font-family="system-ui,sans-serif" font-size="10">Groq endpoint | Local measurement (May 2026)</text>
 
   <!-- Chart: stacked bar, baseline 138ms = 100% -->
   <!-- Scale: 1ms = 1.3px for 280px chart height, or use discrete bars -->

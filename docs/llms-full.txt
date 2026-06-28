@@ -46,7 +46,7 @@ Source: RouteWorks/RouterArena#144 (merged)
 ## Architecture
 
 ```
-Request → Guardrails → Semantic Cache → Router (12-signal heuristic) → Provider → Response
+Request → Guardrails → Semantic Cache → Router (5-signal heuristic) → Provider → Response
 ```
 
 The routing pipeline executes in four stages:

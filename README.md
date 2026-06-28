@@ -197,6 +197,8 @@ npx a3m-router health                              # provider health status
 | Within 1 tier | 96% |
 | Cost savings vs all-premium | 62.9% |
 
+**Tier accuracy breakdown:** Free queries are routed correctly 96% of the time (48/50). Cheap queries achieve 75% exact match (45/60), with the primary confusion being an upward bias — cheap queries routed to free tier (13 cases) rather than premium. Mid-tier accuracy is 36% (18/50), representing the primary weakness of the heuristic approach: mid-complexity queries are harder to classify precisely with keyword-based signals alone. Premium queries achieve 57.5% exact match (23/40), with most errors being under-routing to mid-tier (11 cases). The 96% within-1-tier rate means errors rarely result in a capability mismatch — a misrouted mid query still typically reaches a mid-capability model.
+
 ![Routing Accuracy by Tier](assets/chart-accuracy-by-tier.svg)
 
 ![Confusion Matrix — Predicted vs Actual Tier](assets/chart-confusion-matrix.svg)
