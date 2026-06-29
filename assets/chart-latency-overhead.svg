@@ -4,77 +4,99 @@
       <stop offset="0%" stop-color="#f8fafc"/>
       <stop offset="100%" stop-color="#f1f5f9"/>
     </linearGradient>
+    <marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
   </defs>
 
+  <!-- Background -->
   <rect width="480" height="280" fill="url(#latBg)"/>
 
   <!-- Title -->
   <text x="240" y="26" text-anchor="middle" fill="#111" font-family="system-ui,sans-serif" font-size="14" font-weight="600">Latency Breakdown — Routing Overhead</text>
-  <text x="240" y="42" text-anchor="middle" fill="#666" font-family="system-ui,sans-serif" font-size="10">Groq endpoint | Local measurement (May 2026)</text>
+  <text x="240" y="43" text-anchor="middle" fill="#666" font-family="system-ui,sans-serif" font-size="10">Groq endpoint | Local measurement (May 2026)</text>
 
-  <!-- Chart: stacked bar, baseline 138ms = 100% -->
-  <!-- Scale: 1ms = 1.3px for 280px chart height, or use discrete bars -->
+  <!-- Chart area: y=58 (top) to y=248 (baseline 0ms) -->
+  <!-- Scale: 0.5px per ms. Max 380ms = 190px (fits 374ms bar) -->
 
-  <!-- Y-axis: 0 to 450ms -->
-  <line x1="50" y1="65" x2="50" y2="235" stroke="#cbd5e1" stroke-width="1"/>
-  <line x1="50" y1="235" x2="460" y2="235" stroke="#cbd5e1" stroke-width="1"/>
+  <!-- Y-axis -->
+  <line x1="52" y1="58" x2="52" y2="248" stroke="#333" stroke-width="1"/>
+  <line x1="52" y1="248" x2="460" y2="248" stroke="#333" stroke-width="1"/>
 
-  <!-- Y-axis grid lines at 0, 100, 200, 300, 400 -->
-  <g stroke="#e2e8eb" stroke-width="1" stroke-dasharray="3,3">
-    <line x1="50" y1="65" x2="460" y2="65"/>
-    <line x1="50" y1="105" x2="460" y2="105"/>
-    <line x1="50" y1="145" x2="460" y2="145"/>
-    <line x1="50" y1="185" x2="460" y2="185"/>
+  <!-- Y-axis gridlines (every 50ms = 25px) -->
+  <g stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,3">
+    <line x1="52" y1="223" x2="460" y2="223"/> <!-- 50ms -->
+    <line x1="52" y1="198" x2="460" y2="198"/> <!-- 100ms -->
+    <line x1="52" y1="173" x2="460" y2="173"/> <!-- 150ms -->
+    <line x1="52" y1="148" x2="460" y2="148"/> <!-- 200ms -->
+    <line x1="52" y1="123" x2="460" y2="123"/> <!-- 250ms -->
+    <line x1="52" y1="98"  x2="460" y2="98"/>  <!-- 300ms -->
+    <line x1="52" y1="73"  x2="460" y2="73"/>  <!-- 350ms -->
+    <line x1="52" y1="58"  x2="460" y2="58"/>  <!-- 380ms -->
   </g>
 
-  <!-- Y-axis labels -->
+  <!-- Y-axis labels (aligned with gridlines) -->
   <g font-family="system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="end">
-    <text x="42" y="69">400ms</text>
-    <text x="42" y="109">300ms</text>
-    <text x="42" y="149">200ms</text>
-    <text x="42" y="189">100ms</text>
-    <text x="42" y="239">0ms</text>
+    <text x="46" y="61">380ms</text>
+    <text x="46" y="76">350ms</text>
+    <text x="46" y="101">300ms</text>
+    <text x="46" y="126">250ms</text>
+    <text x="46" y="151">200ms</text>
+    <text x="46" y="176">150ms</text>
+    <text x="46" y="201">100ms</text>
+    <text x="46" y="226">50ms</text>
+    <text x="46" y="252">0ms</text>
   </g>
 
-  <!-- Bar 1: Direct to Groq = 138ms -->
-  <rect x="70" y="97" width="80" height="138" fill="#94a3b8" rx="3"/>
-  <text x="110" y="91" text-anchor="middle" fill="#475569" font-family="system-ui,sans-serif" font-size="11" font-weight="600">138ms</text>
-  <text x="110" y="252" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10">Direct Groq</text>
+  <!-- === BARS === -->
+  <!-- Groq Direct: 138ms = 69px → top at y=179 -->
+  <rect x="70" y="179" width="70" height="69" fill="#94a3b8" rx="3"/>
+  <text x="105" y="173" text-anchor="middle" fill="#475569" font-family="system-ui,sans-serif" font-size="11" font-weight="600">138ms</text>
+  <text x="105" y="265" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10">Direct Groq</text>
 
-  <!-- Bar 2: A3M Forced Route = 234ms (+96ms overhead) -->
-  <rect x="175" y="61" width="80" height="174" fill="#3b82f6" rx="3"/>
-  <text x="215" y="55" text-anchor="middle" fill="#1d4ed8" font-family="system-ui,sans-serif" font-size="11" font-weight="600">234ms</text>
-  <!-- Overhead annotation -->
-  <line x1="152" y1="97" x2="175" y2="97" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
-  <text x="163" y="94" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="8">+96ms</text>
-  <text x="215" y="252" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10">A3M Forced</text>
+  <!-- A3M Forced: 234ms = 117px → top at y=131 (138+96 overhead) -->
+  <rect x="185" y="131" width="70" height="117" fill="#3b82f6" rx="3"/>
+  <text x="220" y="125" text-anchor="middle" fill="#1d4ed8" font-family="system-ui,sans-serif" font-size="11" font-weight="600">234ms</text>
+  <text x="220" y="265" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10">A3M Forced</text>
 
-  <!-- Bar 3: A3M Auto Route = 374ms (+236ms overhead) -->
-  <rect x="280" y="23" width="80" height="212" fill="#22c55e" rx="3"/>
-  <text x="320" y="17" text-anchor="middle" fill="#15803d" font-family="system-ui,sans-serif" font-size="11" font-weight="600">374ms</text>
-  <!-- Overhead annotation -->
-  <line x1="152" y1="61" x2="280" y2="61" stroke="#94a3b8" stroke-width="1" stroke-dasharray="2,2"/>
-  <text x="216" y="58" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="8">+236ms</text>
-  <text x="320" y="252" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10">A3M Auto</text>
+  <!-- A3M Auto: 374ms = 187px → top at y=61 (234+140 overhead) -->
+  <rect x="300" y="61" width="70" height="187" fill="#22c55e" rx="3"/>
+  <text x="335" y="55" text-anchor="middle" fill="#15803d" font-family="system-ui,sans-serif" font-size="11" font-weight="600">374ms</text>
+  <text x="335" y="265" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10">A3M Auto</text>
 
-  <!-- Breakdown for A3M Auto: 138 base + 96ms proxy + 140ms routing -->
-  <!-- Proxy overhead annotation -->
-  <line x1="255" y1="97" x2="280" y2="97" stroke="#3b82f6" stroke-width="1" stroke-dasharray="2,2"/>
-  <text x="267" y="94" text-anchor="middle" fill="#3b82f6" font-family="system-ui,sans-serif" font-size="8">+96ms</text>
-  <text x="267" y="86" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="7">(proxy overhead)</text>
+  <!-- === OVERHEAD ANNOTATIONS === -->
 
-  <line x1="255" y1="61" x2="280" y2="61" stroke="#22c55e" stroke-width="1" stroke-dasharray="2,2"/>
-  <text x="267" y="58" text-anchor="middle" fill="#22c55e" font-family="system-ui,sans-serif" font-size="8">+140ms</text>
-  <text x="267" y="50" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="7">(routing decision)</text>
+  <!-- +96ms bracket: from Groq top (y=179) to Forced top (y=131) = 48px = 96ms ✓ -->
+  <line x1="162" y1="179" x2="162" y2="131" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="155" y1="179" x2="169" y2="179" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="155" y1="131" x2="169" y2="131" stroke="#64748b" stroke-width="1.5"/>
+  <text x="177" y="159" fill="#64748b" font-family="system-ui,sans-serif" font-size="10" font-weight="600">+96ms</text>
+  <text x="177" y="170" fill="#64748b" font-family="system-ui,sans-serif" font-size="8">(proxy)</text>
+
+  <!-- +140ms bracket: from Forced top (y=131) to Auto top (y=61) = 70px = 140ms ✓ -->
+  <line x1="277" y1="131" x2="277" y2="61" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="270" y1="131" x2="284" y2="131" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="270" y1="61" x2="284" y2="61" stroke="#64748b" stroke-width="1.5"/>
+  <text x="292" y="100" fill="#64748b" font-family="system-ui,sans-serif" font-size="10" font-weight="600">+140ms</text>
+  <text x="292" y="111" fill="#64748b" font-family="system-ui,sans-serif" font-size="8">(routing)</text>
+
+  <!-- +236ms bracket: from Groq top (y=179) to Auto top (y=61) = 118px = 236ms ✓ -->
+  <line x1="388" y1="179" x2="388" y2="61" stroke="#22c55e" stroke-width="1.5"/>
+  <line x1="381" y1="179" x2="395" y2="179" stroke="#22c55e" stroke-width="1.5"/>
+  <line x1="381" y1="61" x2="395" y2="61" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="403" y="124" fill="#15803d" font-family="system-ui,sans-serif" font-size="10" font-weight="600">+236ms</text>
+  <text x="403" y="135" fill="#15803d" font-family="system-ui,sans-serif" font-size="8">(total)</text>
+
+  <!-- Baseline annotation (dotted line at Groq level) -->
+  <line x1="52" y1="179" x2="460" y2="179" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="54" y="183" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">138ms baseline</text>
 
   <!-- Legend -->
-  <rect x="370" y="75" width="12" height="12" fill="#94a3b8" rx="2"/>
-  <text x="387" y="85" fill="#333" font-family="system-ui,sans-serif" font-size="9">Baseline</text>
-  <rect x="370" y="95" width="12" height="12" fill="#3b82f6" rx="2"/>
-  <text x="387" y="105" fill="#333" font-family="system-ui,sans-serif" font-size="9">Proxy overhead</text>
-  <rect x="370" y="115" width="12" height="12" fill="#22c55e" rx="2"/>
-  <text x="387" y="125" fill="#333" font-family="system-ui,sans-serif" font-size="9">Routing decision</text>
+  <rect x="370" y="223" width="12" height="12" fill="#94a3b8" rx="2"/>
+  <text x="387" y="233" fill="#333" font-family="system-ui,sans-serif" font-size="9">Baseline</text>
+  <rect x="370" y="240" width="12" height="12" fill="#3b82f6" rx="2"/>
+  <text x="387" y="250" fill="#333" font-family="system-ui,sans-serif" font-size="9">Proxy overhead</text>
 
   <!-- Note -->
-  <text x="240" y="272" text-anchor="middle" fill="#888" font-family="system-ui,sans-serif" font-size="9">236ms total overhead is less than the time it takes to blink (~300ms)</text>
+  <text x="240" y="276" text-anchor="middle" fill="#888" font-family="system-ui,sans-serif" font-size="9">236ms total overhead is less than the time it takes to blink (~300ms)</text>
 </svg>
