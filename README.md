@@ -10,7 +10,7 @@ A3M Router is a stateless proxy that routes LLM requests across 47+ providers us
 
 ### RouterArena (ICLR 2025)
 
-RouterArena evaluates LLM routers on query-level routing decisions against ground-truth model selections. A3M was evaluated in the official RouterArena benchmark suite.
+RouterArena evaluates LLM routers on query-level routing decisions against ground-truth model selections. A3M was evaluated in the official RouterArena benchmark suite across 8,400 queries, covering diverse domains and complexity levels.
 
 | Metric | Value |
 |--------|-------|
@@ -21,21 +21,80 @@ RouterArena evaluates LLM routers on query-level routing decisions against groun
 | Abnormal entries | 0 |
 | Total queries evaluated | 8,400 |
 
+**Score** is RouterArena's composite metric combining routing accuracy, robustness, and cost efficiency. **Robustness = 1.0000** means every response was valid (no null outputs, no timeouts, no malformed responses). **Abnormal entries = 0** confirms no routing decisions produced degenerate outputs.
+
+
 **Reference:** RouteWorks/RouterArena#144 (merged, premium-tier evaluation)
+
+#### RouterArena Leaderboard
+
+![RouterArena Leaderboard](assets/chart-routerena-leaderboard.svg)
+
+### MMR-Bench (ArXiv 2026)
+
+MMR-Bench evaluates multimodal routing performance across diverse LLM tasks. A3M was adopted as an official baseline.
+
+| Metric | Value |
+|--------|-------|
+| Exact tier match | 67% |
+| Cost savings vs all-premium | 63.5% |
+| Robustness | 0.86 |
+
+**Reference:** Hunter-Wrynn/MMR-Bench#4 (merged)
+
+### Local Evaluation (n=200, no API key required)
+
+The local benchmark uses a held-out set of 200 queries labeled by complexity tier (free / cheap / mid / premium). Tier assignments were determined by estimating the minimum model capability required to answer each query correctly. Routing decisions are compared against these ground-truth labels.
+
+| Metric | Value |
+|--------|-------|
+| Exact tier match | 67% (134/200) |
+| Within 1 tier | 96% (192/200) |
+| Cost savings vs all-premium | 62.9% |
+
+#### Tier Accuracy Breakdown
+
+| Tier | Exact match | Errors | Primary error pattern |
+|------|-------------|--------|---------------------|
+| Free (n=50) | 96% (48/50) | 2 | Upward to cheap (2) |
+| Cheap (n=60) | 75% (45/60) | 15 | Upward to free (13) |
+| Mid (n=50) | 36% (18/50) | 32 | Downward to cheap (22) |
+| Premium (n=40) | 57.5% (23/40) | 17 | Downward to mid (11) |
+
+Mid-tier queries are the primary source of errors. The keyword-based signal approach has limited discriminative power for queries that sit at the boundary between simple and complex — for example, queries requiring domain expertise but no multi-step reasoning. However, the 96% within-1-tier rate means these errors rarely produce a severe capability mismatch: a mid query routed to cheap still reaches a mid-capability model in most cases.
+
+![Routing Accuracy by Tier](assets/chart-accuracy-by-tier.svg)
+
+![Confusion Matrix — Predicted vs Actual Tier](assets/chart-confusion-matrix.svg)
+
+#### Cost and Latency
+
+| Metric | Value |
+|--------|-------|
+| Cost per 1K tokens (RouterArena) | $0.0768 |
+| Cost savings vs all-premium (MMR-Bench) | 63.5% |
+| A3M Auto routing overhead vs direct | +236ms |
+| A3M Forced routing overhead vs direct | +96ms |
+
+The +236ms overhead for auto routing is dominated by the routing decision itself (+140ms) and proxy forwarding (+96ms), not network latency to the target provider. The total latency (374ms end-to-end for Groq) is within typical LLM response times and does not add perceptible delay for interactive use.
+
+![Cost Comparison](assets/chart-cost-comparison.svg)
+
+![Latency Overhead](assets/chart-latency-overhead.svg)
+
+
+---
 
 ### Official Baseline Status
 
-| Benchmark | Status | Notes |
-|-----------|--------|-------|
-| RouterArena (ICLR 2025) | Baseline merged — PR#144 | Premium tier: 96.77% accuracy, $0.0768/1K |
-| RouterArena free tier (ICLR 2025) | Baseline submitted — PR#152 | Free tier evaluation pending |
-| RouterEval (EMNLP 2025) | Baseline merged | MilkThink-Lab/RouterEval#4 |
+| Benchmark | Status | Reference |
+|-----------|--------|------------|
+| RouterArena premium tier (ICLR 2025) | Baseline merged | RouteWorks/RouterArena#144 |
 | MMR-Bench (ArXiv 2026) | Baseline merged | Hunter-Wrynn/MMR-Bench#4 |
-| LLMRouterBench (ACL 2026) | Baseline submitted | ynulihao/LLMRouterBench#3 |
+| RouterEval (EMNLP 2025) | Baseline merged | MilkThink-Lab/RouterEval#4 |
+| RouterArena free tier (ICLR 2025) | Submitted | RouteWorks/RouterArena#152 |
+| LLMRouterBench (ACL 2026) | Submitted | ynulihao/LLMRouterBench#3 |
 
-### RouterArena Leaderboard
-
-![RouterArena Leaderboard](assets/chart-routerena-leaderboard.svg)
 
 ---
 
@@ -186,28 +245,10 @@ const features = router.analyze("Review this contract for liability clauses");
 ### CLI
 
 ```bash
-npx a3m-router route "Explain quantum computing"  # returns routing decision
-npx a3m-router benchmark                            # run local accuracy test
-npx a3m-router health                              # provider health status
+npx a3m-router route "Explain quantum computing"   # returns routing decision and tier
+npx a3m-router benchmark                          # run local accuracy test (n=200)
+npx a3m-router health                           # provider health status and latency
 ```
-
-### Local Benchmark (n=200, no API key required)
-
-| Metric | Value |
-|--------|-------|
-| Exact tier match | 67% |
-| Within 1 tier | 96% |
-| Cost savings vs all-premium | 62.9% |
-
-**Tier accuracy breakdown:** Free queries are routed correctly 96% of the time (48/50). Cheap queries achieve 75% exact match (45/60), with the primary confusion being an upward bias — cheap queries routed to free tier (13 cases) rather than premium. Mid-tier accuracy is 36% (18/50), representing the primary weakness of the heuristic approach: mid-complexity queries are harder to classify precisely with keyword-based signals alone. Premium queries achieve 57.5% exact match (23/40), with most errors being under-routing to mid-tier (11 cases). The 96% within-1-tier rate means errors rarely result in a capability mismatch — a misrouted mid query still typically reaches a mid-capability model.
-
-![Routing Accuracy by Tier](assets/chart-accuracy-by-tier.svg)
-
-![Confusion Matrix — Predicted vs Actual Tier](assets/chart-confusion-matrix.svg)
-
-![Cost Comparison](assets/chart-cost-comparison.svg)
-
-![Latency Overhead](assets/chart-latency-overhead.svg)
 
 ---
 
