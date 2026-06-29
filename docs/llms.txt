@@ -29,12 +29,14 @@ Complexity score (0.0–1.0) maps to provider tiers: free (taste-1), cheap (llam
 | Abnormal entries | 0 |
 | Queries evaluated | 8,400 |
 
-Source: RouteWorks/RouterArena#144 (merged)
+Source: RouteWorks/RouterArena#144 (merged, premium-tier evaluation)
 
 ## Official Baseline Status
+- RouterArena premium tier (ICLR 2025): baseline merged — PR#144 | Score 0.9404, Accuracy 96.77%
+- RouterArena free tier (ICLR 2025): baseline submitted — PR#152 | 50.59% accuracy (pending)
 - RouterEval (EMNLP 2025): baseline merged — MilkThink-Lab/RouterEval#4
-- MMR-Bench (ArXiv 2026): baseline merged — Hunter-Wrynn/MMR-Bench#4
-- LLMRouterBench (ACL 2026): submitted — ynulihao/LLMRouterBench#3
+- MMR-Bench (ArXiv 2026): baseline merged — Hunter-Wrynn/MMR-Bench#4 | Accuracy 67%, Cost savings 63.5%
+- LLMRouterBench (ACL 2026): baseline submitted — ynulihao/LLMRouterBench#3
 
 ## Local Evaluation
 

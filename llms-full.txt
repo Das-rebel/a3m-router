@@ -23,12 +23,13 @@ A3M Router is an OpenAI-compatible LLM routing gateway that selects the cheapest
 | Abnormal entries | 0 |
 | Queries evaluated | 8,400 |
 
-Source: RouteWorks/RouterArena#144 (merged)
+Source: RouteWorks/RouterArena#144 (merged, premium-tier evaluation)
 
 ### Official Baseline Status
 
 | Benchmark | Venue | Status | Reference |
-|-----------|-------|--------|-----------|
+| RouterArena premium tier | ICLR 2025 | Baseline merged | RouteWorks/RouterArena#144 |
+| RouterArena free tier | ICLR 2025 | Submitted | RouteWorks/RouterArena#152 |
 | RouterEval | EMNLP 2025 | Baseline merged | MilkThink-Lab/RouterEval#4 |
 | MMR-Bench | ArXiv 2026 | Baseline merged | Hunter-Wrynn/MMR-Bench#4 |
 | LLMRouterBench | ACL 2026 | Submitted | ynulihao/LLMRouterBench#3 |

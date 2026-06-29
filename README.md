@@ -21,12 +21,14 @@ RouterArena evaluates LLM routers on query-level routing decisions against groun
 | Abnormal entries | 0 |
 | Total queries evaluated | 8,400 |
 
-**Reference:** RouteWorks/RouterArena#144 (merged)
+**Reference:** RouteWorks/RouterArena#144 (merged, premium-tier evaluation)
 
 ### Official Baseline Status
 
 | Benchmark | Status | Notes |
 |-----------|--------|-------|
+| RouterArena (ICLR 2025) | Baseline merged — PR#144 | Premium tier: 96.77% accuracy, $0.0768/1K |
+| RouterArena free tier (ICLR 2025) | Baseline submitted — PR#152 | Free tier evaluation pending |
 | RouterEval (EMNLP 2025) | Baseline merged | MilkThink-Lab/RouterEval#4 |
 | MMR-Bench (ArXiv 2026) | Baseline merged | Hunter-Wrynn/MMR-Bench#4 |
 | LLMRouterBench (ACL 2026) | Baseline submitted | ynulihao/LLMRouterBench#3 |

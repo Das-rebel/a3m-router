@@ -12,9 +12,9 @@
   <text x="260" y="28" text-anchor="middle" fill="#f1f5f9" font-family="system-ui,sans-serif" font-size="14" font-weight="600">A3M Router — RouterArena Evaluation (PR#144)</text>
   <text x="260" y="44" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="10">ICLR 2025 | 8,400 queries | Evaluated against baseline routers</text>
 
-  <!-- Submitted badge -->
-  <rect x="390" y="14" width="58" height="18" rx="9" fill="#fbbf24" fill-opacity="0.2" stroke="#fbbf24" stroke-width="1"/>
-  <text x="419" y="26" text-anchor="middle" fill="#fbbf24" font-family="system-ui,sans-serif" font-size="9" font-weight="600">Submitted</text>
+  <!-- Merged badge (PR#144 = premium tier, merged) -->
+  <rect x="378" y="14" width="58" height="18" rx="9" fill="#22c55e" fill-opacity="0.2" stroke="#22c55e" stroke-width="1"/>
+  <text x="407" y="26" text-anchor="middle" fill="#4ade80" font-family="system-ui,sans-serif" font-size="9" font-weight="600">Merged</text>
 
   <!-- Headers -->
   <text x="20" y="65" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="9" font-weight="600">RANK</text>

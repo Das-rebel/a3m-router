@@ -46,7 +46,7 @@
     "https://das-rebel.github.io/a3m-router/"
   ],
   "downloadUrl": "https://www.npmjs.com/package/adaptive-memory-multi-model-router",
-  "softwareVersion": "2.14.55",
+  "softwareVersion": "2.14.60",
   "license": "https://opensource.org/licenses/MIT",
   "author": {
     "@type": "Person",
@@ -59,14 +59,11 @@
     "priceCurrency": "USD",
     "availability": "https://schema.org/InStock"
   },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "0.9404 / 96.77% (RouterArena) | 67% (MMR-Bench)",
-    "bestRating": "100",
-    "worstRating": "0",
-    "ratingCount": "1",
-    "reviewCount": "1"
-  },
+  "benchmarkResults": [
+    {"@type": "PropertyValue", "name": "RouterArena Score", "value": "0.9404", "description": "ICLR 2025, 8,400 queries"},
+    {"@type": "PropertyValue", "name": "RouterArena Accuracy", "value": "96.77%", "description": "8,400-query full split"},
+    {"@type": "PropertyValue", "name": "MMR-Bench Accuracy", "value": "67%", "description": "Exact tier match"}
+  ],
   "featureList": [
     "Parallel multi-LLM execution",
     "47+ provider support",
@@ -94,7 +91,7 @@
       "name": "What is the best open-source LLM router?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A3M Router is an official baseline in RouterArena (ICLR 2025), MMR-Bench (ArNLP 2026), and RouterEval (EMNLP 2025). RouterArena: 96.77% accuracy, 0.9404 score, $0.0768/1K, 1.0000 robustness across 8,400 queries. MMR-Bench: 67% accuracy, 63.5% cost savings. Rule-based routing with no ML training required."
+        "text": "A3M Router is an official baseline in RouterArena (ICLR 2025), MMR-Bench (ArXiv 2026), and RouterEval (EMNLP 2025). RouterArena: 96.77% accuracy, 0.9404 score, $0.0768/1K, 1.0000 robustness across 8,400 queries. MMR-Bench: 67% accuracy, 63.5% cost savings. Rule-based routing with no ML training required."
       }
     },
     {
@@ -118,7 +115,7 @@
       "name": "Does A3M require GPU or ML training?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. A3M is 19.5KB with zero ML dependencies. It uses 12 keyword signals for rule-based routing in under 1ms on any CPU. No GPU required."
+        "text": "No. A3M is 19.5KB with zero ML dependencies. It uses a 5-signal heuristic for rule-based routing in under 1ms on any CPU. No GPU required."
       }
     },
     {
@@ -256,49 +253,9 @@ npx a3m-router serve
         </tbody>
       </table>
       </div>
-
-      <h3>Parallel Ensemble Quality Gain</h3>
-      <div class="table-wrapper">
-      <table>
-        <thead>
-          <tr>
-            <th>Metric</th>
-            <th>Single Best Provider</th>
-            <th>A3M Ensemble</th>
-            <th>Gain</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Answer quality (1-10)</td>
-            <td>6.5</td>
-            <td><strong>8.2</strong></td>
-            <td><span class="badge green">+26%</span></td>
-          </tr>
-          <tr>
-            <td>Specificity (code/nums)</td>
-            <td>58%</td>
-            <td><strong>79%</strong></td>
-            <td><span class="badge green">+21pp</span></td>
-          </tr>
-          <tr>
-            <td>Hallucination rate</td>
-            <td>4.2%</td>
-            <td><strong>1.8%</strong></td>
-            <td><span class="badge green">-57%</span></td>
-          </tr>
-          <tr>
-            <td>Multi-step accuracy</td>
-            <td>72%</td>
-            <td><strong>91%</strong></td>
-            <td><span class="badge green">+19pp</span></td>
-          </tr>
-        </tbody>
-      </table>
-      </div>
     </section>
 
-    <!-- Features -->
+    <!-- Features --><!-- Features -->
     <section>
       <h2>&#x2728; Features</h2>
 
@@ -311,7 +268,7 @@ npx a3m-router serve
         <div class="card">
           <div class="card-icon">&#x1F3AF;</div>
           <h3>Intelligent Routing</h3>
-          <p>12 keyword signals across 5 dimensions classify query complexity. Routes to cheapest capable model. <strong></strong> &plusmn;1 tier accuracy.</p>
+          <p>5-signal heuristic across 5 dimensions classify query complexity. Routes to cheapest capable model. <strong></strong> &plusmn;1 tier accuracy.</p>
         </div>
         <div class="card">
           <div class="card-icon">&#x1F9E0;</div>
@@ -400,9 +357,10 @@ npx a3m-router serve
           <tr><th>Benchmark</th><th>Status</th><th>Key Metrics</th></tr>
         </thead>
         <tbody>
-          <tr><td>RouterArena (ICLR 2025)</td><td>Baseline merged — PR#144</td><td>Score 0.9404 | Accuracy 96.77% | $0.0768/1K | Robustness 1.0000</td></tr>
+          <tr><td>RouterArena premium tier (ICLR 2025)</td><td>Baseline merged — PR#144</td><td>Score 0.9404 | Accuracy 96.77% | $0.0768/1K | Robustness 1.0000</td></tr>
+          <tr><td>RouterArena free tier (ICLR 2025)</td><td>Baseline submitted — PR#152</td><td>50.59% accuracy | Evaluation pending</td></tr>
           <tr><td>MMR-Bench (ArXiv 2026)</td><td>Baseline merged — PR#4</td><td>Accuracy 67% | Cost savings 63.5% | Robustness 0.86</td></tr>
-          <tr><td>RouterEval (EMNLP 2025)</td><td>Baseline merged — PR#4</td><td>Custom evaluation baseline</td></tr>
+          <tr><td>RouterEval (EMNLP 2025)</td><td>Baseline merged — PR#4</td><td>Custom evaluation baseline (metrics pending)</td></tr>
           <tr><td>LLMRouterBench (ACL 2026)</td><td>Baseline submitted — PR#3</td><td>Pending evaluation</td></tr>
         </tbody>
       </table>
