@@ -195,7 +195,7 @@
   },
   "dependencies": {
     "blessed": "^0.1.81",
-    "nanoid": "^5.0.0"
+    "nanoid": "^5.1.16"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
