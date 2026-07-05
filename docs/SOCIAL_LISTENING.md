@@ -77,7 +77,7 @@ When someone has issues with these, offer A3M as a working alternative.
 ```
 We were in the same boat — $800/month on GPT-4. Built A3M Router to route smart queries to cheaper models and keep hard ones on premium.
 
-Same answers (RouterArena #1 at 70.32). Cost dropped to ~$5.
+Same answers (RouterArena #1 at 96.77%). Cost dropped to ~$5.
 
 Open source, MIT. Run it yourself:
   npx a3m-router route "your query"
@@ -98,7 +98,7 @@ We evaluated all of them before building A3M. What we wanted:
 - Works with existing OpenAI SDK
 - Has a reproducible benchmark
 
-A3M Router hits all of those. #1 on RouterArena (70.32). Costs $0.047/1K vs GPT-5 at $10/1K.
+A3M Router hits all of those. #1 on RouterArena (96.77%). Costs $0.0768/1K vs GPT-5 at $10/1K.
 
 npx a3m-router route "test it out"
 ```
@@ -145,9 +145,9 @@ Open source: npx a3m-router route "try it"
 ```
 If you're evaluating options, A3M Router is worth a look:
 - MIT licensed (not source-available)
-- RouterArena #1 (70.32)
+- RouterArena #1 (96.77%)
 - Same API as OpenAI SDK
-- $0.047/1K vs $10/1K for GPT-5
+- $0.0768/1K vs $10/1K for GPT-5
 
 npx a3m-router route "test" or npx a3m-router benchmark --reproducible
 ```
@@ -174,7 +174,7 @@ npx a3m-router route "test it"       # Route a real query
 
 **Reply:**
 ```
-Cool project! Curious how it compares on RouterArena. We got 70.32 — would love to see benchmarks head-to-head.
+Cool project! Curious how it compares on RouterArena. We got 96.77% — would love to see benchmarks head-to-head.
 
 For anyone evaluating, A3M Router is open source (MIT) with a reproducible benchmark:
 npx a3m-router benchmark --reproducible

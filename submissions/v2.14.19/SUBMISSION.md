@@ -12,7 +12,7 @@
 - File: `src/utils/sorting.ts`
 
 ### 2. Log-scale Cost Penalty
-- Better differentiation across cost ranges ($0.05-$1.00/1K)
+- Better differentiation across cost ranges ($0.0768-$1.00/1K)
 - Expected **+3 RouterArena points** improvement
 - File: `src/utils/costUtils.ts`
 
@@ -31,7 +31,7 @@
 |--------|-------|
 | RouterArena Score | 70.32 → ~73 (projected) |
 | Latency (47 providers) | ~6ms (was ~10ms) |
-| Cost per 1K queries | $0.05 |
+| Cost per 1K queries | $0.0768 |
 | Accuracy (±1 tier) | 99.5% |
 
 ## Submission Files

@@ -22,7 +22,7 @@ Every query is different. Some need deep reasoning. Some need creative writing. 
 
 A3M Router is a routing layer that sits between your app and every LLM provider. It:
 
-1. **Routes** every query to the cheapest capable model (70.32 accuracy)
+1. **Routes** every query to the cheapest capable model (96.77% RouterArena accuracy)
 2. **Executes in parallel** when quality matters (ensemble voting)
 3. **Enforces budgets** with hard caps per user and team
 4. **Recovers gracefully** when providers fail (circuit breaker, failover)
@@ -33,7 +33,7 @@ A3M Router is a routing layer that sits between your app and every LLM provider.
 1. **Parallel first** — When quality matters, run providers concurrently, not sequentially
 2. **Transparent scoring** — Every ensemble result shows why it won
 3. **Cost-aware** — Route simple queries to cheap providers automatically
-4. **Zero ML** — Heuristic routing achieves 70.32 accuracy without GPUs or training
+4. **Zero ML** — Heuristic routing achieves 96.77% RouterArena accuracy without GPUs or training
 5. **Self-hosted** — No vendor lock-in, no account required
 
 ---

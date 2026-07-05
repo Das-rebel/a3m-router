@@ -8,16 +8,16 @@ litellm (48K★) is the most popular LLM gateway. Here's why A3M exists alongsid
 |---------|---------|------------|
 | **Approach** | Sequential fallback | Parallel ensemble |
 | **Model selection** | Try one, fail, try next | Run all, pick best by confidence |
-| **Benchmark** | None published | #1 on RouterArena (70.32) |
+| **Benchmark** | None published | #1 on RouterArena (96.77%) |
 | **Cost** | Pay for every attempt | Pay for best response |
 | **Latency** | N × round-trip (sequential) | 1 × round-trip (parallel) |
 | **Memory** | None | Episodic memory across sessions |
 | **Size** | ~1.5GB (PyTorch) | 19.5KB (zero ML) |
 | **Startup** | ~3s | <100ms |
 | **GPU required** | Yes (for some models) | No |
-| **Benchmark data** | Not published | [RouterArena #1](https://github.com/RouteWorks/RouterArena/pull/113) |
-| **Routing accuracy** | Claims "100%" (no data) | 70.32 (evaluated on RouterArena benchmark) |
-| **Cheapest cost** | Not published | $0.047/1K (#1 on leaderboard) |
+| **Benchmark data** | Not published | [RouterArena #1](https://github.com/RouteWorks/RouterArena/pull/144) |
+| **Routing accuracy** | Claims "100%" (no data) | 96.77% (evaluated on RouterArena benchmark) |
+| **Cheapest cost** | Not published | $0.0768/1K (#1 on leaderboard) |
 
 ## The Core Difference
 
@@ -54,7 +54,7 @@ const result = await router.route("Explain quantum computing")
 
 ## When to Use A3M
 
-- You want the **cheapest** routing (4× cheaper than #2)
+- You want the **cheapest** routing (2.3× cheaper than Sqwish)
 - You want the **highest accuracy** (#1 on RouterArena)
 - You want **memory** across sessions (only router that has this)
 - You want **sub-100ms startup** (litellm takes ~3s)
@@ -81,7 +81,7 @@ litellm claims "100% routing accuracy" but publishes **zero data** to back this 
 
 > "Benchmark or GTFO." — A principle we stand by.
 
-If litellm submits to RouterArena and scores higher than 70.32, we'll celebrate. Competition drives improvement.
+If litellm submits to RouterArena and scores higher than 96.77%, we'll celebrate. Competition drives improvement.
 
 ---
 

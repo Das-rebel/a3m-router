@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "A3M Router API",
-    "description": "OpenAI-compatible LLM routing proxy with intelligent query classification. Routes queries to the cheapest capable model using multi-signal scoring — 70.32 ±1 tier accuracy on RouterArena (arXiv:2510.00202), $0.047 per 1K queries, no ML required.",
+    "description": "OpenAI-compatible LLM routing proxy with intelligent query classification. Routes queries to the cheapest capable model using multi-signal scoring — 96.77% ±1 tier accuracy on RouterArena (arXiv:2510.00202), $0.0768 per 1K queries, no ML required.",
     "version": "2.2.0",
     "contact": {
       "name": "A3M Router",

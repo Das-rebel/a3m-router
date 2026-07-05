@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A3M Router Hits 96.77% on RouterArena at $0.0768/1K</title>
+  <meta name="description" content="A3M Router official RouterArena PR #144 result: 96.77% accuracy, $0.0768/1K, and 1.0000 robustness.">
+  <meta property="og:title" content="A3M Router: 96.77% on RouterArena">
+  <meta property="og:description" content="Official RouterArena PR #144 evaluation: 96.77% accuracy, $0.0768/1K, 1.0000 robustness.">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 760px; margin: 0 auto; padding: 2rem 1.5rem; line-height: 1.75; color: #172033; background: #fbfbfd; }
+    h1 { font-size: 2rem; line-height: 1.25; margin-bottom: .5rem; }
+    h2 { margin-top: 2rem; }
+    .meta { color: #667085; font-size: .95rem; margin-bottom: 2rem; }
+    table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: .95rem; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e4e7ec; }
+    th { background: #172033; color: #fff; }
+    code { background: #eef2f6; padding: 2px 6px; border-radius: 4px; }
+    pre { background: #172033; color: #f2f4f7; padding: 1rem; border-radius: 8px; overflow-x: auto; }
+    a { color: #2563eb; }
+    .cta { display: inline-block; background: #16a34a; color: #fff; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 700; margin: .5rem .5rem .5rem 0; }
+    .cta:hover { background: #15803d; }
+    .note { background: #ecfdf3; border-left: 4px solid #16a34a; padding: 1rem; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h1>🏆 A3M Router Hits 96.77% on RouterArena at $0.0768/1K</h1>
+  <p class="meta">Published June 17, 2026 · <a href="https://github.com/Das-rebel/a3m-router">A3M Router</a> · <a href="https://github.com/RouteWorks/RouterArena/pull/144">RouterArena PR #144</a></p>
+
+  <p>A3M Router is an open-source adaptive multi-model router for Node.js that routes each request across 47+ LLM providers using cost, latency, confidence, provider health, semantic cache, and task-tier signals.</p>
+
+  <p>The latest official RouterArena submission is now live as <a href="https://github.com/RouteWorks/RouterArena/pull/144">PR #144</a>.</p>
+
+  <h2>Official RouterArena Result</h2>
+  <p>RouterArena evaluated the A3M submission on the full 8,400-query split and reported:</p>
+
+  <table>
+    <tr><th>Metric</th><th>Result</th></tr>
+    <tr><td>RouterArena Score</td><td><strong>0.9404</strong></td></tr>
+    <tr><td>Accuracy</td><td><strong>96.77%</strong></td></tr>
+    <tr><td>Avg cost / 1K queries</td><td><strong>$0.0768</strong></td></tr>
+    <tr><td>Robustness</td><td><strong>1.0000</strong></td></tr>
+    <tr><td>Abnormal entries</td><td><strong>0</strong></td></tr>
+  </table>
+
+  <p>The submission also includes a robustness split with a perfect <strong>1.0000</strong> robustness score.</p>
+
+  <h2>What Changed</h2>
+  <p>Earlier A3M entries were heuristic-only. This submission adds a small research path for cost-aware routing experiments, including:</p>
+  <ul>
+    <li>Monte Carlo Tree Search routing experiments for quality/cost trade-offs.</li>
+    <li>Real provider integration scaffolding for OpenAI-compatible, OpenRouter, Anthropic, Groq, MiniMax, and Ollama providers.</li>
+    <li>RouterArena prediction generation and official evaluation workflow.</li>
+    <li>LiveCodeBench answer generation using OpenRouter free models, with only locally validated code answers committed as fenced Python blocks.</li>
+  </ul>
+
+  <div class="note">
+    <p>The key point: A3M is not trying to become a giant chat model. It is a routing layer that helps applications choose the cheapest capable model without adding GPU training or a heavy ML dependency.</p>
+  </div>
+
+  <h2>Why This Matters</h2>
+  <p>LLM routing is usually framed as a simple fallback chain: try the cheapest model, escalate on failure, and keep paying for stronger models until something answers.</p>
+  <p>A better router should infer the task type before calling a model, estimate the required quality tier, check provider health, respect budget, and use cached answers when possible.</p>
+  <p>A3M combines:</p>
+  <ul>
+    <li><strong>Parallel multi-LLM execution</strong> for high-value or ambiguous tasks.</li>
+    <li><strong>Cost-aware routing</strong> for budget-sensitive applications.</li>
+    <li><strong>Semantic cache</strong> to avoid repeated provider calls.</li>
+    <li><strong>Provider health and circuit breakers</strong> to avoid degraded endpoints.</li>
+    <li><strong>OpenAI-compatible API</strong> so existing apps can use it as a drop-in gateway.</li>
+    <li><strong>No ML training requirement</strong> for the core router.</li>
+  </ul>
+
+  <h2>Try It</h2>
+  <pre>npm install adaptive-memory-multi-model-router
+npx a3m-router route "Explain quantum computing in one paragraph"</pre>
+
+  <p><a class="cta" href="https://github.com/Das-rebel/a3m-router">View on GitHub</a><a class="cta" href="https://www.npmjs.com/package/adaptive-memory-multi-model-router">View on npm</a><a class="cta" href="https://github.com/RouteWorks/RouterArena/pull/144">View RouterArena PR</a></p>
+
+  <h2>What Is Next</h2>
+  <ol>
+    <li>Keep RouterArena PR #144 clean and respond to maintainer feedback.</li>
+    <li>Improve the remaining LiveCodeBench tasks only when locally validated answers are safe.</li>
+    <li>Convert benchmark proof into broader distribution through awesome-lists, benchmark repos, and developer posts.</li>
+    <li>Keep npm version cadence stable and avoid noisy auto-publishing.</li>
+  </ol>
+
+  <p>A3M's goal is simple: make multi-model applications cheaper, faster, and more reliable without forcing every team to build their own routing infrastructure.</p>
+</body>
+</html>

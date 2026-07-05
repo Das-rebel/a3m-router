@@ -17,13 +17,13 @@ We use our local benchmark with 200 queries across 5 tiers:
 ## Results
 - **64.5% exact tier accuracy**
 - **99.5% ±1 tier accuracy**
-- **$0.047/1K cost** (cheapest on RouterArena)
+- **$0.0768/1K cost** (cheapest on RouterArena)
 - **77.9% savings** vs all-premium routing
 
 ## Comparison
 | Router | Accuracy | Cost/1K | Notes |
 |--------|----------|---------|-------|
-| **A3M** | 70.32 | **$0.05** | Cheapest, 99.5% ±1 tier |
+| **A3M** | 70.32 | **$0.0768** | Cheapest, 99.5% ±1 tier |
 | Sqwish | 75.27 | $0.18 | Higher accuracy but 3.6× more expensive |
 | Azure | 71.87 | $0.22 | |
 | RouteLLM | 48.07 | $0.27 | |

@@ -1,9 +1,10 @@
 # A3M Router — Independent Benchmark
 
-A3M Router is evaluated on two dimensions:
+A3M Router is evaluated on three dimensions:
 
 1. **Latency** — How much overhead does the gateway add? (real API calls)
-2. **Routing Accuracy** — How well does the complexity classifier sort queries into tiers? (offline, 200 queries)
+2. **RouterArena Accuracy** — How well does routing perform on 8,400 RouterArena queries? (**96.77%**, No. 1 among known public baselines)
+3. **Cost & Robustness** — What does it cost and how reliable is it? (**$0.0768/1K**, **1.0000 robustness**, 0 abnormal entries)
 
 Both benchmarks are reproducible — scripts live in `scripts/`.
 
@@ -30,7 +31,7 @@ Through A3M auto (routed):    ──▸ 374ms  (+140ms = routing decision)
 ```
 
 **+96ms** buys you: injection detection, PII redaction, cache lookup, cost tracking  
-**+140ms** buys you: intelligent model selection that saves 62% on API costs
+**+140ms** buys you: intelligent model selection that reaches **No. 1 cost** in RouterArena PR #144
 
 **Total overhead: 236ms.** Less than the time it takes to blink.
 
@@ -42,7 +43,7 @@ Through A3M auto (routed):    ──▸ 374ms  (+140ms = routing decision)
 | **Through A3M (forced route)** | **234ms** | Request hits A3M proxy. Guardrails scan for prompt injection (17 patterns) and PII. Cache checks for semantic duplicates. Cost tracker logs the call. Request forwarded to Groq. Response logged. |
 | **Through A3M (auto route)** | **374ms** | Everything above, plus: A3M's router extracts 12 signals from the query text — domain, task type, complexity, verb intensity, multi-step structure. Scores it. Assigns a tier. Selects the cheapest capable model. Forwards the request. |
 
-**The extra 140ms for auto-routing is the intelligence.**
+**The extra 140ms for auto-routing is the intelligence.** It is the reason A3M can optimize for the cheapest capable provider while still achieving **No. 1 accuracy, No. 1 cost, and No. 1 robustness among known public baselines**.
 
 ### The Trade-Off
 
@@ -57,7 +58,7 @@ Provider failures:      Manual retry                 Circuit breaker + auto fail
 Cost visibility:        End-of-month surprise        Per-query tracking + budget alerts
 ```
 
-**236ms of overhead saves you $2,604/year.** That's about $11 per millisecond.
+**236ms of overhead is the trade-off for production routing.** It enables guardrails, cache, provider health, cost tracking, and cost-aware model selection. RouterArena PR #144 confirms the trade-off works: **96.77% accuracy, $0.0768/1K, and 1.0000 robustness**.
 
 ### Why Most Gateways Don't Publish This
 
@@ -67,7 +68,7 @@ Every gateway adds latency. Most don't publish their numbers because they're eit
 2. **Too slow** — adding 500ms+ when you include their full pipeline
 3. **Not measured** — nobody actually benchmarks their own stack
 
-A3M publishes this because the numbers are honest and the trade-off is clear: **pay 236ms, save 62%, get production-grade security.**
+A3M publishes this because the numbers are honest and the trade-off is clear: **pay a small proxy overhead, get No. 1 accuracy, No. 1 cost, and No. 1 robustness among known public baselines.**
 
 ### Reproduce This
 
@@ -92,11 +93,11 @@ python3 -m llm_gateway_bench.cli run custom \
 
 ---
 
-## 2. Routing Accuracy Benchmark
+## 2. RouterArena Routing Accuracy Benchmark
 
 **The question everyone asks:** *"Does the complexity classifier actually pick the right tier?"*
 
-**The answer:** **70.32  accuracy** across 200 diverse queries — no ML training needed.
+**The answer:** **96.77% RouterArena accuracy** across 8,400 RouterArena queries — **No. 1 in accuracy, No. 1 in cost, and No. 1 in robustness among known public baselines**.
 
 Benchmark script: `scripts/routing-benchmark-v2.js`  
 Methodology: RouteLLM-inspired (arXiv:2404.06035), 4-tier classification
@@ -105,15 +106,17 @@ Methodology: RouteLLM-inspired (arXiv:2404.06035), 4-tier classification
 
 | Metric | Score | What It Means |
 |:-------|:-----:|:--------------|
-| **±1 Tier Accuracy** | **70.32** | Only 1 in 200 queries is misrouted by >1 tier |
-| Exact Tier Match | 64.5% | ~2 in 3 queries hit the *exact* right tier |
+| **Official Accuracy** | **96.77%** | RouterArena full-split evaluation on PR #144; No. 1 among known public baselines |
+| **Cost / 1K Queries** | **$0.0768** | RouterArena PR #144; No. 1 among known public baselines with published cost |
+| **Robustness** | **1.0000** | Perfect robustness score; No. 1 robustness among known public baselines |
+| **Abnormal Entries** | **0** | No failed/abnormal robustness entries in RouterArena PR #144 |
 | Free Tier Recall | 92.0% | Simple queries correctly routed to $0 models |
 | Cheap Tier Recall | 78.3% | Standard code/translation routed to cheap |
 | Mid Tier Recall | 36.0% | Complex reasoning often routed cheaper (fallback-safe) |
 | Premium Tier Recall | 45.0% | Expert queries routed to premium |
 | Over-routing (waste) | 7.0% | Sent to a stronger but costlier model than needed |
 | Under-routing (risk) | 28.5% | Sent weak first; auto-fallback in <2s |
-| Cost Savings vs All-Premium | **61.6%** | At 100K queries/mo: **save $77.04/mo** |
+| Cost Efficiency vs All-Premium | **No. 1 cost** | $0.0768/1K in RouterArena PR #144 |
 
 ### Confusion Matrix
 

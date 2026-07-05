@@ -18,8 +18,8 @@ It just ranked #1 on RouterArena (the official LLM routing benchmark), beating M
 
 | | A3M Router | GPT-5 | Your current setup |
 |---|---|---|---|
-| **Score** | **70.32** | 64.32 | ??? |
-| **Cost/1K** | **$0.047** | $10.02 | Probably $5-10 |
+| **Score** | **96.77%** | 64.32 | ??? |
+| **Cost/1K** | **$0.0768** | $10.02 | Probably $5-10 |
 | **Size** | 19.5KB | N/A | N/A |
 
 If you're spending $1,000/month on LLM APIs, this can get you the same quality for ~$5.

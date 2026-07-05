@@ -35,11 +35,11 @@ All 9 platforms listed in priority order. Register accounts first, then submit.
 
 项目描述 (English accepted):
 A3M Router is an open-source LLM routing proxy that ranks #1 on RouterArena
-(70.32 score) at $0.047 per 1K queries — 213x cheaper than GPT-5.
+(0.9404 / 96.77%) at $0.0768 per 1K queries — 130x cheaper than GPT-5.
 
 Key Features:
-- #1 on RouterArena benchmark (70.32/19 routers)
-- $0.047/1K queries — 213x cheaper than GPT-5
+- #1 on RouterArena benchmark (96.77%/19 routers)
+- $0.0768/1K queries — 130x cheaper than GPT-5
 - <1ms routing decision, no GPU required
 - 47+ providers: OpenAI, Anthropic, Groq, Cerebras, DeepSeek, Gemini, Mistral
 - Parallel multi-LLM execution
@@ -72,11 +72,11 @@ npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 项目简介:
 A3M Router 是开源的 LLM 路由代理，在 RouterArena 基准测试中排名第一
-（70.32分），成本仅为 $0.047/1K 查询，比 GPT-5 便宜 213 倍。
+（96.77%分），成本仅为 $0.0768/1K 查询，比 GPT-5 便宜 130倍。
 
 核心功能:
 - 🏆 RouterArena 排名第一
-- 💰 $0.047/1K，比 GPT-5 便宜 213 倍
+- 💰 $0.0768/1K，比 GPT-5 便宜 130倍
 - ⚡ 12 个关键词信号，<1ms 路由决策
 - 🔄 支持 47+ 提供商：OpenAI、Anthropic、Groq、Cerebras、DeepSeek、Gemini、Mistral
 - 🧠 持久化记忆功能
@@ -103,12 +103,12 @@ Demo: https://asciinema.org/a/RpqOZM9tFMALYWvs
 项目名称: A3M Router
 
 项目描述:
-A3M Router 是一个开源的 LLM 路由代理，在 RouterArena 基准测试中排名第一（70.32分），
-成本仅为 $0.047/1K 查询，比 GPT-5 便宜 213 倍。
+A3M Router 是一个开源的 LLM 路由代理，在 RouterArena 基准测试中排名第一（96.77%分），
+成本仅为 $0.0768/1K 查询，比 GPT-5 便宜 130倍。
 
 主要特点:
 - RouterArena 排名第一
-- $0.047/1K 查询，比 GPT-5 便宜 213 倍
+- $0.0768/1K 查询，比 GPT-5 便宜 130倍
 - <1ms 路由决策，无需 GPU
 - 支持 47+ 提供商
 - 并行多 LLM 执行
@@ -137,12 +137,12 @@ Demo: https://asciinema.org/a/RpqOZM9tFMALYWvs
 标签: LLM路由 / 开源 / API网关 / 成本优化
 
 简介:
-开源 LLM 路由代理，RouterArena 排名第一（70.32分），
-$0.047/1K，213倍便宜于 GPT-5。支持 47+ 提供商。
+开源 LLM 路由代理，RouterArena 排名第一（96.77%分），
+$0.0768/1K，130倍便宜于 GPT-5。支持 47+ 提供商。
 
 功能:
 - #1 on RouterArena
-- $0.047/1K (vs GPT-5 $10.02)
+- $0.0768/1K (vs GPT-5 $10.02)
 - <1ms 路由，无需 ML/GPU
 - 47+ 提供商
 - OpenAI 兼容 API
@@ -168,9 +168,9 @@ $0.047/1K，213倍便宜于 GPT-5。支持 47+ 提供商。
 大幅降低 AI 推理成本。
 
 核心数据:
-- RouterArena 排名第一: 70.32 分
-- 成本: $0.047/1K 查询
-- 比 GPT-5 便宜 213 倍
+- RouterArena 排名第一: 96.77% 分
+- 成本: $0.0768/1K 查询
+- 比 GPT-5 便宜 130倍
 
 链接: https://github.com/Das-rebel/a3m-router
 许可证: MIT
@@ -192,11 +192,11 @@ $0.047/1K，213倍便宜于 GPT-5。支持 47+ 提供商。
 
 简介:
 A3M Router 是一款开源 LLM 路由代理，RouterArena 基准测试第一名，
-成本 $0.047/1K，比 GPT-5 便宜 213 倍，支持 47+ 提供商。
+成本 $0.0768/1K，比 GPT-5 便宜 130倍，支持 47+ 提供商。
 
 功能列表:
 - RouterArena 第一名
-- 213x 比 GPT-5 便宜
+- 130x 比 GPT-5 便宜
 - 47+ 提供商支持
 - OpenAI 兼容 API
 - 语义缓存
@@ -228,8 +228,8 @@ A3M Router 分析每个查询，然后路由到最便宜的合适模型。
 
 核心数据
 
-- RouterArena 排名第一（70.32 分，击败 GPT-5 的 64.32）
-- 成本: $0.047/1K 查询（GPT-5 是 $10.02）
+- RouterArena 排名第一（96.77% 分，击败 GPT-5 的 64.32）
+- 成本: $0.0768/1K 查询（GPT-5 是 $10.02）
 - 支持 47+ 提供商
 - 62% 成本降低
 
@@ -261,11 +261,11 @@ npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 
 正文:
 A3M Router 是一款开源 LLM 路由代理，在 RouterArena 基准测试中排名第一
-（70.32分），成本仅为 $0.047/1K 查询。
+（96.77%分），成本仅为 $0.0768/1K 查询。
 
 核心特点:
-- #1 on RouterArena (70.32分)
-- $0.047/1K — 比 GPT-5 便宜 213 倍
+- #1 on RouterArena (96.77%分)
+- $0.0768/1K — 比 GPT-5 便宜 130倍
 - <1ms 路由决策，无需 ML 训练
 - 47+ 提供商支持
 - OpenAI 兼容 API
@@ -288,11 +288,11 @@ A3M Router 是一款开源 LLM 路由代理，在 RouterArena 基准测试中排
 
 项目介绍:
 A3M Router 是开源 LLM 路由代理，在 RouterArena 基准测试中排名第一
-（70.32分），$0.047/1K，213倍便宜于 GPT-5。
+（96.77%分），$0.0768/1K，130倍便宜于 GPT-5。
 
 关键数据:
-- RouterArena: #1 (70.32分 vs GPT-5 64.32分)
-- 成本: $0.047/1K
+- RouterArena: #1 (96.77%分 vs GPT-5 64.32分)
+- 成本: $0.0768/1K
 - 提供商: 47+
 - 路由延迟: <1ms
 

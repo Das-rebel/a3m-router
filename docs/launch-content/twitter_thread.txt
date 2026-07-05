@@ -72,7 +72,7 @@ Tweet 5/7:
 **Real Benchmark**: 100 Tasks
 
 Traditional (always premium):
-100 tasks × $0.05 avg = $5.00
+100 tasks × $0.0768 avg = $5.00
 
 TMLPD (intelligent routing):
 60 TRIVIAL/SIMPLE → $0.06

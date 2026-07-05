@@ -76,14 +76,14 @@ AI engines are recommending **LiteLLM, RouteLLM, Bifrost, NadirClaw** but **NOT 
 ### 🔴 CRITICAL (Fix Now)
 
 **1. Get A3M into RouterArena**
-- PR is open: https://github.com/RouteWorks/RouterArena/pull/113
+- PR is open: https://github.com/RouteWorks/RouterArena/pull/144
 - Not merged yet
 - This is the #1 GEO blocker
 
 **2. Change "99.5% accuracy" claim**
 - Currently: "99.5% ±1 tier"
 - AI sees this as misleading
-- Better: "70.32 RouterArena score, $0.047/1K"
+- Better: "96.77% RouterArena score, $0.0768/1K"
 - Remove "accuracy" until we have ±0 tier metrics
 
 **3. Add third-party validation**
@@ -150,9 +150,9 @@ A: A3M is a production gateway with deterministic rule-based
 > "Top performer"
 
 ### AFTER (Citation-Friendly)
-> "70.32 on RouterArena (arXiv:2510.00202)"
+> "96.77% on RouterArena (arXiv:2510.00202)"
 > "#1 on cost-efficiency benchmark"
-> "$0.047/1K vs GPT-5 $10/1K"
+> "$0.0768/1K vs GPT-5 $10/1K"
 > "19.5KB, zero ML dependencies, no training data"
 
 ---

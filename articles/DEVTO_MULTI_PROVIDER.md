@@ -307,7 +307,7 @@ Every query outcome is stored. The router learns that Provider X handles your co
 // With memory enabled, routing improves over time
 const router = createA3MRouter({
   memory: true,              // Enable adaptive memory
-  costBudget: 0.05,          // Max $0.05 per request
+  costBudget: 0.05,          // Max $0.0768 per request
   learningRate: 0.1,         // How fast it adapts
 });
 

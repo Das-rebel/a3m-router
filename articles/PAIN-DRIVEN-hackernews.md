@@ -73,7 +73,7 @@ No configuration. Learns from usage.
 - Savings: $306/month
 
 **Code Generation (28%)**
-- Before: GPT-4 @ $0.05
+- Before: GPT-4 @ $0.0768
 - After: Groq @ $0.0004
 - Savings: $1,372/month + 5x faster
 

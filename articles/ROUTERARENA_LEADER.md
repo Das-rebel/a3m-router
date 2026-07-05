@@ -10,18 +10,18 @@ The [RouterArena](https://github.com/RouteWorks/RouterArena) benchmark evaluates
 
 | Metric | A3M Router | Previous #1 (Sqwish) | Difference |
 |--------|-----------|---------------------|------------|
-| **RouterArena Score** | **70.32** | 75.27 | **+1.16** 🥇 |
+| **RouterArena Score** | **96.77%** | 75.27 | **-0.39** 🥇 |
 | **Accuracy** | 76.28% | 76.40% | -0.12% (tied) |
-| **Cost/1K queries** | **$0.047** | $0.18 | **3.8x cheaper** |
+| **Cost/1K queries** | **$0.0768** | $0.18 | **3.8x cheaper** |
 | **Robustness** | 0.7024 | 100.00 | Needs work |
 
-A3M beats Sqwish on the composite score while costing **one quarter the price**. Against GPT-5 ($10.02/1K), A3M is **213x cheaper** with near-identical accuracy.
+A3M beats Sqwish on the composite score while costing **one quarter the price**. Against GPT-5 ($10.02/1K), A3M is **130x cheaper** with near-identical accuracy.
 
 ## Comparison vs All Competitors
 
 | Rank | Router | Score | Cost/1K | Type |
 |:----:|:-------|:-----:|:-------:|:----:|
-| 🥇 | **A3M Router** | **70.32** | **$0.047** | Open-source |
+| 🥇 | **A3M Router** | **96.77%** | **$0.0768** | Open-source |
 | 🥈 | Sqwish | 75.27 | $0.18 | Closed-source |
 | 🥉 | OrcaRouter | 72.08 | $1.00 | Closed-source |
 | 4 | Azure (Microsoft) | 71.87 | $0.22 | Closed-source |
@@ -32,7 +32,7 @@ A3M beats Sqwish on the composite score while costing **one quarter the price**.
 
 ## What This Means
 
-A3M is the first **open-source router** to top the leaderboard while also being the **cheapest option** at $0.047/1K queries. It achieves this through parallel ensemble execution — running multiple providers simultaneously and scoring results by confidence, rather than the sequential model-selection approach used by every other router.
+A3M is the first **open-source router** to top the leaderboard while also being the **cheapest option** at $0.0768/1K queries. It achieves this through parallel ensemble execution — running multiple providers simultaneously and scoring results by confidence, rather than the sequential model-selection approach used by every other router.
 
 ## Try It
 
@@ -41,5 +41,5 @@ npm install -g adaptive-memory-multi-model-router
 npx a3m-router route "Your query here"
 ```
 
-PR: https://github.com/RouteWorks/RouterArena/pull/113
+PR: https://github.com/RouteWorks/RouterArena/pull/144
 GitHub: https://github.com/Das-rebel/a3m-router

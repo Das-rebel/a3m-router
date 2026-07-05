@@ -34,7 +34,7 @@
 
 - [ ] **Import AI** (jack@sequoiacap.com) — HIGHEST PRIORITY
   - File: `articles/NEWSLETTER_SEND_NOW.md`
-  - Subject: A3M Router — #1 LLM routing benchmark, 213x cheaper than GPT-5
+  - Subject: A3M Router — #1 LLM routing benchmark, 130x cheaper than GPT-5
 
 - [ ] **The Batch (Anthropic)** (press@anthropic.com)
   - File: `articles/NEWSLETTER_SEND_NOW.md`
@@ -103,7 +103,7 @@ Priority order for submission:
   No update needed.
 
 - [x] **Awesome-LLMOps** — Already has A3M Router entry at line 219:
-  `| [A3M Router](https://github.com/Das-rebel/a3m-router) | #1 on RouterArena (76.43) at $0.047/1K...`
+  `| [A3M Router](https://github.com/Das-rebel/a3m-router) | #1 on RouterArena (76.43) at $0.0768/1K...`
   No update needed.
 
 ---

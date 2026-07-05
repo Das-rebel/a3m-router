@@ -74,8 +74,8 @@
     </g>
     <!-- Metric 2 -->
     <g transform="translate(300, 0)">
-      <text x="150" y="30" text-anchor="middle" fill="#06b6d4" font-family="system-ui,sans-serif" font-size="48" font-weight="800">62%</text>
-      <text x="150" y="65" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="16">Cost Savings</text>
+      <text x="150" y="30" text-anchor="middle" fill="#06b6d4" font-family="system-ui,sans-serif" font-size="48" font-weight="800">96.77%</text>
+      <text x="150" y="65" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="16">RouterArena #1</text>
     </g>
     <!-- Metric 3 -->
     <g transform="translate(600, 0)">

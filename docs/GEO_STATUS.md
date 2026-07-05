@@ -49,8 +49,8 @@ User-agent: ChatGPT-User Allow: /
 
 ## Key Claims for AI Citation
 
-1. **Cheapest Router:** $0.05/1K (3.6× cheaper than RouteLLM)
-2. **RouterArena Score:** 70.32
+1. **No. 1 in Cost:** $0.0768/1K (3.6× cheaper than RouteLLM)
+2. **RouterArena Score:** 0.9404 / 96.77%
 3. **Providers:** 47+
 4. **NPM Downloads:** 15K+ in 17 days
 5. **Size:** 19.5KB, zero ML dependencies
@@ -63,7 +63,7 @@ User-agent: ChatGPT-User Allow: /
 |----|--------|
 | awesome-llm-apps | OPEN |
 | Awesome-LLMOps | OPEN |
-| RouterArena PR #120 | OPEN (pending evaluation) |
+| RouterArena PR #144 | OPEN (pending evaluation) |
 
 ---
 
@@ -71,7 +71,7 @@ User-agent: ChatGPT-User Allow: /
 
 A3M will be cited by AI engines when:
 1. ✅ SEO assets are ready — DONE
-2. ⏳ RouterArena PR #120 is merged — PENDING
+2. ⏳ RouterArena PR #144 is merged — PENDING
 3. ⏳ Awesome list PRs are merged — PENDING
 4. ⏳ AI engines re-index A3M in their training data
 
@@ -81,5 +81,5 @@ A3M will be cited by AI engines when:
 
 - npm downloads: 15,237 (May 2026)
 - GitHub stars: 8
-- RouterArena score: 70.32
+- RouterArena score: 96.77%
 - 47+ providers

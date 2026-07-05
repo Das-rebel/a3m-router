@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 280" width="480" height="280">
+  <defs>
+    <linearGradient id="barGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="480" height="280" fill="#fefefe"/>
+
+  <!-- Title -->
+  <text x="240" y="28" text-anchor="middle" fill="#111" font-family="system-ui,sans-serif" font-size="14" font-weight="600">Routing Accuracy by Tier (n=200)</text>
+
+  <!-- Y-axis -->
+  <line x1="60" y1="50" x2="60" y2="230" stroke="#333" stroke-width="1"/>
+  <line x1="60" y1="230" x2="460" y2="230" stroke="#333" stroke-width="1"/>
+
+  <!-- Y-axis labels -->
+  <g font-family="system-ui,sans-serif" font-size="10" fill="#555" text-anchor="end">
+    <text x="52" y="54">100%</text>
+    <text x="52" y="99">80%</text>
+    <text x="52" y="144">60%</text>
+    <text x="52" y="189">40%</text>
+    <text x="52" y="234">0%</text>
+  </g>
+
+  <!-- Grid lines -->
+  <g stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,3">
+    <line x1="60" y1="55" x2="460" y2="55"/>
+    <line x1="60" y1="100" x2="460" y2="100"/>
+    <line x1="60" y1="145" x2="460" y2="145"/>
+    <line x1="60" y1="190" x2="460" y2="190"/>
+  </g>
+
+  <!-- Bars: correct/total -->
+  <!-- free: 48/50 = 96% -->
+  <rect x="100" y="55" width="60" height="175" fill="url(#barGrad)" rx="2"/>
+  <text x="130" y="245" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10">free</text>
+  <text x="130" y="48" text-anchor="middle" fill="#16a34a" font-family="system-ui,sans-serif" font-size="11" font-weight="600">96%</text>
+  <text x="130" y="238" text-anchor="middle" fill="#888" font-family="system-ui,sans-serif" font-size="9">48/50</text>
+
+  <!-- cheap: 45/60 = 75% -->
+  <rect x="200" y="85" width="60" height="145" fill="url(#barGrad)" rx="2"/>
+  <text x="230" y="245" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10">cheap</text>
+  <text x="230" y="78" text-anchor="middle" fill="#16a34a" font-family="system-ui,sans-serif" font-size="11" font-weight="600">75%</text>
+  <text x="230" y="238" text-anchor="middle" fill="#888" font-family="system-ui,sans-serif" font-size="9">45/60</text>
+
+  <!-- mid: 18/50 = 36% -->
+  <rect x="300" y="169" width="60" height="61" fill="url(#barGrad)" rx="2"/>
+  <text x="330" y="245" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10">mid</text>
+  <text x="330" y="162" text-anchor="middle" fill="#16a34a" font-family="system-ui,sans-serif" font-size="11" font-weight="600">36%</text>
+  <text x="330" y="238" text-anchor="middle" fill="#888" font-family="system-ui,sans-serif" font-size="9">18/50</text>
+
+  <!-- premium: 23/40 = 57.5% -->
+  <rect x="400" y="124" width="60" height="106" fill="url(#barGrad)" rx="2"/>
+  <text x="430" y="245" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10">premium</text>
+  <text x="430" y="117" text-anchor="middle" fill="#16a34a" font-family="system-ui,sans-serif" font-size="11" font-weight="600">57%</text>
+  <text x="430" y="238" text-anchor="middle" fill="#888" font-family="system-ui,sans-serif" font-size="9">23/40</text>
+
+  <!-- Overall -->
+  <text x="240" y="268" text-anchor="middle" fill="#888" font-family="system-ui,sans-serif" font-size="9">Exact tier match: 67% | Within 1 tier: 96%</text>
+</svg>

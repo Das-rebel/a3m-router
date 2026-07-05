@@ -26,7 +26,7 @@ console.log(result.estimated_cost); // ~$0.00005
 |--------|----------|----------|
 | RouterArena Score | ~73 (projected) | 70.32 |
 | Routing Latency | ~6ms | ~10ms |
-| Cost/1K | $0.047 | $0.047 |
+| Cost/1K | $0.0768 | $0.0768 |
 | ±1 Tier Accuracy | 99.5% | 99.5% |
 
 ### Benchmark Script

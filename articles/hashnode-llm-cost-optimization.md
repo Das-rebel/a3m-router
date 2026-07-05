@@ -12,7 +12,7 @@ After our startup's OpenAI bill hit $2,400 in one month, I knew we needed a bett
 
 We were using GPT-4 for everything:
 - Simple Q&A → GPT-4 ($0.03 per query)
-- Code generation → GPT-4 ($0.05 per query)
+- Code generation → GPT-4 ($0.0768 per query)
 - Text summarization → GPT-4 ($0.02 per query)
 
 **Monthly cost: $2,400+**

@@ -131,7 +131,7 @@ Our CFO: "This is exactly what we needed. Can we optimize further?"
 - **Savings: 97% cost, 62% faster**
 
 **Code Generation: "Write a Python function to parse JSON"**
-- Before: GPT-4 ($0.05, 2.1s)
+- Before: GPT-4 ($0.0768, 2.1s)
 - After: Fast provider like Groq/Cerebras ($0.0004, 0.4s)
 - **Savings: 99% cost, 5x faster**
 

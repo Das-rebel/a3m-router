@@ -48,14 +48,14 @@ Total: 2,500+ lines of production code, implemented in parallel.
 
 **Without TMLPD** (always Anthropic Claude):
 ```
-100 tasks × $0.05 average = $5.00
+100 tasks × $0.0768 average = $5.00
 ```
 
 **With TMLPD v2.1** (intelligent routing):
 ```
 60 TRIVIAL/SIMPLE → Cerebras @ $0.001 = $0.06
 30 MEDIUM → OpenAI @ $0.01 = $0.30
-10 COMPLEX/EXPERT → Anthropic @ $0.05 = $0.50
+10 COMPLEX/EXPERT → Anthropic @ $0.0768 = $0.50
 Total: $0.86
 
 Savings: $5.00 → $0.86 = 82.8% 🎉

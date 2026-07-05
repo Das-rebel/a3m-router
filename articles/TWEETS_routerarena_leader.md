@@ -15,7 +15,7 @@ Here's what happened and why it matters:
 
 2/ The leaderboard:
 
-🥇 A3M Router — 70.32 at $0.047/1K
+🥇 A3M Router — 96.77% at $0.0768/1K
 🥈 Sqwish — 75.27 at $0.18/1K
 🥉 Azure-Model-Router (Microsoft) — 71.87
 GPT-5 (OpenAI) — 64.32 at $10.02/1K
@@ -40,7 +40,7 @@ This is why we're #1 AND cheapest.
 - npx a3m-router route "your query"
 
 GitHub: github.com/Das-rebel/a3m-router
-PR: github.com/RouteWorks/RouterArena/pull/113
+PR: github.com/RouteWorks/RouterArena/pull/144
 
 ---
 

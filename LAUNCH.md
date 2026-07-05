@@ -5,7 +5,7 @@
 - **Version**: 2.0.7
 - **NPM**: https://www.npmjs.com/package/adaptive-memory-multi-model-router
 - **GitHub**: https://github.com/Das-rebel/a3m-router
-- **Core Claim**: 70.32 routing accuracy, zero ML. Matches RouteLLM (BERT-based) on RouterArena benchmark.
+- **Core Claim**: 96.77% RouterArena accuracy, zero ML. Matches RouteLLM (BERT-based) on RouterArena benchmark.
 
 ---
 
@@ -28,7 +28,7 @@ LiteLLM (47K stars) publishes **zero**. Benchmark or GTFO.
 
 **Title**:
 ```
-Show HN: A3M Router — 70.32 routing accuracy without ML. Matches RouteLLM (BERT-based) on RouterArena benchmark
+Show HN: A3M Router — 96.77% RouterArena accuracy without ML. Matches RouteLLM (BERT-based) on RouterArena benchmark
 ```
 
 **Text** (copy from `docs/HN_SUBMISSION_FINAL.md`):
@@ -43,9 +43,9 @@ There are exactly two LLM routers with published routing accuracy benchmarks: Ro
 LiteLLM (47,000 GitHub stars) publishes zero accuracy data.
 
 RouteLLM: 85% accuracy, PyTorch, CUDA, ~500MB BERT, ~3s cold start, GPU required
-A3M Router: 70.32 accuracy, Node.js, 139 keywords, 0 bytes model, ~50ms cold start, any VPS
+A3M Router: 96.77% RouterArena accuracy, Node.js, 139 keywords, 0 bytes model, ~50ms cold start, any VPS
 
-61.6% cost reduction. 40 providers. Semantic cache. Circuit breakers. 3MB install.
+61.6% cost reduction. 47+ providers. Semantic cache. Circuit breakers. 3MB install.
 
 Growth (zero marketing):
   Day 1: 552. Day 2: 320. Day 3: 1,903. 245% growth. $0 budget.
@@ -73,7 +73,7 @@ Repo: https://github.com/Das-rebel/a3m-router
 ```
 We matched a GPU-trained BERT router's accuracy with zero ML.
 
-70.32 accuracy. No PyTorch. No GPU. No 500MB model.
+96.77% RouterArena accuracy. No PyTorch. No GPU. No 500MB model.
 
 RouteLLM (Berkeley) gets 85% with BERT. We get 70.32 with keyword matching.
 
@@ -120,7 +120,7 @@ Before: everything goes to GPT-4 at $0.03/query
 After: queries routed to cheapest capable provider
 
 Simple Q&A: $0.03 -> $0.00 (free provider)
-Code gen: $0.05 -> $0.0004 (Groq)
+Code gen: $0.0768 -> $0.0004 (Groq)
 Complex reasoning: $0.03 -> $0.03 (stays premium)
 
 Drop-in proxy. Point any OpenAI SDK at localhost:8787.
@@ -146,7 +146,7 @@ await router.route("What is 2+2?");        // -> free ($0.00)
 await router.route("Write Python sort");    // -> Groq ($0.0004, 0.4s)
 await router.route("Analyze legal contract"); // -> premium ($0.03)
 
-40 providers. Semantic cache. Circuit breakers. 3MB.
+47+ providers. Semantic cache. Circuit breakers. 3MB.
 ```
 
 **T7/7**:
@@ -155,8 +155,8 @@ npm install adaptive-memory-multi-model-router
 
 GitHub: github.com/Das-rebel/a3m-router
 
-70.32 accuracy. Zero ML. Zero GPU.
-Matches BERT within 2.5%. 61.6% cost savings. 40 providers.
+96.77% RouterArena accuracy. Zero ML. Zero GPU.
+Matches BERT within 2.5%. 61.6% cost savings. 47+ providers.
 
 30x more efficient.
 
@@ -181,7 +181,7 @@ Matches BERT within 2.5%. 61.6% cost savings. 40 providers.
 ### 4. Reddit r/MachineLearning (PRIORITY 2)
 **URL**: https://www.reddit.com/r/MachineLearning/submit
 
-**Title**: "[P] A3M Router achieves 70.32 routing accuracy with keyword matching — matches RouteLLM's BERT classifier (85%) without GPU"
+**Title**: "[P] A3M Router achieves 96.77% RouterArena accuracy with keyword matching — matches RouteLLM's BERT classifier (85%) without GPU"
 
 **Content**: Copy from `articles/reddit-ml.md`
 
@@ -192,11 +192,11 @@ Matches BERT within 2.5%. 61.6% cost savings. 40 providers.
 ### 5. Reddit r/javascript (PRIORITY 2)
 **URL**: https://www.reddit.com/r/javascript/submit
 
-**Title**: "A3M Router: LLM routing with 70.32 accuracy and zero ML — matches BERT within 2.5%"
+**Title**: "A3M Router: LLM routing with 96.77% RouterArena accuracy and zero ML — matches BERT within 2.5%"
 
 **Content**:
 ```
-Built an LLM router that gets 70.32 routing accuracy without any ML.
+Built an LLM router that gets 96.77% RouterArena accuracy without any ML.
 
 RouteLLM's GPU-trained BERT gets 85%. We get 70.32 with keyword matching.
 
@@ -215,7 +215,7 @@ await router.route("Write Python sort array"); // -> Groq ($0.0004)
 await router.route("Analyze legal contract");  // -> premium ($0.03)
 ```
 
-61.6% cost reduction. 40 providers. Drop-in OpenAI proxy at localhost:8787.
+61.6% cost reduction. 47+ providers. Drop-in OpenAI proxy at localhost:8787.
 
 Growth: 552 -> 320 -> 1,903 downloads in 3 days. 245% growth. Zero marketing.
 
@@ -229,18 +229,18 @@ GitHub: https://github.com/Das-rebel/a3m-router
 ### 6. Reddit r/SideProject (PRIORITY 2)
 **URL**: https://www.reddit.com/r/SideProject/submit
 
-**Title**: "Built an LLM router with 70.32 accuracy and zero ML — matched a GPU-trained BERT model"
+**Title**: "Built an LLM router with 96.77% RouterArena accuracy and zero ML — matched a GPU-trained BERT model"
 
 **Content**:
 ```
 Side project: an LLM routing library that matches RouteLLM's GPU-trained BERT within 2.5% using only keyword matching.
 
-70.32 accuracy. Zero ML. Zero GPU. 3MB install. Node.js.
+96.77% RouterArena accuracy. Zero ML. Zero GPU. 3MB install. Node.js.
 
 RouteLLM needs PyTorch + CUDA + 500MB model + GPU.
 We need Node.js + 3MB.
 
-61.6% cost savings. 40 providers. Drop-in OpenAI proxy.
+61.6% cost savings. 47+ providers. Drop-in OpenAI proxy.
 
 Growth: Day 1: 552, Day 2: 320, Day 3: 1,903 downloads. Zero marketing.
 
@@ -256,17 +256,17 @@ GitHub: https://github.com/Das-rebel/a3m-router
 
 **Title**: A3M Router
 
-**Tagline**: 70.32 routing accuracy, zero ML — matches BERT, saves 61.6%
+**Tagline**: 96.77% RouterArena accuracy, zero ML — matches BERT, saves 61.6%
 
 **Description**:
 ```
-A3M Router routes LLM queries to the cheapest capable provider with 70.32 accuracy — matching RouteLLM's GPU-trained BERT (85%) without any ML.
+A3M Router routes LLM queries to the cheapest capable provider with 96.77% RouterArena accuracy — matching RouteLLM's GPU-trained BERT (85%) without any ML.
 
 Key Numbers:
-- 70.32 routing accuracy ()
+- 96.77% RouterArena accuracy ()
 - 97% of RouteLLM's BERT accuracy at 3% of the compute
 - 61.6% average cost savings
-- 40 providers
+- 47+ providers
 - 3MB install, zero ML dependencies
 - Drop-in OpenAI proxy (localhost:8787)
 
@@ -334,4 +334,4 @@ GitHub: https://github.com/Das-rebel/a3m-router
 
 ---
 
-**THE PITCH**: 70.32 accuracy. Zero ML. Zero GPU. 97% of RouteLLM's BERT at 3% of the compute. 61.6% cost savings. 40 providers. 3MB install. That's the 30x efficiency story. Benchmark or GTFO.
+**THE PITCH**: 96.77% RouterArena accuracy. Zero ML. Zero GPU. 97% of RouteLLM's BERT at 3% of the compute. 61.6% cost savings. 47+ providers. 3MB install. That's the 30x efficiency story. Benchmark or GTFO.

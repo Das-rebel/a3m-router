@@ -112,10 +112,10 @@
     <!-- Row 2 -->
     <g class="row" transform="translate(0, 110)">
       <rect x="0" y="0" width="740" height="50" rx="6" fill="#ffffff" fill-opacity="0.02"/>
-      <text x="30" y="30" fill="#ccccdd" font-family="system-ui,sans-serif" font-size="14">Cost Savings</text>
+      <text x="30" y="30" fill="#ccccdd" font-family="system-ui,sans-serif" font-size="14">RouterArena #1</text>
       <g transform="translate(350)">
         <rect x="0" y="8" width="80" height="32" rx="16" fill="url(#successGrad)" filter="url(#glow)"/>
-        <text x="40" y="30" text-anchor="middle" fill="#ffffff" font-family="system-ui,sans-serif" font-size="14" font-weight="700">62%</text>
+        <text x="40" y="30" text-anchor="middle" fill="#ffffff" font-family="system-ui,sans-serif" font-size="14" font-weight="700">96.77%</text>
       </g>
       <text x="650" y="30" text-anchor="middle" fill="#666688" font-family="system-ui,sans-serif" font-size="14">None</text>
       <g transform="translate(290, 12)" class="check">

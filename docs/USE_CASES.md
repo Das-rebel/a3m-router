@@ -34,7 +34,7 @@ npx a3m-router serve --per-team-budgets --metrics-port 9090
 
 **Solution:** Intelligent routing to cheapest capable model. Trivial → Groq/DeepSeek. Complex → GPT-4o.
 
-**Savings:** 62% vs all-premium routing
+**Routing proof:** RouterArena PR #144 — 0.9404 score, 96.77% accuracy, $0.0768/1K, 1.0000 robustness
 
 ```bash
 curl http://localhost:8787/v1/chat/completions \

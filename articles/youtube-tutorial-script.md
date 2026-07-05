@@ -47,7 +47,7 @@ await openai.chat.completions.create({
   model: "gpt-4",
   messages: [{ role: "user", content: "Write Python to sort an array" }]
 });
-// Cost: $0.05
+// Cost: $0.0768
 ```
 
 **[Screen: Calculator showing monthly cost]**

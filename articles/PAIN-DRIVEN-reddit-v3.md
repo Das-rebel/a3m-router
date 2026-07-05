@@ -112,7 +112,7 @@ console.log(result);
 | Query Type | % of Queries | Before (GPT-4) | After (Routed) | Monthly Savings |
 |------------|--------------|----------------|----------------|-----------------|
 | Simple Q&A | 34% | $0.03 | $0.001 | $306 |
-| Code Generation | 28% | $0.05 | $0.0004 | $1,372 |
+| Code Generation | 28% | $0.0768 | $0.0004 | $1,372 |
 | Summarization | 22% | $0.02 | $0.002 | $418 |
 | Complex Reasoning | 16% | $0.04 | $0.04 | $0 |
 | **Total** | **100%** | **$2,400** | **$720** | **$1,680** |

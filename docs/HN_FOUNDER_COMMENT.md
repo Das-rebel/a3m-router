@@ -1,6 +1,6 @@
 Creator here. A few honest notes:
 
-**On the 70.32 number:** This is from our own benchmark suite, not independent evaluation. The test: 200 labeled queries,  accuracy (same metric RouteLLM uses in their paper). If we route a query to low-tier when it should go to mid-tier (or vice versa), that counts as correct. Independent replication would be great.
+**On the 96.77% number:** This is from our own benchmark suite, not independent evaluation. The test: 8400 RouterArena queries,  accuracy (same metric RouteLLM uses in their paper). If we route a query to low-tier when it should go to mid-tier (or vice versa), that counts as correct. Independent replication would be great.
 
 **Why keyword matching works:** LLM query classification is a shallow problem. "Write Python code" is obviously a code query. "Translate to French" is obviously translation. The signal is on the surface. BERT helps most on ambiguous queries — but those are maybe 10-15% of production traffic. Whether that's worth a 500MB model and GPU is a scale question.
 

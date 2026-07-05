@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 280" width="480" height="280">
+  <defs>
+    <linearGradient id="latBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#f1f5f9"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="480" height="280" fill="url(#latBg)"/>
+
+  <!-- Title -->
+  <text x="240" y="26" text-anchor="middle" fill="#111" font-family="system-ui,sans-serif" font-size="14" font-weight="600">Latency Breakdown — Routing Overhead</text>
+  <text x="240" y="43" text-anchor="middle" fill="#666" font-family="system-ui,sans-serif" font-size="10">Groq endpoint | Local measurement (May 2026)</text>
+
+  <!-- Chart area: y=58 (top) to y=248 (baseline 0ms) -->
+  <!-- Scale: 0.5px per ms. Max 380ms = 190px (fits 374ms bar) -->
+
+  <!-- Y-axis -->
+  <line x1="52" y1="58" x2="52" y2="248" stroke="#333" stroke-width="1"/>
+  <line x1="52" y1="248" x2="460" y2="248" stroke="#333" stroke-width="1"/>
+
+  <!-- Y-axis gridlines (every 50ms = 25px) -->
+  <g stroke="#e5e7eb" stroke-width="1" stroke-dasharray="4,3">
+    <line x1="52" y1="223" x2="460" y2="223"/> <!-- 50ms -->
+    <line x1="52" y1="198" x2="460" y2="198"/> <!-- 100ms -->
+    <line x1="52" y1="173" x2="460" y2="173"/> <!-- 150ms -->
+    <line x1="52" y1="148" x2="460" y2="148"/> <!-- 200ms -->
+    <line x1="52" y1="123" x2="460" y2="123"/> <!-- 250ms -->
+    <line x1="52" y1="98"  x2="460" y2="98"/>  <!-- 300ms -->
+    <line x1="52" y1="73"  x2="460" y2="73"/>  <!-- 350ms -->
+    <line x1="52" y1="58"  x2="460" y2="58"/>  <!-- 380ms -->
+  </g>
+
+  <!-- Y-axis labels (aligned with gridlines) -->
+  <g font-family="system-ui,sans-serif" font-size="10" fill="#64748b" text-anchor="end">
+    <text x="46" y="61">380ms</text>
+    <text x="46" y="76">350ms</text>
+    <text x="46" y="101">300ms</text>
+    <text x="46" y="126">250ms</text>
+    <text x="46" y="151">200ms</text>
+    <text x="46" y="176">150ms</text>
+    <text x="46" y="201">100ms</text>
+    <text x="46" y="226">50ms</text>
+    <text x="46" y="252">0ms</text>
+  </g>
+
+  <!-- === BARS === -->
+  <!-- Groq Direct: 138ms = 69px → top at y=179 -->
+  <rect x="70" y="179" width="70" height="69" fill="#94a3b8" rx="3"/>
+  <text x="105" y="173" text-anchor="middle" fill="#475569" font-family="system-ui,sans-serif" font-size="11" font-weight="600">138ms</text>
+  <text x="105" y="265" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10">Direct Groq</text>
+
+  <!-- A3M Forced: 234ms = 117px → top at y=131 (138+96 overhead) -->
+  <rect x="185" y="131" width="70" height="117" fill="#3b82f6" rx="3"/>
+  <text x="220" y="125" text-anchor="middle" fill="#1d4ed8" font-family="system-ui,sans-serif" font-size="11" font-weight="600">234ms</text>
+  <text x="220" y="265" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10">A3M Forced</text>
+
+  <!-- A3M Auto: 374ms = 187px → top at y=61 (234+140 overhead) -->
+  <rect x="300" y="61" width="70" height="187" fill="#22c55e" rx="3"/>
+  <text x="335" y="55" text-anchor="middle" fill="#15803d" font-family="system-ui,sans-serif" font-size="11" font-weight="600">374ms</text>
+  <text x="335" y="265" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10">A3M Auto</text>
+
+  <!-- === OVERHEAD ANNOTATIONS === -->
+
+  <!-- +96ms bracket: from Groq top (y=179) to Forced top (y=131) = 48px = 96ms ✓ -->
+  <line x1="162" y1="179" x2="162" y2="131" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="155" y1="179" x2="169" y2="179" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="155" y1="131" x2="169" y2="131" stroke="#64748b" stroke-width="1.5"/>
+  <text x="177" y="159" fill="#64748b" font-family="system-ui,sans-serif" font-size="10" font-weight="600">+96ms</text>
+  <text x="177" y="170" fill="#64748b" font-family="system-ui,sans-serif" font-size="8">(proxy)</text>
+
+  <!-- +140ms bracket: from Forced top (y=131) to Auto top (y=61) = 70px = 140ms ✓ -->
+  <line x1="277" y1="131" x2="277" y2="61" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="270" y1="131" x2="284" y2="131" stroke="#64748b" stroke-width="1.5"/>
+  <line x1="270" y1="61" x2="284" y2="61" stroke="#64748b" stroke-width="1.5"/>
+  <text x="292" y="100" fill="#64748b" font-family="system-ui,sans-serif" font-size="10" font-weight="600">+140ms</text>
+  <text x="292" y="111" fill="#64748b" font-family="system-ui,sans-serif" font-size="8">(routing)</text>
+
+  <!-- +236ms bracket: from Groq top (y=179) to Auto top (y=61) = 118px = 236ms ✓ -->
+  <line x1="388" y1="179" x2="388" y2="61" stroke="#22c55e" stroke-width="1.5"/>
+  <line x1="381" y1="179" x2="395" y2="179" stroke="#22c55e" stroke-width="1.5"/>
+  <line x1="381" y1="61" x2="395" y2="61" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="403" y="124" fill="#15803d" font-family="system-ui,sans-serif" font-size="10" font-weight="600">+236ms</text>
+  <text x="403" y="135" fill="#15803d" font-family="system-ui,sans-serif" font-size="8">(total)</text>
+
+  <!-- Baseline annotation (dotted line at Groq level) -->
+  <line x1="52" y1="179" x2="460" y2="179" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="54" y="183" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="8">138ms baseline</text>
+
+  <!-- Legend -->
+  <rect x="370" y="223" width="12" height="12" fill="#94a3b8" rx="2"/>
+  <text x="387" y="233" fill="#333" font-family="system-ui,sans-serif" font-size="9">Baseline</text>
+  <rect x="370" y="240" width="12" height="12" fill="#3b82f6" rx="2"/>
+  <text x="387" y="250" fill="#333" font-family="system-ui,sans-serif" font-size="9">Proxy overhead</text>
+
+  <!-- Note -->
+  <text x="240" y="276" text-anchor="middle" fill="#888" font-family="system-ui,sans-serif" font-size="9">236ms total overhead is less than the time it takes to blink (~300ms)</text>
+</svg>

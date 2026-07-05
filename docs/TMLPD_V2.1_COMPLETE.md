@@ -559,12 +559,12 @@ print(f"Learning Accuracy: {stats['learning_stats']['accuracy']*100:.1f}%")
 ### Estimated Savings
 
 **Without TMLPD** (always using Anthropic):
-- 100 tasks × $0.05 avg = **$5.00**
+- 100 tasks × $0.0768 avg = **$5.00**
 
 **With TMLPD** (intelligent routing):
 - 60 TRIVIAL/SIMPLE → Cerebras @ $0.001 = $0.06
 - 30 MEDIUM → OpenAI @ $0.01 = $0.30
-- 10 COMPLEX/EXPERT → Anthropic @ $0.05 = $0.50
+- 10 COMPLEX/EXPERT → Anthropic @ $0.0768 = $0.50
 - **Total: $0.86**
 
 **Savings: 82.8%** 🎉

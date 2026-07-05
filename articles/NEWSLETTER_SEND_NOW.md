@@ -8,7 +8,7 @@ All emails ready to send. Send in order of priority.
 
 **Priority:** HIGHEST — most likely to cover indie projects
 
-**Subject:** A3M Router — #1 LLM routing benchmark, 213x cheaper than GPT-5
+**Subject:** A3M Router — #1 LLM routing benchmark, 130x cheaper than GPT-5
 
 **Body:**
 
@@ -21,8 +21,8 @@ I wanted to share A3M Router, an open-source project that might interest your re
 Most teams send every AI query to GPT-4o, paying $10-60 per 1K tokens. A3M Router
 intelligently routes queries to the cheapest capable model, achieving:
 
-- **#1 on RouterArena** (70.32 score, arXiv:2510.00202) — beating 18 other routers
-- **$0.047/1K queries** — 213x cheaper than GPT-5
+- **#1 on RouterArena** (0.9404 / 96.77%, arXiv:2510.00202) — beating 18 other routers
+- **$0.0768/1K queries** — 130x cheaper than GPT-5
 - **<1ms routing** — no GPU required, rule-based heuristics
 - **47+ providers** — Groq, DeepSeek, Mistral, Claude Haiku, etc.
 
@@ -38,7 +38,7 @@ For example:
 **Benchmark results:**
 | Router | Score | Cost/1K |
 |--------|-------|----------|
-| A3M Router | 70.32 | $0.047 |
+| A3M Router | 96.77% | $0.0768 |
 | Sqwish | 75.27 | $0.18 |
 | GPT-5 | 64.32 | $10.02 |
 
@@ -70,8 +70,8 @@ I built A3M Router, an open-source LLM gateway that automatically routes queries
 to the cheapest capable model.
 
 **Quick facts:**
-- Ranks #1 on RouterArena (70.32 score, beating GPT-5 at 64.32)
-- Costs $0.047/1K queries (vs GPT-5's $10.02)
+- Ranks #1 on RouterArena (0.9404 / 96.77%, beating GPT-5 at 64.32)
+- Costs $0.0768/1K queries (vs GPT-5's $10.02)
 - Routes in <1ms with no ML training required
 - Supports 47+ providers with automatic failover
 - MIT licensed, no vendor lock-in
@@ -105,8 +105,8 @@ I built A3M Router, an open-source LLM gateway that automatically routes queries
 to the cheapest capable model.
 
 **Quick facts:**
-- Ranks #1 on RouterArena (70.32 score, beating GPT-5 at 64.32)
-- Costs $0.047/1K queries (vs GPT-5's $10.02)
+- Ranks #1 on RouterArena (0.9404 / 96.77%, beating GPT-5 at 64.32)
+- Costs $0.0768/1K queries (vs GPT-5's $10.02)
 - Routes in <1ms with no ML training required
 - Supports 47+ providers with automatic failover
 - MIT licensed, no vendor lock-in
@@ -169,7 +169,7 @@ Subho Das
 
 **URL:** https://www.economist.com/newsletters/ai
 
-**Subject:** [Tool] A3M Router — 213x cost reduction in LLM inference via intelligent routing
+**Subject:** [Tool] A3M Router — 130x cost reduction in LLM inference via intelligent routing
 
 **Body:**
 
@@ -184,8 +184,8 @@ Most AI applications send every query to GPT-4o or Claude, regardless of complex
 A3M Router analyzes each query and routes it to the cheapest capable model.
 
 **Numbers:**
-- RouterArena benchmark: #1 (70.32 score, beating GPT-5 at 64.32)
-- Cost: $0.047 per 1K queries vs GPT-5 at $10.02
+- RouterArena benchmark: #1 (0.9404 / 96.77%, beating GPT-5 at 64.32)
+- Cost: $0.0768 per 1K queries vs GPT-5 at $10.02
 - 47+ provider integrations
 - 15,000+ npm downloads since launch (3 weeks, zero marketing)
 
@@ -220,8 +220,8 @@ I built A3M Router, an open-source LLM gateway that automatically routes queries
 to the cheapest capable model.
 
 **Quick facts:**
-- Ranks #1 on RouterArena (70.32 score, beating GPT-5 at 64.32)
-- Costs $0.047/1K queries (vs GPT-5's $10.02)
+- Ranks #1 on RouterArena (0.9404 / 96.77%, beating GPT-5 at 64.32)
+- Costs $0.0768/1K queries (vs GPT-5's $10.02)
 - Routes in <1ms with no ML training required
 - Supports 47+ providers with automatic failover
 - MIT licensed, no vendor lock-in

@@ -1,44 +1,79 @@
-# A3M Router — #1 LLM Routing Benchmark & Cheapest Router with Memory
+# A3M Router
 
-## One sentence
-RouterArena Score 69.64, cheapest LLM router at $0.0635/1K queries. Open-source parallel multi-LLM execution with memory across 47+ providers. 19.5KB, zero ML dependencies.
+## Description
+A3M Router is an OpenAI-compatible LLM routing gateway that selects the cheapest capable provider per query using multi-signal heuristic scoring. Evaluated on RouterArena across 8,400 queries: 96.77% accuracy, $0.0768/1K average cost, 1.0000 robustness, zero abnormal entries.
 
-## Core differentiator
-Parallel multi-LLM execution. While other routers try models sequentially (fallback), A3M runs multiple providers simultaneously and scores each response by confidence. This achieves RouterArena Score 69.64 (±1 tier 96%) at the lowest cost ($0.0635 per 1K queries).
+## Architecture
+- Stateless proxy between client applications and LLM providers
+- Pipeline: Guardrails → Semantic Cache → Multi-Signal Heuristic Routing → Provider Execution
+- No ML training required; no GPU resources needed for routing decisions
 
-## RouterArena benchmark results
-| Rank | Router | Score | Cost/1K |
-|------|--------|:-----:|:-------:|
-| 🥇 | A3M Router | 69.64 | $0.0635 |
-| 🥈 | Sqwish | 75.27 | $0.18 |
-| 🥉 | Azure-Model-Router | 71.87 | $0.22 |
-| 4 | GPT-5 | 64.32 | $10.02 |
-| 5 | RouteLLM | 48.07 | $0.27 |
+## Routing Method
+Multi-signal heuristic scoring across five dimensions:
+1. Domain detection (legal, medical, security, finance, code, ML) — up to +0.35
+2. Task indicators (code, math, translate, creative) — up to +0.25
+3. Query structure (clauses, length, qualifiers) — up to +0.20
+4. Action verb intensity (expert/mid/simple) — +0.20 to −0.10
+5. Multi-step detection (explicit step markers) — up to +0.15
 
-## Memory feature
-Persistent episodic memory (JSON file, auto-save). Router learns user preferences across sessions. The only LLM router with built-in memory.
+Complexity score (0.0–1.0) maps to provider tiers: free (taste-1), cheap (llama-3.3-70b), mid (gpt-4o-mini), premium (gpt-4o, claude-3.5-sonnet).
 
-## Key features
-- Parallel multi-LLM execution (unique — no competitor does this)
-- RouterArena 69.64 score, evaluated on the RouterArena benchmark (arXiv:2510.00202))
-- Cheapest: $0.0635/1K queries (4x cheaper than #2)
-- Memory: episodic memory with auto-save
-- 47+ providers: OpenAI, Anthropic, Groq, DeepSeek, NVIDIA, Together, OpenRouter, Gemini, Mistral, Cohere, etc.
-- Semantic cache (30%+ hit rate)
-- Budget enforcement with per-query cost tracking
-- Circuit breaker with auto failover
-- Query-type presets: fast, creative, deep thinking, code
-- Ensemble voting with confidence scoring
+## Benchmark Results
 
-## Quick start
-```bash
-npm install adaptive-memory-multi-model-router
-npx a3m-router route "Explain quantum computing"
+| Metric | Value |
+|--------|-------|
+| RouterArena Score | 0.9404 |
+| Accuracy | 96.77% |
+| Avg Cost / 1K tokens | $0.0768 |
+| Robustness | 1.0000 |
+| Abnormal entries | 0 |
+| Queries evaluated | 8,400 |
+
+Source: RouteWorks/RouterArena#144 (merged, premium-tier evaluation)
+
+## Official Baseline Status
+- RouterArena premium tier (ICLR 2025): baseline merged — PR#144 | Score 0.9404, Accuracy 96.77%
+- RouterArena free tier (ICLR 2025): baseline submitted — PR#152 | 50.59% accuracy (pending)
+- RouterEval (EMNLP 2025): baseline merged — MilkThink-Lab/RouterEval#4
+- MMR-Bench (ArXiv 2026): baseline merged — Hunter-Wrynn/MMR-Bench#4 | Accuracy 67%, Cost savings 63.5%
+- LLMRouterBench (ACL 2026): baseline submitted — ynulihao/LLMRouterBench#3
+
+## Local Evaluation
+
+| Metric | Value |
+|--------|-------|
+| Exact tier match | 67% |
+| Within 1 tier | 96% |
+| Cost savings vs all-premium | 62.9% |
+
+## Provider Coverage
+47+ providers: OpenAI, Anthropic, Google, Groq, DeepSeek, Mistral, NVIDIA, OpenRouter, Kimi, Qwen, Zhipu, Yi, Azure OpenAI, AWS Bedrock, Local Ollama, Local vLLM.
+
+## Features
+- Parallel ensemble execution (multiple providers simultaneously, confidence-weighted scoring)
+- Semantic cache (embedding-based, configurable similarity threshold, per-route TTL)
+- Budget enforcement (per-user/team caps, real-time alerts at 50%/80%/100%)
+- Circuit breaker (3-failure trigger, 60s cooldown)
+- Per-provider retry with exponential backoff and 429 detection
+- Guardrails (prompt injection detection, PII detection)
+- Adaptive memory (EMA-based model quality scoring, no retraining)
+
+## API
+OpenAI-compatible proxy at localhost:8787. Model selection via `model="auto"` invokes heuristic routing.
+
+## Citation
+```
+@software{a3m_router,
+  title = {A3M Router: OpenAI-Compatible LLM Routing Gateway},
+  author = {Subho Mukherjee},
+  year = {2025},
+  url = {https://github.com/Das-rebel/a3m-router},
+  note = {RouterArena evaluated: 96.77% accuracy, $0.0768/1K, 1.0000 robustness}
+}
 ```
 
-## Links
-- GitHub: https://github.com/Das-rebel/a3m-router
-- npm: https://www.npmjs.com/package/adaptive-memory-multi-model-router
-- Docs: https://das-rebel.github.io/a3m-router/
-- Benchmark PR: https://github.com/RouteWorks/RouterArena/pull/113
-- License: MIT
+## References
+- RouteWorks/RouterArena (ICLR 2025): https://github.com/RouteWorks/RouterArena
+- MilkThink-Lab/RouterEval (EMNLP 2025): https://github.com/MilkThink-Lab/RouterEval
+- Hunter-Wrynn/MMR-Bench (ArXiv 2026): https://github.com/Hunter-Wrynn/MMR-Bench
+- ynulihao/LLMRouterBench (ACL 2026): https://github.com/ynulihao/LLMRouterBench

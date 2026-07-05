@@ -47,7 +47,7 @@ await openai.chat.completions.create({
   model: "gpt-4",
   messages: [{ role: "user", content: "Write a Python function to parse JSON" }]
 });
-// Cost: $0.05, Time: 2.3 seconds
+// Cost: $0.0768, Time: 2.3 seconds
 ```
 
 **1,203 code queries/day**. **$60/day**. And developers were complaining about the 2+ second delay.
@@ -86,7 +86,7 @@ I categorized every query from the last 30 days:
 
 The math was brutal:
 - Simple Q&A: Paying $0.03/query when $0.001/query models work fine = **$246/day waste**
-- Code generation: Paying $0.05/query when $0.002/query models are faster = **$104/day waste**
+- Code generation: Paying $0.0768/query when $0.002/query models are faster = **$104/day waste**
 - Summarization: Paying $0.02/query when $0.003/query models excel at this = **$68/day waste**
 
 **Total waste: $418/day. $12,540/month. $37,620/quarter.**
@@ -192,7 +192,7 @@ const result = await router.route("How do I reset my password?");
 - Volume: 1,247/day → **$37/day saved**
 
 **Code Completion: "Write Python to parse JSON"**
-- Before: GPT-4 ($0.05, 2.3s)
+- Before: GPT-4 ($0.0768, 2.3s)
 - After: Groq ($0.0004, 0.4s)
 - **Savings: 99% cost, 83% faster**
 - Volume: 1,203/day → **$60/day saved**
@@ -320,7 +320,7 @@ npx a3m-router route "How do I reset my password?"
 
 # Compare providers for your actual queries
 npx a3m-router compare "Write Python to parse JSON"
-# → Side-by-side: GPT-4 ($0.05, 2.3s) vs Groq ($0.0004, 0.4s)
+# → Side-by-side: GPT-4 ($0.0768, 2.3s) vs Groq ($0.0004, 0.4s)
 
 # Benchmark everything
 npx a3m-router benchmark

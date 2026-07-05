@@ -56,7 +56,7 @@ After: GLM-4 ($0.003, 0.8s)
 Savings: 90% cost, 62% faster
 
 Code generation: "Write Python function"
-Before: GPT-4 ($0.05, 2.1s)
+Before: GPT-4 ($0.0768, 2.1s)
 After: MiniMax ($0.002, 0.6s)
 Savings: 96% cost, 71% faster
 

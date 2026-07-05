@@ -198,7 +198,7 @@ A3M_ROUTER_URL=http://localhost:8787/v1  # A3M Router endpoint
 | Feature | Without A3M | With A3M |
 |---------|-------------|----------|
 | Model | Fixed (GPT-4o) | Auto-selected |
-| Cost/1K | $15-60 | $0.047 |
+| Cost/1K | $15-60 | $0.0768 |
 | Latency | 2-5s | <1s routing |
 | Providers | 1 | 47+ |
 

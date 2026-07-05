@@ -35,7 +35,7 @@ await openai.chat.completions.create({
   model: "gpt-4",
   messages: [{ role: "user", content: "Write Python to reverse a string" }]
 });
-// Cost: $0.05
+// Cost: $0.0768
 ```
 
 **1,000 queries × $0.03 average = $30/day = $900/month minimum.**
@@ -117,7 +117,7 @@ Here's what actually happened with our query types:
 - Savings: **$306/month**
 
 **Code Generation (28% of queries)**
-- Before: GPT-4 at $0.05/query  
+- Before: GPT-4 at $0.0768/query  
 - After: Groq Llama at $0.0004/query
 - Savings: **$1,372/month**
 - Bonus: 5x faster responses

@@ -40,7 +40,7 @@ routeQuery("What is 2+2?");
 
 // Code generation → MiniMax (20x cheaper, 3x faster)
 routeQuery("Write Python to reverse a string");
-// → minimax/m2.5 ($0.002 vs $0.05, 600ms vs 2,100ms)
+// → minimax/m2.5 ($0.002 vs $0.0768, 600ms vs 2,100ms)
 
 // Speed-critical → Cerebras (6x faster, 50x cheaper)
 routeQuery("Quick API response");

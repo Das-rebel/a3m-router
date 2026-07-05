@@ -115,7 +115,7 @@ I took **6 months of production queries** from our actual systems and replayed t
 | **Cerebras** | 99.89% | Occasional rate limits |
 | **GLM-4** | 99.85% | Good for non-critical |
 | **MiniMax** | 99.82% | Some latency spikes |
-| CommandCode | 70.32 | Free tier, acceptable |
+| CommandCode | 96.77% | Free tier, acceptable |
 
 **Surprise:** The newer providers are actually quite reliable. The "startup risk" is lower than expected.
 

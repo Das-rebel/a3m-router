@@ -33,7 +33,7 @@ const result = await router.route("How do I reset my password?");
 
 // Code query → fast provider  
 const code = await router.route("Write Python to reverse a string");
-// Routes to Groq/Cerebras (~$0.0004 vs $0.05, 5x faster)
+// Routes to Groq/Cerebras (~$0.0004 vs $0.0768, 5x faster)
 
 // Complex query → premium provider
 const complex = await router.route("Analyze this contract for risks");
@@ -66,7 +66,7 @@ const complex = await router.route("Analyze this contract for risks");
 - **97% savings**
 
 **Code generation**: "Write Python function"
-- Before: GPT-4 ($0.05, 2.1s)
+- Before: GPT-4 ($0.0768, 2.1s)
 - After: Fast provider ($0.0004, 0.4s)
 - **99% savings, 5x faster**
 

@@ -35,7 +35,7 @@ await openai.chat.completions.create({
   model: "gpt-4",
   messages: [{ role: "user", content: "Write Python to reverse a string" }]
 });
-// Cost: $0.05, Latency: 2.1s
+// Cost: $0.0768, Latency: 2.1s
 ```
 
 **1,000 queries × $0.03 average = $30/day = $900/month minimum.**
@@ -93,7 +93,7 @@ routeQuery("What is 2+2?");
 
 // Code generation → MiniMax (3x faster, 20x cheaper)
 routeQuery("Write Python to reverse a string");
-// → minimax/minimax-m2.5 ($0.002 vs $0.05)
+// → minimax/minimax-m2.5 ($0.002 vs $0.0768)
 
 // Speed-critical → Cerebras (6x faster)
 routeQuery("Quick API response needed");
@@ -168,7 +168,7 @@ Here's what actually happened:
 - **Savings: 90% cost, 62% faster**
 
 **Code Generation**: "Write a Python function to parse JSON"
-- Before: GPT-4 ($0.05, 2.1s)
+- Before: GPT-4 ($0.0768, 2.1s)
 - After: MiniMax ($0.002, 0.6s)
 - **Savings: 96% cost, 71% faster**
 

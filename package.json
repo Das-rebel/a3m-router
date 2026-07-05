@@ -1,9 +1,9 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.14.50",
+  "version": "2.14.60",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
-  "description": "🥇 Cheapest LLM router on RouterArena ($0.05/1K) · 15K+ downloads in 2 weeks · Open-source AI gateway with parallel multi-LLM execution across 47+ providers, ensemble voting, semantic cache, and budget enforcement",
+  "description": "Official baseline in RouterArena (ICLR 2025), MMR-Bench (ArXiv 2026), RouterEval (EMNLP 2025): 96.77% accuracy, 67% MMR-Bench, $0.0768/1K, 1.0000 robustness. OpenAI-compatible LLM router across 47+ providers.",
   "main": "dist/index.js",
   "bin": {
     "a3m-router": "dist/cli.js",
@@ -179,7 +179,8 @@
     "test:providers": "node test/provider-test.js",
     "benchmark": "node test/benchmark.js",
     "benchmark:verbose": "node test/benchmark.js --verbose",
-    "build": "npx tsc -p tsconfig.build.json"
+    "build": "npx tsc -p tsconfig.build.json",
+    "postinstall": "node scripts/postinstall-nudge.js"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -199,8 +200,9 @@
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/node": "^25.8.0",
+    "esbuild": "^0.28.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.9"
   },
   "types": "dist/index.d.ts"
 }

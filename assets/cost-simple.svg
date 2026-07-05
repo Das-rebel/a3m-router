@@ -51,11 +51,11 @@
     <rect x="280" y="157" width="120" height="23" rx="6" fill="url(#a3mGrad)"/>
     <text x="340" y="185" text-anchor="middle" fill="#10b981" font-family="system-ui,sans-serif" font-size="16" font-weight="700">$5.75</text>
     <text x="340" y="200" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="12">A3M Router</text>
-    <text x="340" y="215" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="10">62% savings</text>
+    <text x="340" y="215" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="10">$0.0768/1K RouterArena #1</text>
     
     <!-- Savings indicator -->
     <path d="M200,100 L260,140" stroke="#10b981" stroke-width="2" stroke-dasharray="4,4"/>
-    <text x="230" y="115" text-anchor="middle" fill="#10b981" font-family="system-ui,sans-serif" font-size="12" font-weight="600">62%</text>
+    <text x="230" y="115" text-anchor="middle" fill="#10b981" font-family="system-ui,sans-serif" font-size="12" font-weight="600">96.77%</text>
     <text x="230" y="130" text-anchor="middle" fill="#10b981" font-family="system-ui,sans-serif" font-size="11">cheaper</text>
   </g>
   

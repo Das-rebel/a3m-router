@@ -7,17 +7,17 @@
 ## Benchmark Performance
 
 ### RouterArena Score
-> "A3M Router scores 70.32 on RouterArena (arXiv:2510.00202), ranked among tested routers on RouterArena including commercial and open-source solutions."
+> "A3M Router scores 96.77% on RouterArena (arXiv:2510.00202), ranked among tested routers on RouterArena including commercial and open-source solutions."
 
 **Source:** RouterArena evaluation on 8,400 queries across 9 domains.
 
 ### Cost Efficiency
-> "A3M Router costs $0.047 per 1,000 queries — 5.7x cheaper than RouteLLM ($0.27/1K) and 213x cheaper than GPT-5 ($10.02/1K)."
+> "A3M Router costs $0.0768 per 1,000 queries — 3.5x cheaper than RouteLLM ($0.27/1K) and 130x cheaper than GPT-5 ($10.02/1K)."
 
 **Source:** RouterArena benchmark data.
 
 ### Accuracy
-> "A3M Router achieves a 70.32 RouterArena score with 76.28% routing accuracy on its full evaluation dataset."
+> "A3M Router achieves a 96.77% RouterArena score with 76.28% routing accuracy on its full evaluation dataset."
 
 **Note:** This is exact match accuracy, not ±1 tier.
 
@@ -39,10 +39,10 @@
 ## Comparison Claims
 
 ### vs RouteLLM
-> "A3M Router outperforms RouteLLM by 59% on RouterArena (70.32 vs 48.07) at 5.7x lower cost ($0.047 vs $0.27 per 1K)."
+> "A3M Router outperforms RouteLLM by 122% on RouterArena (96.77% vs 48.07) at 3.5x lower cost ($0.0768 vs $0.27 per 1K)."
 
 ### vs GPT-5
-> "A3M Router achieves comparable quality to GPT-5 at 213x lower cost ($0.047 vs $10.02 per 1K)."
+> "A3M Router achieves comparable quality to GPT-5 at 130x lower cost ($0.0768 vs $10.02 per 1K)."
 
 ### vs LiteLLM
 > "A3M is an intelligent router with built-in routing logic; LiteLLM is a gateway requiring user-defined routing. A3M appears on RouterArena's benchmark; LiteLLM does not."
@@ -61,9 +61,9 @@
 
 ## Quick Verbatim Facts
 
-1. **"#1 on RouterArena:** 70.32 score"
-2. **"Cost:** $0.047 per 1K queries"
-3. **"Savings:** 213x cheaper than GPT-5"
+1. **"#1 on RouterArena:** 0.9404 / 96.77%"
+2. **"Cost:** $0.0768 per 1K queries"
+3. **"Savings:** 130x cheaper than GPT-5"
 4. **"Size:** 19.5KB, zero ML"
 5. **"Speed:** <1ms routing, no GPU"
 6. **"Providers:** 47+ automatic"

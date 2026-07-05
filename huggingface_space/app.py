@@ -69,9 +69,9 @@ A3M analyzes queries across 5 dimensions:
 | Premium | GPT-4o, Claude 3.5 | $0.50+ |
 
 ### Benchmark Results
-- **RouterArena Score**: 76.43 (#1 of 19 routers)
-- **Cost/1K queries**: $0.047
-- **vs GPT-5**: 213× cheaper
+- **RouterArena Score**: 96.77% (#1 of 19 routers)
+- **Cost/1K queries**: $0.0768
+- **vs GPT-5**: 130× cheaper
 """
 
 # Examples for Gradio
@@ -86,7 +86,7 @@ EXAMPLES = [
 # Build Gradio interface
 with gr.Blocks(title="A3M Router Demo", theme=gr.themes.Soft()) as demo:
     gr.Markdown("# 🎯 A3M Router Demo")
-    gr.Markdown("### #1 LLM Routing Benchmark — $0.047/1K — 213× cheaper than GPT-5")
+    gr.Markdown("### #1 LLM Routing Benchmark — $0.0768/1K — 130× cheaper than GPT-5")
     
     with gr.Row():
         with gr.Column(scale=2):

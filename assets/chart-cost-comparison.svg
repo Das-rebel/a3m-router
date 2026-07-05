@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 280" width="420" height="280">
+  <defs>
+    <linearGradient id="costBg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="420" height="280" fill="url(#costBg)" rx="8"/>
+
+  <!-- Title -->
+  <text x="210" y="28" text-anchor="middle" fill="#f1f5f9" font-family="system-ui,sans-serif" font-size="14" font-weight="600">Cost per 1K Tokens — Router Comparison</text>
+  <text x="210" y="44" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="10">Lower is better | All values from RouterArena evaluation (PR#144)</text>
+
+  <!-- Y-axis: 0 to $0.30, mapped 190px -->
+  <!-- Scale: $0.30 = 190px → $1 = 633px, $0.01 = 6.33px -->
+
+  <g transform="translate(55,58)">
+    <!-- Y-axis -->
+    <line x1="40" y1="0" x2="40" y2="190" stroke="#334155" stroke-width="1.5"/>
+    <line x1="40" y1="190" x2="360" y2="190" stroke="#334155" stroke-width="1.5"/>
+
+    <!-- Y-axis gridlines (every $0.05) -->
+    <g stroke="#1e293b" stroke-width="1">
+      <line x1="40" y1="0"    x2="360" y2="0"/>    <!-- $0.30 -->
+      <line x1="40" y1="31.7" x2="360" y2="31.7"/>  <!-- $0.25 -->
+      <line x1="40" y1="63.3" x2="360" y2="63.3"/>  <!-- $0.20 -->
+      <line x1="40" y1="95"   x2="360" y2="95"/>    <!-- $0.15 -->
+      <line x1="40" y1="126.7" x2="360" y2="126.7"/> <!-- $0.10 -->
+      <line x1="40" y1="158.3" x2="360" y2="158.3"/> <!-- $0.05 -->
+      <line x1="40" y1="190"  x2="360" y2="190"/>   <!-- $0 -->
+    </g>
+
+    <!-- Y-axis labels -->
+    <g fill="#64748b" font-family="system-ui,sans-serif" font-size="10" text-anchor="end">
+      <text x="35" y="4">$0.30</text>
+      <text x="35" y="66">$0.20</text>
+      <text x="35" y="127">$0.10</text>
+      <text x="35" y="194">$0</text>
+    </g>
+
+    <!-- Bar 1: A3M Router $0.0768 = 49px → y=141, h=49 -->
+    <rect x="60" y="141" width="70" height="49" fill="#22c55e" rx="3"/>
+    <text x="95" y="135" text-anchor="middle" fill="#4ade80" font-family="system-ui,sans-serif" font-size="12" font-weight="600">$0.0768</text>
+    <text x="95" y="207" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="10">A3M Router</text>
+    <text x="95" y="219" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="8">(this work)</text>
+
+    <!-- Bar 2: Sqwish $0.18 = 114px → y=76, h=114 -->
+    <rect x="160" y="76" width="70" height="114" fill="#94a3b8" rx="3" opacity="0.7"/>
+    <text x="195" y="70" text-anchor="middle" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="12" font-weight="600">$0.18</text>
+    <text x="195" y="207" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="10">Sqwish</text>
+
+    <!-- Bar 3: Azure-Model-Router $0.22 = 139px → y=51, h=139 -->
+    <rect x="260" y="51" width="70" height="139" fill="#94a3b8" rx="3" opacity="0.5"/>
+    <text x="295" y="45" text-anchor="middle" fill="#cbd5e1" font-family="system-ui,sans-serif" font-size="12" font-weight="600">$0.22</text>
+    <text x="295" y="207" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="10">Azure-Router</text>
+
+    <!-- Bar 4: RouteLLM $0.27 = 171px → y=19, h=171 -->
+    <rect x="360" y="19" width="70" height="171" fill="#94a3b8" rx="3" opacity="0.35"/>
+    <text x="395" y="13" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="12" font-weight="600">$0.27</text>
+    <text x="395" y="207" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="10">RouteLLM</text>
+  </g>
+
+  <!-- A3M savings annotation -->
+  <text x="210" y="265" text-anchor="middle" fill="#64748b" font-family="system-ui,sans-serif" font-size="9">A3M is 3.5x cheaper than RouteLLM | 2.3x cheaper than Sqwish | 2.9x cheaper than Azure-Router</text>
+</svg>

@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 340" width="420" height="340">
+  <rect width="420" height="340" fill="#fefefe"/>
+
+  <!-- Title -->
+  <text x="210" y="22" text-anchor="middle" fill="#111" font-family="system-ui,sans-serif" font-size="13" font-weight="600">Confusion Matrix — Routing Decisions (n=200)</text>
+  <text x="210" y="38" text-anchor="middle" fill="#666" font-family="system-ui,sans-serif" font-size="9">Predicted tier vs actual tier</text>
+
+  <!-- Matrix: 4x4, each cell 60x45 -->
+  <!-- Actual label on left, Predicted on top -->
+  <!-- free: 50, cheap: 60, mid: 50, premium: 40 -->
+
+  <!-- Column headers -->
+  <text x="120" y="58" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10" font-weight="600">free</text>
+  <text x="180" y="58" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10" font-weight="600">cheap</text>
+  <text x="240" y="58" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10" font-weight="600">mid</text>
+  <text x="300" y="58" text-anchor="middle" fill="#333" font-family="system-ui,sans-serif" font-size="10" font-weight="600">premium</text>
+
+  <!-- Row: free (actual=50) | predicted: free=48, cheap=2, mid=0, premium=0 -->
+  <text x="85" y="100" text-anchor="end" fill="#333" font-family="system-ui,sans-serif" font-size="10" font-weight="600">free</text>
+  <text x="85" y="115" text-anchor="end" fill="#888" font-family="system-ui,sans-serif" font-size="8">(n=50)</text>
+  <!-- free→free: 48/50=96% -->
+  <rect x="105" y="80" width="55" height="35" fill="#16a34a" rx="2"/>
+  <text x="132" y="102" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="600">48</text>
+  <!-- free→cheap: 2 -->
+  <rect x="165" y="80" width="55" height="35" fill="#bbf7d0" rx="2"/>
+  <text x="192" y="102" text-anchor="middle" fill="#16634a" font-family="system-ui,sans-serif" font-size="12">2</text>
+  <!-- free→mid: 0 -->
+  <rect x="225" y="80" width="55" height="35" fill="#d1fae5" rx="2"/>
+  <text x="252" y="102" text-anchor="middle" fill="#16634a" font-family="system-ui,sans-serif" font-size="12">0</text>
+  <!-- free→premium: 0 -->
+  <rect x="285" y="80" width="55" height="35" fill="#d1fae5" rx="2"/>
+  <text x="312" y="102" text-anchor="middle" fill="#16634a" font-family="system-ui,sans-serif" font-size="12">0</text>
+
+  <!-- Row: cheap (actual=60) | predicted: free=13, cheap=45, mid=1, premium=1 -->
+  <text x="85" y="145" text-anchor="end" fill="#333" font-family="system-ui,sans-serif" font-size="10" font-weight="600">cheap</text>
+  <text x="85" y="160" text-anchor="end" fill="#888" font-family="system-ui,sans-serif" font-size="8">(n=60)</text>
+  <!-- cheap→free: 13 -->
+  <rect x="105" y="125" width="55" height="35" fill="#fef08a" rx="2"/>
+  <text x="132" y="147" text-anchor="middle" fill="#713f12" font-family="system-ui,sans-serif" font-size="12">13</text>
+  <!-- cheap→cheap: 45/60=75% -->
+  <rect x="165" y="125" width="55" height="35" fill="#16a34a" rx="2"/>
+  <text x="192" y="147" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="600">45</text>
+  <!-- cheap→mid: 1 -->
+  <rect x="225" y="125" width="55" height="35" fill="#d1fae5" rx="2"/>
+  <text x="252" y="147" text-anchor="middle" fill="#16634a" font-family="system-ui,sans-serif" font-size="12">1</text>
+  <!-- cheap→premium: 1 -->
+  <rect x="285" y="125" width="55" height="35" fill="#d1fae5" rx="2"/>
+  <text x="312" y="147" text-anchor="middle" fill="#16634a" font-family="system-ui,sans-serif" font-size="12">1</text>
+
+  <!-- Row: mid (actual=50) | predicted: free=1, cheap=22, mid=18, premium=9 -->
+  <text x="85" y="190" text-anchor="end" fill="#333" font-family="system-ui,sans-serif" font-size="10" font-weight="600">mid</text>
+  <text x="85" y="205" text-anchor="end" fill="#888" font-family="system-ui,sans-serif" font-size="8">(n=50)</text>
+  <!-- mid→free: 1 -->
+  <rect x="105" y="170" width="55" height="35" fill="#d1fae5" rx="2"/>
+  <text x="132" y="192" text-anchor="middle" fill="#16634a" font-family="system-ui,sans-serif" font-size="12">1</text>
+  <!-- mid→cheap: 22 (most common error) -->
+  <rect x="165" y="170" width="55" height="35" fill="#fef08a" rx="2"/>
+  <text x="192" y="192" text-anchor="middle" fill="#713f12" font-family="system-ui,sans-serif" font-size="12">22</text>
+  <!-- mid→mid: 18/50=36% -->
+  <rect x="225" y="170" width="55" height="35" fill="#16a34a" rx="2"/>
+  <text x="252" y="192" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="600">18</text>
+  <!-- mid→premium: 9 -->
+  <rect x="285" y="170" width="55" height="35" fill="#fef08a" rx="2"/>
+  <text x="312" y="192" text-anchor="middle" fill="#713f12" font-family="system-ui,sans-serif" font-size="12">9</text>
+
+  <!-- Row: premium (actual=40) | predicted: free=2, cheap=4, mid=11, premium=23 -->
+  <text x="85" y="235" text-anchor="end" fill="#333" font-family="system-ui,sans-serif" font-size="10" font-weight="600">premium</text>
+  <text x="85" y="250" text-anchor="end" fill="#888" font-family="system-ui,sans-serif" font-size="8">(n=40)</text>
+  <!-- premium→free: 2 -->
+  <rect x="105" y="215" width="55" height="35" fill="#d1fae5" rx="2"/>
+  <text x="132" y="237" text-anchor="middle" fill="#16634a" font-family="system-ui,sans-serif" font-size="12">2</text>
+  <!-- premium→cheap: 4 -->
+  <rect x="165" y="215" width="55" height="35" fill="#d1fae5" rx="2"/>
+  <text x="192" y="237" text-anchor="middle" fill="#16634a" font-family="system-ui,sans-serif" font-size="12">4</text>
+  <!-- premium→mid: 11 -->
+  <rect x="225" y="215" width="55" height="35" fill="#fef08a" rx="2"/>
+  <text x="252" y="237" text-anchor="middle" fill="#713f12" font-family="system-ui,sans-serif" font-size="12">11</text>
+  <!-- premium→premium: 23/40=57.5% -->
+  <rect x="285" y="215" width="55" height="35" fill="#16a34a" rx="2"/>
+  <text x="312" y="237" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="13" font-weight="600">23</text>
+
+  <!-- Y-axis label (actual) -->
+  <text x="18" y="165" text-anchor="middle" fill="#555" font-family="system-ui,sans-serif" font-size="10" transform="rotate(-90,18,165)">Actual Tier</text>
+
+  <!-- X-axis label (predicted) -->
+  <text x="210" y="268" text-anchor="middle" fill="#555" font-family="system-ui,sans-serif" font-size="10">Predicted Tier</text>
+
+  <!-- Legend -->
+  <rect x="105" y="278" width="12" height="12" fill="#16a34a" rx="2"/>
+  <text x="122" y="288" fill="#333" font-family="system-ui,sans-serif" font-size="9">Correct</text>
+  <rect x="165" y="278" width="12" height="12" fill="#fef08a" rx="2"/>
+  <text x="182" y="288" fill="#333" font-family="system-ui,sans-serif" font-size="9">Off by 1 tier</text>
+  <rect x="245" y="278" width="12" height="12" fill="#d1fae5" rx="2"/>
+  <text x="262" y="288" fill="#333" font-family="system-ui,sans-serif" font-size="9">Off by 2+ tiers</text>
+
+  <!-- Summary -->
+  <text x="210" y="310" text-anchor="middle" fill="#555" font-family="system-ui,sans-serif" font-size="9">Exact match: 67% (134/200) | Off by 1: 29% (58/200) | Off by 2+: 4% (8/200)</text>
+</svg>

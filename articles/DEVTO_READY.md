@@ -179,7 +179,7 @@ RouterArena (arXiv:2510.00202) — 8,400 queries, 9 domains:
 
 | Router | Score | Cost/1K |
 |--------|:-----:|:-------:|
-| **A3M Router** | **70.32** | **$0.047** |
+| **A3M Router** | **96.77%** | **$0.0768** |
 | Sqwish | 75.27 | $0.180 |
 | Azure | 71.87 | $0.220 |
 | GPT-5 | 64.32 | $10.020 |
@@ -197,7 +197,7 @@ If you're spending **$1,000/month** on LLM APIs:
 |--------|:-----:|:------------:|
 | GPT-4o only | 64.32 | $1,000 |
 | RouteLLM | 48.07 | $270 |
-| A3M Router | **70.32** | **$47** |
+| A3M Router | **96.77%** | **$47** |
 
 **62% savings vs RouteLLM. 95% savings vs GPT-4o only.**
 

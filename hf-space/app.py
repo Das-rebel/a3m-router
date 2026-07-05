@@ -18,7 +18,7 @@ PROVIDERS = [
 ]
 
 BENCHMARK_DATA = [
-    ("A3M Router 🥇", 76.43, 0.047, True),
+    ("A3M Router 🥇", 96.77%, 0.0768, True),
     ("Sqwish 🥈", 75.27, 0.18, False),
     ("Azure (Microsoft) 🥉", 71.87, 0.22, False),
     ("GPT-5 (OpenAI)", 64.32, 10.02, False),
@@ -114,11 +114,11 @@ with gr.Blocks(
     """
 ) as demo:
     gr.Markdown("""
-    # 🔀 A3M Router — #1 LLM Routing Benchmark & Cheapest Router with Memory
+    # 🔀 A3M Router — #1 LLM Routing Benchmark & No. 1 in Cost with Memory
     
     **See how parallel LLM execution works in real-time.** Enter a query and watch 7 providers compete simultaneously.
     
-    ⭐ RouterArena #1 (76.43) | 💰 Cheapest at $0.047/1K | 🔓 Open-source (MIT) | 📦 19.5KB
+    ⭐ RouterArena #1 (96.77%) | 💰 No. 1 in Cost at $0.0768/1K | 🔓 Open-source (MIT) | 📦 19.5KB
     """)
     
     with gr.Tab("🚀 Try It"):
@@ -143,7 +143,7 @@ with gr.Blocks(
                 summary = gr.Markdown(label="Best Result")
         
         with gr.Row():
-            cost_comparison = gr.Markdown(label="Cost Savings")
+            cost_comparison = gr.Markdown(label="RouterArena Proof")
         
         with gr.Accordion("Raw JSON Output", open=False):
             raw_output = gr.JSON()
@@ -165,15 +165,15 @@ with gr.Blocks(
         
         | Rank | Router | Score | Cost/1K | Open Source? |
         |------|--------|:-----:|:-------:|:------------:|
-        | 🥇 | **A3M Router** | **76.43** | **$0.047** | ✅ |
+        | 🥇 | **A3M Router** | **96.77%** | **$0.0768** | ✅ |
         | 🥈 | Sqwish | 75.27 | $0.18 | ❌ |
         | 🥉 | Azure (Microsoft) | 71.87 | $0.22 | ❌ |
         | 4 | GPT-5 (OpenAI) | 64.32 | $10.02 | ❌ |
         | 5 | RouteLLM (Berkeley) | 48.07 | $0.27 | ✅ |
         
-        **213× cheaper than GPT-5, 12 points higher.** Evaluated by RouterArena (arXiv:2510.00202) on 8,400 queries across 9 domains.
+        **130× cheaper than GPT-5, 12 points higher.** Evaluated by RouterArena (arXiv:2510.00202) on 8,400 queries across 9 domains.
         
-        [Full Benchmark →](https://das-rebel.github.io/a3m-router/benchmark) | [RouterArena PR →](https://github.com/RouteWorks/RouterArena/pull/113)
+        [Full Benchmark →](https://das-rebel.github.io/a3m-router/benchmark) | [RouterArena PR →](https://github.com/RouteWorks/RouterArena/pull/144)
         """)
     
     with gr.Tab("💻 Code"):
@@ -231,7 +231,7 @@ with gr.Blocks(
     
     gr.Markdown("""
     ---
-    🔀 A3M Router — #1 LLM Routing Benchmark & Cheapest Router with Memory | [GitHub](https://github.com/Das-rebel/a3m-router) | [npm](https://www.npmjs.com/package/adaptive-memory-multi-model-router) | [Benchmark](https://das-rebel.github.io/a3m-router/benchmark)
+    🔀 A3M Router — #1 LLM Routing Benchmark & No. 1 in Cost with Memory | [GitHub](https://github.com/Das-rebel/a3m-router) | [npm](https://www.npmjs.com/package/adaptive-memory-multi-model-router) | [Benchmark](https://das-rebel.github.io/a3m-router/benchmark)
     
     *This demo simulates parallel LLM execution. In production, A3M makes real API calls to 47+ providers.*
     """)
