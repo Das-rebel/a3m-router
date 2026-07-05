@@ -196,9 +196,12 @@ jobs:
         with:
           python-version: '3.12'
           
+      - name: Install pytest
+        run: pip install pytest
+        
       - name: Run Python tests
         run: |
-          python -m pytest test_universal_router.py -v 2>/dev/null || echo "test_universal_router.py not found, skipping"
+          python -m pytest test_universal_router.py -v || echo "test_universal_router.py not found, skipping"
 
   # ============================================================
   # COVERAGE REPORT
@@ -226,11 +229,11 @@ jobs:
           echo "  - test.js: 27 tests"
           echo "  - provider-test.js: 28 tests"
           echo "  - vitest tests/: 91 tests"
-          echo "  - test-council/1-structure-tests.test.ts: ~120 tests"
-          echo "  - test-council/2-edge-case-tests.test.ts: ~150 tests"
-          echo "  - test-council/3-performance-tests.test.ts: ~50 tests"
-          echo "  - test-council/4-integration-tests.test.ts: ~60 tests"
-          echo "  - test-council/5-agent-council-eval.test.ts: ~20 tests"
+          echo "  - test-council/1-structure-tests.ts: ~120 tests"
+          echo "  - test-council/2-edge-case-tests.ts: ~150 tests"
+          echo "  - test-council/3-performance-tests.ts: ~50 tests"
+          echo "  - test-council/4-integration-tests.ts: ~60 tests"
+          echo "  - test-council/5-agent-council-eval.ts: ~20 tests"
           echo "  - test_universal_router.py: 5 tests"
           echo ""
           echo "Total Test Count: ~551 tests"
