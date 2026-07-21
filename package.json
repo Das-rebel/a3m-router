@@ -201,7 +201,7 @@
     "@types/express": "^5.0.6",
     "@types/node": "^25.8.0",
     "esbuild": "^0.28.1",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.9"
   },
   "types": "dist/index.d.ts"
