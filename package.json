@@ -1,9 +1,9 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.14.60",
+  "version": "2.15.0",
   "shortName": "A3M Router",
   "displayName": "A3M Router - Adaptive Memory Multi-Model Router",
-  "description": "Official baseline in RouterArena (ICLR 2025), MMR-Bench (ArXiv 2026), RouterEval (EMNLP 2025): 96.77% accuracy, 67% MMR-Bench, $0.0768/1K, 1.0000 robustness. OpenAI-compatible LLM router across 47+ providers.",
+  "description": "RouterArena #1 (ICLR 2025): 96.77% accuracy, $0.0768/1K, 1.0000 robustness. Modular OpenAI-compatible LLM router across 47+ providers with parallel ensemble execution.",
   "main": "dist/index.js",
   "bin": {
     "a3m-router": "dist/cli.js",

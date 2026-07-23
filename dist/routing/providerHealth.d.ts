@@ -151,3 +151,4 @@ export declare class ProviderHealthManager extends EventEmitter {
     private calculateLatencyScore;
 }
 export default ProviderHealthManager;
+//# sourceMappingURL=providerHealth.d.ts.map

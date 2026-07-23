@@ -1,6 +1,7 @@
 "use strict";
-"";
-";
+/**
+ * Tests for SkillManager and TMLEnhancedAgent
+ */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     var desc = Object.getOwnPropertyDescriptor(m, k);
@@ -35,10 +36,6 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-Tests;
-for (skill_manager_1.SkillManager; and; skill_enhanced_agent_1.TMLEnhancedAgent)
-    "";
-";
 const globals_1 = require("@jest/globals");
 const skill_manager_1 = require("../skill_manager");
 const skill_enhanced_agent_1 = require("../../agents/skill_enhanced_agent");

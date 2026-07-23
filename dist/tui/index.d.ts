@@ -5,3 +5,4 @@
  * Usage: npx a3m-router tui
  *        a3m-tui
  */
+//# sourceMappingURL=index.d.ts.map

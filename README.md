@@ -109,6 +109,28 @@ A3M Router operates as a stateless proxy between client applications and LLM pro
 3. **Routing decision** — Multi-signal heuristic scoring assigns a complexity score (0.0–1.0) to the query. The score maps to a provider tier. The router selects the cheapest available provider in that tier.
 4. **Execution** — The LLM call is issued to the selected provider. Results are returned with routing metadata.
 
+### Server Architecture
+
+The proxy server uses a modular route-based architecture for maintainability and extensibility:
+
+```
+src/server/
+├── proxyServer.ts       # Entry point + route registration
+├── router.ts           # Route registry + request handler factory
+├── state.ts            # Shared request logs + cost tracking
+├── metrics.ts          # Prometheus-compatible metrics
+├── modelMapper.ts      # Model resolution + provider selection
+└── handlers/
+    ├── chatHandler.ts      # POST /v1/chat/completions
+    ├── completionsHandler.ts  # POST /v1/completions
+    ├── embeddingsHandler.ts  # POST /v1/embeddings
+    ├── modelsHandler.ts   # GET /v1/models
+    ├── healthHandler.ts   # GET /health
+    └── metricsHandler.ts # GET /metrics
+```
+
+Adding a new endpoint = 2 lines: import the handler + call `registerRoute()`.
+
 ### Routing Signals
 
 The complexity score is computed as a weighted sum across five signal dimensions:
@@ -257,9 +279,12 @@ npx a3m-router health                           # provider health status and lat
 | Method | Endpoint | Description |
 |--------|----------|-------------|
 | POST | `/v1/chat/completions` | OpenAI-compatible chat (streaming + non-streaming) |
+| POST | `/v1/completions` | OpenAI-compatible completions |
+| POST | `/v1/embeddings` | OpenAI-compatible embeddings |
 | POST | `/v1/route` | Routing decision without LLM call |
 | GET | `/v1/models` | Available models with pricing |
-| GET | `/health` | Provider health scores |
+| GET | `/health` | Health check with provider status + recent requests |
+| GET | `/metrics` | Prometheus-compatible metrics |
 
 Full documentation: [`docs/API.md`](docs/API.md)
 

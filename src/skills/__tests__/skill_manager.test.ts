@@ -1,6 +1,6 @@
-"""
-Tests for SkillManager and TMLEnhancedAgent
-"""
+/**
+ * Tests for SkillManager and TMLEnhancedAgent
+ */
 
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
 import { SkillManager, Skill } from '../skill_manager';

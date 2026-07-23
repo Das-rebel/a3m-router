@@ -14,10 +14,17 @@
  * Run:   npx a3m-router serve [--port 8787]
  */
 
-import * as http from "http";
-import { resolveModel, listAvailableModels, ModelMapping } from "./modelMapper";
-import { getAvailableProviders, healthCheck as providerHealthCheck } from "../providers/providerConfig";
-import { CostTracker } from "../cost/costTracker";
+import * as http from 'http';
+import { resolveModel, listAvailableModels, ModelMapping } from './modelMapper';
+import { getAvailableProviders, healthCheck as providerHealthCheck } from '../providers/providerConfig';
+import { costTracker, requestLogs, RequestLog } from './state';
+import { registerRoute, createRequestHandler } from './router';
+import { handleChatCompletions } from './handlers/chatHandler';
+import { handleCompletions } from './handlers/completionsHandler';
+import { handleModels } from './handlers/modelsHandler';
+import { handleHealth } from './handlers/healthHandler';
+import { handleMetrics } from './handlers/metricsHandler';
+import { handleEmbeddings } from './handlers/embeddingsHandler';
 
 // ============================================================
 // TYPES
@@ -52,19 +59,7 @@ interface CompletionRequest {
   stop?: string | string[];
 }
 
-interface RequestLog {
-  id: string;
-  model: string;
-  resolvedProvider: string;
-  resolvedModel: string;
-  latencyMs: number;
-  tokensIn: number;
-  tokensOut: number;
-  cost: number;
-  status: "success" | "error";
-  error?: string;
-  timestamp: number;
-}
+
 
 // ============================================================
 // HELPERS
@@ -132,7 +127,7 @@ interface ProviderCallResult {
  * Call the actual LLM provider with the given messages.
  * Handles OpenAI-compatible APIs, Anthropic, Google, and local providers.
  */
-async function callProvider(
+export async function callProvider(
   mapping: ModelMapping,
   messages: ChatMessage[],
   options: { temperature?: number; max_tokens?: number; stream?: boolean; stop?: string | string[] }
@@ -395,7 +390,7 @@ async function callLocalProvider(
 /**
  * Stream a provider response as SSE chunks.
  */
-async function streamProviderResponse(
+export async function streamProviderResponse(
   res: http.ServerResponse,
   mapping: ModelMapping,
   messages: ChatMessage[],
@@ -663,7 +658,7 @@ async function streamProviderResponse(
 /**
  * Try the primary mapping, then fall back to alternatives.
  */
-async function callWithFallback(
+export async function callWithFallback(
   model: string,
   messages: ChatMessage[],
   options: { temperature?: number; max_tokens?: number; stream?: boolean; stop?: string | string[] },
@@ -711,418 +706,100 @@ async function callWithFallback(
 }
 
 // ============================================================
-// REQUEST HANDLERS
-// ============================================================
-
-const requestLogs: RequestLog[] = [];
-const costTracker = new CostTracker();
-
-/**
- * Handle POST /v1/chat/completions
- */
-async function handleChatCompletions(
-  req: http.IncomingMessage,
-  res: http.ServerResponse
-): Promise<void> {
-  const body = await readBody(req);
-  let request: ChatRequest;
-
-  try {
-    request = JSON.parse(body);
-  } catch {
-    errorResponse(res, 400, "Invalid JSON in request body", "invalid_request_error");
-    return;
-  }
-
-  if (!request.messages || !Array.isArray(request.messages) || request.messages.length === 0) {
-    errorResponse(res, 400, "messages is required and must be a non-empty array", "invalid_request_error");
-    return;
-  }
-
-  const model = request.model || "auto";
-  const stream = request.stream || false;
-  const requestId = generateId();
-
-  // Build the prompt from messages for routing
-  const promptForRouting = request.messages.map((m) => m.content).join(" ");
-
-  // Resolve model
-  const mapping = resolveModel(model, promptForRouting);
-  if (!mapping) {
-    errorResponse(res, 503, `No provider available for model "${model}". Configure API keys.`, "server_error");
-    return;
-  }
-
-  const startTime = Date.now();
-
-  if (stream) {
-    // Streaming response
-    try {
-      await streamProviderResponse(
-        res,
-        mapping,
-        request.messages,
-        { temperature: request.temperature, max_tokens: request.max_tokens, stop: request.stop },
-        requestId
-      );
-
-      const latencyMs = Date.now() - startTime;
-      logRequest({
-        id: requestId,
-        model,
-        resolvedProvider: mapping.providerId,
-        resolvedModel: mapping.model,
-        latencyMs,
-        tokensIn: 0,
-        tokensOut: 0,
-        cost: 0,
-        status: "success",
-        timestamp: Date.now(),
-      });
-
-      console.log(
-        `[a3m-proxy] ${requestId} stream model=${model}→${mapping.providerId}/${mapping.model} latency=${latencyMs}ms`
-      );
-    } catch (err: any) {
-      if (!res.headersSent) {
-        errorResponse(res, 500, err.message);
-      }
-    }
-  } else {
-    // Non-streaming response
-    try {
-      const { result, mapping: usedMapping } = await callWithFallback(
-        model,
-        request.messages,
-        { temperature: request.temperature, max_tokens: request.max_tokens, stop: request.stop },
-        promptForRouting
-      );
-
-      const latencyMs = Date.now() - startTime;
-      const inputCost = (result.usage.prompt_tokens / 1000) * (usedMapping.costPerK.input);
-      const outputCost = (result.usage.completion_tokens / 1000) * (usedMapping.costPerK.output);
-      const totalCost = inputCost + outputCost;
-
-      // Track cost
-      costTracker.record(usedMapping.providerId, usedMapping.model, result.usage.prompt_tokens, result.usage.completion_tokens);
-
-      const response = {
-        id: requestId,
-        object: "chat.completion",
-        created: Math.floor(Date.now() / 1000),
-        model: result.model,
-        choices: [
-          {
-            index: 0,
-            message: { role: "assistant" as const, content: result.content },
-            finish_reason: result.finish_reason,
-          },
-        ],
-        usage: result.usage,
-      };
-
-      jsonResponse(res, 200, response);
-
-      logRequest({
-        id: requestId,
-        model,
-        resolvedProvider: usedMapping.providerId,
-        resolvedModel: usedMapping.model,
-        latencyMs,
-        tokensIn: result.usage.prompt_tokens,
-        tokensOut: result.usage.completion_tokens,
-        cost: totalCost,
-        status: "success",
-        timestamp: Date.now(),
-      });
-
-      console.log(
-        `[a3m-proxy] ${requestId} model=${model}→${usedMapping.providerId}/${usedMapping.model} latency=${latencyMs}ms tokens=${result.usage.total_tokens} cost=$${totalCost.toFixed(6)}`
-      );
-    } catch (err: any) {
-      const latencyMs = Date.now() - startTime;
-
-      logRequest({
-        id: requestId,
-        model,
-        resolvedProvider: mapping.providerId,
-        resolvedModel: mapping.model,
-        latencyMs,
-        tokensIn: 0,
-        tokensOut: 0,
-        cost: 0,
-        status: "error",
-        error: err.message,
-        timestamp: Date.now(),
-      });
-
-      console.error(
-        `[a3m-proxy] ${requestId} ERROR model=${model}→${mapping.providerId}/${mapping.model} latency=${latencyMs}ms error=${err.message}`
-      );
-
-      if (!res.headersSent) {
-        errorResponse(res, 502, err.message, "upstream_error");
-      }
-    }
-  }
-}
-
-/**
- * Handle POST /v1/completions
- */
-async function handleCompletions(
-  req: http.IncomingMessage,
-  res: http.ServerResponse
-): Promise<void> {
-  const body = await readBody(req);
-  let request: CompletionRequest;
-
-  try {
-    request = JSON.parse(body);
-  } catch {
-    errorResponse(res, 400, "Invalid JSON in request body", "invalid_request_error");
-    return;
-  }
-
-  // Convert prompt to messages format
-  const prompts = Array.isArray(request.prompt) ? request.prompt : [request.prompt || ""];
-  const messages: ChatMessage[] = prompts.map((p) => ({ role: "user" as const, content: p }));
-
-  const model = request.model || "auto";
-  const stream = request.stream || false;
-  const requestId = generateId();
-  const promptForRouting = prompts.join(" ");
-
-  const mapping = resolveModel(model, promptForRouting);
-  if (!mapping) {
-    errorResponse(res, 503, `No provider available for model "${model}".`, "server_error");
-    return;
-  }
-
-  const startTime = Date.now();
-
-  if (stream) {
-    await streamProviderResponse(
-      res, mapping, messages,
-      { temperature: request.temperature, max_tokens: request.max_tokens, stop: request.stop },
-      requestId
-    );
-  } else {
-    try {
-      const { result, mapping: usedMapping } = await callWithFallback(
-        model, messages,
-        { temperature: request.temperature, max_tokens: request.max_tokens, stop: request.stop },
-        promptForRouting
-      );
-
-      const latencyMs = Date.now() - startTime;
-
-      const response = {
-        id: requestId,
-        object: "text_completion",
-        created: Math.floor(Date.now() / 1000),
-        model: result.model,
-        choices: [
-          {
-            text: result.content,
-            index: 0,
-            finish_reason: result.finish_reason,
-          },
-        ],
-        usage: result.usage,
-      };
-
-      jsonResponse(res, 200, response);
-
-      costTracker.record(usedMapping.providerId, usedMapping.model, result.usage.prompt_tokens, result.usage.completion_tokens);
-
-      console.log(
-        `[a3m-proxy] ${requestId} completion model=${model}→${usedMapping.providerId}/${usedMapping.model} latency=${latencyMs}ms`
-      );
-    } catch (err: any) {
-      if (!res.headersSent) {
-        errorResponse(res, 502, err.message, "upstream_error");
-      }
-    }
-  }
-}
-
-/**
- * Handle GET /v1/models
- */
-function handleModels(res: http.ServerResponse): void {
-  const models = listAvailableModels();
-  jsonResponse(res, 200, {
-    object: "list",
-    data: models,
-  });
-}
-
-/**
- * Handle GET /health
- */
-async function handleHealth(res: http.ServerResponse): Promise<void> {
-  const available = getAvailableProviders();
-  const providerStatus: Record<string, any> = {};
-  let healthyCount = 0;
-
-  // Quick health check — just report if API keys exist
-  for (const [id, provider] of Object.entries(available)) {
-    const hasKey = !!provider.apiKey;
-    const isAvailable = provider.type !== "api" || hasKey;
-    providerStatus[id] = {
-      name: provider.name || id,
-      type: provider.type,
-      models: provider.models?.length || 0,
-      available: isAvailable,
-    };
-    if (isAvailable) healthyCount++;
-  }
-
-  const costSummary = costTracker.getSummary();
-
-  jsonResponse(res, 200, {
-    status: "ok",
-    version: "2.0.0",
-    providers: {
-      total: Object.keys(available).length,
-      healthy: healthyCount,
-      details: providerStatus,
-    },
-    cost: {
-      total: costSummary.total_cost,
-      requests: costSummary.request_count,
-    },
-    uptime: process.uptime(),
-    recentRequests: requestLogs.slice(-20),
-  });
-}
-
-/**
- * Log a request for the /health endpoint.
- */
-function logRequest(entry: RequestLog): void {
-  requestLogs.push(entry);
-  // Keep only the last 1000 entries
-  if (requestLogs.length > 1000) {
-    requestLogs.splice(0, requestLogs.length - 1000);
-  }
-}
-
-// ============================================================
 // SERVER CREATION
 // ============================================================
 
 /**
- * Create and start the proxy server.
+ * Create and start the A3M Router proxy server.
+ *
+ * Uses a route table pattern (router.ts) for pluggable endpoint registration.
+ * To add a new endpoint:
+ *   1. Create src/server/handlers/yourHandler.ts
+ *   2. Import and register: registerRoute('GET', /^\/path$/, handleYourPath);
  *
  * @param port - Port to listen on (default: 8787, env: PORT)
  * @returns The http.Server instance
  */
 export function createProxyServer(port?: number): http.Server {
-  const listenPort = port || parseInt(process.env.PORT || "8787", 10);
+  const listenPort = port || parseInt(process.env.PORT || '8787', 10);
 
-  const server = http.createServer(async (req: http.IncomingMessage, res: http.ServerResponse) => {
-    const method = req.method || "GET";
-    const url = req.url || "/";
+  // ── Register all routes ────────────────────────────────────────────────
+  // Routes are matched in registration order.
+  // Adding a new endpoint = add 1 import + 1 registerRoute() call.
+  registerRoute('POST', /^\/v1\/chat\/completions$/, handleChatCompletions, 'POST /v1/chat/completions');
+  registerRoute('POST', /^\/v1\/completions$/, handleCompletions, 'POST /v1/completions');
+  registerRoute('POST', /^\/v1\/embeddings$/, handleEmbeddings, 'POST /v1/embeddings');
+  registerRoute('GET', /^\/v1\/models$/, handleModels, 'GET /v1/models');
+  registerRoute('GET', /^\/health$/, handleHealth, 'GET /health');
+  registerRoute('GET', /^\/metrics$/, handleMetrics, 'GET /metrics');
 
-    // CORS preflight
-    if (method === "OPTIONS") {
-      res.writeHead(204, {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        "Access-Control-Max-Age": "86400",
-      });
-      res.end();
-      return;
-    }
+  // ── Create request handler ─────────────────────────────────────────────
+  const requestHandler = createRequestHandler();
 
+  const server = http.createServer(async (req, res) => {
     try {
-      // Route: POST /v1/chat/completions
-      if (method === "POST" && url === "/v1/chat/completions") {
-        await handleChatCompletions(req, res);
-        return;
-      }
-
-      // Route: POST /v1/completions
-      if (method === "POST" && url === "/v1/completions") {
-        await handleCompletions(req, res);
-        return;
-      }
-
-      // Route: GET /v1/models
-      if (method === "GET" && url === "/v1/models") {
-        handleModels(res);
-        return;
-      }
-
-      // Route: GET /health
-      if (method === "GET" && url === "/health") {
-        await handleHealth(res);
-        return;
-      }
-
-      // 404 for everything else
-      errorResponse(res, 404, `Not found: ${method} ${url}`, "not_found");
-    } catch (err: any) {
-      console.error(`[a3m-proxy] Unhandled error: ${err.message}`);
+      await requestHandler(req, res);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      console.error(`[a3m-router] Unhandled error: ${message}`);
       if (!res.headersSent) {
-        errorResponse(res, 500, err.message);
+        res.writeHead(500, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+        res.end(JSON.stringify({ error: { message, type: 'server_error' } }));
       }
     }
   });
 
   server.listen(listenPort, () => {
-    console.log(``);
-    console.log(`  A3M Router Proxy Server`);
-    console.log(`  ─────────────────────────────────────────`);
+    console.log('');
+    console.log('  A3M Router Proxy Server');
+    console.log('  ─────────────────────────────────────────');
     console.log(`  Listening:  http://localhost:${listenPort}`);
-    console.log(`  Endpoints:`);
-    console.log(`    POST /v1/chat/completions  (OpenAI chat)`);
-    console.log(`    POST /v1/completions       (OpenAI completions)`);
-    console.log(`    GET  /v1/models            (List models)`);
-    console.log(`    GET  /health               (Health check)`);
-    console.log(``);
-    console.log(`  Example:`);
-    console.log(`    curl http://localhost:${listenPort}/v1/chat/completions \\`);
-    console.log(`      -H "Content-Type: application/json" \\`);
-    console.log(`      -d '{"model":"auto","messages":[{"role":"user","content":"Hello"}]}'`);
-    console.log(``);
+    console.log('  Endpoints:');
+    console.log('    POST /v1/chat/completions  (OpenAI chat)');
+    console.log('    POST /v1/completions       (OpenAI completions)');
+    console.log('    POST /v1/embeddings       (OpenAI embeddings)');
+    console.log('    GET  /v1/models            (List models)');
+    console.log('    GET  /health              (Health check)');
+    console.log('    GET  /metrics             (Prometheus metrics)');
+    console.log('');
+    console.log('  Example:');
+    console.log("    curl http://localhost:" + listenPort + "/v1/chat/completions \\'");
+    console.log('      -H "Content-Type: application/json" \'');
+    console.log("      -d '{\"model\":\"auto\",\"messages\":[{\"role\":\"user\",\"content\":\"Hello\"}]}'");
+    console.log('');
   });
-
-  server.on("error", (err: any) => {
-    if (err.code === "EADDRINUSE") {
-      console.error(`[a3m-proxy] Port ${listenPort} is already in use. Use --port or PORT env var.`);
+  server.on('error', (err: NodeJS.ErrnoException) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`[a3m-router] Port ${listenPort} is already in use. Use --port or PORT env var.`);
       process.exit(1);
     } else {
-      console.error(`[a3m-proxy] Server error: ${err.message}`);
+      console.error(`[a3m-router] Server error: ${err.message}`);
     }
   });
 
   // Graceful shutdown
   const shutdown = () => {
-    console.log(`\n[a3m-proxy] Shutting down...`);
+    console.log('\n[a3m-router] Shutting down...');
     server.close(() => {
-      console.log(`[a3m-proxy] Server closed.`);
+      console.log('[a3m-router] Server closed.');
       process.exit(0);
     });
-    // Force close after 5s
     setTimeout(() => {
-      console.error(`[a3m-proxy] Forced shutdown after timeout.`);
+      console.error('[a3m-router] Forced shutdown after timeout.');
       process.exit(1);
     }, 5000);
   };
 
-  process.on("SIGINT", shutdown);
-  process.on("SIGTERM", shutdown);
+  process.on('SIGINT', shutdown);
+  process.on('SIGTERM', shutdown);
 
   return server;
 }
-
 // ============================================================
 // EXPORTS
 // ============================================================
 
-export { CostTracker, costTracker, requestLogs };
+// Re-export shared state and types for backward compatibility
+export { costTracker, requestLogs } from './state';
+export type { RequestLog } from './state';
 export default createProxyServer;
