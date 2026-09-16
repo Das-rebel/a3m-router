@@ -227,4 +227,3 @@ export declare const globalHealthManager: ProviderHealthManager;
  * @returns true if MVT recommends rotation
  */
 export declare function mvtShouldRotate(providerHealth: ProviderHealth, fallbackProviderLatencyMs: number, estimatedTokensThisCall?: number): boolean;
-//# sourceMappingURL=providerHealth.d.ts.map

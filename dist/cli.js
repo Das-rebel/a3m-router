@@ -164,6 +164,15 @@ async function main() {
   const router = createA3MRouter({ memory: { maxSize: 1000 } });
 
   switch (command) {
+    case 'tui': {
+      // Delegate to the TUI launcher script
+      const { spawn } = require('child_process');
+      const tuiPath = require.resolve('./cli/tui.js');
+      const tui = spawn('node', [tuiPath, ...args.slice(1)], { stdio: 'inherit' });
+      tui.on('exit', (code) => { process.exit(code || 0); });
+      break;
+    }
+
     case 'setup': {
       const { runWizard } = require('./cli/setupWizard.js');
       runWizard();

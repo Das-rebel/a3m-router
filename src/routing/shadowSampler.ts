@@ -127,7 +127,7 @@ export interface ShadowedResponse {
  *   complexity_adj = query complexity signal
  */
 export class ShadowSampler {
-  private config: Required<Omit<ShadowSamplerConfig, 'forceShadowProvider'>> & { forceShadowProvider: boolean };
+  private config: Required<Omit<ShadowSamplerConfig, 'forceShadowProvider' | 'shadowProvider'>> & { forceShadowProvider: boolean; shadowProvider: string | null; };
   
   // Cached shadow provider (auto-selected on first call)
   private _shadowProvider: string | null = null;

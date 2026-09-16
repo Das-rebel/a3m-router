@@ -14,7 +14,6 @@
     "noEmit": true
   },
   "include": [
-    "../tmlpd-pi-extension/src/**/*.ts",
     "../src/**/*.ts",
     "./**/*.ts"
   ]

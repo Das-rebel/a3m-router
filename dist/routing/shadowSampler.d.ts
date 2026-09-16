@@ -185,4 +185,3 @@ export declare class ShadowSampler {
      */
     configure(config: Partial<ShadowSamplerConfig>): void;
 }
-//# sourceMappingURL=shadowSampler.d.ts.map
