@@ -1,6 +1,8 @@
 /**
  * A3M Router Setup Wizard
  * Interactive configuration wizard with smart defaults
+ *
+ * Note: Excluded from tsconfig.build.json — type errors here do not affect the build.
  */
 
 const fs = require('fs');
@@ -221,9 +223,9 @@ function createInterface() {
   });
 }
 
-function question(rl, text) {
+function question(rl: readline.Interface, text: string): Promise<string> {
   return new Promise((resolve) => {
-    rl.question(text, (answer) => resolve(answer));
+    rl.question(text, (answer: string) => resolve(answer));
   });
 }
 
