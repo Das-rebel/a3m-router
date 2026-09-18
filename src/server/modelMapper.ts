@@ -12,6 +12,7 @@
  */
 
 import { routeQuery } from "../routing/advancedRouter";
+import { jevRoute } from "../routing/jev/jevRouter";
 import { getAvailableProviders } from "../providers/providerConfig";
 
 // ============================================================
@@ -68,6 +69,16 @@ export function resolveModel(modelName: string, prompt?: string): ModelMapping |
   if (modelName === "auto") {
     const query = prompt || "";
     const route = routeQuery(query);
+    if (!route.primary_model) return null;
+    return lookupProviderModel(route.primary_model, available);
+  }
+
+  // 1b. "jev-auto" → System One single-pass routing (Jev interface pattern).
+  // Falls back to the heuristic router internally when confidence is low
+  // or trained weights are absent.
+  if (modelName === "jev-auto") {
+    const query = prompt || "";
+    const route = jevRoute(query);
     if (!route.primary_model) return null;
     return lookupProviderModel(route.primary_model, available);
   }
