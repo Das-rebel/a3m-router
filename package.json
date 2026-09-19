@@ -1,6 +1,6 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.16.3",
+  "version": "2.16.4",
   "description": "Intelligent LLM routing gateway — 80+ providers, pheromone-trail failover, semantic cache. Saves 70-95% on AI costs. Drop-in OpenAI-compatible proxy. Self-hosted.",
   "main": "dist/index.js",
   "bin": {
