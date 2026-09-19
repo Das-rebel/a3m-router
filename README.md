@@ -100,6 +100,11 @@ response = client.chat.completions.create(
 
 **Result:** Simple questions cost 300x less. Complex queries still go to premium models when needed.
 
+**New — System One routing (`model="jev-auto"`):** a single-pass, calibrated
+decision head distilled from the heuristic router — ~2ms, 97.8% agreement,
+per-choice probabilities, and it scores **unseen providers** through their
+text (dynamic option sets). Falls back to the full router below p&lt;0.22.
+
 ---
 
 ## 🚀 Performance Benchmarks
@@ -174,6 +179,18 @@ Then routes to the right tier:
 | **Cheap** | Groq, DeepSeek, Mistral | Simple Q&A, short code |
 | **Mid** | GPT-4o-mini, Claude-haiku | Standard tasks |
 | **Premium** | GPT-4o, Claude-sonnet, Gemini | Complex reasoning |
+
+### Two routing engines
+
+| Mode | Engine | Latency | Notes |
+|------|--------|---------|-------|
+| `model="auto"` | Heuristic System 2 (features + EXP3 diversity) | ~0.4ms | Default |
+| `model="jev-auto"` | **System One** option-attention head | ~2ms warm | Calibrated probs, dynamic option sets, confidence-guarded fallback to `auto` |
+
+The Jev head ([open System One interface pattern](https://huggingface.co/harshatheg/Qwen-2.5-1B-RLCD))
+is distilled from the heuristic router via `npm run jev:distill && npm run jev:train`.
+Optionally point it at a Jev-compatible server ([openjev-sglang](https://github.com/ekzhang/openjev-sglang)
+or api.typesafe.ai) with `A3M_JEV_URL`.
 
 ---
 
