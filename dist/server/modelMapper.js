@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolveModel = resolveModel;
 exports.listAvailableModels = listAvailableModels;
 const advancedRouter_1 = require("../routing/advancedRouter");
-const jevRouter_1 = require("../routing/jev/jevRouter");
 const providerConfig_1 = require("../providers/providerConfig");
 // ============================================================
 // OPENAI MODEL ALIASES → provider preference order
@@ -59,11 +58,19 @@ function resolveModel(modelName, prompt) {
         return lookupProviderModel(route.primary_model, available);
     }
     // 1b. "jev-auto" → System One single-pass routing (Jev interface pattern).
-    // Falls back to the heuristic router internally when confidence is low
-    // or trained weights are absent.
+    // Lazy + guarded: falls back to the heuristic router if the jev module
+    // or its weights are unavailable.
     if (modelName === "jev-auto") {
         const query = prompt || "";
-        const route = (0, jevRouter_1.jevRoute)(query);
+        let route;
+        try {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            const { jevRoute } = require("../routing/jev/jevRouter");
+            route = jevRoute(query);
+        }
+        catch {
+            route = (0, advancedRouter_1.routeQuery)(query);
+        }
         if (!route.primary_model)
             return null;
         return lookupProviderModel(route.primary_model, available);
