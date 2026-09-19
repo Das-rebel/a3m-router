@@ -1,7 +1,7 @@
 {
   "name": "adaptive-memory-multi-model-router",
-  "version": "2.16.2",
-  "description": "A3M Router: Parallel LLM routing gateway with ensemble voting \u2014 14% faster than OpenRouter, 92% cheaper | 80+ providers | Fixed: main entry point, TypeScript 5.8, blessed types | npm: 6K+/mo | PyPI: 700+/mo",
+  "version": "2.16.3",
+  "description": "A3M Router: Parallel LLM routing gateway with ensemble voting — 14% faster than OpenRouter, 92% cheaper | 80+ providers | Fixed: main entry point, TypeScript 5.8, blessed types | npm: 6K+/mo | PyPI: 700+/mo",
   "main": "dist/index.js",
   "bin": {
     "a3m-router": "./dist/cli.js",
