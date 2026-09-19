@@ -1,2 +1,8 @@
-# These are supported funding model platforms
 github: Das-rebel
+patreon: # Replace with a Patreon username
+ko_fi: # Replace with a Ko-fi username
+tidelift: npm/adaptive-memory-multi-model-router
+community_bridge: # Replace with Community Bridge project slug e.g. lightning
+liberapay: # Replace with Liberapay username
+open_collective: # Replace with Open Collective username
+custom: ["https://opencollective.com/a3m-router"]

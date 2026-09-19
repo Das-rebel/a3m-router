@@ -2,17 +2,24 @@
 
 ## [Unreleased]
 
+## [2.16.3] — 2026-09-19
+
 ### Added
-- Docker + docker-compose deployment
-- MCP server for AI agent integration
-- LangChain LLM integration with A3M Router
-- Gradio demo on HuggingFace Space
-- GitHub Pages documentation site
-- CI/CD badges and community health files
-- Posting directory with 30+ platforms for A3M discovery
+- **`model="jev-auto"`** — System One single-pass routing head: option-attention engine in pure TypeScript, zero extra dependencies, ~2ms warm latency, 97.8% agreement with heuristic router, calibrated per-choice probabilities, dynamic option sets for unseen providers, confidence guard (p<0.22 auto-fallback)
+- `npm run jev:distill` + `npm run jev:train` pipeline — distills training data and trains the Jev decision head from real traffic
+- Remote Jev backend support via `A3M_JEV_URL` env var (openjev-sglang or api.typesafe.ai)
+- imprint Jev head (Python/numpy, ~0.5ms/decision) — gates cascade compression, cross-compatible weights with a3m-router
+
+### Fixed
+- CI `npm ci` failure: restored `package-lock.json` (deleted by git add -A in da2ae95)
+- CI MODULE_NOT_FOUND: force-tracked `dist/routing/jev/` (was gitignored but needed for CI's node test.js against committed dist)
+- Lazy guarded import in modelMapper.ts — graceful fallback when jev weights unavailable
+- Repo About description: removed circular "DEPRECATED → adaptive-memory-multi-model-router" (repo redirects to itself)
 
 ### Changed
-- Cleanup removed 4 unused deps, fixed 0 vulns, deduplicated
+- `dist/` Jev files now properly tracked for CI compatibility
+- README restructured: TOC, architecture diagram, prominent Jev feature section, cleaner quick-start flow
+- CONTRIBUTING.md rewritten with real project structure, test commands, PR checklist
 
 ## [2.16.0] — 2026-08-12
 

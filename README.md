@@ -1,220 +1,139 @@
 # A3M Router
 
-> *"Intelligence now has a universal medium of exchange: tokens. Tokens are the new dollars."* — Sarah Wang, a16z GP
+**Intelligent LLM routing across 80+ providers — saves 70–95% on AI costs.**
 
-**Building AI's nervous system, the biologically inspired way.**
+```bash
+npm install adaptive-memory-multi-model-router
+npx a3m-router serve   # → http://localhost:8787/v1
+```
 
-When Stripe acquired OpenRouter, it validated that AI routing is critical infrastructure. But it also raised a question: **who controls the mint?**
-
-A3M Router is the open-source answer. Built on 3 billion years of biological intelligence.
-
----
-
-**Intelligent LLM routing across 80+ providers — saves 70-95% on AI costs.**
+```python
+from openai import OpenAI
+client = OpenAI(base_url="http://localhost:8787/v1", api_key="not-needed")
+response = client.chat.completions.create(model="auto", messages=[{"role":"user","content":"What is 2+2?"}])
+# Routes to Groq/Mistral → $0.0001 vs GPT-4o's $0.03
+```
 
 [![npm version](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![npm downloads](https://img.shields.io/npm/dm/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
 [![PyPI version](https://img.shields.io/pypi/v/a3m-router)](https://pypi.org/project/a3m-router/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Tests](https://img.shields.io/badge/Tests-28%2F28%20passing-brightgreen)](https://github.com/Das-rebel/a3m-router/actions)
+[![CI](https://github.com/Das-rebel/a3m-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Das-rebel/a3m-router/actions)
 [![GitHub stars](https://img.shields.io/github/stars/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router/stargazers)
 
-**📦 Available on:**
-[![npm](https://img.shields.io/badge/npm-6%2C000%2B%2Fmonth-CB3837?style=flat-square&logo=npm)](https://www.npmjs.com/package/adaptive-memory-multi-model-router) 
-[![PyPI](https://img.shields.io/badge/PyPI-700%2Fmonth-3776AB?style=flat-square&logo=pypi)](https://pypi.org/project/a3m-router/) 
-[![GitHub](https://img.shields.io/badge/GitHub-14%20%E2%98%85-100000?style=flat-square&logo=github)](https://github.com/Das-rebel/a3m-router/stargazers)
-
 ---
 
-## The Problem with Centralization
+## Table of Contents
 
-When one company controls the "dollar of intelligence," what happens to innovation?
-
-History offers cautionary tales. When GitHub was acquired by Microsoft, forks proliferated. GitLab gained market share. The acquirer's brand became a liability for some users.
-
-The same dynamic plays out here. A segment of OpenRouter's user base will start asking: **"Is there an open-source alternative?"**
-
-**We're that alternative.** Not "better" — a different philosophy.
-
----
-
-## Biology-Inspired Intelligence
-
-Nature has been solving the routing problem for 3 billion years. Here's what we borrowed:
-
-### 🐜 Swarm Intelligence → 99.99% Uptime
-
-Ants never ask for directions. Yet colonies reliably find the shortest paths to food.
-
-How? **Pheromone trails.** Each request leaves a trail. If a model fails, its trail weakens and requests avoid it. New paths emerge automatically.
-
-This is how A3M Router achieves 99.99% uptime. Not one giant brain managing everything — millions of tiny smart decisions adding up to a resilient whole.
-
-### 🧠 Neural Plasticity → Adaptive Learning
-
-Your brain isn't static. It constantly rewires, strengthening used pathways and pruning unused ones.
-
-A3M Router does the same: **time-decayed weights** prevent overfitting to outdated provider behavior. Recent performance matters more than old data.
-
-Always learning. Always adapting. Never stuck in the past.
-
-### 📊 Competitive Exclusion → Diversity
-
-In nature, no species can dominate indefinitely. Success creates conditions for others to challenge it.
-
-A3M Router implements **diversity penalty** (EXP3 algorithm). Higher market share = bigger penalty = natural equilibrium.
-
-No monoculture. The plankton paradox solved.
-
-### 🦚 Handicap Principle → Cost as Signal
-
-Why does a peacock have an extravagant tail? Expensive signals are more credible. A peacock that survives despite its handicap must be truly exceptional.
-
-A3M Router sees cost as a **credibility signal**. High cost = high computational investment = better quality for high-stakes queries.
-
-Intelligent resource allocation based on task criticality.
-
----
-
-## TL;DR — What Is This?
-
-**Before:**
-```python
-# Pay GPT-4o prices for EVERY query
-client = OpenAI(api_key="sk-...")
-response = client.chat.completions.create(
-    model="gpt-4o",
-    messages=[{"role": "user", "content": "What is 2+2?"}]
-)  # Costs: $0.03
-```
-
-**After:**
-```python
-# A3M Router picks the right model automatically
-client = OpenAI(base_url="http://localhost:8787/v1", api_key="not-needed")
-response = client.chat.completions.create(
-    model="auto",  # ← Just change this
-    messages=[{"role": "user", "content": "What is 2+2?"}]
-)  # Routes to Groq/Mistral — costs: $0.0001
-```
-
-**Result:** Simple questions cost 300x less. Complex queries still go to premium models when needed.
-
-**New — System One routing (`model="jev-auto"`):** a single-pass, calibrated
-decision head distilled from the heuristic router — ~2ms, 97.8% agreement,
-per-choice probabilities, and it scores **unseen providers** through their
-text (dynamic option sets). Falls back to the full router below p&lt;0.22.
-
----
-
-## 🚀 Performance Benchmarks
-
-> *"We don't just claim our router is fast — we *prove* it through 8,400+ real-world queries."*
-
-| Metric | A3M Router | OpenRouter | Advantage |
-|--------|-------------|------------|-----------|
-| **Latency (P99)** | **162ms** | 189ms | **14% faster** |
-| **Cost per 1K tokens** | **$0.00012** | $0.0015 | **92% cheaper** |
-| **Quality Score** | **94%** | 92% | **2% better** |
-| **Provider Coverage** | **80+** | 45 | **78% more** |
-| **Uptime** | **99.99%** | Provider-dependent | **Always on** |
-
-### Cost by Query Type
-
-| Query Type | GPT-4o Cost | A3M Router Cost | Savings |
-|------------|-------------|-----------------|---------|
-| "What is 2+2?" | $0.03 | $0.0001 (Groq) | **99.7%** |
-| "Write a Python function" | $0.05 | $0.002 (DeepSeek) | **96%** |
-| "Design a database schema" | $0.15 | $0.008 (Mixed) | **95%** |
-| "Complex reasoning" | $0.15 | $0.15 (GPT-4o) | **0%** (correctly routed) |
+- [Quick Start](#quick-start) · [Two Routing Modes](#two-routing-modes) · [Architecture](#architecture)
+- [CLI Reference](#cli-commands) · [API](#api) · [Providers](#providers)
+- [Memory & Context](#memory--context) · [Parallel Ensemble](#parallel-ensemble--best-answer-mode)
+- [Why A3M?](#why-not-just-use-openrouter) · [Contributing](#contributing) · [License](#license)
 
 ---
 
 ## Quick Start
 
+### Install
+
 ```bash
-# npm
+# Node.js
 npm install adaptive-memory-multi-model-router
-npx a3m-router serve
 
 # Python
 pip install a3m-router
-python -m a3m_router.serve
 
 # Docker
-docker run -p 8787:8787 ghcr.io/das-rebel/a3m-router
+docker run -p 8787:8787 ghcr.io/das-rebel/a3m-router:latest
 ```
 
-Then use it like any OpenAI-compatible API:
+### Start the server
+
+```bash
+npx a3m-router serve          # Node.js server on port 8787
+python -m a3m_router.serve    # Python server on port 8787
+docker run -p 8787:8787 ghcr.io/das-rebel/a3m-router:latest
+```
+
+### Use it (OpenAI-compatible)
 
 ```python
 from openai import OpenAI
-
 client = OpenAI(base_url="http://localhost:8787/v1", api_key="not-needed")
 
+# model="auto"  → heuristic router (UCB1 + EXP3 diversity, ~0.4ms)
+# model="jev-auto" → System One single-pass head (calibrated, ~2ms warm)
 response = client.chat.completions.create(
-    model="auto",  # ← Magic: A3M picks the best provider
-    messages=[{"role": "user", "content": "What is Python?"}]
+    model="auto",
+    messages=[{"role": "user", "content": "Write a Python function to fibonacci"}]
 )
+print(response.choices[0].message.content)
+```
+
+### See what would have been picked
+
+```bash
+npx a3m-router route "Explain quantum entanglement for a 10 year old"
 ```
 
 ---
 
-## How Routing Works
+## Two Routing Modes
 
-A3M analyzes every request:
+| Mode | Engine | Latency | Best for |
+|------|--------|---------|----------|
+| `model="auto"` | Heuristic System 2 (keyword + complexity + EXP3) | **~0.4ms** | Default — production traffic |
+| `model="jev-auto"` | **System One** option-attention head (Jev pattern) | **~2ms warm** | Calibrated probabilities, dynamic unseen providers |
 
-| Signal | Detects |
-|--------|---------|
-| **Domain** | Legal, medical, code, finance, ML keywords |
-| **Task type** | Code, translation, analysis, creative |
-| **Complexity** | Clause count, multi-step markers |
-| **Verb intensity** | "design/architect" → complex, "what/who" → simple |
+### System One — `model="jev-auto"` (new in v2.16.3)
 
-Then routes to the right tier:
+Single-pass decision head distilled from the heuristic router. Features:
+- **Per-choice calibrated probabilities** — honest uncertainty estimates
+- **Dynamic option sets** — scores unseen providers through their text description
+- **Confidence guard** — below p<0.22 falls back to heuristic router automatically
+- **~2ms warm latency**, zero extra dependencies
+- Optionally point at a remote Jev server: `A3M_JEV_URL=https://... npx a3m-router serve`
 
-| Tier | Providers | Use When |
-|------|-----------|----------|
-| **Free** | Ollama, Llama.cpp | Experimentation |
-| **Cheap** | Groq, DeepSeek, Mistral | Simple Q&A, short code |
-| **Mid** | GPT-4o-mini, Claude-haiku | Standard tasks |
-| **Premium** | GPT-4o, Claude-sonnet, Gemini | Complex reasoning |
+```bash
+# Distill training data from traffic
+npm run jev:distill   # → data/jev-distill.jsonl
 
-### Two routing engines
-
-| Mode | Engine | Latency | Notes |
-|------|--------|---------|-------|
-| `model="auto"` | Heuristic System 2 (features + EXP3 diversity) | ~0.4ms | Default |
-| `model="jev-auto"` | **System One** option-attention head | ~2ms warm | Calibrated probs, dynamic option sets, confidence-guarded fallback to `auto` |
-
-The Jev head ([open System One interface pattern](https://huggingface.co/harshatheg/Qwen-2.5-1B-RLCD))
-is distilled from the heuristic router via `npm run jev:distill && npm run jev:train`.
-Optionally point it at a Jev-compatible server ([openjev-sglang](https://github.com/ekzhang/openjev-sglang)
-or api.typesafe.ai) with `A3M_JEV_URL`.
-
----
-
-## Provider Coverage
-
-**80+ providers** including OpenAI, Anthropic, Google, Groq, DeepSeek, Mistral, NVIDIA, Ollama, vLLM, and more.
-
-Availability checked at runtime.
+# Train the decision head
+npm run jev:train     # → src/routing/jev/weights/jev-router-weights.json
+```
 
 ---
 
 ## Architecture
 
 ```
-Request → Guardrails → Semantic Cache → Router → Provider → Response
-                          ↓
-                    Memory Layer
-                    (optional)
+Incoming Request
+       │
+       ▼
+   ┌─────────┐
+   │Guardrails│  ← Prompt injection, PII filter
+   └────┬────┘
+       │
+       ▼
+   ┌─────────┐
+   │ Cache   │  ← Semantic deduplication (zero-cost hits)
+   └────┬────┘
+       │
+       ▼
+   ┌─────────┐
+   │ Router  │  ← System 2 (auto) or System One (jev-auto)
+   └────┬────┘
+       │
+       ▼
+   ┌─────────┐
+   │Ensemble │  ← Optional: parallel calls, merge best answer
+   └────┬────┘
+       │
+       ▼
+  Provider (OpenAI / Anthropic / Groq / Mistral / Ollama / ...)
 ```
 
-- **Guardrails** — Prompt injection detection, PII filtering
-- **Semantic Cache** — Instant hits for repeated queries (zero cost)
-- **Router** — Scores query, selects tier, picks cheapest healthy provider
-- **Ensemble** — Optional parallel calls for best-answer mode
+**Memory layer** — optional semantic context window across conversation turns.
 
 ---
 
@@ -222,46 +141,47 @@ Request → Guardrails → Semantic Cache → Router → Provider → Response
 
 ```bash
 npx a3m-router serve              # Start server (port 8787)
-npx a3m-router route "query"    # See routing decision
-npx a3m-router health           # Provider status
-npx a3m-router benchmark        # Local accuracy test
+npx a3m-router route "prompt"     # Preview routing decision
+npx a3m-router health              # Live provider availability
+npx a3m-router benchmark           # Local quality benchmark
+npx a3m-router providers list      # Show all 80+ providers
+```
+
+### Environment variables
+
+```bash
+A3M_JEV_URL=https://your-jev-server  # Remote Jev backend (optional)
+A3M_LOG_LEVEL=debug                   # Debug logging
+PORT=8787                             # Server port
 ```
 
 ---
 
-## Parallel Ensemble — Best Answer Mode
+## Providers
 
-Need the best answer regardless of cost? Call multiple providers in parallel:
+**80+ providers** — availability checked at runtime:
+
+| Tier | Examples |
+|------|----------|
+| Free | Ollama, Llama.cpp, HuggingFace Inference |
+| Cheap | Groq, DeepSeek, Mistral, Cloudflare Workers AI |
+| Mid | GPT-4o-mini, Claude-haiku, Gemini-flash |
+| Premium | GPT-4o, Claude-sonnet, Gemini-pro |
+
+Run `npx a3m-router providers list` to see the full roster.
+
+---
+
+## Memory & Context
 
 ```python
 from a3m.router import A3MRouter
 
 router = A3MRouter(
     model="auto",
-    parallel_ensemble=3,  # ← Call 3 providers simultaneously
-)
-
-result = router.route(
-    messages=[{"role": "user", "content": "Explain quantum entanglement"}],
-    ensemble_timeout_ms=10000,
-)
-
-print(f"Best from: {result.provider}")
-print(f"Response: {result.content}")
-```
-
----
-
-## Memory & Context
-
-A3M Router includes semantic memory capabilities:
-
-```python
-router = A3MRouter(
-    model="auto",
     memory={
         "type": "semantic",
-        "window": 10,  # Last 10 exchanges
+        "window": 10,          # Last 10 exchanges
         "similarity_threshold": 0.85,
     }
 )
@@ -275,6 +195,38 @@ result = router.route(
 
 ---
 
+## Parallel Ensemble — Best Answer Mode
+
+```python
+from a3m.router import A3MRouter
+
+router = A3MRouter(
+    model="auto",
+    parallel_ensemble=3,  # Call 3 providers simultaneously
+)
+
+result = router.route(
+    messages=[{"role": "user", "content": "Explain quantum entanglement"}],
+    ensemble_timeout_ms=10000,
+)
+
+print(f"Best from: {result.provider}")
+print(f"Response: {result.content}")
+```
+
+---
+
+## Cost Savings
+
+| Query Type | GPT-4o | A3M Router | Savings |
+|------------|--------|-------------|---------|
+| "What is 2+2?" | $0.03 | $0.0001 (Groq) | **99.7%** |
+| "Write a Python function" | $0.05 | $0.002 (DeepSeek) | **96%** |
+| "Design a database schema" | $0.15 | $0.008 (Mixed) | **95%** |
+| Complex reasoning | $0.15 | $0.15 (GPT-4o) | **0%** (correctly routed) |
+
+---
+
 ## Why Not Just Use OpenRouter?
 
 | Feature | OpenRouter | A3M Router |
@@ -283,15 +235,16 @@ result = router.route(
 | **Self-hostable** | No | Yes |
 | **Biology-inspired** | No | Yes |
 | **Provider diversity** | Centralized | Decentralized |
-| **Cost** | $0.0015/1K | $0.00012/1K |
+| **Cost per 1K tokens** | $0.0015 | **$0.00012** |
 
-We're not competing — we're offering a different philosophy.
+We're not competing — offering a different philosophy: open, self-hosted, community-driven.
 
 ---
 
 ## Contributing
 
-- 📖 [Contributing Guide](CONTRIBUTING.md)
+See [CONTRIBUTING.md](CONTRIBUTING.md) for setup instructions, project structure, and code conventions.
+
 - 🐛 [Issue Tracker](https://github.com/Das-rebel/a3m-router/issues)
 - 💬 [Discussions](https://github.com/Das-rebel/a3m-router/discussions)
 - 📜 [Changelog](CHANGELOG.md)
@@ -304,26 +257,10 @@ We're not competing — we're offering a different philosophy.
 
 ---
 
-## Project Stats
-
-- **npm downloads:** ~5,989/month
-- **PyPI downloads:** ~620/month
-- **Providers:** 80+
-- **Tests:** 28/28 passing
-- **License:** MIT
-
----
-
 <p align="center">
   <strong>Built on 3 billion years of biological intelligence.</strong><br>
-  <a href="https://github.com/Das-rebel/a3m-router">GitHub</a> •
-  <a href="https://twitter.com/a3m_router">Twitter</a> •
-  <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router">npm</a> •
-  <a href="https://pypi.org/project/a3m-router/">PyPI</a>
+  <a href="https://github.com/Das-rebel/a3m-router">GitHub</a> ·
+  <a href="https://www.npmjs.com/package/adaptive-memory-multi-model-router">npm</a> ·
+  <a href="https://pypi.org/project/a3m-router/">PyPI</a> ·
+  <a href="https://github.com/Das-rebel/a3m-router/discussions">Discussions</a>
 </p>
-
----
-
-## 🔧 More from Das-rebel
-
-- **[FinWipe](https://github.com/Das-rebel/finwipe)** — DIY financial data deletion CLI for India. Exercise your right to erasure under the DPDP Act 2023 across 230+ NBFCs, fintechs and banks.
