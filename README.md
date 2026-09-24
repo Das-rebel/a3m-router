@@ -222,3 +222,16 @@ A3M is 100% open-source, self-hostable, and community-driven. We're not competin
 ## ⭐ Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Das-rebel/a3m-router&type=Timeline)](https://star-history.com/#Das-rebel/a3m-router&Timeline)
+
+
+## 🧠 Ensemble Engine + MC Dropout (NEW)
+
+**Sep 2026** — Parallel ensemble execution for multi-model routing:
+
+- `ParallelExecutor` (520 lines): Concurrent dispatch, retry logic, Shapley credit assignment, semantic clustering
+- `mcDropout.ts` (157 lines): MC Dropout uncertainty estimation, stochastic forward passes
+- `types.ts`: Clean export interface definitions
+- Build verified (`npm run build` passes)
+- Tests: 2/2 passing (`dist/ensemble/`)
+
+**Key Features:** Confidence-weighted voting, loyalty/handicap tracking, provenance headers (`X-Ensemble-Provenance`), multi-strategy (majority/weighted/shapley/semantic)
