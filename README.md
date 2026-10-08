@@ -16,6 +16,20 @@ response = client.chat.completions.create(model="auto", messages=[...])
 
 [![npm version](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/npm/package/adaptive-memory-multi-model-router)
 [![npm downloads](https://img.shields.io/npm/dm/adaptive-memory-multi-model-router)](https://www.npmjs.com/npm/package/adaptive-memory-multi-model-router)
+
+## 📊 A3M Router Impact
+
+| Metric | Lifetime | Last 30 days | Last week | Run rate (months) |
+|--------|----------|-------------|-----------|-------------------|
+| npm downloads | **49,493** | 12,710 | 2,149 | Aug: 4,392 · Sep: 11,944 · Oct: 1,301 |
+| GitHub Stars | 16 | 2 | 0 |
+| Forks | 5 | 0 | 0 |
+
+> **Insights**
+> • **87% of lifetime downloads in Sep 2026** (peak)
+> • **August 2026 resurgence** (+3.3× month‑on‑month)
+> • **Consistent weekly flow** (≈2.1k/week) despite low weekend activity
+> • **Active days:** 137 (since May 15, 2026) | **Average:** 361/day
 [![PyPI version](https://img.shields.io/pypi/v/a3m-router)](https://pypi.org/project/a3m-router/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![CI](https://github.com/Das-rebel/a3m-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Das-rebel/a3m-router/actions)
