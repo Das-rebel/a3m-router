@@ -67,6 +67,24 @@ Emergent findings:
 2. **Gause lockout is real:** the mid caste (qwen2.5:1.5b) received zero traffic (τ→0.00) — pheromone greediness alone locks it out. This is precisely why the EXP3 **negative frequency-dependence** (already in A3M) must be layered on top: rarer castes get a fitness credit. Biology predicted the bug and its fix.
 3. **Resilience beats raw quality:** ecosystem lost less quality after the soldier degraded and recovered latency 39% faster than static routing — the metapopulation effect in miniature.
 
+## 5.1 ALC circuit-breaker validation (`examples/alc-flap-sim.py`)
+
+Scenario A — borderline provider (true error constant 0.30, observation noise only):
+
+| policy | mean quality | switches | load std |
+|---|---|---|---|
+| hard breaker | 0.6001 (**latched OFF** — −2.6% forever) | 1 | 0.0804 |
+| **ALC** | **0.6159 (oracle parity, −0.02%)** | **0** | **0.0169 (4.8× smoother)** |
+| oracle | 0.6160 | 0 | 0 |
+
+Scenario B — degrading provider (error sweeps 0.10→0.40 sinusoidally): all policies make
+exactly the 32 *necessary* switches; ALC ramps **15% smoother** (load std 0.4201 vs 0.4968
+square wave) at a +0.4% mean-quality premium — the bet-hedging cost of variance reduction.
+
+**Dey-lab ALC claim transfers to routing:** the wide-hysteresis hard breaker has a *sticky
+latch* pathology (cut at e>0.30, restore needs e<0.25 — never arrives at borderline), while
+narrow hysteresis would chatter. ALC's continuous derating has neither failure mode.
+
 ## 6. Formal layer (miniF2F-style) — `formal/RouterInvariants.lean`
 
 Statements to machine-check (miniF2F template: statements are the contract):
