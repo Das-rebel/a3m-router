@@ -1,7 +1,7 @@
 {
   "name": "adaptive-memory-multi-model-router",
   "version": "2.16.4",
-  "description": "Intelligent LLM routing gateway — 80+ providers, pheromone-trail failover, semantic cache. Saves 70-95% on AI costs. Drop-in OpenAI-compatible proxy. Self-hosted.",
+  "description": "Intelligent LLM routing gateway \u2014 80+ providers, pheromone-trail failover, semantic cache. Saves 70-95% on AI costs. Drop-in OpenAI-compatible proxy. Self-hosted.",
   "main": "dist/index.js",
   "bin": {
     "a3m-router": "./dist/cli.js",
@@ -9,14 +9,15 @@
   },
   "scripts": {
     "start": "node dist/cli.js serve",
-    "test": "node --test",
+    "test": "vitest run",
     "test:vitest": "npx vitest run",
     "test:coverage": "npx vitest run --coverage",
     "test:watch": "npx vitest",
     "lint": "eslint src/",
     "build": "tsc -p tsconfig.build.json && node -e \"const fs=require('fs');fs.mkdirSync('dist/routing/jev/weights',{recursive:true});try{fs.copyFileSync('src/routing/jev/weights/jev-router-weights.json','dist/routing/jev/weights/jev-router-weights.json')}catch(e){}\"",
     "jev:distill": "node tools/distill.mjs",
-    "jev:train": "python3 tools/train_jev.py && python3 tools/calibrate_temp.py"
+    "jev:train": "python3 tools/train_jev.py && python3 tools/calibrate_temp.py",
+    "test:legacy": "node test.js && node test/provider-test.js"
   },
   "keywords": [
     "llm-router",
