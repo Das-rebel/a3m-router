@@ -69,7 +69,16 @@ export function resolveModel(modelName: string, prompt?: string): ModelMapping |
     const query = prompt || "";
     const route = routeQuery(query);
     if (!route.primary_model) return null;
-    return lookupProviderModel(route.primary_model, available);
+    // Resolve the nomination through the full index (handles nested model
+    // names like "openai/gpt-4o" living under provider "openrouter"), then
+    // walk the router's own fallback order, then degrade to a local model.
+    // A missing nomination must never 503 while providers exist.
+    const idx = buildModelIndex(available);
+    for (const key of [route.primary_model, ...route.fallback_models]) {
+      const hit = idx.get(key) || lookupProviderModel(key, available);
+      if (hit) return hit;
+    }
+    return firstLocalMapping(available);
   }
 
   // 1b. "jev-auto" → System One single-pass routing (Jev interface pattern).
@@ -158,6 +167,56 @@ function lookupProviderModel(key: string, available: Record<string, any>): Model
     costPerK: provider.costPerK || { input: 0, output: 0 },
     type: provider.type || "api",
   };
+}
+
+/**
+ * Index every available provider/model for robust resolution.
+ *
+ * Key problem this solves: router profiles use provider-INNER model names for
+ * nested rosters (OpenRouter models are literally named "openai/gpt-4o"), so
+ * routeQuery nominates "openai/gpt-4o" — which lookupProviderModel parses as
+ * provider="openai" and misses (hard 503: "No provider available"). The index
+ * registers both the full key ("openrouter/openai/gpt-4o") and the bare model
+ * name ("openai/gpt-4o") so either form resolves.
+ */
+function buildModelIndex(available: Record<string, any>): Map<string, ModelMapping> {
+  const idx = new Map<string, ModelMapping>();
+  for (const [providerId, provider] of Object.entries(available)) {
+    const p = provider as any;
+    for (const model of p.models || []) {
+      const mapping: ModelMapping = {
+        providerId,
+        model,
+        baseUrl: p.baseUrl || "",
+        apiKey: p.apiKey || null,
+        costPerK: p.costPerK || { input: 0, output: 0 },
+        type: p.type || "api",
+      };
+      if (!idx.has(`${providerId}/${model}`)) idx.set(`${providerId}/${model}`, mapping);
+      // Bare-name alias — first provider to claim a name wins (deterministic
+      // by available-provider iteration order).
+      if (!idx.has(model)) idx.set(model, mapping);
+    }
+  }
+  return idx;
+}
+
+/** First available local-tier provider (ollama/lmstudio/vllm) model, if any. */
+function firstLocalMapping(available: Record<string, any>): ModelMapping | null {
+  for (const [providerId, provider] of Object.entries(available)) {
+    const p = provider as any;
+    if ((p.type === "local" || providerId === "ollama") && p.models?.length) {
+      return {
+        providerId,
+        model: p.models[0],
+        baseUrl: p.baseUrl || "",
+        apiKey: null,
+        costPerK: p.costPerK || { input: 0, output: 0 },
+        type: p.type || "local",
+      };
+    }
+  }
+  return null;
 }
 
 /**

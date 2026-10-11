@@ -121,6 +121,25 @@ interface ProviderCallResult {
   model: string;
   usage: { prompt_tokens: number; completion_tokens: number; total_tokens: number };
   finish_reason: string;
+  /** OpenAI-style function/tool calls, forwarded verbatim when the model emits them. */
+  tool_calls?: any[];
+}
+
+/** Shared call options — tools/tool_choice forwarded for function-calling support. */
+interface ProviderCallOptions {
+  temperature?: number;
+  max_tokens?: number;
+  stream?: boolean;
+  stop?: string | string[];
+  tools?: any[];
+  tool_choice?: any;
+}
+
+/** An empty 200 (dead key returning blank content) is NOT a usable answer. */
+function isUsableResult(r: ProviderCallResult | null | undefined): boolean {
+  if (!r) return false;
+  if (r.tool_calls && r.tool_calls.length > 0) return true;
+  return !!(r.content && r.content.trim().length > 0);
 }
 
 /**
@@ -130,14 +149,14 @@ interface ProviderCallResult {
 export async function callProvider(
   mapping: ModelMapping,
   messages: ChatMessage[],
-  options: { temperature?: number; max_tokens?: number; stream?: boolean; stop?: string | string[] }
+  options: ProviderCallOptions
 ): Promise<ProviderCallResult> {
   const { providerId, model, baseUrl, apiKey, type } = mapping;
   const maxTokens = options.max_tokens || 1024;
 
   // Local providers (Ollama, vLLM, LM Studio)
   if (type === "local" || type === "cli") {
-    return callLocalProvider(mapping, messages, maxTokens);
+    return callLocalProvider(mapping, messages, maxTokens, options);
   }
 
   // Anthropic has a different API format
@@ -160,7 +179,7 @@ export async function callProvider(
 async function callOpenAICompatibleProvider(
   mapping: ModelMapping,
   messages: ChatMessage[],
-  options: { temperature?: number; max_tokens?: number; stream?: boolean; stop?: string | string[] }
+  options: ProviderCallOptions
 ): Promise<ProviderCallResult> {
   const { model, baseUrl, apiKey } = mapping;
 
@@ -175,6 +194,8 @@ async function callOpenAICompatibleProvider(
   };
   if (options.temperature !== undefined) body.temperature = options.temperature;
   if (options.stop) body.stop = options.stop;
+  if (options.tools) body.tools = options.tools;
+  if (options.tool_choice !== undefined) body.tool_choice = options.tool_choice;
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -197,6 +218,7 @@ async function callOpenAICompatibleProvider(
 
   return {
     content: data.choices?.[0]?.message?.content || "",
+    tool_calls: data.choices?.[0]?.message?.tool_calls || undefined,
     model: data.model || model,
     usage: data.usage || {
       prompt_tokens: 0,
@@ -213,7 +235,7 @@ async function callOpenAICompatibleProvider(
 async function callAnthropicProvider(
   mapping: ModelMapping,
   messages: ChatMessage[],
-  options: { temperature?: number; max_tokens?: number; stream?: boolean; stop?: string | string[] }
+  options: ProviderCallOptions
 ): Promise<ProviderCallResult> {
   const { model, baseUrl, apiKey } = mapping;
 
@@ -275,7 +297,7 @@ async function callAnthropicProvider(
 async function callGoogleProvider(
   mapping: ModelMapping,
   messages: ChatMessage[],
-  options: { temperature?: number; max_tokens?: number; stream?: boolean; stop?: string | string[] }
+  options: ProviderCallOptions
 ): Promise<ProviderCallResult> {
   const { model, apiKey } = mapping;
   const baseUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
@@ -305,6 +327,21 @@ async function callGoogleProvider(
   if (options.temperature !== undefined) body.generationConfig.temperature = options.temperature;
   if (options.stop) body.generationConfig.stopSequences = Array.isArray(options.stop) ? options.stop : [options.stop];
 
+  // Translate OpenAI-style tools → Gemini functionDeclarations, and map any
+  // tool_choice="required" to Gemini's function-calling mode.
+  if (options.tools && options.tools.length > 0) {
+    body.tools = [{
+      functionDeclarations: options.tools.map((t: any) => ({
+        name: t.function?.name || t.name,
+        description: t.function?.description || t.description || "",
+        parameters: t.function?.parameters || t.parameters || { type: "OBJECT", properties: {} },
+      })),
+    }];
+  }
+  if (options.tool_choice === "required" || options.tool_choice === "any") {
+    body.toolConfig = { functionCallingConfig: { mode: "ANY" } };
+  }
+
   const resp = await fetch(baseUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -317,20 +354,42 @@ async function callGoogleProvider(
     throw new Error(data.error.message || JSON.stringify(data.error));
   }
 
-  const content = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+  const parts = data.candidates?.[0]?.content?.parts || [];
+  const content = parts.find((p: any) => typeof p.text === "string")?.text || "";
+
+  // Map Gemini functionCall parts back to OpenAI-style tool_calls.
+  const fcParts = parts.filter((p: any) => p.functionCall);
+  let toolCalls: any[] | undefined;
+  if (fcParts.length > 0) {
+    toolCalls = fcParts.map((p: any, i: number) => ({
+      id: `call_${requestIdSuffix()}_${i}`,
+      type: "function",
+      function: {
+        name: p.functionCall.name,
+        arguments: JSON.stringify(p.functionCall.args ?? {}),
+      },
+    }));
+  }
+
   const tokensIn = data.usageMetadata?.promptTokenCount || 0;
   const tokensOut = data.usageMetadata?.candidatesTokenCount || 0;
 
   return {
     content,
+    tool_calls: toolCalls,
     model,
     usage: {
       prompt_tokens: tokensIn,
       completion_tokens: tokensOut,
       total_tokens: tokensIn + tokensOut,
     },
-    finish_reason: data.candidates?.[0]?.finishReason || "stop",
+    finish_reason: toolCalls ? "tool_calls" : (data.candidates?.[0]?.finishReason || "stop"),
   };
+}
+
+/** Short unique-ish suffix for synthesized tool_call ids. */
+function requestIdSuffix(): string {
+  return Math.random().toString(36).substring(2, 10);
 }
 
 /**
@@ -339,7 +398,8 @@ async function callGoogleProvider(
 async function callLocalProvider(
   mapping: ModelMapping,
   messages: ChatMessage[],
-  maxTokens: number
+  maxTokens: number,
+  options: ProviderCallOptions
 ): Promise<ProviderCallResult> {
   const { model, baseUrl, providerId } = mapping;
 
@@ -349,14 +409,17 @@ async function callLocalProvider(
     if (!isValidUrl(ollamaUrl) && !ollamaUrl.startsWith("http://127.0.0.1") && !ollamaUrl.startsWith("http://localhost")) {
       throw new Error('Invalid Ollama URL: ' + ollamaUrl);
     }
+    const ollamaBody: any = { model, messages, stream: false, options: { num_predict: maxTokens } };
+    if (options.tools) ollamaBody.tools = options.tools;
     const resp = await fetch(ollamaUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ model, messages, stream: false, options: { num_predict: maxTokens } }),
+      body: JSON.stringify(ollamaBody),
     });
     const data = await resp.json() as any;
     return {
       content: data.message?.content || "",
+      tool_calls: data.message?.tool_calls || undefined,
       model,
       usage: { prompt_tokens: data.prompt_eval_count || 0, completion_tokens: data.eval_count || 0, total_tokens: (data.prompt_eval_count || 0) + (data.eval_count || 0) },
       finish_reason: "stop",
@@ -364,10 +427,12 @@ async function callLocalProvider(
   }
 
   // vLLM and LM Studio use OpenAI-compatible API
+  const localBody: any = { model, messages, max_tokens: maxTokens };
+  if (options.tools) localBody.tools = options.tools;
   const resp = await fetch(baseUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model, messages, max_tokens: maxTokens }),
+    body: JSON.stringify(localBody),
   });
   const data = await resp.json() as any;
 
@@ -394,7 +459,7 @@ export async function streamProviderResponse(
   res: http.ServerResponse,
   mapping: ModelMapping,
   messages: ChatMessage[],
-  options: { temperature?: number; max_tokens?: number; stop?: string | string[] },
+  options: ProviderCallOptions,
   requestId: string
 ): Promise<void> {
   const { model, baseUrl, apiKey, type, providerId } = mapping;
@@ -661,7 +726,7 @@ export async function streamProviderResponse(
 export async function callWithFallback(
   model: string,
   messages: ChatMessage[],
-  options: { temperature?: number; max_tokens?: number; stream?: boolean; stop?: string | string[] },
+  options: ProviderCallOptions,
   prompt: string
 ): Promise<{ result: ProviderCallResult; mapping: ModelMapping }> {
   const mapping = resolveModel(model, prompt);
@@ -669,10 +734,14 @@ export async function callWithFallback(
     throw new Error(`No provider available for model "${model}". Check your API keys and provider configuration.`);
   }
 
-  // Try primary
+  // Try primary — empty 200s (dead key returning blank content) count as
+  // failures so the caller falls through to a working provider.
+  let lastEmpty: { result: ProviderCallResult; mapping: ModelMapping } | null = null;
   try {
     const result = await callProvider(mapping, messages, options);
-    return { result, mapping };
+    if (isUsableResult(result)) return { result, mapping };
+    lastEmpty = { result, mapping };
+    console.error(`[a3m-proxy] Primary provider ${mapping.providerId}/${mapping.model} returned empty content — falling through`);
   } catch (primaryError: any) {
     console.error(`[a3m-proxy] Primary provider ${mapping.providerId} failed: ${primaryError.message}`);
   }
@@ -696,11 +765,17 @@ export async function callWithFallback(
 
     try {
       const result = await callProvider(fallbackMapping, messages, options);
-      return { result, mapping: fallbackMapping };
+      if (isUsableResult(result)) return { result, mapping: fallbackMapping };
+      lastEmpty = { result, mapping: fallbackMapping };
+      console.error(`[a3m-proxy] Fallback provider ${providerId} returned empty content — trying next`);
     } catch (fallbackError: any) {
       console.error(`[a3m-proxy] Fallback provider ${providerId} failed: ${fallbackError.message}`);
     }
   }
+
+  // Every provider answered but returned empty — return the best (last) empty
+  // result rather than a hard error, so callers degrade gracefully.
+  if (lastEmpty) return lastEmpty;
 
   throw new Error(`All providers failed for model "${model}". Check your API keys.`);
 }

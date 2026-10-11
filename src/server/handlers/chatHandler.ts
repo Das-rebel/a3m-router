@@ -31,6 +31,9 @@ interface ChatRequest {
   presence_penalty?: number;
   stop?: string | string[];
   n?: number;
+  /** OpenAI-style function-calling definitions — forwarded to the provider. */
+  tools?: any[];
+  tool_choice?: any;
 }
 
 // ============================================================
@@ -106,7 +109,7 @@ export async function handleChatCompletions(
     try {
       const { streamProviderResponse } = await import('../proxyServer');
       await streamProviderResponse(res, mapping, request.messages,
-        { temperature: request.temperature, max_tokens: request.max_tokens, stop: request.stop },
+        { temperature: request.temperature, max_tokens: request.max_tokens, stop: request.stop, tools: request.tools, tool_choice: request.tool_choice },
         requestId);
       const latencyMs = Date.now() - startTime;
       recordRequest({ endpoint: '/v1/chat/completions', provider: mapping.providerId, status: 'success', durationMs: latencyMs, model });
@@ -125,7 +128,7 @@ export async function handleChatCompletions(
     const { callWithFallback } = await import('../proxyServer');
     const { result, mapping: usedMapping } = await callWithFallback(
       model, request.messages,
-      { temperature: request.temperature, max_tokens: request.max_tokens, stop: request.stop },
+      { temperature: request.temperature, max_tokens: request.max_tokens, stop: request.stop, tools: request.tools, tool_choice: request.tool_choice },
       promptForRouting
     );
 
@@ -141,7 +144,7 @@ export async function handleChatCompletions(
       object: 'chat.completion',
       created: Math.floor(Date.now() / 1000),
       model: result.model,
-      choices: [{ index: 0, message: { role: 'assistant' as const, content: result.content }, finish_reason: result.finish_reason }],
+      choices: [{ index: 0, message: { role: 'assistant' as const, content: result.content, ...(result.tool_calls ? { tool_calls: result.tool_calls } : {}) }, finish_reason: result.finish_reason }],
       usage: result.usage,
     };
 
