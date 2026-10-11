@@ -861,9 +861,14 @@ export function routeQuery(prompt: string, available_models?: string[], budget_m
   const features = extractQueryFeatures(prompt);
   const candidate_names = available_models || Object.keys(profiles);
 
+  // Roster hygiene: safety/moderation classifiers (e.g. nemotron content-safety)
+  // must never be chat candidates — they answer "User Safety: safe" to prompts.
+  const isNotSafetyModel = (name: string) =>
+    !/content.?safety|moderation|guard|shield|llamaguard|prompt.?guard/i.test(name);
+
   // Filter to available models
   const candidates = candidate_names
-    .filter(name => profiles[name])
+    .filter(name => profiles[name] && isNotSafetyModel(name))
     .map(name => {
       const profile = profiles[name];
       const quality = scoreModelFit(profile, features);
