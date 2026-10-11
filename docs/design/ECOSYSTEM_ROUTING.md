@@ -108,7 +108,7 @@ Ideation → `autoresearch` skill · Hypotheses → this doc §3 · Experiments 
 
 | Phase | Deliverable |
 |---|---|
-| P1 | Merge response-threshold gating + pheromone τ into Jev router behind a feature flag; add EXP3 anti-lockout credit |
+| P1 | **✅ LANDED (v2.17.0)** — `src/routing/ecosystemRouter.ts`: ALC soft breaker replaces the hard 3-error latch behind `ecosystem.enabled` / `A3M_ECOSYSTEM_ROUTING=1`; pheromone τ + EXP3 anti-lockout mixed into `routeQuery` rescore; effort capped at 0.95 so derated providers self-heal; 14 vitest tests incl. borderline-latch parity (hard latches OFF, ALC never excludes) |
 | P2 | ALC-damped circuit breaker (replaces hard threshold) |
 | P3 | `RouterInvariants.lean` in CI with Lean 4 + Mathlib; prove `pheromone_positive` first |
 | P4 | SBML/SED-ML router lab; publish first OMEX stress study |

@@ -189,3 +189,14 @@ export function createA3MRouter(options?: A3MRouterOptions) {
 
 // Default export
 export default createA3MRouter;
+
+// Ecosystem routing (P1 — bio-inspired soft breaker + pheromone memory; flag-gated)
+export {
+  AlcBreaker,
+  PheromoneField,
+  EcosystemRouter,
+  globalEcosystemRouter,
+  DEFAULT_ECOSYSTEM,
+  EFFORT_MAX,
+} from './routing/ecosystemRouter';
+export type { EcosystemConfig, Scored } from './routing/ecosystemRouter';

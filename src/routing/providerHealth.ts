@@ -25,6 +25,7 @@
  */
 
 import { EventEmitter } from 'events';
+import { EcosystemRouter, type EcosystemConfig } from './ecosystemRouter';
 
 // ============================================================
 // Types
@@ -94,6 +95,12 @@ export interface HealthManagerConfig {
     errorRate: number;
     consecutiveErrors: number;
   };
+  /**
+   * Ecosystem routing (P1, docs/design/ECOSYSTEM_ROUTING.md): ALC soft
+   * breaker replaces the hard 3-error latch with continuous derating.
+   * Inert by default — enable here or via env A3M_ECOSYSTEM_ROUTING=1.
+   */
+  ecosystem?: EcosystemConfig;
 }
 
 // ============================================================
@@ -128,6 +135,9 @@ export class ProviderHealthManager extends EventEmitter {
   // Config
   private config: Required<HealthManagerConfig>;
 
+  /** Ecosystem router (ALC soft breaker + pheromone memory). Null = legacy hard breaker. */
+  private eco: EcosystemRouter | null;
+
   constructor(config: HealthManagerConfig = {}) {
     super();
     this.config = {
@@ -140,7 +150,13 @@ export class ProviderHealthManager extends EventEmitter {
         errorRate: config.weights?.errorRate ?? 0.5,
         consecutiveErrors: config.weights?.consecutiveErrors ?? 0.2,
       },
+      ecosystem: config.ecosystem ?? {},
     };
+
+    this.eco =
+      config.ecosystem?.enabled ?? process.env.A3M_ECOSYSTEM_ROUTING === '1'
+        ? new EcosystemRouter({ ...config.ecosystem, enabled: true })
+        : null;
   }
 
   /**
@@ -197,6 +213,10 @@ export class ProviderHealthManager extends EventEmitter {
     health.cooldownUntil = 0;
     health.isHealthy = true;
     
+    // Ecosystem mode: feed ALC decay + pheromone deposit BEFORE recalc so
+    // the score reflects this success immediately.
+    this.eco?.recordSuccess(provider);
+    
     // Recalculate health score
     this.recalculateHealthScore(provider);
     
@@ -231,8 +251,26 @@ export class ProviderHealthManager extends EventEmitter {
     health.lastError = now;
     health.consecutiveErrors++;
     
+    const prevEffort = this.eco?.alc.getEffort(provider) ?? 0;
+    this.eco?.recordFailure(provider);
+    
     // Check circuit breaker
-    if (health.consecutiveErrors >= this.config.circuitBreakerThreshold) {
+    if (this.eco) {
+      // === ALC SOFT PATH (ecosystem mode) ===
+      // No binary latch: continuous derating only. Emit a soft-open event
+      // when derating saturates (effort crosses EFFORT_MAX upward) so
+      // dashboards keep their signal. Provider self-heals: the residual
+      // ~5% probe share feeds successes back and decays the effort.
+      const nowEffort = this.eco.alc.getEffort(provider);
+      if (prevEffort < 0.95 && nowEffort >= 0.95) {
+        this.emit(HealthEvent.CIRCUIT_OPENED, {
+          provider,
+          consecutiveErrors: health.consecutiveErrors,
+          cooldownUntil: 0,
+          reason: `alc-saturated (effort=${nowEffort.toFixed(2)}, loadFactor=${(1 - nowEffort).toFixed(2)})`,
+        });
+      }
+    } else if (health.consecutiveErrors >= this.config.circuitBreakerThreshold) {
       health.cooldownUntil = now + this.config.cooldownMs;
       health.isHealthy = false;
       this.emit(HealthEvent.CIRCUIT_OPENED, {
@@ -287,6 +325,13 @@ export class ProviderHealthManager extends EventEmitter {
     // Check cooldown
     if (health.cooldownUntil > Date.now()) {
       return false;
+    }
+    
+    if (this.eco) {
+      // Ecosystem mode: soft availability — available while any ALC
+      // probe share remains (load factor > 0). Effort is capped below 1,
+      // so derated providers stay available and self-heal.
+      return this.eco.isAvailable(provider);
     }
     
     return health.isHealthy;
@@ -498,6 +543,7 @@ export class ProviderHealthManager extends EventEmitter {
       health.isHealthy = true;
       health.consecutiveErrors = 0;
       health.cooldownUntil = 0;
+      this.eco?.resetProvider(provider);
     }
     
     this.emit(HealthEvent.PROVIDER_ENABLED, { provider });
@@ -512,6 +558,7 @@ export class ProviderHealthManager extends EventEmitter {
       health.consecutiveErrors = 0;
       health.cooldownUntil = 0;
       health.isHealthy = true;
+      this.eco?.resetProvider(provider);
       this.emit(HealthEvent.CIRCUIT_CLOSED, { provider });
     }
   }
@@ -621,6 +668,13 @@ export class ProviderHealthManager extends EventEmitter {
       this.config.weights.consecutiveErrors * consecutiveScore;
     
     health.healthScore = Math.max(0, Math.min(1, score));
+    
+    // Ecosystem mode: bake continuous ALC derating into the score so
+    // fallback chains and any healthScore consumer feel the derating
+    // without binary exclusion.
+    if (this.eco) {
+      health.healthScore = Math.max(0, Math.min(1, score * this.eco.alc.getLoadFactor(provider)));
+    }
   }
 
   private calculateLatencyScore(avgLatency: number): number {

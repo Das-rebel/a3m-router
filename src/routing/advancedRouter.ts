@@ -15,6 +15,7 @@ import { getAvailableProviders } from "../providers/providerConfig";
 import { estimateCost } from "../utils/tokenUtils";
 import { logScaleCostScore } from "../utils/costUtils";
 import { quickselectTopK, selectTop } from "../utils/sorting";
+import { globalEcosystemRouter } from "./ecosystemRouter";
 
 // ============================================================
 // TRAFFIC SHARES FOR ADAPTIVE DIVERSITY WEIGHT (EXP3-inspired)
@@ -949,6 +950,20 @@ export function routeQuery(prompt: string, available_models?: string[], budget_m
   // Re-rank after diversity adjustment
   candidates.sort((a, b) => b.total_score - a.total_score);
   topCandidates = candidates.slice(0, 4);
+
+  // === ECOSYSTEM RESCORE (P1, feature-flagged; docs/design/ECOSYSTEM_ROUTING.md) ===
+  // ALC load-factor derating × bounded pheromone reinforcement, with an
+  // EXP3 uniform-mix floor so no candidate is starved (fixes the Gause
+  // lockout found in examples/ecosystem-router-sim.py). Inert unless the
+  // ecosystem router is enabled (env A3M_ECOSYSTEM_ROUTING=1 or config).
+  if (globalEcosystemRouter.cfg.enabled) {
+    const wrapped = candidates.map((c) => ({ provider: c.name, score: c.total_score, ref: c }));
+    for (const r of globalEcosystemRouter.rescore(wrapped)) {
+      r.ref.total_score = r.score;
+    }
+    candidates.sort((a, b) => b.total_score - a.total_score);
+    topCandidates = candidates.slice(0, 4);
+  }
 
   // Adaptive quality floor: for complex queries, prefer models above the floor
   if (adaptiveQualityFloor > 0) {
