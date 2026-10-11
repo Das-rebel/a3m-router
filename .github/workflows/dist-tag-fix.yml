@@ -1,0 +1,26 @@
+name: npm dist-tag fix
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "package version to point the tag at"
+        required: true
+        default: "2.16.4"
+      tag:
+        description: "npm dist-tag to set"
+        required: true
+        default: "latest"
+
+jobs:
+  fix-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+      - name: dist-tag add
+        run: npm dist-tag add adaptive-memory-multi-model-router@${{ inputs.version }} ${{ inputs.tag }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
