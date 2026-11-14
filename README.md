@@ -17,6 +17,19 @@ response = client.chat.completions.create(model="auto", messages=[...])
 [![npm version](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/npm/package/adaptive-memory-multi-model-router)
 [![npm downloads](https://img.shields.io/npm/dm/adaptive-memory-multi-model-router)](https://www.npmjs.com/npm/package/adaptive-memory-multi-model-router)
 
+## ⚡ Why A3M Router?
+
+| Feature | A3M Router | LiteLLM | Portkey | OpenRouter |
+|---------|------------|---------|---------|------------|
+| Self-hosted | ✅ | ✅ | ❌ | ❌ |
+| Cost-aware routing | ✅ | ⚠️ | ✅ | ✅ |
+| Latency SLO routing | ✅ | ❌ | ⚠️ | ❌ |
+| Circuit breaker per model | ✅ | ❌ | ✅ | ❌ |
+| Token optimization (cache/compress) | ✅ | ❌ | ❌ | ❌ |
+| Personal agent router (learns) | ✅ | ❌ | ❌ | ❌ |
+| OpenAI-compatible proxy | ✅ | ✅ | ✅ | ✅ |
+| Free tier (no signup) | ✅ | ❌ | ❌ | ✅ |
+
 ## 📊 A3M Router Impact
 
 | Metric | Lifetime | Last 30 days | Last week | Run rate (months) |
