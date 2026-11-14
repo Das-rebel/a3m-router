@@ -1,5 +1,7 @@
 # A3M Router — LLM Routing That Cuts Your AI Bill by 90%
 
+![Biosemiotic Routing](assets/biosemiotic.svg)
+
 > **GPT-4o costs $0.03/run. A3M routes the same request to Groq/Mistral for $0.0001.** Same API. 99.7% cheaper. Self-hosted.
 
 [![npm version](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
