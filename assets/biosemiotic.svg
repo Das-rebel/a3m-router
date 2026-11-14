@@ -79,5 +79,3 @@
 
   <text x="480" y="410" text-anchor="middle" fill="#475569" font-size="10" font-family="Inter,system-ui,sans-serif">Bio → Engineering transfer: three billion years of routing optimization, applied to LLMs</text>
 </svg>
-EOF
-echo "written"
