@@ -1,136 +1,83 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="280" viewBox="0 0 960 280">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#050816"/>
-      <stop offset="50%" stop-color="#0a1024"/>
-      <stop offset="100%" stop-color="#050816"/>
+      <stop offset="100%" stop-color="#0a1024"/>
     </linearGradient>
-    <radialGradient id="glow-c" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
-    </radialGradient>
-    <radialGradient id="glow-p" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="blur"><feGaussianBlur stdDeviation="8"/></filter>
-    <filter id="soft"><feGaussianBlur stdDeviation="3"/></filter>
-    <linearGradient id="trail-g" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.1"/>
-      <stop offset="50%" stop-color="#22d3ee" stop-opacity="0.95"/>
-      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0.1"/>
+    <linearGradient id="arrow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#a78bfa"/>
     </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="4"/></filter>
   </defs>
-
-  <rect width="960" height="280" fill="url(#bg)"/>
-
-  <!-- ambient glow blobs -->
-  <circle cx="480" cy="140" r="120" fill="url(#glow-c)" filter="url(#blur)" opacity="0.5"/>
-  <circle cx="180" cy="140" r="80" fill="url(#glow-p)" filter="url(#blur)" opacity="0.4"/>
-  <circle cx="780" cy="140" r="80" fill="url(#glow-p)" filter="url(#blur)" opacity="0.4"/>
+  <rect width="960" height="420" fill="url(#bg)"/>
 
   <!-- title -->
-  <text x="480" y="34" text-anchor="middle" fill="#f8fafc" font-size="28" font-family="Inter,system-ui,sans-serif" font-weight="900" letter-spacing="2">A3M Router</text>
-  <text x="480" y="56" text-anchor="middle" fill="#64748b" font-size="12" font-family="Inter,system-ui,sans-serif" font-weight="400" letter-spacing="3">PHEROMONE ROUTING · STIGMERGY · ANT-COLONY OPTIMIZATION</text>
+  <text x="480" y="36" text-anchor="middle" fill="#f8fafc" font-size="24" font-family="Inter,system-ui,sans-serif" font-weight="900" letter-spacing="2">Biosemiotic Routing in A3M</text>
+  <text x="480" y="58" text-anchor="middle" fill="#64748b" font-size="12" font-family="Inter,system-ui,sans-serif">How biological signaling principles become LLM routing decisions</text>
 
-  <!-- center router -->
-  <g transform="translate(480,150)">
-    <circle r="46" fill="#0f172a" stroke="#22d3ee" stroke-width="2.5"/>
-    <circle r="46" fill="none" stroke="#22d3ee" stroke-width="2" opacity="0.5" filter="url(#soft)">
-      <animate attributeName="r" values="46;62;46" dur="2.4s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.5;0;0.5" dur="2.4s" repeatCount="indefinite"/>
-    </circle>
-    <circle r="46" fill="none" stroke="#a78bfa" stroke-width="1.5" opacity="0.3" filter="url(#soft)">
-      <animate attributeName="r" values="46;58;46" dur="3s" repeatCount="indefinite" begin="0.5s"/>
-      <animate attributeName="opacity" values="0.3;0;0.3" dur="3s" repeatCount="indefinite" begin="0.5s"/>
-    </circle>
-    <text y="2" text-anchor="middle" fill="#22d3ee" font-size="14" font-weight="800">ROUTER</text>
-    <text y="18" text-anchor="middle" fill="#64748b" font-size="9" font-weight="400">pheromone map</text>
-  </g>
-
-  <!-- pheromone trails (thicker = stronger trail) -->
-  <g fill="none" stroke-linecap="round">
-    <!-- Groq: strongest -->
-    <path d="M 434 150 Q 300 110 170 140" stroke="#22d3ee" stroke-width="7" opacity="0.85" filter="url(#soft)">
-      <animate attributeName="stroke-width" values="7;10;7" dur="1.6s" repeatCount="indefinite"/>
-      <animate attributeName="opacity" values="0.85;1;0.85" dur="1.6s" repeatCount="indefinite"/>
-    </path>
-    <!-- Mistral -->
-    <path d="M 440 165 Q 320 200 210 175" stroke="#3b82f6" stroke-width="4.5" opacity="0.7">
-      <animate attributeName="stroke-width" values="4.5;6.5;4.5" dur="2.0s" repeatCount="indefinite"/>
-    </path>
-    <!-- DeepSeek -->
-    <path d="M 480 196 Q 480 215 480 225" stroke="#a855f7" stroke-width="5.5" opacity="0.75">
-      <animate attributeName="stroke-width" values="5.5;7.5;5.5" dur="1.8s" repeatCount="indefinite"/>
-    </path>
-    <!-- GPT-4o: weak -->
-    <path d="M 520 165 Q 640 200 750 175" stroke="#f59e0b" stroke-width="2" opacity="0.45">
-      <animate attributeName="stroke-width" values="2;3;2" dur="2.4s" repeatCount="indefinite"/>
-    </path>
-    <!-- Claude: weakest -->
-    <path d="M 526 150 Q 660 110 790 140" stroke="#ef4444" stroke-width="1.5" opacity="0.35">
-      <animate attributeName="stroke-width" values="1.5;2.5;1.5" dur="2.8s" repeatCount="indefinite"/>
-    </path>
-  </g>
-
-  <!-- pheromone particles flowing along trails -->
-  <g>
-    <circle r="3" fill="#22d3ee" opacity="0.9">
-      <animateMotion dur="1.6s" repeatCount="indefinite" path="M 434 150 Q 300 110 170 140"/>
-      <animate attributeName="opacity" values="0;1;0" dur="1.6s" repeatCount="indefinite"/>
-    </circle>
-    <circle r="2.5" fill="#3b82f6" opacity="0.8">
-      <animateMotion dur="2.0s" repeatCount="indefinite" path="M 440 165 Q 320 200 210 175" begin="0.3s"/>
-      <animate attributeName="opacity" values="0;1;0" dur="2.0s" repeatCount="indefinite" begin="0.3s"/>
-    </circle>
-    <circle r="2.5" fill="#a855f7" opacity="0.8">
-      <animateMotion dur="1.8s" repeatCount="indefinite" path="M 480 196 Q 480 215 480 225" begin="0.6s"/>
-      <animate attributeName="opacity" values="0;1;0" dur="1.8s" repeatCount="indefinite" begin="0.6s"/>
-    </circle>
-  </g>
-
-  <!-- provider nodes -->
+  <!-- 3 pillars -->
   <g font-family="Inter,system-ui,sans-serif">
-    <g transform="translate(140,140)">
-      <circle r="26" fill="#0f172a" stroke="#22c55e" stroke-width="2.5"/>
-      <text y="5" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="800">Groq</text>
-      <text y="42" text-anchor="middle" fill="#22c55e" font-size="9" font-weight="600">trail: STRONG</text>
-      <text y="54" text-anchor="middle" fill="#64748b" font-size="9">free · fast</text>
+    <!-- Pillar 1: Immune system -->
+    <g transform="translate(60,90)">
+      <rect x="0" y="0" width="270" height="150" rx="12" fill="#0f172a" stroke="#22c55e" stroke-width="2"/>
+      <text x="135" y="26" text-anchor="middle" fill="#22c55e" font-size="14" font-weight="800">1. Immune Routing</text>
+      <text x="135" y="46" text-anchor="middle" fill="#94a3b8" font-size="10">(Threat-level → resource allocation)</text>
+      <text x="15" y="72" fill="#e2e8f0" font-size="11">• Simple query → cheap model</text>
+      <text x="15" y="90" fill="#e2e8f0" font-size="11">• Complex reasoning → premium</text>
+      <text x="15" y="108" fill="#e2e8f0" font-size="11">• Dead provider → skip (circuit break)</text>
+      <text x="15" y="126" fill="#e2e8f0" font-size="11">• Cost scales with difficulty</text>
+      <text x="15" y="144" fill="#64748b" font-size="9" font-style="italic">Bio: immune system routes by threat level</text>
     </g>
-    <g transform="translate(200,180)">
-      <circle r="22" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
-      <text y="5" text-anchor="middle" fill="#3b82f6" font-size="11" font-weight="700">Mistral</text>
-      <text y="38" text-anchor="middle" fill="#3b82f6" font-size="9" font-weight="600">trail: med</text>
-      <text y="50" text-anchor="middle" fill="#64748b" font-size="9">budget</text>
+
+    <!-- Pillar 2: Pheromone / stigmergy -->
+    <g transform="translate(345,90)">
+      <rect x="0" y="0" width="270" height="150" rx="12" fill="#0f172a" stroke="#a855f7" stroke-width="2"/>
+      <text x="135" y="26" text-anchor="middle" fill="#a855f7" font-size="14" font-weight="800">2. Pheromone Trails</text>
+      <text x="135" y="46" text-anchor="middle" fill="#94a3b8" font-size="10">(Stigmergy: indirect coordination)</text>
+      <text x="15" y="72" fill="#e2e8f0" font-size="11">• Success → trail strengthens</text>
+      <text x="15" y="90" fill="#e2e8f0" font-size="11">• Failure → trail evaporates</text>
+      <text x="15" y="108" fill="#e2e8f0" font-size="11">• Recency decay (old trails fade)</text>
+      <text x="15" y="126" fill="#e2e8f0" font-size="11">• Ant-colony optimization</text>
+      <text x="15" y="144" fill="#64748b" font-size="9" font-style="italic">Bio: ants follow strongest pheromone</text>
     </g>
-    <g transform="translate(480,230)">
-      <circle r="24" fill="#0f172a" stroke="#a855f7" stroke-width="2"/>
-      <text y="5" text-anchor="middle" fill="#a855f7" font-size="11" font-weight="700">DeepSeek</text>
-      <text y="40" text-anchor="middle" fill="#a855f7" font-size="9" font-weight="600">trail: med+</text>
-      <text y="52" text-anchor="middle" fill="#64748b" font-size="9">code</text>
-    </g>
-    <g transform="translate(760,180)">
-      <circle r="20" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
-      <text y="5" text-anchor="middle" fill="#f59e0b" font-size="11" font-weight="700">GPT-4o</text>
-      <text y="36" text-anchor="middle" fill="#f59e0b" font-size="9" font-weight="600">trail: weak</text>
-      <text y="48" text-anchor="middle" fill="#64748b" font-size="9">premium</text>
-    </g>
-    <g transform="translate(820,140)">
-      <circle r="18" fill="#0f172a" stroke="#ef4444" stroke-width="2"/>
-      <text y="5" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="700">Claude</text>
-      <text y="34" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="600">trail: weak</text>
-      <text y="46" text-anchor="middle" fill="#64748b" font-size="9">premium</text>
+
+    <!-- Pillar 3: Handicap principle -->
+    <g transform="translate(630,90)">
+      <rect x="0" y="0" width="270" height="150" rx="12" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+      <text x="135" y="26" text-anchor="middle" fill="#f59e0b" font-size="14" font-weight="800">3. Handicap Principle</text>
+      <text x="135" y="46" text-anchor="middle" fill="#94a3b8" font-size="10">(Zahavi: honest signals cost)</text>
+      <text x="15" y="72" fill="#e2e8f0" font-size="11">• Quality claims need costly proof</text>
+      <text x="15" y="90" fill="#e2e8f0" font-size="11">• RouterArena benchmark = cost</text>
+      <text x="15" y="108" fill="#e2e8f0" font-size="11">• Verified metrics, not marketing</text>
+      <text x="15" y="126" fill="#e2e8f0" font-size="11">• Honest provider scoring</text>
+      <text x="15" y="144" fill="#64748b" font-size="9" font-style="italic">Bio: peacock tail = honest fitness signal</text>
     </g>
   </g>
 
-  <!-- input arrow -->
-  <g transform="translate(60,140)" font-family="Inter,system-ui,sans-serif">
-    <text x="0" y="-8" fill="#94a3b8" font-size="10" font-weight="600">PROMPT</text>
-    <path d="M 0 0 L 30 0" stroke="#22d3ee" stroke-width="2" marker-end="url(#arrow)"/>
-    <polygon points="30,-4 38,0 30,4" fill="#22d3ee"/>
+  <!-- flow arrows down -->
+  <g stroke="url(#arrow)" stroke-width="2" fill="none">
+    <path d="M 195 240 L 195 270" marker-end="url(#arr)"/>
+    <path d="M 480 240 L 480 270"/>
+    <path d="M 765 240 L 765 270"/>
+  </g>
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+      <polygon points="0 0, 8 4, 0 8" fill="#a78bfa"/>
+    </marker>
+  </defs>
+
+  <!-- result box -->
+  <g transform="translate(120,275)">
+    <rect x="0" y="0" width="720" height="110" rx="12" fill="#0f172a" stroke="#22d3ee" stroke-width="2"/>
+    <text x="360" y="24" text-anchor="middle" fill="#22d3ee" font-size="14" font-weight="800">Result: A3M Routing Decision</text>
+    <text x="20" y="50" fill="#e2e8f0" font-size="11">1. Analyze prompt complexity (immune: threat level)</text>
+    <text x="20" y="68" fill="#e2e8f0" font-size="11">2. Check pheromone trails (stigmergy: which provider succeeded recently?)</text>
+    <text x="20" y="86" fill="#e2e8f0" font-size="11">3. Verify honest signals (handicap: cost-weighted quality, not marketing)</text>
+    <text x="20" y="104" fill="#e2e8f0" font-size="11">4. Route to cheapest capable provider · reinforce trail on success · evaporate on failure</text>
   </g>
 
-  <text x="480" y="270" text-anchor="middle" fill="#475569" font-size="10" font-family="Inter,system-ui,sans-serif">Pheromone strength = success rate × recency decay · Evaporates on failure · Reinforced on success · Decays over time</text>
+  <text x="480" y="410" text-anchor="middle" fill="#475569" font-size="10" font-family="Inter,system-ui,sans-serif">Bio → Engineering transfer: three billion years of routing optimization, applied to LLMs</text>
 </svg>
 EOF
 echo "written"
