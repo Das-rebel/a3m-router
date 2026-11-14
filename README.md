@@ -1,6 +1,13 @@
-# LLM Routing That Cuts Your AI Bill by 90%
+# A3M Router — LLM Routing That Cuts Your AI Bill by 90%
 
-**GPT-4o costs $0.03/run. A3M routes the same request to Groq/Mistral for $0.0001.**
+> **GPT-4o costs $0.03/run. A3M routes the same request to Groq/Mistral for $0.0001.** Same API. 99.7% cheaper. Self-hosted.
+
+[![npm version](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
+[![npm downloads](https://img.shields.io/npm/dm/adaptive-memory-multi-model-router)](https://www.npmjs.com/package/adaptive-memory-multi-model-router)
+[![PyPI](https://img.shields.io/pypi/v/a3m-router)](https://pypi.org/project/a3m-router/)
+[![License MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/Das-rebel/a3m-router)](https://github.com/Das-rebel/a3m-router/stargazers)
+[![CI](https://github.com/Das-rebel/a3m-router/actions/workflows/ci.yml/badge.svg)](https://github.com/Das-rebel/a3m-router/actions)
 
 ```python
 # Before: Expensive and slow
@@ -13,9 +20,6 @@ client = OpenAI(base_url="http://localhost:8787/v1", api_key="not-needed")
 response = client.chat.completions.create(model="auto", messages=[...])
 # Routes to cheapest capable provider. $0.0001 per request.
 ```
-
-[![npm version](https://img.shields.io/npm/v/adaptive-memory-multi-model-router)](https://www.npmjs.com/npm/package/adaptive-memory-multi-model-router)
-[![npm downloads](https://img.shields.io/npm/dm/adaptive-memory-multi-model-router)](https://www.npmjs.com/npm/package/adaptive-memory-multi-model-router)
 
 ## ⚡ Why A3M Router?
 
