@@ -1,93 +1,87 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="220" viewBox="0 0 900 220">
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="240" viewBox="0 0 900 240">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#0b1220"/>
-      <stop offset="50%" stop-color="#111827"/>
-      <stop offset="100%" stop-color="#0b1220"/>
+      <stop offset="100%" stop-color="#111827"/>
     </linearGradient>
-    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#22d3ee"/>
-      <stop offset="100%" stop-color="#a78bfa"/>
+    <linearGradient id="trail" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#22d3ee" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
     </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.35"/>
-      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
-    </radialGradient>
-    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="6"/>
-    </filter>
+    <filter id="glow"><feGaussianBlur stdDeviation="4"/></filter>
   </defs>
+  <rect width="900" height="240" fill="url(#bg)"/>
 
-  <!-- background -->
-  <rect width="900" height="220" fill="url(#bg)"/>
-  <rect width="900" height="220" fill="url(#glow)" opacity="0.6"/>
+  <!-- pheromone trail legend -->
+  <text x="450" y="30" text-anchor="middle" fill="#22d3ee" font-size="22" font-family="Inter,system-ui,sans-serif" font-weight="800">A3M Pheromone Routing</text>
+  <text x="450" y="52" text-anchor="middle" fill="#94a3b8" font-size="12" font-family="Inter,system-ui,sans-serif">Stigmergy: trails strengthen where requests succeed (ant-colony optimization)</text>
 
-  <!-- title -->
-  <text x="450" y="38" text-anchor="middle" fill="url(#accent)" font-size="26" font-family="Inter,system-ui,sans-serif" font-weight="800" letter-spacing="1">A3M Router</text>
-  <text x="450" y="62" text-anchor="middle" fill="#94a3b8" font-size="13" font-family="Inter,system-ui,sans-serif" font-weight="400">Biosemiotic routing — like the immune system, route resources by threat level</text>
+  <!-- center router node -->
+  <g transform="translate(450,120)">
+    <circle r="40" fill="#0f172a" stroke="#22d3ee" stroke-width="3"/>
+    <circle r="40" fill="none" stroke="#22d3ee" stroke-width="3" opacity="0.3" filter="url(#glow)">
+      <animate attributeName="r" values="40;52;40" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0;0.3" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <text y="4" text-anchor="middle" fill="#22d3ee" font-size="13" font-weight="700">Router</text>
+    <text y="18" text-anchor="middle" fill="#64748b" font-size="9">pheromone map</text>
+  </g>
 
-  <!-- flow spine -->
-  <line x1="80" y1="135" x2="820" y2="135" stroke="#1e293b" stroke-width="2"/>
-  <line x1="80" y1="135" x2="820" y2="135" stroke="url(#accent)" stroke-width="2" stroke-dasharray="10 6" opacity="0.7">
-    <animate attributeName="stroke-dashoffset" from="0" to="-32" dur="1.2s" repeatCount="indefinite"/>
-  </line>
+  <!-- pheromone trails to providers (animated thickness = trail strength) -->
+  <g stroke="url(#trail)" stroke-linecap="round" fill="none">
+    <!-- to Groq (strongest) -->
+    <path d="M 410 120 Q 260 90 140 120" stroke-width="6" opacity="0.9">
+      <animate attributeName="stroke-width" values="6;9;6" dur="1.6s" repeatCount="indefinite"/>
+    </path>
+    <!-- to Mistral -->
+    <path d="M 420 135 Q 300 170 200 150" stroke-width="4" opacity="0.7">
+      <animate attributeName="stroke-width" values="4;6;4" dur="2.0s" repeatCount="indefinite"/>
+    </path>
+    <!-- to DeepSeek -->
+    <path d="M 450 160 Q 450 185 450 195" stroke-width="5" opacity="0.8">
+      <animate attributeName="stroke-width" values="5;7;5" dur="1.8s" repeatCount="indefinite"/>
+    </path>
+    <!-- to GPT-4o (weak) -->
+    <path d="M 480 135 Q 600 170 700 150" stroke-width="2" opacity="0.4">
+      <animate attributeName="stroke-width" values="2;3;2" dur="2.4s" repeatCount="indefinite"/>
+    </path>
+    <!-- to Claude (weak) -->
+    <path d="M 490 120 Q 640 90 760 120" stroke-width="1.5" opacity="0.3">
+      <animate attributeName="stroke-width" values="1.5;2.5;1.5" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+  </g>
 
-  <!-- nodes -->
-  <g font-family="Inter,system-ui,sans-serif">
-    <!-- Groq -->
-    <g transform="translate(120,135)">
-      <circle r="34" fill="#0f172a" stroke="#22c55e" stroke-width="2.5"/>
-      <circle r="34" fill="none" stroke="#22c55e" stroke-width="2.5" opacity="0.4" filter="url(#soft)">
-        <animate attributeName="r" values="34;42;34" dur="2.2s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0.4;0;0.4" dur="2.2s" repeatCount="indefinite"/>
-      </circle>
-      <text y="5" text-anchor="middle" fill="#22c55e" font-size="12" font-weight="700">Groq</text>
-      <text y="52" text-anchor="middle" fill="#64748b" font-size="10">free · fast</text>
+  <!-- provider nodes -->
+  <g font-family="Inter,system-ui,sans-serif" font-size="11" font-weight="700">
+    <g transform="translate(120,120)">
+      <circle r="24" fill="#0f172a" stroke="#22c55e" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="#22c55e">Groq</text>
+      <text y="40" text-anchor="middle" fill="#64748b" font-size="9" font-weight="400">trail: strong</text>
     </g>
-    <!-- Mistral -->
-    <g transform="translate(270,135)">
-      <circle r="30" fill="#0f172a" stroke="#3b82f6" stroke-width="2.5"/>
-      <circle r="30" fill="none" stroke="#3b82f6" stroke-width="2.5" opacity="0.4" filter="url(#soft)">
-        <animate attributeName="r" values="30;38;30" dur="2.5s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0.4;0;0.4" dur="2.5s" repeatCount="indefinite"/>
-      </circle>
-      <text y="5" text-anchor="middle" fill="#3b82f6" font-size="12" font-weight="700">Mistral</text>
-      <text y="52" text-anchor="middle" fill="#64748b" font-size="10">budget</text>
+    <g transform="translate(200,155)">
+      <circle r="20" fill="#0f172a" stroke="#3b82f6" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="#3b82f6">Mistral</text>
+      <text y="36" text-anchor="middle" fill="#64748b" font-size="9" font-weight="400">trail: med</text>
     </g>
-    <!-- DeepSeek -->
-    <g transform="translate(420,135)">
-      <circle r="36" fill="#0f172a" stroke="#a855f7" stroke-width="2.5"/>
-      <circle r="36" fill="none" stroke="#a855f7" stroke-width="2.5" opacity="0.4" filter="url(#soft)">
-        <animate attributeName="r" values="36;44;36" dur="2.0s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0.4;0;0.4" dur="2.0s" repeatCount="indefinite"/>
-      </circle>
-      <text y="5" text-anchor="middle" fill="#a855f7" font-size="12" font-weight="700">DeepSeek</text>
-      <text y="52" text-anchor="middle" fill="#64748b" font-size="10">code · reasoning</text>
+    <g transform="translate(450,200)">
+      <circle r="22" fill="#0f172a" stroke="#a855f7" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="#a855f7">DeepSeek</text>
+      <text y="38" text-anchor="middle" fill="#64748b" font-size="9" font-weight="400">trail: med+</text>
     </g>
-    <!-- GPT-4o -->
-    <g transform="translate(570,135)">
-      <circle r="28" fill="#0f172a" stroke="#f59e0b" stroke-width="2.5"/>
-      <circle r="28" fill="none" stroke="#f59e0b" stroke-width="2.5" opacity="0.4" filter="url(#soft)">
-        <animate attributeName="r" values="28;36;28" dur="2.4s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0.4;0;0.4" dur="2.4s" repeatCount="indefinite"/>
-      </circle>
-      <text y="5" text-anchor="middle" fill="#f59e0b" font-size="12" font-weight="700">GPT-4o</text>
-      <text y="52" text-anchor="middle" fill="#64748b" font-size="10">premium</text>
+    <g transform="translate(700,155)">
+      <circle r="18" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="#f59e0b">GPT-4o</text>
+      <text y="34" text-anchor="middle" fill="#64748b" font-size="9" font-weight="400">trail: weak</text>
     </g>
-    <!-- Claude -->
-    <g transform="translate(720,135)">
-      <circle r="26" fill="#0f172a" stroke="#ef4444" stroke-width="2.5"/>
-      <circle r="26" fill="none" stroke="#ef4444" stroke-width="2.5" opacity="0.4" filter="url(#soft)">
-        <animate attributeName="r" values="26;34;26" dur="2.7s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0.4;0;0.4" dur="2.7s" repeatCount="indefinite"/>
-      </circle>
-      <text y="5" text-anchor="middle" fill="#ef4444" font-size="12" font-weight="700">Claude</text>
-      <text y="52" text-anchor="middle" fill="#64748b" font-size="10">premium</text>
+    <g transform="translate(780,120)">
+      <circle r="16" fill="#0f172a" stroke="#ef4444" stroke-width="2"/>
+      <text y="4" text-anchor="middle" fill="#ef4444">Claude</text>
+      <text y="32" text-anchor="middle" fill="#64748b" font-size="9" font-weight="400">trail: weak</text>
     </g>
   </g>
 
-  <!-- footer -->
-  <text x="450" y="205" text-anchor="middle" fill="#475569" font-size="10" font-family="Inter,system-ui,sans-serif">Simple query → cheapest capable provider  ·  Complex reasoning → premium model  ·  Dead provider → circuit breaker skips</text>
+  <text x="450" y="228" text-anchor="middle" fill="#475569" font-size="10" font-family="Inter,system-ui,sans-serif">Pheromone strength = historical success rate × recency decay · Evaporates on failure · Reinforced on success</text>
 </svg>
 EOF
 echo "written"
