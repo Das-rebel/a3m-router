@@ -1,81 +1,73 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420">
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="320" viewBox="0 0 960 320">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#050816"/>
-      <stop offset="100%" stop-color="#0a1024"/>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0e1a"/>
+      <stop offset="100%" stop-color="#111827"/>
     </linearGradient>
-    <linearGradient id="arrow" x1="0" y1="0" x2="1" y2="0">
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0%" stop-color="#22d3ee"/>
       <stop offset="100%" stop-color="#a78bfa"/>
     </linearGradient>
-    <filter id="glow"><feGaussianBlur stdDeviation="4"/></filter>
+    <filter id="glow"><feGaussianBlur stdDeviation="5"/></filter>
   </defs>
-  <rect width="960" height="420" fill="url(#bg)"/>
+
+  <!-- background -->
+  <rect width="960" height="320" fill="url(#bg)"/>
+  <rect x="0" y="0" width="960" height="2" fill="url(#accent)"/>
 
   <!-- title -->
-  <text x="480" y="36" text-anchor="middle" fill="#f8fafc" font-size="24" font-family="Inter,system-ui,sans-serif" font-weight="900" letter-spacing="2">Biosemiotic Routing in A3M</text>
-  <text x="480" y="58" text-anchor="middle" fill="#64748b" font-size="12" font-family="Inter,system-ui,sans-serif">How biological signaling principles become LLM routing decisions</text>
+  <text x="480" y="36" text-anchor="middle" fill="#f8fafc" font-size="26" font-family="Inter,system-ui,sans-serif" font-weight="900" letter-spacing="3">BIOSEMIOTIC ROUTING</text>
+  <text x="480" y="58" text-anchor="middle" fill="#64748b" font-size="12" font-family="Inter,system-ui,sans-serif" letter-spacing="2">THREE BIOLOGICAL PRINCIPLES → LLM ROUTING DECISIONS</text>
 
-  <!-- 3 pillars -->
+  <!-- three columns -->
   <g font-family="Inter,system-ui,sans-serif">
-    <!-- Pillar 1: Immune system -->
-    <g transform="translate(60,90)">
-      <rect x="0" y="0" width="270" height="150" rx="12" fill="#0f172a" stroke="#22c55e" stroke-width="2"/>
-      <text x="135" y="26" text-anchor="middle" fill="#22c55e" font-size="14" font-weight="800">1. Immune Routing</text>
-      <text x="135" y="46" text-anchor="middle" fill="#94a3b8" font-size="10">(Threat-level → resource allocation)</text>
-      <text x="15" y="72" fill="#e2e8f0" font-size="11">• Simple query → cheap model</text>
-      <text x="15" y="90" fill="#e2e8f0" font-size="11">• Complex reasoning → premium</text>
-      <text x="15" y="108" fill="#e2e8f0" font-size="11">• Dead provider → skip (circuit break)</text>
-      <text x="15" y="126" fill="#e2e8f0" font-size="11">• Cost scales with difficulty</text>
-      <text x="15" y="144" fill="#64748b" font-size="9" font-style="italic">Bio: immune system routes by threat level</text>
+    <!-- Column 1: Immune -->
+    <g transform="translate(40,80)">
+      <rect x="0" y="0" width="280" height="170" rx="14" fill="#0f172a" stroke="#22c55e" stroke-width="1.5" stroke-opacity="0.6"/>
+      <rect x="0" y="0" width="280" height="36" rx="14" fill="#22c55e" fill-opacity="0.12"/>
+      <text x="140" y="24" text-anchor="middle" fill="#22c55e" font-size="13" font-weight="800" letter-spacing="1">IMMUNE ROUTING</text>
+      <text x="140" y="52" text-anchor="middle" fill="#94a3b8" font-size="10">Threat level → resource allocation</text>
+      <line x1="20" y1="62" x2="260" y2="62" stroke="#1e293b" stroke-width="1"/>
+      <text x="20" y="82" fill="#e2e8f0" font-size="11">Simple query → cheapest model</text>
+      <text x="20" y="100" fill="#e2e8f0" font-size="11">Complex reasoning → premium</text>
+      <text x="20" y="118" fill="#e2e8f0" font-size="11">Dead provider → circuit break</text>
+      <text x="20" y="136" fill="#e2e8f0" font-size="11">Cost scales with difficulty</text>
+      <text x="20" y="158" fill="#22c55e" font-size="9" font-style="italic" opacity="0.7">Bio: immune system routes by threat level</text>
     </g>
 
-    <!-- Pillar 2: Pheromone / stigmergy -->
-    <g transform="translate(345,90)">
-      <rect x="0" y="0" width="270" height="150" rx="12" fill="#0f172a" stroke="#a855f7" stroke-width="2"/>
-      <text x="135" y="26" text-anchor="middle" fill="#a855f7" font-size="14" font-weight="800">2. Pheromone Trails</text>
-      <text x="135" y="46" text-anchor="middle" fill="#94a3b8" font-size="10">(Stigmergy: indirect coordination)</text>
-      <text x="15" y="72" fill="#e2e8f0" font-size="11">• Success → trail strengthens</text>
-      <text x="15" y="90" fill="#e2e8f0" font-size="11">• Failure → trail evaporates</text>
-      <text x="15" y="108" fill="#e2e8f0" font-size="11">• Recency decay (old trails fade)</text>
-      <text x="15" y="126" fill="#e2e8f0" font-size="11">• Ant-colony optimization</text>
-      <text x="15" y="144" fill="#64748b" font-size="9" font-style="italic">Bio: ants follow strongest pheromone</text>
+    <!-- Column 2: Pheromone -->
+    <g transform="translate(340,80)">
+      <rect x="0" y="0" width="280" height="170" rx="14" fill="#0f172a" stroke="#a855f7" stroke-width="1.5" stroke-opacity="0.6"/>
+      <rect x="0" y="0" width="280" height="36" rx="14" fill="#a855f7" fill-opacity="0.12"/>
+      <text x="140" y="24" text-anchor="middle" fill="#a855f7" font-size="13" font-weight="800" letter-spacing="1">PHEROMONE TRAILS</text>
+      <text x="140" y="52" text-anchor="middle" fill="#94a3b8" font-size="10">Stigmergy: indirect coordination</text>
+      <line x1="20" y1="62" x2="260" y2="62" stroke="#1e293b" stroke-width="1"/>
+      <text x="20" y="82" fill="#e2e8f0" font-size="11">Success → trail strengthens</text>
+      <text x="20" y="100" fill="#e2e8f0" font-size="11">Failure → trail evaporates</text>
+      <text x="20" y="118" fill="#e2e8f0" font-size="11">Recency decay (old trails fade)</text>
+      <text x="20" y="136" fill="#e2e8f0" font-size="11">Ant-colony optimization</text>
+      <text x="20" y="158" fill="#a855f7" font-size="9" font-style="italic" opacity="0.7">Bio: ants follow strongest pheromone</text>
     </g>
 
-    <!-- Pillar 3: Handicap principle -->
-    <g transform="translate(630,90)">
-      <rect x="0" y="0" width="270" height="150" rx="12" fill="#0f172a" stroke="#f59e0b" stroke-width="2"/>
-      <text x="135" y="26" text-anchor="middle" fill="#f59e0b" font-size="14" font-weight="800">3. Handicap Principle</text>
-      <text x="135" y="46" text-anchor="middle" fill="#94a3b8" font-size="10">(Zahavi: honest signals cost)</text>
-      <text x="15" y="72" fill="#e2e8f0" font-size="11">• Quality claims need costly proof</text>
-      <text x="15" y="90" fill="#e2e8f0" font-size="11">• RouterArena benchmark = cost</text>
-      <text x="15" y="108" fill="#e2e8f0" font-size="11">• Verified metrics, not marketing</text>
-      <text x="15" y="126" fill="#e2e8f0" font-size="11">• Honest provider scoring</text>
-      <text x="15" y="144" fill="#64748b" font-size="9" font-style="italic">Bio: peacock tail = honest fitness signal</text>
+    <!-- Column 3: Handicap -->
+    <g transform="translate(640,80)">
+      <rect x="0" y="0" width="280" height="170" rx="14" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5" stroke-opacity="0.6"/>
+      <rect x="0" y="0" width="280" height="36" rx="14" fill="#f59e0b" fill-opacity="0.12"/>
+      <text x="140" y="24" text-anchor="middle" fill="#f59e0b" font-size="13" font-weight="800" letter-spacing="1">HANDICAP PRINCIPLE</text>
+      <text x="140" y="52" text-anchor="middle" fill="#94a3b8" font-size="10">Zahavi: honest signals cost</text>
+      <line x1="20" y1="62" x2="260" y2="62" stroke="#1e293b" stroke-width="1"/>
+      <text x="20" y="82" fill="#e2e8f0" font-size="11">Quality claims need costly proof</text>
+      <text x="20" y="100" fill="#e2e8f0" font-size="11">RouterArena benchmark = cost</text>
+      <text x="20" y="118" fill="#e2e8f0" font-size="11">Verified metrics, not marketing</text>
+      <text x="20" y="136" fill="#e2e8f0" font-size="11">Honest provider scoring</text>
+      <text x="20" y="158" fill="#f59e0b" font-size="9" font-style="italic" opacity="0.7">Bio: peacock tail = honest fitness signal</text>
     </g>
   </g>
 
-  <!-- flow arrows down -->
-  <g stroke="url(#arrow)" stroke-width="2" fill="none">
-    <path d="M 195 240 L 195 270" marker-end="url(#arr)"/>
-    <path d="M 480 240 L 480 270"/>
-    <path d="M 765 240 L 765 270"/>
+  <!-- result flow -->
+  <g transform="translate(40,270)">
+    <rect x="0" y="0" width="880" height="36" rx="8" fill="#0f172a" stroke="#22d3ee" stroke-width="1" stroke-opacity="0.5"/>
+    <text x="440" y="14" text-anchor="middle" fill="#22d3ee" font-size="11" font-weight="700">ROUTING DECISION: analyze prompt → check pheromone trails → verify honest signals → route to cheapest capable → reinforce/evaporate</text>
+    <text x="440" y="28" text-anchor="middle" fill="#64748b" font-size="9">Three billion years of routing optimization, applied to LLMs</text>
   </g>
-  <defs>
-    <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-      <polygon points="0 0, 8 4, 0 8" fill="#a78bfa"/>
-    </marker>
-  </defs>
-
-  <!-- result box -->
-  <g transform="translate(120,275)">
-    <rect x="0" y="0" width="720" height="110" rx="12" fill="#0f172a" stroke="#22d3ee" stroke-width="2"/>
-    <text x="360" y="24" text-anchor="middle" fill="#22d3ee" font-size="14" font-weight="800">Result: A3M Routing Decision</text>
-    <text x="20" y="50" fill="#e2e8f0" font-size="11">1. Analyze prompt complexity (immune: threat level)</text>
-    <text x="20" y="68" fill="#e2e8f0" font-size="11">2. Check pheromone trails (stigmergy: which provider succeeded recently?)</text>
-    <text x="20" y="86" fill="#e2e8f0" font-size="11">3. Verify honest signals (handicap: cost-weighted quality, not marketing)</text>
-    <text x="20" y="104" fill="#e2e8f0" font-size="11">4. Route to cheapest capable provider · reinforce trail on success · evaporate on failure</text>
-  </g>
-
-  <text x="480" y="410" text-anchor="middle" fill="#475569" font-size="10" font-family="Inter,system-ui,sans-serif">Bio → Engineering transfer: three billion years of routing optimization, applied to LLMs</text>
 </svg>
