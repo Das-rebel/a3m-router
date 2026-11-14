@@ -115,22 +115,32 @@ A3M analyzes your prompt and routes to the cheapest provider that can answer it 
 Your Request
      │
      ▼
-┌────────────┐
-│  Semantic  │  ← "Is this a duplicate?" (free cache hit?)
-└─────┬──────┘
+┌─────────────────┐
+│  Semantic Cache │  ← "Seen this before?" (free hit, 0ms)
+└────────┬────────┘
      ▼
-┌────────────┐
-│  Router    │  ← "Simple question or complex reasoning?"
-└─────┬──────┘
+┌─────────────────┐
+│  Token Optimizer│  ← compress + stratify context (20-40% savings)
+└────────┬────────┘
      ▼
-┌────────────┐
-│ Provider   │  ← Groq / Mistral / DeepSeek / GPT-4o / Claude...
-└────────────┘
+┌─────────────────┐
+│  Cost-Aware     │  ← cheapest capable provider for THIS prompt
+│  Router         │
+└────────┬────────┘
+     ▼
+┌─────────────────┐
+│  Circuit Breaker│  ← skip dead providers, retry on failure
+└────────┬────────┘
+     ▼
+┌─────────────────┐
+│  Provider       │  ← Groq / Mistral / DeepSeek / GPT-4o / Claude...
+└─────────────────┘
 ```
 
-**Two modes:**
+**Modes:**
 - `model="auto"` — Heuristic router, ~0.4ms overhead, zero extra cost
 - `model="jev-auto"` — ML decision head, calibrated probabilities, ~2ms warm
+- `model="llm-bridge"` (NEW) — unified facade with circuit breaking + cost budget caps
 
 ---
 
@@ -150,6 +160,15 @@ npx a3m-router providers list
 Provider availability checked at runtime — no hardcoded uptimes.
 
 ---
+
+## Use Cases
+
+- **AI features on a budget** — route 90% of traffic to Groq/DeepSeek, keep GPT-4o only for hard queries
+- **Fallback resilience** — if Groq is down, A3M routes to Mistral automatically (circuit breaker per model)
+- **Cost dashboards** — per-route savings vs baseline GPT-4o, tracked in real time
+- **Semantic caching** — identical prompts cost $0 on repeat (free cache hit)
+- **Multi-agent orchestration** — parallel ensemble with MC Dropout uncertainty
+- **Voice pipelines** — Whisper transcription → route → TTS, all self-hosted
 
 ## Ship in Minutes, Not Days
 
