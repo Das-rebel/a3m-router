@@ -48,7 +48,19 @@
     "ollama",
     "a3m",
     "langchain",
-    "agentkit"
+    "agentkit",
+    "biosemiotic-routing",
+    "pheromone-trail",
+    "cost-aware-routing",
+    "llm-gateway",
+    "openai-compatible",
+    "ai-cost-optimization",
+    "multi-model-routing",
+    "semantic-cache",
+    "circuit-breaker",
+    "ensemble-llm",
+    "mcp-server",
+    "voice-pipeline"
   ],
   "repository": {
     "type": "git",
